@@ -161,20 +161,26 @@ export default function Home() {
                      : selectedCategory === 'work' ? '직업운' : '';
 
   return (
-    <main className="fixed inset-0 w-full h-screen flex flex-col overflow-hidden bg-slate-900 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
+    <main 
+      className="fixed inset-0 w-full h-screen flex flex-col overflow-hidden bg-slate-900"
+      style={{
+        paddingTop: 'calc(env(safe-area-inset-top) + 1rem)',
+        paddingBottom: 'calc(env(safe-area-inset-bottom) + 1.5rem)'
+      }}
+    >
       
       {/* 상단 스테이지 (45%) - 배경 역할 (z-index 10) */}
-      <div className="w-full h-[45vh] max-h-[70vh] flex flex-col justify-center relative z-10 border-b-4 border-indigo-900 bg-slate-900 shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
+      <div className="w-full h-[45vh] max-h-[450px] flex flex-col justify-center relative z-10 border-b-4 border-indigo-900 bg-slate-900 shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
         
         {/* 전체 중앙 앵커 (33vh 지점 고정) */}
         <div className="absolute top-[33vh] left-0 w-full pointer-events-none">
           
           {/* 최고 상단 텍스트 묶음 (라벨 상단에서 60px 떨어진 지점) */}
-          <div className="absolute bottom-[204px] md:bottom-[225px] w-full px-4 text-center text-white flex flex-col items-center">
-            <h1 className="text-3xl md:text-5xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-[15px] md:mb-[20px]">Mystic Tarot</h1>
+          <div className="absolute bottom-[200px] md:bottom-[225px] w-full px-4 text-center text-white flex flex-col items-center">
+            <h1 className="text-2xl md:text-4xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-[12px] md:mb-[16px]">Mystic Tarot</h1>
             
             {/* 운세 카테고리 버튼 */}
-            <p className="text-sm md:text-base text-gray-300 font-light opacity-80 mb-3 tracking-widest">어떤 운세가 궁금하신가요?</p>
+            <p className="text-xs md:text-sm text-gray-300 font-light opacity-80 mb-3 tracking-widest leading-relaxed">어떤 운세가 궁금하신가요?</p>
             <div className="flex gap-3 justify-center mb-6 z-50 pointer-events-auto">
               {[
                 { id: 'love', label: '연애운 ❤️' },
@@ -354,15 +360,18 @@ export default function Home() {
 
       {/* 결과 모달 (Floating Style) */}
       <motion.div 
-        className="absolute inset-x-0 bottom-0 z-[1000] h-[90vh] max-h-[90vh] rounded-t-[32px] bg-slate-900/98 backdrop-blur-2xl flex flex-col items-center p-4 md:p-12 overflow-y-auto w-full overflow-x-hidden shadow-[0_-20px_60px_rgba(0,0,0,0.6)] border-t border-amber-500/20"
-        initial={{ y: "100%", opacity: 0 }}
-        animate={{ y: showResultModal ? "0%" : "100%", opacity: showResultModal ? 1 : 0 }}
-        style={{ pointerEvents: showResultModal ? 'auto' : 'none' }}
-        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+        className="absolute inset-x-2 md:inset-x-0 mx-auto max-w-6xl z-[1000] h-[85vh] max-h-[85vh] rounded-[32px] bg-slate-900/98 backdrop-blur-2xl flex flex-col items-center p-4 md:p-12 overflow-y-auto overflow-x-hidden shadow-[0_10px_60px_rgba(0,0,0,0.8)] border border-amber-500/30"
+        initial={{ y: "120%", opacity: 0 }}
+        animate={{ y: showResultModal ? "0%" : "120%", opacity: showResultModal ? 1 : 0 }}
+        style={{ 
+          bottom: 'calc(env(safe-area-inset-bottom) + 1rem)',
+          pointerEvents: showResultModal ? 'auto' : 'none' 
+        }}
+        transition={{ type: "spring", damping: 25, stiffness: 180 }}
       >
-        <h2 className="text-2xl md:text-5xl font-extrabold text-amber-400 mb-2 md:mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] mt-6 md:mt-12 text-center max-w-[95%] break-keep">당신의 {categoryName} 결과입니다</h2>
+        <h2 className="text-xl md:text-4xl font-extrabold text-amber-400 mb-2 md:mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] mt-6 md:mt-8 text-center max-w-[95%] break-keep leading-relaxed border-b border-amber-500/20 pb-4 w-full">당신의 {categoryName} 결과입니다</h2>
         
-        <p className="text-amber-300 mb-8 md:mb-12 mt-2 md:mt-4 tracking-widest text-center text-lg md:text-2xl font-serif italic drop-shadow-md break-keep px-2">
+        <p className="text-amber-300 mb-8 md:mb-10 mt-2 md:mt-4 tracking-widest text-center text-base md:text-2xl font-serif italic drop-shadow-md break-keep px-4 leading-loose">
           {getOverallAdvice()}
         </p>
         
@@ -444,7 +453,7 @@ export default function Home() {
 
         <button 
           onClick={resetTarot}
-          className="mt-2 mb-10 px-10 py-4 md:px-14 md:py-5 bg-transparent text-amber-400 font-bold text-xl rounded-full border border-amber-400/50 hover:bg-amber-400/10 hover:border-amber-400 hover:shadow-[0_0_30px_rgba(251,191,36,0.3)] transition-all tracking-widest"
+          className="mt-2 mb-6 px-10 py-4 md:px-14 md:py-5 bg-transparent text-amber-400 font-bold text-lg md:text-xl rounded-full border border-amber-400/50 hover:bg-amber-400/10 hover:border-amber-400 hover:shadow-[0_0_30px_rgba(251,191,36,0.3)] transition-all tracking-widest"
         >
           새로운 운명 펼치기
         </button>

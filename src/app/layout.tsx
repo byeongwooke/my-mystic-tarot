@@ -1,8 +1,14 @@
-import type { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import "./globals.css";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export const metadata: Metadata = {
-  title: "Commercial Tarot Service",
+  title: "Mystic Tarot",
   description: "Draw your tarot cards interactively",
 };
 
