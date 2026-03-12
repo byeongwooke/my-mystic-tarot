@@ -247,8 +247,8 @@ export default function Home() {
           const centerIndex = (cardsPerRow - 1) / 2;
           const normalizedPosition = (indexInRow - centerIndex) / centerIndex;
           
-          // 가로 퍼짐: 모바일 44vw, 데스크탑 38vw
-          const spreadVw = isMobile ? 44 : 38;
+          // 가로 퍼짐: 모바일 44vw, 데스크탑 38vw -> 모바일 38, 데스크탑 34로 축소하여 양옆 여백 확보
+          const spreadVw = isMobile ? 38 : 34;
           const baseX = `calc(${normalizedPosition * spreadVw}vw)`;
           
           // 완만한 곡선(Flat Arc): 모바일은 더 깊게 (px 적용)

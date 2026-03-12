@@ -182,7 +182,7 @@ function ResultContent() {
               <div className="space-y-6 md:space-y-8">
                 {/* 일반 해석 */}
                 <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative">
-                  <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">본연의 의미</span>
+                  <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">카드의 해석</span>
                   <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep mt-2">
                     {getInterpretationText(item.cardData, category)}
                   </p>
@@ -190,7 +190,7 @@ function ResultContent() {
 
                 {/* 타임라인 특별 조언 */}
                 <div className="bg-gradient-to-br from-amber-900/30 to-black/40 border border-amber-500/30 p-5 md:p-6 rounded-2xl relative">
-                  <span className="absolute -top-3 left-4 bg-amber-900 border border-amber-500/50 px-3 py-1 text-xs text-amber-200 rounded-full tracking-widest">타로 마스터의 혜안</span>
+                  <span className="absolute -top-3 left-4 bg-amber-900 border border-amber-500/50 px-3 py-1 text-xs text-amber-200 rounded-full tracking-widest">타로 마스터의 한마디</span>
                   <p className="text-amber-50/90 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif italic">
                     "{getAdviceText(item.cardData, category, item.role)}"
                   </p>
