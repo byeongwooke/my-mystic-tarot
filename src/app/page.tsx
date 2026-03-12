@@ -161,10 +161,10 @@ export default function Home() {
                      : selectedCategory === 'work' ? '직업운' : '';
 
   return (
-    <main className="min-h-screen w-full flex flex-col overflow-hidden relative bg-slate-900 pb-[100px]">
+    <main className="fixed inset-0 w-full h-screen flex flex-col overflow-hidden bg-slate-900 pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)]">
       
       {/* 상단 스테이지 (45%) - 배경 역할 (z-index 10) */}
-      <div className="w-full h-[45vh] flex flex-col relative z-10 border-b-4 border-indigo-900 bg-slate-900 shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
+      <div className="w-full h-[45vh] max-h-[70vh] flex flex-col justify-center relative z-10 border-b-4 border-indigo-900 bg-slate-900 shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
         
         {/* 전체 중앙 앵커 (33vh 지점 고정) */}
         <div className="absolute top-[33vh] left-0 w-full pointer-events-none">
@@ -352,13 +352,13 @@ export default function Home() {
         </div>
       )}
 
-      {/* 결과 모달 */}
+      {/* 결과 모달 (Floating Style) */}
       <motion.div 
-        className="absolute inset-0 z-[1000] bg-slate-900/95 backdrop-blur-lg flex flex-col items-center p-4 md:p-12 overflow-y-auto w-full overflow-x-hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: showResultModal ? 1 : 0 }}
+        className="absolute inset-x-0 bottom-0 z-[1000] h-[90vh] max-h-[90vh] rounded-t-[32px] bg-slate-900/98 backdrop-blur-2xl flex flex-col items-center p-4 md:p-12 overflow-y-auto w-full overflow-x-hidden shadow-[0_-20px_60px_rgba(0,0,0,0.6)] border-t border-amber-500/20"
+        initial={{ y: "100%", opacity: 0 }}
+        animate={{ y: showResultModal ? "0%" : "100%", opacity: showResultModal ? 1 : 0 }}
         style={{ pointerEvents: showResultModal ? 'auto' : 'none' }}
-        transition={{ duration: 0.8 }}
+        transition={{ type: "spring", damping: 25, stiffness: 200 }}
       >
         <h2 className="text-2xl md:text-5xl font-extrabold text-amber-400 mb-2 md:mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] mt-6 md:mt-12 text-center max-w-[95%] break-keep">당신의 {categoryName} 결과입니다</h2>
         
