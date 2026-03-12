@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TAROT_DATA } from "@/constants/tarotData";
 import { motion } from "framer-motion";
 
@@ -17,6 +17,15 @@ export default function Home() {
   // 운세 카테고리 상태 추가
   type CategoryType = "love" | "money" | "work" | null;
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>(null);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // 초기화
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // 78장 전체 사용.
   const displayCards = TAROT_DATA;
@@ -162,7 +171,7 @@ export default function Home() {
           
           {/* 최고 상단 텍스트 묶음 (라벨 상단에서 60px 떨어진 지점) */}
           <div className="absolute bottom-[204px] md:bottom-[225px] w-full px-4 text-center text-white flex flex-col items-center">
-            <h1 className="text-4xl md:text-5xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-[20px]">Mystic Tarot</h1>
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-[15px] md:mb-[20px]">Mystic Tarot</h1>
             
             {/* 운세 카테고리 버튼 */}
             <p className="text-sm md:text-base text-gray-300 font-light opacity-80 mb-3 tracking-widest">어떤 운세가 궁금하신가요?</p>
@@ -196,7 +205,8 @@ export default function Home() {
 
           {/* 3 슬롯 위치 표시기 */}
           {roles.map((role, idx) => {
-            const leftPos = idx === 0 ? "calc(50% - 150px)" : idx === 1 ? "50%" : "calc(50% + 150px)";
+            const offset = isMobile ? 85 : 150;
+            const leftPos = idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)`;
             const isFilled = selectedCards.some(c => c.role === role);
             
             return (
@@ -206,10 +216,10 @@ export default function Home() {
                 style={{ left: leftPos }}
               >
                 {/* 슬롯 상단 텍스트 라벨 (카드와 25px 여백, 폰트 크기 증대) */}
-                <span className="absolute bottom-[100%] mb-[25px] text-white/50 text-base md:text-lg font-semibold tracking-widest whitespace-nowrap">{role}</span>
+                <span className="absolute bottom-[100%] mb-[15px] md:mb-[25px] text-white/50 text-sm md:text-lg font-semibold tracking-widest whitespace-nowrap">{role}</span>
                 
                 {/* 점선 슬롯 (1:1 스케일 크기 완벽 일치 및 Glow 전환) */}
-                <div className={`relative w-[112px] h-[182px] md:w-[140px] md:h-[224px] rounded-xl transition-all duration-700 ${
+                <div className={`relative w-[78px] h-[126px] md:w-[140px] md:h-[224px] rounded-xl transition-all duration-700 ${
                   isFilled 
                     ? 'border-transparent bg-transparent shadow-[0_0_80px_rgba(251,191,36,0.3)]' 
                     : 'border-2 border-dashed border-white/20 bg-white/5 shadow-inner'
@@ -223,31 +233,33 @@ export default function Home() {
       {/* 하단 덱 영역 (55%) */}
       <div className="w-full h-[55vh] relative flex justify-center items-center z-20">
         {displayCards.map((card, index) => {
-          // 78장을 26장씩 3그룹으로 나눔
-          const cardsPerRow = 26;
-          const rowIndex = Math.floor(index / cardsPerRow); // 0 (뒷줄), 1 (중간줄), 2 (앞줄)
-          const indexInRow = index % cardsPerRow; // 0 ~ 25
+          // 모바일은 13장씩 6그룹, 데스크탑은 26장씩 3그룹
+          const cardsPerRow = isMobile ? 13 : 26;
+          const rowIndex = Math.floor(index / cardsPerRow); 
+          const indexInRow = index % cardsPerRow; 
           
-          // 각 카드의 중심(12.5) 기준 정규화된 위치 (-1 ~ +1)
-          const normalizedPosition = (indexInRow - 12.5) / 12.5;
+          // 각 카드의 중심 기준 정규화된 위치 (-1 ~ +1)
+          const centerIndex = (cardsPerRow - 1) / 2;
+          const normalizedPosition = (indexInRow - centerIndex) / centerIndex;
           
-          // 가로 퍼짐: 화면 가로폭의 76% (-38vw ~ +38vw)를 사용 (끝 여백 최소 12% 이상 보장)
-          const baseX = `calc(${normalizedPosition * 38}vw)`;
+          // 가로 퍼짐: 모바일 42vw, 데스크탑 38vw
+          const spreadVw = isMobile ? 44 : 38;
+          const baseX = `calc(${normalizedPosition * spreadVw}vw)`;
           
-          // 완만한 곡선(Flat Arc): 화면 높이(vh) 기반의 미세한 곡률 (최대 양쪽 끝 5vh 하강)
-          const curveYvh = Math.pow(normalizedPosition, 2) * 5; 
+          // 완만한 곡선(Flat Arc): 모바일은 더 깊게
+          const curveYvh = Math.pow(normalizedPosition, 2) * (isMobile ? 8 : 5); 
           
-          // 로테이션: 양쪽 끝일수록 살짝 기울어지게 최대 8도 (기존보다 더 완만하게)
-          const angle = normalizedPosition * 8;
+          // 로테이션: 모바일은 약간 더 기울게
+          const angle = normalizedPosition * (isMobile ? 12 : 8);
 
           const selectionOpt = selectedCards.find(c => c.id === card.id);
           const isSelected = !!selectionOpt;
           const roleIndex = isSelected ? roles.indexOf(selectionOpt.role) : 0;
           
           // 행(Row) 별 Y축 분산 배치 (계단식) - 숫자 단위(vh)
-          // 하단의 전체 기준점(70vh)에서 상향 이동(-18vh)하여 스테이지(40vh) 바로 밑 5~8vh 간격으로 밀착
-          // 각 열 레이어 사이는 7vh 간격으로 촘촘히 계단화
-          const baseRowYvh = (rowIndex * 7) - 18; 
+          const rowSpacing = isMobile ? 4.5 : 7;
+          const startOffset = isMobile ? -23 : -18;
+          const baseRowYvh = (rowIndex * rowSpacing) + startOffset; 
           const finalYNum = baseRowYvh + curveYvh;
           
           const finalY = `${finalYNum}vh`;
@@ -257,7 +269,8 @@ export default function Home() {
           const defaultZIndex = rowIndex * 100 + indexInRow + 20;
 
           // 선택 시 이동할 목적지 좌표
-          const slotX = (roleIndex - 1) * 150; 
+          const targetOffset = isMobile ? 85 : 150;
+          const slotX = (roleIndex - 1) * targetOffset; 
           // 72.5vh(하단 55vh 컨테이너의 중앙)에서 33vh(상단 슬롯 중앙 타겟)으로 비행하는 정확한 수직 거리 (-39.5vh)
           const slotY = "-39.5vh"; 
           
@@ -284,7 +297,7 @@ export default function Home() {
             >
               <motion.div
                 onClick={() => handleCardClick(card.id)}
-                className="relative cursor-pointer pointer-events-auto w-[80px] h-[130px] md:w-[100px] md:h-[160px]"
+                className="relative cursor-pointer pointer-events-auto w-[56px] h-[90px] md:w-[100px] md:h-[160px]"
                 // 크기 조절 및 3D 뒤집기
                 initial={{ scale: 1, rotateY: 0 }}
                 animate={{ 
@@ -341,19 +354,19 @@ export default function Home() {
 
       {/* 결과 모달 */}
       <motion.div 
-        className="absolute inset-0 z-[1000] bg-slate-900/95 backdrop-blur-lg flex flex-col items-center p-6 md:p-12 overflow-y-auto"
+        className="absolute inset-0 z-[1000] bg-slate-900/95 backdrop-blur-lg flex flex-col items-center p-4 md:p-12 overflow-y-auto w-full overflow-x-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: showResultModal ? 1 : 0 }}
         style={{ pointerEvents: showResultModal ? 'auto' : 'none' }}
         transition={{ duration: 0.8 }}
       >
-        <h2 className="text-3xl md:text-5xl font-extrabold text-amber-400 mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] mt-8 md:mt-12 text-center">당신의 {categoryName} 결과입니다</h2>
+        <h2 className="text-2xl md:text-5xl font-extrabold text-amber-400 mb-2 md:mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] mt-6 md:mt-12 text-center max-w-[95%] break-keep">당신의 {categoryName} 결과입니다</h2>
         
-        <p className="text-amber-300 mb-12 mt-4 tracking-widest text-center text-xl md:text-2xl font-serif italic drop-shadow-md break-keep">
+        <p className="text-amber-300 mb-8 md:mb-12 mt-2 md:mt-4 tracking-widest text-center text-lg md:text-2xl font-serif italic drop-shadow-md break-keep px-2">
           {getOverallAdvice()}
         </p>
         
-        <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-8 lg:gap-6 justify-between">
+        <div className="w-full max-w-[98%] md:max-w-6xl flex flex-col lg:flex-row gap-6 lg:gap-6 justify-between">
           {roles.map(role => {
             const selection = selectedCards.find(c => c.role === role);
             if (!selection) return null;
@@ -361,35 +374,35 @@ export default function Home() {
             if (!cardData) return null;
 
             return (
-              <div key={role} className="flex-1 flex flex-col items-center bg-white/5 rounded-3xl p-6 md:p-8 border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
-                <div className="text-amber-400 text-lg md:text-xl font-bold mb-6 px-6 py-2 rounded-full border border-amber-400/50 bg-amber-400/10 tracking-widest">{role}</div>
+              <div key={role} className="flex-1 flex flex-col items-center bg-white/5 rounded-3xl p-5 md:p-8 border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
+                <div className="text-amber-400 text-base md:text-xl font-bold mb-4 md:mb-6 px-5 py-2 rounded-full border border-amber-400/50 bg-amber-400/10 tracking-widest">{role}</div>
                 
-                <div className="w-[140px] h-[224px] md:w-[160px] md:h-[256px] rounded-xl border-2 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.5)] bg-slate-100 flex flex-col items-center justify-center mb-8 relative">
+                <div className="w-[120px] h-[192px] md:w-[160px] md:h-[256px] rounded-xl border-2 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.5)] bg-slate-100 flex flex-col items-center justify-center mb-5 md:mb-8 relative">
                   <div className="absolute inset-1.5 border border-amber-500/40 rounded-lg"></div>
                   <div className="text-base md:text-lg font-bold text-amber-900 text-center px-4 leading-relaxed">{cardData.nameKr}</div>
                   <div className="text-xs md:text-sm font-bold text-amber-700 mt-2">{cardData.name}</div>
                 </div>
 
-                <h3 className="text-2xl font-bold text-white mb-2">{cardData.nameKr}</h3>
-                <p className="text-amber-300 text-sm md:text-base mb-6 font-medium tracking-wide">{cardData.keywords.join(' · ')}</p>
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-1 md:mb-2">{cardData.nameKr}</h3>
+                <p className="text-amber-300 text-xs md:text-base mb-4 md:mb-6 font-medium tracking-wide text-center">{cardData.keywords.join(' · ')}</p>
                 
-                <div className="w-full mt-4 flex flex-col gap-6">
+                <div className="w-full mt-2 md:mt-4 flex flex-col gap-5 md:gap-6">
                   {/* 일반 해석 영역 */}
                   {selectedCategory && (
-                    <div className="bg-black/30 p-5 md:p-6 rounded-2xl flex flex-col justify-center">
-                      <p className="text-gray-200 text-sm md:text-base leading-relaxed break-keep">
+                    <div className="bg-black/30 p-4 md:p-6 rounded-2xl flex flex-col justify-center">
+                      <p className="text-gray-200 text-xs md:text-base leading-relaxed break-keep">
                         {getInterpretationText(cardData, selectedCategory)}
                       </p>
                     </div>
                   )}
                   
                   {/* 타로 마스터의 특별 조언 영역 (타임라인 적용) */}
-                  <div className="bg-gradient-to-br from-amber-900/40 to-slate-900/60 border border-amber-500/30 p-5 md:p-6 rounded-2xl shadow-inner relative overflow-hidden flex flex-col">
+                  <div className="bg-gradient-to-br from-amber-900/40 to-slate-900/60 border border-amber-500/30 p-4 md:p-6 rounded-2xl shadow-inner relative overflow-hidden flex flex-col">
                     {/* 장식용 따옴표 배경 */}
                     <div className="absolute top-2 right-4 text-7xl text-amber-500/5 font-serif font-black select-none pointer-events-none">"</div>
                     
-                    <h4 className="text-amber-400 font-bold mb-5 text-base md:text-lg flex items-center gap-2 relative z-10 border-b border-amber-500/20 pb-3">
-                      <span className="text-xl">✨</span> 타로 마스터의 특별 조언
+                    <h4 className="text-amber-400 font-bold mb-4 md:mb-5 text-sm md:text-lg flex items-center gap-2 relative z-10 border-b border-amber-500/20 pb-2 md:pb-3">
+                      <span className="text-lg md:text-xl">✨</span> 타로 마스터의 특별 조언
                     </h4>
                     
                     {selectedCategory && cardData.advice && (
@@ -406,10 +419,10 @@ export default function Home() {
 
                         {/* 조언 텍스트 영역 */}
                         <div className="flex-1 pb-2">
-                          <h5 className="text-amber-400/90 text-sm md:text-base font-bold mb-2 tracking-widest bg-amber-900/40 inline-block px-3 py-1 rounded-full border border-amber-500/20 shadow-sm">
+                          <h5 className="text-amber-400/90 text-[11px] md:text-base font-bold mb-2 tracking-widest bg-amber-900/40 inline-block px-2 md:px-3 py-1 rounded-full border border-amber-500/20 shadow-sm">
                             {role === '과거' ? '#과거의 흔적' : role === '현재' ? '#현재의 마음' : '#미래의 빛'}
                           </h5>
-                          <p className="text-amber-50/90 text-sm md:text-base leading-relaxed tracking-wide break-keep italic mt-1">
+                          <p className="text-amber-50/90 text-xs md:text-base leading-relaxed tracking-wide break-keep italic mt-1">
                             {getAdviceText(cardData, selectedCategory, role)}
                           </p>
                         </div>
