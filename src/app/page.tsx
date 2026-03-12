@@ -3,8 +3,11 @@
 import { useState, useEffect } from "react";
 import { TAROT_DATA } from "@/constants/tarotData";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+  
   // id와 역할(과거, 현재, 미래)을 저장합니다.
   const [selectedCards, setSelectedCards] = useState<{ id: number; role: string }[]>([]);
   const roles = ["과거", "현재", "미래"];
@@ -12,7 +15,6 @@ export default function Home() {
   // 결과 연출 관련 상태 추가
   const [revealedCards, setRevealedCards] = useState<number[]>([]);
   const [isRevealing, setIsRevealing] = useState(false);
-  const [showResultModal, setShowResultModal] = useState(false);
 
   // 운세 카테고리 상태 추가
   type CategoryType = "love" | "money" | "work" | null;
@@ -31,8 +33,8 @@ export default function Home() {
   const displayCards = TAROT_DATA;
 
   const handleCardClick = (cardId: number) => {
-    // 결과 공개 중이거나 모달이 떠 있을 때는 클릭 방지
-    if (isRevealing || showResultModal) return;
+    // 결과 공개 중일 때는 클릭 방지
+    if (isRevealing) return;
 
     // 카테고리 선택 확인
     if (!selectedCategory) {
@@ -77,10 +79,11 @@ export default function Home() {
       }, idx * 500); // 0초, 0.5초, 1초
     });
 
-    // 모든 카드가 뒤집히고 조금 더 대기한 후(약 2.5초) 모달 띄우기 (API 로딩 시뮬레이션)
+    // 모든 카드가 뒤집히고 조금 더 대기한 후(약 2.5초) 결과 페이지로 이동
     setTimeout(() => {
-      setIsRevealing(false);
-      setShowResultModal(true);
+      // 카테고리와 선택된 3장의 카드 ID 리스트를 Query Parameter로 변환
+      const sortedIds = sortedSelections.map(c => c.id).join(',');
+      router.push(`/result?category=${selectedCategory}&cards=${sortedIds}`);
     }, 2800);
   };
 
@@ -358,124 +361,23 @@ export default function Home() {
         </div>
       )}
 
-      {/* 결과 모달 (Floating Style) */}
-      <motion.div 
-        className="absolute inset-x-2 md:inset-x-0 mx-auto max-w-6xl z-[1000] h-[85vh] max-h-[85vh] rounded-[32px] bg-slate-900/98 backdrop-blur-2xl flex flex-col items-center p-4 md:p-12 overflow-y-auto overflow-x-hidden shadow-[0_10px_60px_rgba(0,0,0,0.8)] border border-amber-500/30"
-        initial={{ y: "120%", opacity: 0 }}
-        animate={{ y: showResultModal ? "0%" : "120%", opacity: showResultModal ? 1 : 0 }}
-        style={{ 
-          bottom: 'calc(env(safe-area-inset-bottom) + 1rem)',
-          pointerEvents: showResultModal ? 'auto' : 'none' 
-        }}
-        transition={{ type: "spring", damping: 25, stiffness: 180 }}
-      >
-        <h2 className="text-xl md:text-4xl font-extrabold text-amber-400 mb-2 md:mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] mt-6 md:mt-8 text-center max-w-[95%] break-keep leading-relaxed border-b border-amber-500/20 pb-4 w-full">당신의 {categoryName} 결과입니다</h2>
-        
-        <p className="text-amber-300 mb-8 md:mb-10 mt-2 md:mt-4 tracking-widest text-center text-base md:text-2xl font-serif italic drop-shadow-md break-keep px-4 leading-loose">
-          {getOverallAdvice()}
-        </p>
-        
-        <div className="w-full max-w-[98%] md:max-w-6xl flex flex-col lg:flex-row gap-6 lg:gap-6 justify-between">
-          {roles.map(role => {
-            const selection = selectedCards.find(c => c.role === role);
-            if (!selection) return null;
-            const cardData = TAROT_DATA.find(c => c.id === selection.id);
-            if (!cardData) return null;
-
-            return (
-              <div key={role} className="flex-1 flex flex-col items-center bg-white/5 rounded-3xl p-5 md:p-8 border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
-                <div className="text-amber-400 text-base md:text-xl font-bold mb-4 md:mb-6 px-5 py-2 rounded-full border border-amber-400/50 bg-amber-400/10 tracking-widest">{role}</div>
-                
-                <div className="w-[120px] h-[192px] md:w-[160px] md:h-[256px] rounded-xl border-2 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.5)] bg-slate-100 flex flex-col items-center justify-center mb-5 md:mb-8 relative">
-                  <div className="absolute inset-1.5 border border-amber-500/40 rounded-lg"></div>
-                  <div className="text-base md:text-lg font-bold text-amber-900 text-center px-4 leading-relaxed">{cardData.nameKr}</div>
-                  <div className="text-xs md:text-sm font-bold text-amber-700 mt-2">{cardData.name}</div>
-                </div>
-
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-1 md:mb-2">{cardData.nameKr}</h3>
-                <p className="text-amber-300 text-xs md:text-base mb-4 md:mb-6 font-medium tracking-wide text-center">{cardData.keywords.join(' · ')}</p>
-                
-                <div className="w-full mt-2 md:mt-4 flex flex-col gap-5 md:gap-6">
-                  {/* 일반 해석 영역 */}
-                  {selectedCategory && (
-                    <div className="bg-black/30 p-4 md:p-6 rounded-2xl flex flex-col justify-center">
-                      <p className="text-gray-200 text-xs md:text-base leading-relaxed break-keep">
-                        {getInterpretationText(cardData, selectedCategory)}
-                      </p>
-                    </div>
-                  )}
-                  
-                  {/* 타로 마스터의 특별 조언 영역 (타임라인 적용) */}
-                  <div className="bg-gradient-to-br from-amber-900/40 to-slate-900/60 border border-amber-500/30 p-4 md:p-6 rounded-2xl shadow-inner relative overflow-hidden flex flex-col">
-                    {/* 장식용 따옴표 배경 */}
-                    <div className="absolute top-2 right-4 text-7xl text-amber-500/5 font-serif font-black select-none pointer-events-none">"</div>
-                    
-                    <h4 className="text-amber-400 font-bold mb-4 md:mb-5 text-sm md:text-lg flex items-center gap-2 relative z-10 border-b border-amber-500/20 pb-2 md:pb-3">
-                      <span className="text-lg md:text-xl">✨</span> 타로 마스터의 특별 조언
-                    </h4>
-                    
-                    {selectedCategory && cardData.advice && (
-                      <div className="relative z-10 flex gap-4 mt-2">
-                        {/* 수직 타임라인 선 */}
-                        <div className="flex flex-col items-center">
-                          <div className={`w-3 h-3 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.8)] ${
-                            role === '과거' ? 'bg-amber-700 border-2 border-amber-500' :
-                            role === '현재' ? 'bg-amber-500 border-2 border-amber-300' :
-                            'bg-yellow-400 border-2 border-yellow-200 shadow-[0_0_15px_rgba(250,204,21,1)]'
-                          }`}></div>
-                          <div className="w-0.5 h-full min-h-[40px] bg-gradient-to-b from-amber-500/50 to-transparent flex-1 mt-1"></div>
-                        </div>
-
-                        {/* 조언 텍스트 영역 */}
-                        <div className="flex-1 pb-2">
-                          <h5 className="text-amber-400/90 text-[11px] md:text-base font-bold mb-2 tracking-widest bg-amber-900/40 inline-block px-2 md:px-3 py-1 rounded-full border border-amber-500/20 shadow-sm">
-                            {role === '과거' ? '#과거의 흔적' : role === '현재' ? '#현재의 마음' : '#미래의 빛'}
-                          </h5>
-                          <p className="text-amber-50/90 text-xs md:text-base leading-relaxed tracking-wide break-keep italic mt-1">
-                            {getAdviceText(cardData, selectedCategory, role)}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* 안내 문구 (하단 여백 추가) */}
-        <div className="w-full text-center mt-8 mb-6 px-4">
-          <p className="text-gray-300 opacity-50 text-xs font-light tracking-wide break-keep">
-            본 결과는 100% 신뢰하기보다 재미용으로만 활용해 주시기 바랍니다.
-          </p>
-        </div>
-
-        <button 
-          onClick={resetTarot}
-          className="mt-2 mb-6 px-10 py-4 md:px-14 md:py-5 bg-transparent text-amber-400 font-bold text-lg md:text-xl rounded-full border border-amber-400/50 hover:bg-amber-400/10 hover:border-amber-400 hover:shadow-[0_0_30px_rgba(251,191,36,0.3)] transition-all tracking-widest"
-        >
-          새로운 운명 펼치기
-        </button>
-      </motion.div>
-
       {/* 3장을 모두 고르면 하단에 "결과 확인버튼" 노출 */}
       {/* 바닥에서 둥둥 떠다니지 않게 버튼 생성 */}
       <motion.div 
         className="absolute bottom-[10vh] md:bottom-[12vh] z-[600] w-full flex justify-center px-4"
         initial={{ y: 80, opacity: 0, scale: 0.9 }}
         animate={{ 
-          y: selectedCards.length === 3 && !isRevealing && !showResultModal ? 0 : 80, 
-          opacity: selectedCards.length === 3 && !isRevealing && !showResultModal ? 1 : 0,
-          scale: selectedCards.length === 3 && !isRevealing && !showResultModal ? 1 : 0.9
+          y: selectedCards.length === 3 && !isRevealing ? 0 : 80, 
+          opacity: selectedCards.length === 3 && !isRevealing ? 1 : 0,
+          scale: selectedCards.length === 3 && !isRevealing ? 1 : 0.9
         }}
         transition={{ 
           type: "spring", 
           stiffness: 250, 
           damping: 20,
-          delay: selectedCards.length === 3 && !isRevealing && !showResultModal ? 0.4 : 0 
+          delay: selectedCards.length === 3 && !isRevealing ? 0.4 : 0 
         }}
-        style={{ pointerEvents: selectedCards.length === 3 && !isRevealing && !showResultModal ? 'auto' : 'none' }}
+        style={{ pointerEvents: selectedCards.length === 3 && !isRevealing ? 'auto' : 'none' }}
       >
         <button 
           onClick={handleCheckDestiny}
