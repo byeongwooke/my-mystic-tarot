@@ -162,67 +162,63 @@ export default function Home() {
 
   return (
     <main 
-      className="fixed inset-0 w-full h-screen flex flex-col overflow-hidden bg-slate-900"
+      className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-y-auto"
       style={{
-        paddingTop: 'calc(env(safe-area-inset-top) + 1rem)',
-        paddingBottom: 'calc(env(safe-area-inset-bottom) + 1.5rem)'
+        paddingTop: 'calc(env(safe-area-inset-top) + 5rem)',
+        paddingBottom: 'calc(env(safe-area-inset-bottom) + 8rem)'
       }}
     >
       
-      {/* 상단 스테이지 (45%) - 배경 역할 (z-index 10) */}
-      <div className="w-full h-[45vh] max-h-[450px] flex flex-col justify-center relative z-10 border-b-4 border-indigo-900 bg-slate-900 shadow-[0_15px_50px_rgba(0,0,0,0.8)]">
+      {/* 상단 스테이지 - 자연스러운 흐름 적용 */}
+      <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pt-4 md:pt-10 pb-16 px-4">
         
-        {/* 전체 중앙 앵커 (33vh 지점 고정) */}
-        <div className="absolute top-[33vh] left-0 w-full pointer-events-none">
-          
-          {/* 최고 상단 텍스트 묶음 (라벨 상단에서 60px 떨어진 지점) */}
-          <div className="absolute bottom-[200px] md:bottom-[225px] w-full px-4 text-center text-white flex flex-col items-center">
-            <h1 className="text-2xl md:text-4xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-[12px] md:mb-[16px]">Mystic Tarot</h1>
-            
-            {/* 운세 카테고리 버튼 */}
-            <p className="text-xs md:text-sm text-gray-300 font-light opacity-80 mb-3 tracking-widest leading-relaxed">어떤 운세가 궁금하신가요?</p>
-            <div className="flex gap-3 justify-center mb-6 z-50 pointer-events-auto">
-              {[
-                { id: 'love', label: '연애운 ❤️' },
-                { id: 'money', label: '재물운 💰' },
-                { id: 'work', label: '직업운 💼' }
-              ].map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id as CategoryType)}
-                  disabled={selectedCards.length > 0} // 카드를 고르기 시작하면 수정 불가
-                  className={`px-4 py-2 md:px-5 md:py-2.5 rounded-full border transition-all text-sm md:text-base font-medium ${
-                    selectedCategory === cat.id 
-                      ? 'bg-amber-500/20 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.6)]' 
-                      : 'bg-black/40 border-amber-500/30 text-amber-100/60 hover:bg-black/60 hover:border-amber-400/50'
-                  } disabled:opacity-50`}
-                >
-                  {cat.label}
-                </button>
-              ))}
-            </div>
+        {/* 최고 상단 텍스트 묶음 */}
+        <h1 className="text-3xl md:text-5xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-6 md:mb-10 text-center leading-loose">Mystic Tarot</h1>
+        
+        {/* 운세 카테고리 버튼 */}
+        <p className="text-sm md:text-base text-gray-300 font-light opacity-80 mb-5 md:mb-6 tracking-widest text-center">어떤 운세가 궁금하신가요?</p>
+        <div className="flex gap-3 justify-center mb-10 z-50 pointer-events-auto">
+          {[
+            { id: 'love', label: '연애운 ❤️' },
+            { id: 'money', label: '재물운 💰' },
+            { id: 'work', label: '직업운 💼' }
+          ].map(cat => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id as CategoryType)}
+              disabled={selectedCards.length > 0}
+              className={`px-4 py-2 md:px-5 md:py-2.5 rounded-full border transition-all text-sm md:text-base font-medium ${
+                selectedCategory === cat.id 
+                  ? 'bg-amber-500/20 border-amber-400 text-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.6)]' 
+                  : 'bg-black/40 border-amber-500/30 text-amber-100/60 hover:bg-black/60 hover:border-amber-400/50'
+              } disabled:opacity-50`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
 
-            <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest max-w-md line-clamp-2 leading-snug">
-              {selectedCards.length === 3 
-                ? "당신의 운명이 선택되었습니다. 아래 버튼을 눌러 확인하세요."
-                : `당신의 타로 카드를 선택하세요 (${selectedCards.length}/3)`}
-            </p>
-          </div>
+        <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest max-w-md line-clamp-2 leading-relaxed text-center mb-10 md:mb-16">
+          {selectedCards.length === 3 
+            ? "당신의 운명이 선택되었습니다. 아래 버튼을 눌러 확인하세요."
+            : `당신의 타로 카드를 선택하세요 (${selectedCards.length}/3)`}
+        </p>
 
-          {/* 3 슬롯 위치 표시기 */}
+        {/* 3 슬롯 위치 표시기 */}
+        <div className="relative w-full max-w-4xl h-[180px] md:h-[280px] min-h-[180px] flex justify-center">
           {roles.map((role, idx) => {
-            const offset = isMobile ? 85 : 150;
+            const offset = isMobile ? 95 : 180;
             const leftPos = idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)`;
             const isFilled = selectedCards.some(c => c.role === role);
             
             return (
               <div 
                 key={role} 
-                className="absolute top-0 -translate-y-1/2 -translate-x-1/2 flex flex-col items-center" 
+                className="absolute bottom-0 flex flex-col items-center -translate-x-1/2" 
                 style={{ left: leftPos }}
               >
-                {/* 슬롯 상단 텍스트 라벨 (카드와 25px 여백, 폰트 크기 증대) */}
-                <span className="absolute bottom-[100%] mb-[15px] md:mb-[25px] text-white/50 text-sm md:text-lg font-semibold tracking-widest whitespace-nowrap">{role}</span>
+                {/* 슬롯 상단 텍스트 라벨 */}
+                <span className="mb-4 text-white/50 text-sm md:text-lg font-semibold tracking-widest whitespace-nowrap">{role}</span>
                 
                 {/* 점선 슬롯 (1:1 스케일 크기 완벽 일치 및 Glow 전환) */}
                 <div className={`relative w-[78px] h-[126px] md:w-[140px] md:h-[224px] rounded-xl transition-all duration-700 ${
@@ -236,8 +232,8 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 하단 덱 영역 (55%) */}
-      <div className="w-full h-[55vh] relative flex justify-center items-center z-20">
+      {/* 하단 덱 영역 */}
+      <div className="w-full h-[360px] md:h-[500px] mt-[60px] md:mt-[80px] mb-10 relative flex justify-center items-center z-20">
         {displayCards.map((card, index) => {
           // 모바일은 13장씩 6그룹, 데스크탑은 26장씩 3그룹
           const cardsPerRow = isMobile ? 13 : 26;
@@ -248,12 +244,12 @@ export default function Home() {
           const centerIndex = (cardsPerRow - 1) / 2;
           const normalizedPosition = (indexInRow - centerIndex) / centerIndex;
           
-          // 가로 퍼짐: 모바일 42vw, 데스크탑 38vw
+          // 가로 퍼짐: 모바일 44vw, 데스크탑 38vw
           const spreadVw = isMobile ? 44 : 38;
           const baseX = `calc(${normalizedPosition * spreadVw}vw)`;
           
-          // 완만한 곡선(Flat Arc): 모바일은 더 깊게
-          const curveYvh = Math.pow(normalizedPosition, 2) * (isMobile ? 8 : 5); 
+          // 완만한 곡선(Flat Arc): 모바일은 더 깊게 (px 적용)
+          const curveYpx = Math.pow(normalizedPosition, 2) * (isMobile ? 40 : 50); 
           
           // 로테이션: 모바일은 약간 더 기울게
           const angle = normalizedPosition * (isMobile ? 12 : 8);
@@ -262,23 +258,27 @@ export default function Home() {
           const isSelected = !!selectionOpt;
           const roleIndex = isSelected ? roles.indexOf(selectionOpt.role) : 0;
           
-          // 행(Row) 별 Y축 분산 배치 (계단식) - 숫자 단위(vh)
-          const rowSpacing = isMobile ? 4.5 : 7;
-          const startOffset = isMobile ? -23 : -18;
-          const baseRowYvh = (rowIndex * rowSpacing) + startOffset; 
-          const finalYNum = baseRowYvh + curveYvh;
+          // 행(Row) 별 Y축 분산 배치 (계단식 px)
+          const rowSpacing = isMobile ? 30 : 45;
+          const startOffset = isMobile ? -60 : -80;
+          const baseRowYpx = (rowIndex * rowSpacing) + startOffset; 
+          const finalYNum = baseRowYpx + curveYpx;
           
-          const finalY = `${finalYNum}vh`;
-          const hoverY = `${finalYNum - 2}vh`; // 호버 시 부드럽게 2vh 상승
+          const finalY = `${finalYNum}px`;
+          const hoverY = `${finalYNum - 20}px`; // 호버 시 부드럽게 20px 상승
           
           // 기본 z-index: 하단 화면에 속하지만 스테이지 배경보다는 위에 있게
           const defaultZIndex = rowIndex * 100 + indexInRow + 20;
 
-          // 선택 시 이동할 목적지 좌표
-          const targetOffset = isMobile ? 85 : 150;
+          // 선택 시 이동할 목적지 좌푯값 계산
+          const targetOffset = isMobile ? 95 : 180;
           const slotX = (roleIndex - 1) * targetOffset; 
-          // 72.5vh(하단 55vh 컨테이너의 중앙)에서 33vh(상단 슬롯 중앙 타겟)으로 비행하는 정확한 수직 거리 (-39.5vh)
-          const slotY = "-39.5vh"; 
+          
+          // 수학적으로 계산된 완벽한 슬롯 Y 좌표:
+          // Center to Center 거리 = (Deck Container Center) + (Margin Top) + (Top Stage Bottom Padding) + (Slot Container Bottom to Slot Center)
+          // Mobile: 180(deck) + 60(mt) + 64(pb-16) + 63(slot-center) = 367px
+          // Desktop: 250(deck) + 80(mt) + 64(pb-16) + 112(slot-center) = 506px
+          const slotY = isMobile ? "-367px" : "-506px"; 
           
           const isRevealed = revealedCards.includes(card.id);
           
