@@ -167,20 +167,20 @@ export default function Home() {
     <main 
       className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-y-auto"
       style={{
-        paddingTop: 'calc(env(safe-area-inset-top) + 5rem)',
+        paddingTop: 'calc(env(safe-area-inset-top) + 1rem)', // +5rem -> +1rem 으로 화면 상단 밀착
         paddingBottom: 'calc(env(safe-area-inset-bottom) + 8rem)'
       }}
     >
       
-      {/* 상단 스테이지 - 자연스러운 흐름 적용 */}
-      <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pt-4 md:pt-10 pb-16 px-4">
+      {/* 상단 스테이지 - 자연스러운 흐름 적용, 상하 패딩 대폭 압축 */}
+      <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pt-2 md:pt-6 pb-8 px-4">
         
-        {/* 최고 상단 텍스트 묶음 */}
-        <h1 className="text-3xl md:text-5xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-6 md:mb-10 text-center leading-loose">Mystic Tarot</h1>
+        {/* 최고 상단 텍스트 묶음: 폰트 사이즈 미세 조절 및 하단 여백 대폭 감소 */}
+        <h1 className="text-2xl md:text-5xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-3 md:mb-5 text-center">Mystic Tarot</h1>
         
         {/* 운세 카테고리 버튼 */}
-        <p className="text-sm md:text-base text-gray-300 font-light opacity-80 mb-5 md:mb-6 tracking-widest text-center">어떤 운세가 궁금하신가요?</p>
-        <div className="flex gap-3 justify-center mb-10 z-50 pointer-events-auto">
+        <p className="text-sm md:text-base text-gray-300 font-light opacity-80 mb-3 md:mb-4 tracking-widest text-center">어떤 운세가 궁금하신가요?</p>
+        <div className="flex gap-3 justify-center mb-5 z-50 pointer-events-auto">
           {[
             { id: 'love', label: '연애운 ❤️' },
             { id: 'money', label: '재물운 💰' },
@@ -201,7 +201,7 @@ export default function Home() {
           ))}
         </div>
 
-        <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest max-w-md line-clamp-2 leading-relaxed text-center mb-10 md:mb-16">
+        <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest max-w-md line-clamp-2 leading-relaxed text-center mb-6 md:mb-10">
           {selectedCards.length === 3 
             ? "당신의 운명이 선택되었습니다. 아래 버튼을 눌러 확인하세요."
             : `당신의 타로 카드를 선택하세요 (${selectedCards.length}/3)`}
@@ -236,7 +236,7 @@ export default function Home() {
       </div>
 
       {/* 하단 덱 영역 */}
-      <div className="w-full h-[360px] md:h-[500px] mt-[60px] md:mt-[80px] mb-10 relative flex justify-center items-center z-20">
+      <div className="w-full h-[360px] md:h-[500px] mt-[30px] md:mt-[40px] mb-10 relative flex justify-center items-center z-20">
         {displayCards.map((card, index) => {
           // 모바일은 13장씩 6그룹, 데스크탑은 26장씩 3그룹
           const cardsPerRow = isMobile ? 13 : 26;
@@ -277,11 +277,11 @@ export default function Home() {
           const targetOffset = isMobile ? 95 : 180;
           const slotX = (roleIndex - 1) * targetOffset; 
           
-          // 수학적으로 계산된 완벽한 슬롯 Y 좌표:
+          // 수학적으로 계산된 완벽한 슬롯 Y 좌표 (상단 여백 압축분 반영):
           // Center to Center 거리 = (Deck Container Center) + (Margin Top) + (Top Stage Bottom Padding) + (Slot Container Bottom to Slot Center)
-          // Mobile: 180(deck) + 60(mt) + 64(pb-16) + 63(slot-center) = 367px
-          // Desktop: 250(deck) + 80(mt) + 64(pb-16) + 112(slot-center) = 506px
-          const slotY = isMobile ? "-367px" : "-506px"; 
+          // Mobile: 180(deck) + 30(mt) + 32(pb-8) + 63(slot-center) = 305px
+          // Desktop: 250(deck) + 40(mt) + 32(pb-8) + 112(slot-center) = 434px
+          const slotY = isMobile ? "-305px" : "-434px"; 
           
           const isRevealed = revealedCards.includes(card.id);
           
