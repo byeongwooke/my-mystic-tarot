@@ -40,22 +40,22 @@ function ResultContent() {
     }).filter(item => item.cardData !== undefined);
 
     if (loadedCards.length !== 3) {
-        setHasError(true);
-        setIsLoading(false);
-        return;
+      setHasError(true);
+      setIsLoading(false);
+      return;
     }
 
     setCardsInfo(loadedCards);
     setIsLoading(false);
   }, [searchParams]);
 
-  const categoryName = category === 'love' ? '연애운' 
-                     : category === 'money' ? '재물운' 
-                     : category === 'work' ? '직업운' : '';
+  const categoryName = category === 'love' ? '연애운'
+    : category === 'money' ? '재물운'
+      : category === 'work' ? '직업운' : '';
 
   const getAdviceText = (cardData: any, categoryKey: string | null, roleStr: string) => {
     if (!cardData || !cardData.advice || !categoryKey) return "";
-    
+
     const timeMap: Record<string, "past" | "present" | "future"> = {
       '과거': 'past',
       '현재': 'present',
@@ -67,11 +67,11 @@ function ResultContent() {
     if (typeof cardData.advice === 'string') {
       return cardData.advice;
     }
-    
+
     if (typeof cardData.advice[categoryKey] === 'string') {
-        return cardData.advice[categoryKey];
+      return cardData.advice[categoryKey];
     }
-    
+
     return cardData.advice[categoryKey]?.[mappedTime] || "";
   };
 
@@ -84,7 +84,7 @@ function ResultContent() {
     if (cardsInfo.length !== 3 || !category) return "운명의 카드가 당신에게 전하는 메시지입니다.";
     const futureItem = cardsInfo.find(c => c.role === "미래");
     if (!futureItem || !futureItem.cardData) return "운명의 카드가 당신에게 전하는 메시지입니다.";
-    
+
     return `"${getAdviceText(futureItem.cardData, category, '미래')}"`;
   };
 
@@ -108,7 +108,7 @@ function ResultContent() {
         <p className="text-gray-300 mb-10 tracking-wide text-sm md:text-base leading-relaxed break-keep max-w-sm">
           정상적인 타로 결과를 불러올 수 없습니다. 카드를 다시 선택해 주세요.
         </p>
-        <button 
+        <button
           onClick={resetTarot}
           className="px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold rounded-full shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:scale-105 active:scale-95 transition-all tracking-widest"
         >
@@ -119,7 +119,7 @@ function ResultContent() {
   }
 
   return (
-    <main 
+    <main
       className="w-full min-h-screen flex flex-col items-center bg-slate-900 bg-fixed overflow-y-auto"
       style={{
         paddingTop: 'calc(env(safe-area-inset-top) + 2rem)',
@@ -127,9 +127,9 @@ function ResultContent() {
       }}
     >
       <div className="w-full max-w-4xl px-4 md:px-8 mt-10 md:mt-16 flex flex-col items-center">
-        
+
         {/* 상단 결과 제목 */}
-        <motion.h1 
+        <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.8 }}
@@ -137,9 +137,9 @@ function ResultContent() {
         >
           당신의 {categoryName} 결과입니다
         </motion.h1>
-        
+
         {/* 전체 한줄평 */}
-        <motion.p 
+        <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4, duration: 1 }}
@@ -147,11 +147,11 @@ function ResultContent() {
         >
           {getOverallAdvice()}
         </motion.p>
-        
+
         {/* 뽑은 카드 3장 상단 정렬 전시 */}
         <div className="w-full flex justify-center gap-4 md:gap-12 lg:gap-20 mb-16 md:mb-24 px-2">
           {cardsInfo.map((item, idx) => (
-            <motion.div 
+            <motion.div
               key={item.role}
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -173,7 +173,7 @@ function ResultContent() {
         {/* 세로형 상세 리포트 영역 */}
         <div className="w-full max-w-3xl flex flex-col gap-10 md:gap-16">
           {cardsInfo.map((item, idx) => (
-            <motion.div 
+            <motion.div
               key={item.role + '-detail'}
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -185,11 +185,10 @@ function ResultContent() {
               </div>
 
               <div className="flex items-center gap-4 mb-6 border-b border-amber-500/20 pb-4">
-                <div className={`w-4 h-4 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.8)] ${
-                  item.role === '과거' ? 'bg-amber-700 border-2 border-amber-500' :
-                  item.role === '현재' ? 'bg-amber-500 border-2 border-amber-300' :
-                  'bg-yellow-400 border-2 border-yellow-200 shadow-[0_0_15px_rgba(250,204,21,1)]'
-                }`}></div>
+                <div className={`w-4 h-4 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.8)] ${item.role === '과거' ? 'bg-amber-700 border-2 border-amber-500' :
+                    item.role === '현재' ? 'bg-amber-500 border-2 border-amber-300' :
+                      'bg-yellow-400 border-2 border-yellow-200 shadow-[0_0_15px_rgba(250,204,21,1)]'
+                  }`}></div>
                 <h2 className="text-2xl md:text-3xl font-bold text-amber-400 tracking-widest">
                   {item.role === '과거' ? '과거의 기반' : item.role === '현재' ? '현재의 조언' : '미래의 가능성'}
                 </h2>
@@ -197,7 +196,7 @@ function ResultContent() {
 
               <div className="flex flex-col gap-2 mb-6">
                 <h3 className="text-2xl text-white font-bold flex items-center gap-3">
-                  {item.cardData.nameKr} 
+                  {item.cardData.nameKr}
                   <span className="text-lg text-emerald-400 opacity-80 font-normal">정방향</span>
                 </h3>
                 <p className="text-amber-200/80 tracking-wide text-sm md:text-base">
@@ -227,7 +226,7 @@ function ResultContent() {
         </div>
 
         {/* 하단 다시하기 영역 */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.5, duration: 1 }}
@@ -236,7 +235,7 @@ function ResultContent() {
           <p className="text-gray-400 opacity-60 text-xs md:text-sm font-light tracking-wide break-keep mb-8 text-center max-w-sm">
             본 결과는 삶의 방향을 잡기 위한 참고용이며, 진정한 운명은 스스로 개척하는 것입니다.
           </p>
-          <button 
+          <button
             onClick={resetTarot}
             className="w-full max-w-sm py-4 md:py-6 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold text-xl rounded-full shadow-[0_0_30px_rgba(251,191,36,0.3)] hover:shadow-[0_0_50px_rgba(251,191,36,0.6)] hover:scale-105 active:scale-95 transition-all tracking-widest border border-amber-300/50"
           >
