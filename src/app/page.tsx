@@ -21,16 +21,41 @@ export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<CategoryType>(null);
 
   const [isMobile, setIsMobile] = useState(false);
+  
+  // 셔플된 카드 배열 상태 추가 (최근 섞인 배열 저장)
+  const [cards, setCards] = useState<typeof TAROT_DATA>([]);
+
+  // Fisher-Yates shuffle 알고리즘을 이용한 카드 섞기 함수
+  const shuffleCards = () => {
+    // 1. 원본 데이터 복사
+    const shuffled = [...TAROT_DATA];
+    
+    // 2. 뒤에서부터 앞으로 순회하며 무작위 인덱스와 자리를 바꿈
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      
+      // 구조 분해 할당을 이용한 값 교환 (Swap)
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    
+    // 3. 섞인 배열을 상태에 반영
+    setCards(shuffled);
+  };
 
   useEffect(() => {
+    // 1. 화면 크기 체크 로직
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile(); // 초기화
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    
+    // 2. 컴포넌트가 처음 마운트(렌더링)될 때 카드 섞기 실행
+    shuffleCards();
 
-  // 78장 전체 사용.
-  const displayCards = TAROT_DATA;
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []); // 빈 배열([])을 넣으면 컴포넌트 생성 시 단 한 번만 실행됨
+
+  // 모바일 성능 및 시각적 안정감을 위해 앞의 20장만 화면에 렌더링하도록 잘라냅니다.
+  const displayCards = cards.slice(0, 20);
 
   const handleCardClick = (cardId: number) => {
     // 결과 공개 중일 때는 클릭 방지
@@ -176,7 +201,22 @@ export default function Home() {
       <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pt-2 md:pt-6 pb-8 px-4">
         
         {/* 최고 상단 텍스트 묶음: 폰트 사이즈 미세 조절 및 하단 여백 대폭 감소 */}
-        <h1 className="text-2xl md:text-5xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] mb-3 md:mb-5 text-center">Mystic Tarot</h1>
+        <div className="flex flex-col items-center mb-3 md:mb-5 relative">
+          <h1 className="text-2xl md:text-5xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center">
+            Mystic Tarot
+          </h1>
+          
+          {/* 수동 카드 섞기 버튼 추가 */}
+          <button 
+            onClick={() => {
+              setSelectedCards([]); // 다시 섞을 땐 선택된 카드 초기화
+              shuffleCards();
+            }}
+            className="mt-4 px-4 py-1.5 rounded-full border border-amber-500/30 text-amber-200 text-xs md:text-sm bg-black/40 hover:bg-amber-500/20 hover:border-amber-400 transition-all flex items-center gap-2"
+          >
+            <span className="text-base">✨</span> 다시 섞기
+          </button>
+        </div>
         
         {/* 운세 카테고리 버튼 */}
         <p className="text-sm md:text-base text-gray-300 font-light opacity-80 mb-3 md:mb-4 tracking-widest text-center">어떤 운세가 궁금하신가요?</p>
@@ -238,24 +278,24 @@ export default function Home() {
       {/* 하단 덱 영역 */}
       <div className="w-full h-[360px] md:h-[500px] mt-[30px] md:mt-[40px] mb-10 relative flex justify-center items-center z-20">
         {displayCards.map((card, index) => {
-          // 모바일은 13장씩 6그룹, 데스크탑은 26장씩 3그룹
-          const cardsPerRow = isMobile ? 13 : 26;
-          const rowIndex = Math.floor(index / cardsPerRow); 
-          const indexInRow = index % cardsPerRow; 
+          // 모바일/데스크탑 모두 20장만 표시하므로 1줄로 취급하여 무지개 라인(Flat Arc)을 그립니다.
+          const cardsPerRow = displayCards.length; // 20
+          const rowIndex = 0; // 한 줄 처리
+          const indexInRow = index; 
           
           // 각 카드의 중심 기준 정규화된 위치 (-1 ~ +1)
           const centerIndex = (cardsPerRow - 1) / 2;
           const normalizedPosition = (indexInRow - centerIndex) / centerIndex;
           
-          // 가로 퍼짐: 모바일 44vw, 데스크탑 38vw -> 모바일 38, 데스크탑 34로 축소하여 양옆 여백 확보
-          const spreadVw = isMobile ? 38 : 34;
+          // 가로 퍼짐: 모바일 75vw, 데스크탑 50vw로 쭉 펼쳐서 20장이 화면 안에 고루 들어오게 넓힘
+          const spreadVw = isMobile ? 75 : 50;
           const baseX = `calc(${normalizedPosition * spreadVw}vw)`;
           
-          // 완만한 곡선(Flat Arc): 모바일은 더 깊게 (px 적용)
-          const curveYpx = Math.pow(normalizedPosition, 2) * (isMobile ? 40 : 50); 
+          // 완만한 라운드 곡선(Arc): 퍼지는 만큼 깊게 패이도록 높이 파고를 올림
+          const curveYpx = Math.pow(normalizedPosition, 2) * (isMobile ? 120 : 150); 
           
-          // 로테이션: 모바일은 약간 더 기울게
-          const angle = normalizedPosition * (isMobile ? 12 : 8);
+          // 로테이션 각도: 양옆으로 부채 펴듯 자연스럽게 회전
+          const angle = normalizedPosition * (isMobile ? 35 : 25);
 
           const selectionOpt = selectedCards.find(c => c.id === card.id);
           const isSelected = !!selectionOpt;

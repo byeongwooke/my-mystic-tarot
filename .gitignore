@@ -3,3 +3,10 @@ node_modules
 out
 build
 .env
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
