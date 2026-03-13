@@ -215,102 +215,106 @@ export default function Home() {
               </div>
             );
           })}
+
+          {/* 카드 덱 렌더링 - 슬롯 컨테이너의 좌표계에 종속시켜 정밀한 흡착 지원 */}
+          <div className="absolute top-0 left-1/2 w-0 h-0 pointer-events-none">
+            <AnimatePresence>
+              {groupedRows.map((row, rowIdx) => (
+                row.map((card, colIdx) => {
+                  const centerCol = (row.length - 1) / 2;
+                  const overlap = isMobile ? 28 : 45; 
+                  const baseX = (colIdx - centerCol) * overlap;
+
+                  const selectionOpt = selectedCards.find(c => c.id === card.id);
+                  const isSelected = !!selectionOpt;
+                  const roleIndex = isSelected ? roles.indexOf(selectionOpt.role) : 0;
+                  
+                  // 목표 X 좌표 (슬롯 수평 위치)
+                  const targetOffset = isMobile ? 95 : 180;
+                  const slotX = (roleIndex - 1) * targetOffset; 
+                  
+                  // 목표 Y 좌표 (슬롯 수직 위치 - 고정 절대값)
+                  // 모바일 h-180 컨테이너 기준, h-126 박스의 정중앙은 약 117px 지점
+                  const slotY = isMobile ? 117 : 168; 
+                  
+                  // 시작 Y 좌표 (덱 그리드 위치 - 슬롯 컨테이너 상단으로부터 하단으로 오프셋)
+                  const rowHeight = isMobile ? 108 : 180;
+                  const deckStartOffsetY = isMobile ? 400 : 550;
+                  const baseY = deckStartOffsetY + (rowIdx * rowHeight);
+
+                  const isRevealed = revealedCards.includes(card.id);
+
+                  return (
+                    <motion.div
+                      key={card.id}
+                      layout
+                      className="absolute flex justify-center items-center"
+                      style={{ transformOrigin: 'center' }}
+                      initial={{ opacity: 0, scale: 0.8, x: baseX, y: baseY }}
+                      animate={{ 
+                        opacity: 1, 
+                        scale: 1,
+                        x: isSelected ? slotX : baseX,
+                        y: isSelected ? slotY : baseY,
+                        zIndex: isSelected ? 500 : 20 + colIdx,
+                        rotate: isSelected ? 0 : (colIdx - centerCol) * 2,
+                      }}
+                      whileHover={{ 
+                        y: isSelected ? slotY : baseY - 15,
+                        zIndex: isSelected ? 500 : 100,
+                      }}
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: isSelected ? 250 : 300, 
+                        damping: 25,
+                        layout: { duration: 0.3 }
+                      }}
+                    >
+                      <motion.div
+                        onClick={() => handleCardClick(card.id)}
+                        className="relative cursor-pointer pointer-events-auto w-[64px] h-[100px] md:w-[110px] md:h-[180px]"
+                        style={{ transformStyle: "preserve-3d" }}
+                        animate={{
+                          rotateY: isRevealed ? -180 : 0,
+                          scale: isSelected ? 1.3 : 1
+                        }}
+                        whileHover={{ scale: isSelected ? 1.3 : 1.05 }}
+                      >
+                        <div
+                          className={`absolute inset-0 w-full h-full rounded-xl border border-[#D4AF37] transition-all duration-300 overflow-hidden bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center group ${isSelected && !isRevealed
+                              ? "shadow-[0_0_25px_rgba(212,175,55,0.7)] border-amber-300 scale-105"
+                              : "shadow-[0_4px_15px_rgba(0,0,0,0.6)]"
+                            }`}
+                          style={{ backfaceVisibility: "hidden" }}
+                        >
+                          <div className="absolute inset-1 md:inset-1.5 border border-[#D4AF37]/40 rounded-lg"></div>
+                          <div className="w-6 h-6 md:w-8 md:h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45">
+                            <div className="w-2 h-2 md:w-3 md:h-3 bg-[#D4AF37]/40 rounded-full"></div>
+                          </div>
+                        </div>
+                        <div
+                          className={`absolute inset-0 w-full h-full rounded-xl border-2 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.8)] bg-slate-100 flex flex-col items-center justify-center overflow-hidden`}
+                          style={{ backfaceVisibility: "hidden", transform: "rotateY(-180deg)" }}
+                        >
+                          <div className="absolute inset-1 border border-amber-500/30 rounded-lg"></div>
+                          <div className="text-[10px] md:text-sm font-bold text-amber-900 text-center px-1 break-keep">
+                            {card.nameKr}
+                          </div>
+                          <div className="text-[8px] md:text-[10px] text-amber-700 mt-2 tracking-wide text-center px-1">
+                            {card.keywords[0]}
+                          </div>
+                        </div>
+                      </motion.div>
+                    </motion.div>
+                  );
+                })
+              ))}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
 
-      {/* 하단 덱 영역 - 8열 그룹화 및 동적 좌표 시스템 */}
-      <div className="w-full flex flex-col gap-12 md:gap-20 mt-20 mb-32 relative z-20">
-        <AnimatePresence>
-          {groupedRows.map((row, rowIdx) => (
-            <div 
-              key={`row-${rowIdx}`}
-              className="relative w-full h-[60px] md:h-[100px] flex justify-center items-center"
-            >
-              {row.map((card, colIdx) => {
-                const centerCol = (row.length - 1) / 2;
-                const overlap = isMobile ? 28 : 45; 
-                const baseX = (colIdx - centerCol) * overlap;
 
-                const selectionOpt = selectedCards.find(c => c.id === card.id);
-                const isSelected = !!selectionOpt;
-                const roleIndex = isSelected ? roles.indexOf(selectionOpt.role) : 0;
-                
-                const targetOffset = isMobile ? 95 : 180;
-                const slotX = (roleIndex - 1) * targetOffset; 
-                
-                const rowHeightBase = isMobile ? 108 : 180; // row height + gap
-                const baseSlotY = isMobile ? -580 : -450;
-                const dynamicSlotY = `${baseSlotY - (rowIdx * rowHeightBase)}px`;
-
-                const isRevealed = revealedCards.includes(card.id);
-
-                return (
-                  <motion.div
-                    key={card.id}
-                    layout
-                    className="absolute flex justify-center items-center"
-                    initial={{ opacity: 0, scale: 0.8, x: baseX }}
-                    animate={{ 
-                      opacity: 1, 
-                      scale: 1,
-                      x: isSelected ? slotX : baseX,
-                      y: isSelected ? dynamicSlotY : 0,
-                      zIndex: isSelected ? 500 : 20 + colIdx,
-                      rotate: isSelected ? 0 : (colIdx - centerCol) * 2,
-                    }}
-                    whileHover={{ 
-                      y: isSelected ? dynamicSlotY : -15,
-                      zIndex: isSelected ? 500 : 100,
-                    }}
-                    transition={{ 
-                      type: "spring", 
-                      stiffness: isSelected ? 250 : 300, 
-                      damping: 25,
-                      layout: { duration: 0.3 }
-                    }}
-                  >
-                    <motion.div
-                      onClick={() => handleCardClick(card.id)}
-                      className="relative cursor-pointer pointer-events-auto w-[64px] h-[100px] md:w-[110px] md:h-[180px]"
-                      style={{ transformStyle: "preserve-3d" }}
-                      animate={{
-                        rotateY: isRevealed ? -180 : 0,
-                        scale: isSelected ? 1.3 : 1
-                      }}
-                      whileHover={{ scale: isSelected ? 1.3 : 1.05 }}
-                    >
-                      <div
-                        className={`absolute inset-0 w-full h-full rounded-xl border border-[#D4AF37] transition-all duration-300 overflow-hidden bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center group ${isSelected && !isRevealed
-                            ? "shadow-[0_0_25px_rgba(212,175,55,0.7)] border-amber-300 scale-105"
-                            : "shadow-[0_4px_15px_rgba(0,0,0,0.6)]"
-                          }`}
-                        style={{ backfaceVisibility: "hidden" }}
-                      >
-                        <div className="absolute inset-1 md:inset-1.5 border border-[#D4AF37]/40 rounded-lg"></div>
-                        <div className="w-6 h-6 md:w-8 md:h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45">
-                          <div className="w-2 h-2 md:w-3 md:h-3 bg-[#D4AF37]/40 rounded-full"></div>
-                        </div>
-                      </div>
-                      <div
-                        className={`absolute inset-0 w-full h-full rounded-xl border-2 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.8)] bg-slate-100 flex flex-col items-center justify-center overflow-hidden`}
-                        style={{ backfaceVisibility: "hidden", transform: "rotateY(-180deg)" }}
-                      >
-                        <div className="absolute inset-1 border border-amber-500/30 rounded-lg"></div>
-                        <div className="text-[10px] md:text-sm font-bold text-amber-900 text-center px-1 break-keep">
-                          {card.nameKr}
-                        </div>
-                        <div className="text-[8px] md:text-[10px] text-amber-700 mt-2 tracking-wide text-center px-1">
-                          {card.keywords[0]}
-                        </div>
-                      </div>
-                    </motion.div>
-                  </motion.div>
-                );
-              })}
-            </div>
-          ))}
-        </AnimatePresence>
-      </div>
 
       {isRevealing && (
         <div className="absolute inset-0 z-[700] flex flex-col items-center justify-center bg-slate-900/60 backdrop-blur-sm transition-opacity">
