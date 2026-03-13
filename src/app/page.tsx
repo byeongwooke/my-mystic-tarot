@@ -210,10 +210,10 @@ export default function Home() {
                         initial={{ opacity: 0, scale: 0.8, y: 50 }}
                         whileInView={{ 
                           scale: 1.25,
-                          zIndex: 50,
-                          transition: { type: "spring", stiffness: 200, damping: 20 }
+                          zIndex: 150,
+                          transition: { type: "spring", stiffness: 150, damping: 25 }
                         }}
-                        viewport={{ amount: 0.8, margin: "-10% 0px -10% 0px" }}
+                        viewport={{ amount: 0.2, margin: "-5% 0px -5% 0px" }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.5 }}
                         whileHover={{ 
@@ -223,7 +223,7 @@ export default function Home() {
                         }}
                         transition={{ 
                           type: "spring", 
-                          stiffness: 300, 
+                          stiffness: 150, 
                           damping: 25 
                         }}
                       >
