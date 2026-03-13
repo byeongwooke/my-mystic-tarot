@@ -22,10 +22,10 @@ export default function Home() {
 
   const [isMobile, setIsMobile] = useState(false);
 
-  // 셔플된 카드 배열 상태 추가 (최근 섞인 배열 저장)
-  const [cards, setCards] = useState<typeof TAROT_DATA>([]);
-  // 페이지네이션 (30장씩) 인덱스
-  const [pageIndex, setPageIndex] = useState(0);
+  // 78장 풀 덱 상태 추가
+  const [allCards, setAllCards] = useState<typeof TAROT_DATA>([]);
+  // 페이지네이션 인덱스 (현재 보는 뭉치의 시작점)
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   // Fisher-Yates shuffle 알고리즘을 이용한 카드 섞기 함수
   const shuffleCards = () => {
@@ -38,19 +38,18 @@ export default function Home() {
       [shuffledIds[i], shuffledIds[j]] = [shuffledIds[j], shuffledIds[i]];
     }
 
-    // 3. 섞인 번호표 순서대로 실제 카드 정보를 상자(setCards)에 담습니다.
-    // (데이터가 부족해도 에러 안 나게 안전장치를 해뒀어요)
+    // 3. 섞인 번호표 순서대로 실제 카드 정보를 상자(setAllCards)에 담습니다.
     const shuffledData = shuffledIds.map(id => TAROT_DATA[id] || TAROT_DATA[0]);
-    setCards(shuffledData);
-    setPageIndex(0);
+    setAllCards(shuffledData);
+    setCurrentIndex(0);
   };
 
   const loadNextBatch = () => {
-    // 다음 30장이 전체 개수(78장)를 초과하면 카드를 배열을 통째로 다시 섞어버림
-    if ((pageIndex + 1) * 30 >= TAROT_DATA.length) {
+    // 다음 30장을 리필하고, 78장을 다 쓰면 자동으로 다시 섞습니다.
+    if (currentIndex + 30 >= 78) {
       shuffleCards();
     } else {
-      setPageIndex(prev => prev + 1);
+      setCurrentIndex(prev => prev + 30);
     }
   };
 
@@ -66,8 +65,8 @@ export default function Home() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []); // 빈 배열([])을 넣으면 컴포넌트 생성 시 단 한 번만 실행됨
 
-  // 모바일 성능 및 시각적 안정감을 위해 30장 단위로 잘라서 화면에 뿌립니다 (페이징 방식).
-  const displayCards = cards.slice(pageIndex * 30, (pageIndex + 1) * 30);
+  // 화면용 30장 슬라이싱 (currentIndex부터 +30장)
+  const displayCards = allCards.slice(currentIndex, currentIndex + 30);
 
   const handleCardClick = (cardId: number) => {
     // 결과 공개 중일 때는 클릭 방지
@@ -286,36 +285,45 @@ export default function Home() {
       </div>
 
       {/* 하단 덱 영역 */}
-      <div className="w-full h-[850px] md:h-[650px] mt-[30px] md:mt-[40px] mb-10 relative flex justify-center items-center z-20">
+      {/* 모바일 grid-cols-3, 데스크탑 grid-cols-6 역할의 수학적 그리드를 생성합니다 */}
+      <div 
+        className="w-full relative flex justify-center items-center z-20 transition-all duration-500"
+        style={{ minHeight: isMobile ? '1200px' : '900px', marginTop: '40px', marginBottom: '80px' }}
+      >
         {[...displayCards, { isDeckButton: true } as any].map((card, index) => {
           const isDeckButton = index === displayCards.length;
 
-          // 모바일은 5열(grid-cols-5 역할), 데스크탑은 10열 (수학적 절대 좌표 그리드)
-          const cols = isMobile ? 5 : 10;
-          const cardWidth = isMobile ? 65 : 110;  // 간격 포함 (실제카드 너비 + 갭)
-          const cardHeight = isMobile ? 105 : 170; // 간격 포함 (실제카드 높이 + 갭)
-
+          // 아이폰 16 Pro 쾌적함을 위한 grid-cols-3 (데스크탑은 6열) 및 와이드 반응형 간격
+          const cols = isMobile ? 3 : 6;
+          // 카드 크기 + 여백(gap)
+          const gapX = isMobile ? 15 : 24;
+          const gapY = isMobile ? 20 : 32;
+          const cardWidth = isMobile ? 80 : 120; // 넉넉한 터치 영역
+          const cardHeight = isMobile ? 128 : 192;
+          
+          const totalColWidth = cardWidth + gapX;
+          const totalRowHeight = cardHeight + gapY;
+          
           const colIndex = index % cols;
           const rowIndex = Math.floor(index / cols);
-
+          
           const centerCol = (cols - 1) / 2;
-          const totalRows = Math.ceil((displayCards.length + 1) / cols);
+          const totalRows = Math.ceil((displayCards.length + 1) / cols); 
           const centerRow = (totalRows - 1) / 2;
-
-          const baseXNum = (colIndex - centerCol) * cardWidth;
-          const baseYNum = (rowIndex - centerRow) * cardHeight;
-
+          
+          const baseXNum = (colIndex - centerCol) * totalColWidth;
+          const baseYNum = (rowIndex - centerRow) * totalRowHeight;
+          
           const baseX = `${baseXNum}px`;
           const finalYNum = baseYNum;
           const finalY = `${finalYNum}px`;
-
-          // 덱 보충 버튼일 경우 렌더링
+          
+          // 덱 보충 버튼 (남은 카드 뭉치)
           if (isDeckButton) {
-            // 전체 78장에서 현재 페이지까지 보여준 카드(30장 단위)를 빼서 남은 숫자를 구해요.
-            const remainingCount = 78 - (pageIndex + 1) * 30;
+            const remainingCount = 78 - (currentIndex + 30);
 
-            // 더 이상 남은 카드가 없으면 뭉치 버튼을 숨깁니다.
-            if (remainingCount <= 0) return null;
+            // 남은 카드가 없으면 다시 섞기 모드로 표시
+            const isFinished = remainingCount <= 0;
 
             return (
               <motion.div
@@ -325,40 +333,41 @@ export default function Home() {
                 animate={{ x: baseX, y: finalY }}
                 whileHover={{ scale: 1.05 }}
               >
-                <div
+                <div 
                   onClick={loadNextBatch}
-                  className="w-[56px] h-[90px] md:w-[100px] md:h-[160px] cursor-pointer rounded-xl border border-amber-500/50 bg-black/40 flex flex-col items-center justify-center shadow-lg hover:bg-amber-500/20 transition-all group"
+                  className="w-[80px] h-[128px] md:w-[120px] md:h-[192px] cursor-pointer rounded-xl border-2 border-amber-500/60 bg-gradient-to-br from-black/80 to-indigo-900/60 flex flex-col items-center justify-center shadow-[0_0_20px_rgba(251,191,36,0.2)] hover:shadow-[0_0_30px_rgba(251,191,36,0.6)] hover:border-amber-400 transition-all group"
                 >
-                  <span className="text-2xl mb-1 md:mb-2 group-hover:drop-shadow-[0_0_10px_rgba(251,191,36,0.8)]">🃏</span>
-                  {/* 여기에 남은 카드 숫자가 표시됩니다! */}
-                  <span className="text-[10px] md:text-sm text-amber-200 font-bold">
-                    {remainingCount}장 더 보기
+                  <span className="text-3xl md:text-4xl mb-2 group-hover:drop-shadow-[0_0_15px_rgba(251,191,36,1)] transition-all">🃏</span>
+                  <span className="text-xs md:text-sm text-amber-200 font-extrabold tracking-widest text-center px-1">
+                    {isFinished ? "새로 섞기" : `${remainingCount}장 남음`}
                   </span>
+                  {!isFinished && (
+                    <span className="text-[10px] text-amber-400/70 mt-1 font-medium">터치해서 펴기</span>
+                  )}
                 </div>
               </motion.div>
             );
           }
 
-          // 이하 일반 카드 렌더링 (card가 무조건 존재함)
           const validCard = card!;
 
           const selectionOpt = selectedCards.find(c => c.id === validCard.id);
           const isSelected = !!selectionOpt;
           const roleIndex = isSelected ? roles.indexOf(selectionOpt.role) : 0;
-
-          const hoverY = `${finalYNum - 20}px`; // 호버 시 부드럽게 20px 상승
+          
+          const hoverY = `${finalYNum - 20}px`; 
           const defaultZIndex = rowIndex * 100 + colIndex + 20;
 
           // 선택 시 이동할 목적지 좌푯값 계산
           const targetOffset = isMobile ? 95 : 180;
-          const slotX = (roleIndex - 1) * targetOffset;
-
-          // 컨테이너 높이 변경에 따른 애니메이션 슬롯 목표 지점(Y) 재보정 (Center 정렬 기준의 거리값):
-          const slotY = isMobile ? "-450px" : "-484px";
-
+          const slotX = (roleIndex - 1) * targetOffset; 
+          
+          // 슬롯 목적지 컨테이너 중심 보정 (minHeight 증가로 인해 슬롯도 위로 올라가야 함)
+          const slotY = isMobile ? "-700px" : "-580px"; 
+          
           const isRevealed = revealedCards.includes(validCard.id);
-          const angle = 0; // 격자 배열이므로 기울기 제거
-
+          const angle = 0; 
+          
           return (
             <motion.div
               key={validCard.id}
@@ -380,7 +389,7 @@ export default function Home() {
             >
               <motion.div
                 onClick={() => handleCardClick(validCard.id)}
-                className="relative cursor-pointer pointer-events-auto w-[56px] h-[90px] md:w-[100px] md:h-[160px]"
+                className="relative cursor-pointer pointer-events-auto w-[80px] h-[128px] md:w-[120px] md:h-[192px]"
                 // 크기 조절 및 3D 뒤집기
                 initial={{ scale: 1, rotateY: 0 }}
                 animate={{
