@@ -95,16 +95,7 @@ export default function Home() {
           <h1 className="text-2xl md:text-5xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center">
             Mystic Tarot
           </h1>
-          <button
-            onClick={() => {
-              setSelectedCards([]);
-              setRevealedCards([]);
-              shuffleCards();
-            }}
-            className="mt-4 px-4 py-1.5 rounded-full border border-amber-500/30 text-amber-200 text-xs md:text-sm bg-black/40 hover:bg-amber-500/20 hover:border-amber-400 transition-all flex items-center gap-2"
-          >
-            <span className="text-base">✨</span> 다시 섞기
-          </button>
+
         </div>
 
         <div className="flex gap-3 justify-center mb-5 z-50 pointer-events-auto">
@@ -133,10 +124,10 @@ export default function Home() {
             : `당신의 타로 카드를 선택하세요 (${selectedCards.length}/3)`}
         </p>
 
-        {/* 슬롯 영역 */}
-        <div className="relative w-full max-w-4xl h-[180px] md:h-[280px] min-h-[180px] flex justify-center mx-auto">
+        {/* 슬롯 영역 - 카드 크기에 맞춰 확장 */}
+        <div className="relative w-full max-w-5xl h-[220px] md:h-[380px] min-h-[220px] flex justify-center mx-auto">
           {roles.map((role, idx) => {
-            const offset = isMobile ? 95 : 180;
+            const offset = isMobile ? 120 : 250;
             const leftPos = idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)`;
             
             const selection = selectedCards.find(c => c.role === role);
@@ -149,8 +140,8 @@ export default function Home() {
                 className="absolute bottom-0 flex flex-col items-center -translate-x-1/2"
                 style={{ left: leftPos }}
               >
-                <span className="mb-4 text-white/50 text-sm md:text-lg font-semibold tracking-widest whitespace-nowrap">{role}</span>
-                <div className={`relative w-[78px] h-[126px] md:w-[140px] md:h-[224px] rounded-xl transition-all duration-700 flex items-center justify-center ${isFilled
+                <span className="mb-6 text-white/50 text-sm md:text-lg font-semibold tracking-widest whitespace-nowrap uppercase">{role}</span>
+                <div className={`relative w-[96px] h-[150px] md:w-[165px] md:h-[270px] rounded-xl transition-all duration-700 flex items-center justify-center ${isFilled
                   ? 'border-transparent bg-transparent shadow-[0_0_80px_rgba(251,191,36,0.3)]'
                   : 'border-2 border-dashed border-white/20 bg-white/5 shadow-inner'
                   }`}>
@@ -194,21 +185,21 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 하단 덱 영역 - 파노라마 수평 스크롤 */}
-      <div className="w-full mt-10 md:mt-16 relative overflow-hidden flex-grow">
+      {/* 하단 덱 영역 - 파노라마 수평 스크롤 (웅장한 스케일) */}
+      <div className="w-full mt-4 md:mt-8 relative overflow-hidden flex-grow flex items-center">
         <div 
-          className="w-full h-full overflow-x-auto scrollbar-hide flex items-center px-[40vw]" 
+          className="w-full h-full overflow-x-auto scrollbar-hide flex items-center px-[45vw]" 
           style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x' }}
         >
-          <div className="flex items-center space-x-[-25px] md:space-x-[-45px] py-10">
+          <div className="flex items-center space-x-[-35px] md:space-x-[-65px] py-16">
             <AnimatePresence>
               {cards.map((card) => {
                 const isSelected = selectedCards.some(c => c.id === card.id);
                 
                 return (
-                  <div key={card.id} className="relative flex-shrink-0">
-                    {/* Placeholder */}
-                    <div className="w-[64px] h-[100px] md:w-[110px] md:h-[180px] invisible" />
+                  <div key={card.id} className="relative flex-shrink-0 perspective-1000">
+                    {/* Placeholder - 카드 크기 일치화 (96x150 / 165x270) */}
+                    <div className="w-[96px] h-[150px] md:w-[165px] md:h-[270px] invisible" />
                     
                     {!isSelected && (
                       <motion.div
@@ -216,11 +207,25 @@ export default function Home() {
                         onClick={() => handleCardClick(card.id)}
                         className="absolute inset-0 cursor-pointer pointer-events-auto"
                         style={{ transformStyle: "preserve-3d" }}
-                        initial={{ opacity: 0, y: 50 }}
+                        initial={{ opacity: 0, scale: 0.8, y: 50 }}
+                        whileInView={{ 
+                          scale: 1.25,
+                          zIndex: 50,
+                          transition: { type: "spring", stiffness: 200, damping: 20 }
+                        }}
+                        viewport={{ amount: 0.8, margin: "-10% 0px -10% 0px" }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.5 }}
-                        whileHover={{ y: -30, zIndex: 100 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                        whileHover={{ 
+                          y: -40, 
+                          scale: 1.35,
+                          zIndex: 100 
+                        }}
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 300, 
+                          damping: 25 
+                        }}
                       >
                         <div
                           className="w-full h-full rounded-xl border border-[#D4AF37] bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center shadow-[0_4px_15px_rgba(0,0,0,0.6)] overflow-hidden"
