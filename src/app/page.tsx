@@ -147,7 +147,7 @@ export default function Home() {
 
   return (
     <main
-      className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-y-auto"
+      className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-x-hidden"
       style={{
         paddingTop: 'calc(env(safe-area-inset-top) + 1rem)',
         paddingBottom: 'calc(env(safe-area-inset-bottom) + 8rem)'
@@ -196,7 +196,7 @@ export default function Home() {
             : `당신의 타로 카드를 선택하세요 (${selectedCards.length}/3)`}
         </p>
 
-        <div className="relative w-full max-w-4xl h-[180px] md:h-[280px] min-h-[180px] flex justify-center">
+        <div className="relative w-full max-w-4xl h-[180px] md:h-[280px] min-h-[180px] flex justify-center mx-auto">
           {roles.map((role, idx) => {
             const offset = isMobile ? 95 : 180;
             const leftPos = idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)`;
@@ -216,8 +216,8 @@ export default function Home() {
             );
           })}
 
-          {/* 카드 덱 렌더링 - 슬롯 컨테이너의 좌표계에 종속시켜 정밀한 흡착 지원 */}
-          <div className="absolute top-0 left-1/2 w-0 h-0 pointer-events-none">
+          {/* 카드 덱 렌더링 - 화면 중앙(left-1/2)을 기준으로 완벽 대칭 배열 */}
+          <div className="absolute top-0 left-1/2 w-0 h-0 pointer-events-none flex justify-center">
             <AnimatePresence>
               {groupedRows.map((row, rowIdx) => (
                 row.map((card, colIdx) => {
