@@ -235,11 +235,11 @@ export default function Home() {
                   
                   // 목표 Y 좌표 (슬롯 수직 위치 - 고정 절대값)
                   // 모바일 h-180 컨테이너 기준, h-126 박스의 정중앙은 약 117px 지점
-                  const slotY = isMobile ? 117 : 168; 
+                  const slotY = isMobile ? 65 : 168; 
                   
                   // 시작 Y 좌표 (덱 그리드 위치 - 슬롯 컨테이너 상단으로부터 하단으로 오프셋)
-                  const rowHeight = isMobile ? 108 : 180;
-                  const deckStartOffsetY = isMobile ? 400 : 550;
+                  const rowHeight = isMobile ? 110 : 180;
+                  const deckStartOffsetY = isMobile ? 320 : 450;
                   const baseY = deckStartOffsetY + (rowIdx * rowHeight);
 
                   const isRevealed = revealedCards.includes(card.id);
