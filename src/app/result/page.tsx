@@ -10,6 +10,7 @@ function ResultContent() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
   const [cardsInfo, setCardsInfo] = useState<{ cardData: any, role: string }[]>([]);
   const [category, setCategory] = useState<string | null>(null);
 
@@ -21,8 +22,9 @@ function ResultContent() {
     const cardsParam = searchParams.get('cards');
 
     if (!cat || !cardsParam) {
-      // 잘못된 접근 시 메인으로 리다이렉트
-      router.push('/');
+      // 파라미터가 없거나 비정상적일 때 즉시 리다이렉트하지 않고 에러 상태 전환
+      setHasError(true);
+      setIsLoading(false);
       return;
     }
 
@@ -37,9 +39,15 @@ function ResultContent() {
       };
     }).filter(item => item.cardData !== undefined);
 
+    if (loadedCards.length !== 3) {
+        setHasError(true);
+        setIsLoading(false);
+        return;
+    }
+
     setCardsInfo(loadedCards);
     setIsLoading(false);
-  }, [searchParams, router]);
+  }, [searchParams]);
 
   const categoryName = category === 'love' ? '연애운' 
                      : category === 'money' ? '재물운' 
@@ -89,6 +97,24 @@ function ResultContent() {
       <div className="w-full min-h-screen flex items-center justify-center bg-slate-900">
         <div className="w-16 h-16 border-4 border-amber-500/30 border-t-amber-400 rounded-full animate-spin"></div>
       </div>
+    );
+  }
+
+  if (hasError) {
+    return (
+      <main className="w-full min-h-screen flex flex-col items-center justify-center bg-slate-900 px-4 text-center">
+        <div className="w-20 h-20 mb-6 text-amber-500/50 flex items-center justify-center border-2 border-amber-500/30 rounded-full text-4xl">⚠️</div>
+        <h1 className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 tracking-widest">운명의 흐름이 끊겼습니다</h1>
+        <p className="text-gray-300 mb-10 tracking-wide text-sm md:text-base leading-relaxed break-keep max-w-sm">
+          정상적인 타로 결과를 불러올 수 없습니다. 카드를 다시 선택해 주세요.
+        </p>
+        <button 
+          onClick={resetTarot}
+          className="px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold rounded-full shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:scale-105 active:scale-95 transition-all tracking-widest"
+        >
+          메인으로 돌아가기
+        </button>
+      </main>
     );
   }
 

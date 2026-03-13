@@ -319,16 +319,16 @@ export default function Home() {
               >
                 {/* 뒷면 (타로카드 무늬) - 기본 시점 */}
                 <div 
-                  className={`absolute inset-0 w-full h-full rounded-xl border-2 transition-all duration-300 overflow-hidden bg-gradient-to-br from-indigo-900 to-purple-950 flex items-center justify-center group ${
+                  className={`absolute inset-0 w-full h-full rounded-xl border border-[#D4AF37] transition-all duration-300 overflow-hidden bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center group ${
                     isSelected && !isRevealed
-                      ? "border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.6)]" 
-                      : "border-indigo-700/50 shadow-[0_4px_15px_rgba(0,0,0,0.6)]"
+                      ? "shadow-[0_0_25px_rgba(212,175,55,0.7)]" 
+                      : "shadow-[0_4px_15px_rgba(0,0,0,0.6)]"
                   }`}
                   style={{ backfaceVisibility: "hidden" }}
                 >
-                  <div className="absolute inset-1.5 border border-indigo-500/40 rounded-lg"></div>
-                  <div className="w-8 h-8 border-[1.5px] border-amber-500/50 rounded-full flex items-center justify-center rotate-45 group-hover:border-amber-400 group-hover:bg-amber-500/10 transition-colors">
-                    <div className="w-3 h-3 bg-amber-500/40 rounded-full group-hover:bg-amber-400/80"></div>
+                  <div className="absolute inset-1 md:inset-1.5 border border-[#D4AF37]/40 rounded-lg"></div>
+                  <div className="w-6 h-6 md:w-8 md:h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45 group-hover:border-[#D4AF37] group-hover:bg-[#D4AF37]/10 transition-colors">
+                    <div className="w-2 h-2 md:w-3 md:h-3 bg-[#D4AF37]/40 rounded-full group-hover:bg-[#D4AF37]/80"></div>
                   </div>
                 </div>
 
