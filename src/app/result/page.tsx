@@ -161,10 +161,29 @@ function ResultContent() {
               <span className="text-amber-400 border border-amber-400/50 bg-amber-400/10 px-4 py-1 rounded-full text-xs md:text-lg font-bold mb-4 tracking-widest">
                 {item.role}
               </span>
-              <div className="w-[80px] h-[128px] md:w-[150px] md:h-[240px] rounded-xl border-2 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.6)] bg-slate-100 flex flex-col items-center justify-center relative overflow-hidden transform hover:scale-105 transition-transform">
-                <div className="absolute inset-1 border border-amber-500/30 rounded-lg"></div>
-                <div className="text-[11px] md:text-lg font-bold text-amber-900 text-center px-1 md:px-4 leading-relaxed break-keep z-10">{item.cardData.nameKr}</div>
-                <div className="text-[9px] md:text-xs font-bold text-amber-700 mt-2 z-10 text-center px-1">{item.cardData.name}</div>
+              <div className="w-[80px] h-[128px] md:w-[150px] md:h-[240px] rounded-xl border-2 border-amber-400/50 shadow-[0_0_25px_rgba(251,191,36,0.5)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transform hover:scale-105 transition-transform group">
+                {item.cardData.id <= 21 ? (
+                  <>
+                    <img
+                      src={`/images/cards/${item.cardData.id}.webp`}
+                      alt={item.cardData.nameKr}
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    {/* 금색 네임텍 레이어 */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-8 pb-2 px-1">
+                      <div className="text-[9px] md:text-sm font-bold text-amber-400 text-center drop-shadow-md tracking-tighter">
+                        {item.cardData.nameKr}
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="absolute inset-1 border border-amber-500/20 rounded-lg"></div>
+                    <div className="text-[11px] md:text-lg font-bold text-amber-200 text-center px-1 md:px-4 leading-relaxed break-keep z-10">{item.cardData.nameKr}</div>
+                    <div className="text-[9px] md:text-xs font-bold text-amber-400/60 mt-2 z-10 text-center px-1 tracking-widest uppercase">{item.cardData.name}</div>
+                  </>
+                )}
               </div>
             </motion.div>
           ))}

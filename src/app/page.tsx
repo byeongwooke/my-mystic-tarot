@@ -168,13 +168,35 @@ export default function Home() {
                       </div>
                       {/* 카드 앞면 */}
                       <div
-                        className="absolute inset-0 w-full h-full rounded-xl border-2 border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.8)] bg-slate-100 flex flex-col items-center justify-center overflow-hidden"
+                        className="absolute inset-0 w-full h-full rounded-xl border-2 border-amber-400/50 shadow-[0_0_25px_rgba(251,191,36,0.5)] bg-indigo-950 flex flex-col items-center justify-center overflow-hidden"
                         style={{ backfaceVisibility: "hidden", transform: "rotateY(-180deg)" }}
                       >
-                        <div className="absolute inset-1 border border-amber-500/30 rounded-lg"></div>
-                        <div className="text-[10px] md:text-sm font-bold text-amber-900 text-center px-1 break-keep">
-                          {selectedCardData.nameKr}
-                        </div>
+                        {selectedCardData.id <= 21 ? (
+                          <>
+                            <img
+                              src={`/images/cards/${selectedCardData.id}.webp`}
+                              alt={selectedCardData.nameKr}
+                              loading="lazy"
+                              className="w-full h-full object-cover"
+                            />
+                            {/* 금색 네임텍 레이어 */}
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-8 pb-2 px-1">
+                              <div className="text-[10px] md:text-sm font-bold text-amber-400 text-center drop-shadow-md tracking-tighter">
+                                {selectedCardData.nameKr}
+                              </div>
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="absolute inset-1 border border-amber-500/20 rounded-lg"></div>
+                            <div className="text-[10px] md:text-sm font-bold text-amber-200 text-center px-2 break-keep drop-shadow-sm">
+                              {selectedCardData.nameKr}
+                            </div>
+                            <div className="text-[8px] md:text-[10px] text-amber-500/60 mt-2 tracking-widest uppercase">
+                              {selectedCardData.name}
+                            </div>
+                          </>
+                        )}
                       </div>
                     </motion.div>
                   )}
