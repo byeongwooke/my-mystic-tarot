@@ -1,9 +1,50 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import React, { useEffect, useState, Suspense, useMemo, memo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { TAROT_DATA } from "@/constants/tarotData";
 import { motion } from "framer-motion";
+
+// 개별 결과 카드 컴포넌트 (성능 최적화)
+const ResultCardItem = memo(({ cardData, role, isLarge }: { cardData: any, role: string, isLarge: boolean }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring", stiffness: 100 }}
+      className="flex flex-col items-center"
+    >
+      <span className={`text-amber-400 border border-amber-400/50 bg-amber-400/10 px-4 py-1 rounded-full text-xs md:text-lg font-bold mb-4 tracking-widest ${isLarge ? 'scale-125' : ''}`}>
+        {role}
+      </span>
+      <div className={`${isLarge ? 'w-[140px] h-[220px] md:w-[240px] md:h-[384px]' : 'w-[80px] h-[128px] md:w-[150px] md:h-[240px]'} rounded-xl border-2 border-amber-400/50 shadow-[0_0_25px_rgba(251,191,36,0.5)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transform hover:scale-105 transition-transform group`}>
+        {cardData.id <= 21 ? (
+          <>
+            <img
+              src={`/images/cards/${cardData.id}.webp`}
+              alt={cardData.nameKr}
+              loading="lazy"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-8 pb-2 px-1">
+              <div className="text-[9px] md:text-sm font-bold text-amber-400 text-center drop-shadow-md tracking-tighter">
+                {cardData.nameKr}
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="absolute inset-1 border border-amber-500/20 rounded-lg"></div>
+            <div className="text-[11px] md:text-lg font-bold text-amber-200 text-center px-1 md:px-4 leading-relaxed break-keep z-10">{cardData.nameKr}</div>
+            <div className="text-[9px] md:text-xs font-bold text-amber-400/60 mt-2 z-10 text-center px-1 tracking-widest uppercase">{cardData.name}</div>
+          </>
+        )}
+      </div>
+    </motion.div>
+  );
+});
+
+ResultCardItem.displayName = "ResultCardItem";
 
 function ResultContent() {
   const searchParams = useSearchParams();
@@ -14,98 +55,81 @@ function ResultContent() {
   const [cardsInfo, setCardsInfo] = useState<{ cardData: any, role: string }[]>([]);
   const [category, setCategory] = useState<string | null>(null);
 
-  const cat = searchParams.get('category');
-  const roles = cat === 'today' ? ["오늘의 카드"] : ["과거", "현재", "미래"];
-
   useEffect(() => {
-    // URL에서 파라미터 읽기
     const cat = searchParams.get('category');
     const cardsParam = searchParams.get('cards');
 
     if (!cat || !cardsParam) {
-      // 파라미터가 없거나 비정상적일 때 즉시 리다이렉트하지 않고 에러 상태 전환
       setHasError(true);
       setIsLoading(false);
       return;
     }
 
     setCategory(cat);
-
+    const roles = cat === 'today' ? ["오늘의 카드"] : ["과거", "현재", "미래"];
     const cardIds = cardsParam.split(',').map(id => parseInt(id, 10));
     const loadedCards = cardIds.map((id, index) => {
       const cardData = TAROT_DATA.find(c => c.id === id);
-      return {
-        cardData: cardData,
-        role: roles[index]
-      };
-    }).filter(item => item.cardData !== undefined);
+      return cardData ? { cardData, role: roles[index] || "오늘의 카드" } : null;
+    }).filter((item): item is { cardData: any, role: string } => item !== null);
 
     const requiredCount = cat === 'today' ? 1 : 3;
     if (loadedCards.length !== requiredCount) {
       setHasError(true);
-      setIsLoading(false);
-      return;
+    } else {
+      setCardsInfo(loadedCards);
     }
-
-    setCardsInfo(loadedCards);
     setIsLoading(false);
   }, [searchParams]);
 
-  const categoryName = category === 'love' ? '연애운'
-    : category === 'money' ? '재물운'
-      : category === 'work' ? '직업운' 
-      : category === 'today' ? '오늘의 운세' : '';
+  const categoryName = useMemo(() => {
+    const map: Record<string, string> = {
+      'love': '연애운',
+      'money': '재물운',
+      'work': '직업운',
+      'today': '오늘의 운세'
+    };
+    return category ? (map[category] || '') : '';
+  }, [category]);
 
-  const getAdviceText = (cardData: any, categoryKey: string | null, roleStr: string) => {
-    if (!cardData || !cardData.advice || !categoryKey) return "";
+  const getAdviceText = (cardData: any, roleStr: string) => {
+    if (!cardData || !category) return "";
+    
+    // 오늘의 운세 전용 조언 우선
+    if (category === 'today') {
+      return cardData.todayAdvice || cardData.advice?.work || "조언을 준비 중입니다.";
+    }
 
     const timeMap: Record<string, "past" | "present" | "future"> = {
       '과거': 'past',
       '현재': 'present',
       '미래': 'future'
     };
-
     const mappedTime = timeMap[roleStr] || 'future';
 
-    if (typeof cardData.advice === 'string') {
-      return cardData.advice;
-    }
+    if (typeof cardData.advice === 'string') return cardData.advice;
 
-    if (categoryKey === 'today') {
-      return cardData.todayAdvice || cardData.advice?.work || "";
-    }
+    const mappedCat = category === 'today' ? 'work' : category;
+    const catAdvice = cardData.advice?.[mappedCat];
 
-    let mappedCat = categoryKey === 'today' ? 'work' : categoryKey;
-    if (typeof cardData.advice[mappedCat] === 'string') {
-      return cardData.advice[mappedCat];
-    }
-
-    return cardData.advice[mappedCat]?.[mappedTime] || "";
+    if (typeof catAdvice === 'string') return catAdvice;
+    return catAdvice?.[mappedTime] || "운명의 흐름을 조용히 관찰해 보세요.";
   };
 
-  const getInterpretationText = (cardData: any, categoryKey: string | null) => {
-    if (!cardData || !cardData.interpretations || !categoryKey) return "";
-    let mappedCat = categoryKey === 'today' ? 'work' : categoryKey;
-    return cardData.interpretations[mappedCat] || "";
+  const getInterpretationText = (cardData: any) => {
+    if (!cardData || !category) return "";
+    const mappedCat = category === 'today' ? 'work' : category;
+    return cardData.interpretations?.[mappedCat] || "카드가 신비로운 침묵을 지키고 있습니다.";
   };
 
-  const getOverallAdvice = () => {
-    const requiredCount = category === 'today' ? 1 : 3;
-    if (cardsInfo.length !== requiredCount || !category) return "운명의 카드가 당신에게 전하는 메시지입니다.";
-    
+  const overallAdvice = useMemo(() => {
+    if (cardsInfo.length === 0) return "운명의 메시지를 기다리는 중입니다.";
     if (category === 'today') {
-      return `"${getAdviceText(cardsInfo[0].cardData, category, '오늘의 카드')}"`;
+      return `"${getAdviceText(cardsInfo[0].cardData, '오늘의 카드')}"`;
     }
-
     const futureItem = cardsInfo.find(c => c.role === "미래");
-    if (!futureItem || !futureItem.cardData) return "운명의 카드가 당신에게 전하는 메시지입니다.";
-
-    return `"${getAdviceText(futureItem.cardData, category, '미래')}"`;
-  };
-
-  const resetTarot = () => {
-    router.push('/');
-  };
+    return futureItem ? `"${getAdviceText(futureItem.cardData, '미래')}"` : "운명은 당신의 선택에 달려 있습니다.";
+  }, [cardsInfo, category]);
 
   if (isLoading) {
     return (
@@ -124,7 +148,7 @@ function ResultContent() {
           정상적인 타로 결과를 불러올 수 없습니다. 카드를 다시 선택해 주세요.
         </p>
         <button
-          onClick={resetTarot}
+          onClick={() => router.push('/')}
           className="px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold rounded-full shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:scale-105 active:scale-95 transition-all tracking-widest"
         >
           메인으로 돌아가기
@@ -142,87 +166,53 @@ function ResultContent() {
       }}
     >
       <div className="w-full max-w-4xl px-4 md:px-8 mt-10 md:mt-16 flex flex-col items-center">
-
-        {/* 상단 결과 제목 */}
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.8 }}
           className="text-2xl md:text-5xl font-extrabold text-amber-400 mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] text-center break-keep leading-relaxed"
         >
           당신의 {categoryName} 결과입니다
         </motion.h1>
 
-        {/* 전체 한줄평 */}
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1 }}
+          transition={{ delay: 0.3 }}
           className="text-amber-300 mb-12 md:mb-20 mt-4 tracking-widest text-center text-lg md:text-3xl font-serif italic drop-shadow-md break-keep leading-loose max-w-3xl"
         >
-          {getOverallAdvice()}
+          {overallAdvice}
         </motion.p>
 
-        {/* 뽑은 카드 3장 상단 정렬 전시 */}
         <div className="w-full flex justify-center gap-4 md:gap-12 lg:gap-20 mb-16 md:mb-24 px-2">
-          {cardsInfo.map((item, idx) => (
-            <motion.div
-              key={item.role}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 + (idx * 0.2), type: "spring", stiffness: 100 }}
-              className="flex flex-col items-center"
-            >
-              <span className={`text-amber-400 border border-amber-400/50 bg-amber-400/10 px-4 py-1 rounded-full text-xs md:text-lg font-bold mb-4 tracking-widest ${category === 'today' ? 'scale-125' : ''}`}>
-                {item.role}
-              </span>
-              <div className={`${category === 'today' ? 'w-[140px] h-[220px] md:w-[240px] md:h-[384px]' : 'w-[80px] h-[128px] md:w-[150px] md:h-[240px]'} rounded-xl border-2 border-amber-400/50 shadow-[0_0_25px_rgba(251,191,36,0.5)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transform hover:scale-105 transition-transform group`}>
-                {item.cardData.id <= 21 ? (
-                  <>
-                    <img
-                      src={`/images/cards/${item.cardData.id}.webp`}
-                      alt={item.cardData.nameKr}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    {/* 금색 네임텍 레이어 */}
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pt-8 pb-2 px-1">
-                      <div className="text-[9px] md:text-sm font-bold text-amber-400 text-center drop-shadow-md tracking-tighter">
-                        {item.cardData.nameKr}
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="absolute inset-1 border border-amber-500/20 rounded-lg"></div>
-                    <div className="text-[11px] md:text-lg font-bold text-amber-200 text-center px-1 md:px-4 leading-relaxed break-keep z-10">{item.cardData.nameKr}</div>
-                    <div className="text-[9px] md:text-xs font-bold text-amber-400/60 mt-2 z-10 text-center px-1 tracking-widest uppercase">{item.cardData.name}</div>
-                  </>
-                )}
-              </div>
-            </motion.div>
+          {cardsInfo.map((item) => (
+            <ResultCardItem 
+              key={item.role} 
+              cardData={item.cardData} 
+              role={item.role} 
+              isLarge={category === 'today'} 
+            />
           ))}
         </div>
 
-        {/* 세로형 상세 리포트 영역 */}
         <div className="w-full max-w-3xl flex flex-col gap-10 md:gap-16">
           {cardsInfo.map((item, idx) => (
             <motion.div
               key={item.role + '-detail'}
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 1.2 + (idx * 0.3), duration: 0.8 }}
+              transition={{ delay: 0.5 + (idx * 0.2) }}
               className="w-full bg-white/5 rounded-3xl p-6 md:p-10 border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 p-8 text-8xl text-white/[0.03] font-black italic pointer-events-none select-none">
+              <div className="absolute top-0 right-0 p-8 text-8xl text-white/[0.03] font-black italic pointer-events-none">
                 {idx + 1}
               </div>
 
               <div className="flex items-center gap-4 mb-6 border-b border-amber-500/20 pb-4">
-                <div className={`w-4 h-4 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.8)] ${item.role === '과거' ? 'bg-amber-700 border-2 border-amber-500' :
-                    item.role === '현재' ? 'bg-amber-500 border-2 border-amber-300' :
-                      'bg-yellow-400 border-2 border-yellow-200 shadow-[0_0_15px_rgba(250,204,21,1)]'
-                  }`}></div>
+                <div className={`w-4 h-4 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.8)] ${
+                  item.role === '과거' ? 'bg-amber-700 border-2 border-amber-500' :
+                  item.role === '현재' ? 'bg-amber-500 border-2 border-amber-300' :
+                  'bg-yellow-400 border-2 border-yellow-200'
+                }`}></div>
                 <h2 className="text-2xl md:text-3xl font-bold text-amber-400 tracking-widest">
                   {category === 'today' ? '오늘의 종합 조언' : item.role === '과거' ? '과거의 기반' : item.role === '현재' ? '현재의 조언' : '미래의 가능성'}
                 </h2>
@@ -239,19 +229,17 @@ function ResultContent() {
               </div>
 
               <div className="space-y-6 md:space-y-8">
-                {/* 일반 해석 */}
                 <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative">
                   <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">카드의 해석</span>
                   <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep mt-2">
-                    {getInterpretationText(item.cardData, category)}
+                    {getInterpretationText(item.cardData)}
                   </p>
                 </div>
 
-                {/* 타임라인 특별 조언 */}
                 <div className="bg-gradient-to-br from-amber-900/30 to-black/40 border border-amber-500/30 p-5 md:p-6 rounded-2xl relative">
                   <span className="absolute -top-3 left-4 bg-amber-900 border border-amber-500/50 px-3 py-1 text-xs text-amber-200 rounded-full tracking-widest">타로 마스터의 한마디</span>
                   <p className="text-amber-50/90 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif italic">
-                    "{getAdviceText(item.cardData, category, item.role)}"
+                    "{getAdviceText(item.cardData, item.role)}"
                   </p>
                 </div>
               </div>
@@ -259,24 +247,22 @@ function ResultContent() {
           ))}
         </div>
 
-        {/* 하단 다시하기 영역 */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.5, duration: 1 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
           className="mt-24 mb-10 flex flex-col items-center w-full"
         >
-          <p className="text-gray-400 opacity-60 text-xs md:text-sm font-light tracking-wide break-keep mb-8 text-center max-w-sm">
+          <p className="text-gray-400 opacity-60 text-xs md:text-sm font-light tracking-wide mb-8 text-center max-w-sm">
             본 결과는 삶의 방향을 잡기 위한 참고용이며, 진정한 운명은 스스로 개척하는 것입니다.
           </p>
           <button
-            onClick={resetTarot}
+            onClick={() => router.push('/')}
             className="w-full max-w-sm py-4 md:py-6 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold text-xl rounded-full shadow-[0_0_30px_rgba(251,191,36,0.3)] hover:shadow-[0_0_50px_rgba(251,191,36,0.6)] hover:scale-105 active:scale-95 transition-all tracking-widest border border-amber-300/50"
           >
             새로운 운명 펼치기
           </button>
         </motion.div>
-
       </div>
     </main>
   );
