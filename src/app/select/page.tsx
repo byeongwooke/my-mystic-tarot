@@ -18,7 +18,7 @@ function SelectContent() {
   }, [rawCategory, router]);
 
   const [selectedCards, setSelectedCards] = useState<{ id: number; role: string }[]>([]);
-  const roles = ["과거", "현재", "미래"];
+  const roles = rawCategory === 'today' ? ["오늘의 카드"] : ["과거", "현재", "미래"];
   const [revealedCards, setRevealedCards] = useState<number[]>([]);
   const [isRevealing, setIsRevealing] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -64,8 +64,9 @@ function SelectContent() {
       return;
     }
 
-    if (selectedCards.length >= 3) {
-      alert("이미 3장의 카드를 모두 고르셨습니다!");
+    const maxCards = rawCategory === 'today' ? 1 : 3;
+    if (selectedCards.length >= maxCards) {
+      alert(`이미 ${maxCards}장의 카드를 모두 고르셨습니다!`);
       return;
     }
 
@@ -73,7 +74,8 @@ function SelectContent() {
   };
 
   const handleCheckDestiny = () => {
-    if (selectedCards.length !== 3) return;
+    const requiredCards = rawCategory === 'today' ? 1 : 3;
+    if (selectedCards.length !== requiredCards) return;
     setIsRevealing(true);
     const sortedSelections = [...selectedCards].sort((a, b) => roles.indexOf(a.role) - roles.indexOf(b.role));
     sortedSelections.forEach((selection, idx) => {
@@ -110,16 +112,19 @@ function SelectContent() {
         </div>
 
         <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest max-w-md line-clamp-2 leading-relaxed text-center mb-6 md:mb-10 min-h-[40px]">
-          {selectedCards.length === 3
+          {selectedCards.length === (rawCategory === 'today' ? 1 : 3)
             ? "당신의 운명이 선택되었습니다."
-            : `3장의 카드를 신중하게 선택하세요 (${selectedCards.length}/3)`}
+            : `${rawCategory === 'today' ? '오늘' : '3장'}의 카드를 신중하게 선택하세요 (${selectedCards.length}/${rawCategory === 'today' ? 1 : 3})`}
         </p>
 
         {/* 슬롯 영역 - 카드 크기에 맞춰 확장 */}
-        <div className="relative w-full max-w-5xl h-[220px] md:h-[380px] min-h-[220px] flex justify-center mx-auto">
+        <div className={`relative w-full max-w-5xl h-[220px] md:h-[380px] min-h-[220px] flex justify-center mx-auto ${rawCategory === 'today' ? 'items-center' : ''}`}>
           {roles.map((role, idx) => {
-            const offset = isMobile ? 120 : 250;
-            const leftPos = idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)`;
+            let leftPos = "50%";
+            if (rawCategory !== 'today') {
+              const offset = isMobile ? 120 : 250;
+              leftPos = idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)`;
+            }
             
             const selection = selectedCards.find(c => c.role === role);
             const selectedCardData = selection ? cards.find(c => c.id === selection.id) : null;
@@ -269,7 +274,7 @@ function SelectContent() {
       )}
 
       <AnimatePresence>
-        {selectedCards.length === 3 && !isRevealing && (
+        {selectedCards.length === (rawCategory === 'today' ? 1 : 3) && !isRevealing && (
           <motion.div
             className="fixed left-0 z-[600] w-full flex justify-center px-4"
             style={{ bottom: 'calc(4vh + env(safe-area-inset-bottom))' }}

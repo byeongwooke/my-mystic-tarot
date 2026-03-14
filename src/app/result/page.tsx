@@ -14,7 +14,8 @@ function ResultContent() {
   const [cardsInfo, setCardsInfo] = useState<{ cardData: any, role: string }[]>([]);
   const [category, setCategory] = useState<string | null>(null);
 
-  const roles = ["과거", "현재", "미래"];
+  const cat = searchParams.get('category');
+  const roles = cat === 'today' ? ["오늘의 카드"] : ["과거", "현재", "미래"];
 
   useEffect(() => {
     // URL에서 파라미터 읽기
@@ -39,7 +40,8 @@ function ResultContent() {
       };
     }).filter(item => item.cardData !== undefined);
 
-    if (loadedCards.length !== 3) {
+    const requiredCount = cat === 'today' ? 1 : 3;
+    if (loadedCards.length !== requiredCount) {
       setHasError(true);
       setIsLoading(false);
       return;
@@ -69,6 +71,10 @@ function ResultContent() {
       return cardData.advice;
     }
 
+    if (categoryKey === 'today') {
+      return cardData.todayAdvice || cardData.advice?.work || "";
+    }
+
     let mappedCat = categoryKey === 'today' ? 'work' : categoryKey;
     if (typeof cardData.advice[mappedCat] === 'string') {
       return cardData.advice[mappedCat];
@@ -84,7 +90,13 @@ function ResultContent() {
   };
 
   const getOverallAdvice = () => {
-    if (cardsInfo.length !== 3 || !category) return "운명의 카드가 당신에게 전하는 메시지입니다.";
+    const requiredCount = category === 'today' ? 1 : 3;
+    if (cardsInfo.length !== requiredCount || !category) return "운명의 카드가 당신에게 전하는 메시지입니다.";
+    
+    if (category === 'today') {
+      return `"${getAdviceText(cardsInfo[0].cardData, category, '오늘의 카드')}"`;
+    }
+
     const futureItem = cardsInfo.find(c => c.role === "미래");
     if (!futureItem || !futureItem.cardData) return "운명의 카드가 당신에게 전하는 메시지입니다.";
 
@@ -161,10 +173,10 @@ function ResultContent() {
               transition={{ delay: 0.6 + (idx * 0.2), type: "spring", stiffness: 100 }}
               className="flex flex-col items-center"
             >
-              <span className="text-amber-400 border border-amber-400/50 bg-amber-400/10 px-4 py-1 rounded-full text-xs md:text-lg font-bold mb-4 tracking-widest">
+              <span className={`text-amber-400 border border-amber-400/50 bg-amber-400/10 px-4 py-1 rounded-full text-xs md:text-lg font-bold mb-4 tracking-widest ${category === 'today' ? 'scale-125' : ''}`}>
                 {item.role}
               </span>
-              <div className="w-[80px] h-[128px] md:w-[150px] md:h-[240px] rounded-xl border-2 border-amber-400/50 shadow-[0_0_25px_rgba(251,191,36,0.5)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transform hover:scale-105 transition-transform group">
+              <div className={`${category === 'today' ? 'w-[140px] h-[220px] md:w-[240px] md:h-[384px]' : 'w-[80px] h-[128px] md:w-[150px] md:h-[240px]'} rounded-xl border-2 border-amber-400/50 shadow-[0_0_25px_rgba(251,191,36,0.5)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transform hover:scale-105 transition-transform group`}>
                 {item.cardData.id <= 21 ? (
                   <>
                     <img
@@ -212,7 +224,7 @@ function ResultContent() {
                       'bg-yellow-400 border-2 border-yellow-200 shadow-[0_0_15px_rgba(250,204,21,1)]'
                   }`}></div>
                 <h2 className="text-2xl md:text-3xl font-bold text-amber-400 tracking-widest">
-                  {item.role === '과거' ? '과거의 기반' : item.role === '현재' ? '현재의 조언' : '미래의 가능성'}
+                  {category === 'today' ? '오늘의 종합 조언' : item.role === '과거' ? '과거의 기반' : item.role === '현재' ? '현재의 조언' : '미래의 가능성'}
                 </h2>
               </div>
 
