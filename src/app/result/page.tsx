@@ -51,7 +51,8 @@ function ResultContent() {
 
   const categoryName = category === 'love' ? '연애운'
     : category === 'money' ? '재물운'
-      : category === 'work' ? '직업운' : '';
+      : category === 'work' ? '직업운' 
+      : category === 'today' ? '오늘의 운세' : '';
 
   const getAdviceText = (cardData: any, categoryKey: string | null, roleStr: string) => {
     if (!cardData || !cardData.advice || !categoryKey) return "";
@@ -68,16 +69,18 @@ function ResultContent() {
       return cardData.advice;
     }
 
-    if (typeof cardData.advice[categoryKey] === 'string') {
-      return cardData.advice[categoryKey];
+    let mappedCat = categoryKey === 'today' ? 'work' : categoryKey;
+    if (typeof cardData.advice[mappedCat] === 'string') {
+      return cardData.advice[mappedCat];
     }
 
-    return cardData.advice[categoryKey]?.[mappedTime] || "";
+    return cardData.advice[mappedCat]?.[mappedTime] || "";
   };
 
   const getInterpretationText = (cardData: any, categoryKey: string | null) => {
     if (!cardData || !cardData.interpretations || !categoryKey) return "";
-    return cardData.interpretations[categoryKey] || "";
+    let mappedCat = categoryKey === 'today' ? 'work' : categoryKey;
+    return cardData.interpretations[mappedCat] || "";
   };
 
   const getOverallAdvice = () => {
