@@ -35,12 +35,6 @@ const TarotCardItem = memo(({
           viewport={{ amount: 0.2, margin: "-5% 0px -5% 0px" }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.5 }}
-          whileHover={{ 
-            y: -40, 
-            scale: 1.35,
-            zIndex: 200,
-            transition: { zIndex: { duration: 0 } }
-          }}
           whileTap={{ 
             y: -40, 
             scale: 1.35,
