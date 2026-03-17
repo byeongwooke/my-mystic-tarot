@@ -12,6 +12,19 @@ const CATEGORY_MAP: Record<string, string> = {
   '오늘': 'today', 'today': 'today'
 };
 
+const renderRoleWithStyles = (role: string) => {
+  const match = role.match(/^(.*?)\s*(\(.*?\))$/);
+  if (match) {
+    return (
+      <span className="inline-flex items-center gap-1">
+        <span>{match[1]}</span>
+        <span className="text-[0.75em] opacity-60 font-normal tracking-normal">{match[2]}</span>
+      </span>
+    );
+  }
+  return role;
+};
+
 // 개별 결과 카드 컴포넌트 (성능 최적화)
 const ResultCardItem = memo(({ 
   cardData, 
@@ -48,7 +61,7 @@ const ResultCardItem = memo(({
     >
       {!isCeltic && (
         <span className={`text-amber-400 border border-amber-400/50 px-2 md:px-4 py-1 rounded-full text-[10px] md:text-sm font-bold mb-2 md:mb-4 tracking-tighter md:tracking-widest whitespace-nowrap ${isActive ? 'bg-amber-400/40' : 'bg-amber-400/10'}`}>
-          {role}
+          {renderRoleWithStyles(role)}
         </span>
       )}
       <div className={`${sizeClass} rounded-xl border-2 ${isActive ? 'border-amber-400' : 'border-amber-400/30'} shadow-[0_0_25px_rgba(251,191,36,0.2)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transition-transform group`}>
@@ -125,7 +138,7 @@ function ResultContent() {
 
     const roles = spreadParam === 'today' ? ["오늘의 카드"] : 
       spreadParam === 'celtic' ? 
-      ["요즘 나의 모습", "지금 꼬인 포인트", "진짜 내 속마음", "이미 지나간 일", "내가 꿈꾸는 목표", "곧 일어날 일", "내가 생각하는 나", "남들이 보는 나", "기대 반 걱정 반", "마지막 결과"] :
+      ["지금, 당신의 중심 (현재)", "나를 가로막는 벽 (장애물)", "인지하지 못한 근본 (무의식/기반)", "지나온 시간의 잔상 (과거)", "의식의 지향점 (목표/의식)", "곧 마주할 상황 (가까운 미래)", "스스로 정의하는 나 (태도/자아)", "나를 둘러싼 환경 (주변 상황)", "내면의 기대와 불안 (심리)", "마주하게 될 결과 (결과)"] :
       ["과거", "현재", "미래"];
 
     const cardIds = cardsParam.split(',').map(id => parseInt(id, 10));
@@ -397,7 +410,7 @@ function ResultContent() {
                     </div>
                     
                     <div className="flex flex-col items-center mb-8 border-b border-amber-500/20 pb-6">
-                      <span className="text-amber-500 mb-2 font-bold tracking-widest text-sm md:text-base border border-amber-500/50 px-3 py-1 rounded-full">{cardsInfo[activeCardIdx].role}</span>
+                      <span className="text-amber-500 mb-2 font-bold tracking-widest text-sm md:text-base border border-amber-500/50 px-3 py-1 rounded-full">{renderRoleWithStyles(cardsInfo[activeCardIdx].role)}</span>
                       <h2 className="text-2xl md:text-4xl font-bold text-amber-300 tracking-widest text-center mt-2 flex items-center justify-center gap-3">
                         {cardsInfo[activeCardIdx].cardData.nameKr}
                       </h2>
@@ -494,7 +507,7 @@ function ResultContent() {
                         <div className="flex-grow">
                           <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3 mb-1">
                             <span className="text-amber-400 text-xs md:text-sm font-bold tracking-widest border border-amber-500/20 px-2 py-0.5 rounded-full inline-block w-fit">
-                              {item.role}
+                              {renderRoleWithStyles(item.role)}
                             </span>
                             <span className="text-gray-200 text-lg md:text-xl font-bold tracking-widest">
                               {item.cardData.nameKr}
