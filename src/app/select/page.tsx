@@ -68,7 +68,8 @@ function SelectContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const rawCategory = searchParams.get('category');
-  
+  const spreadParam = searchParams.get('spread') || 'basic';
+
   useEffect(() => {
     if (!rawCategory) {
       router.replace('/');
@@ -80,11 +81,20 @@ function SelectContent() {
   const [cards, setCards] = useState<typeof TAROT_DATA>([]);
   const [showHomeModal, setShowHomeModal] = useState(false);
 
-  // 카테고리에 따른 역할 정의 (useMemo로 최적화)
-  const roles = useMemo(() => 
-    rawCategory === 'today' ? ["오늘의 카드"] : ["과거", "현재", "미래"],
-    [rawCategory]
-  );
+  const spreadData = useMemo(() => {
+    if (spreadParam === 'today') {
+      return { limit: 1, roles: ["오늘의 카드"] };
+    } else if (spreadParam === 'celtic') {
+      return { 
+        limit: 10, 
+        roles: ["현재 상태", "장애물/도전", "목표/의식", "과거의 기초/무의식", "최근의 과거", "가까운 미래", "자아/태도", "주변 환경", "희망과 두려움", "최종 결과"] 
+      };
+    } else {
+      return { limit: 3, roles: ["과거", "현재", "미래"] };
+    }
+  }, [spreadParam]);
+
+  const { limit: maxCards, roles } = spreadData;
 
   const displayCategory = useMemo(() => {
     const categoryNameMap: Record<string, string> = {
@@ -124,7 +134,6 @@ function SelectContent() {
       return;
     }
 
-    const maxCards = rawCategory === 'today' ? 1 : 3;
     if (selectedCards.length >= maxCards) {
       alert(`이미 ${maxCards}장의 카드를 모두 고르셨습니다!`);
       return;
@@ -134,14 +143,13 @@ function SelectContent() {
   };
 
   const handleCheckDestiny = () => {
-    const requiredCards = rawCategory === 'today' ? 1 : 3;
-    if (selectedCards.length !== requiredCards) return;
+    if (selectedCards.length !== maxCards) return;
     
     const sortedSelections = [...selectedCards].sort((a, b) => roles.indexOf(a.role) - roles.indexOf(b.role));
     const sortedIds = sortedSelections.map(c => c.id).join(',');
     
     // 즉시 이동 (결과 페이지에서 로딩 애니메이션 처리)
-    router.push(`/result?category=${rawCategory}&cards=${sortedIds}`);
+    router.push(`/result?category=${rawCategory}&spread=${spreadParam}&cards=${sortedIds}`);
   };
 
   if (!rawCategory) return null;
@@ -209,9 +217,9 @@ function SelectContent() {
                 className="flex justify-center w-full"
               >
                 <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest text-center line-clamp-2 leading-relaxed">
-                  {selectedCards.length === (rawCategory === 'today' ? 1 : 3)
+                  {selectedCards.length === maxCards
                     ? "당신의 운명이 선택되었습니다."
-                    : `${rawCategory === 'today' ? '오늘' : '3장'}의 카드를 신중하게 선택하세요 (${selectedCards.length}/${rawCategory === 'today' ? 1 : 3})`}
+                    : `${maxCards > 1 ? `${maxCards}장` : '오늘'}의 카드를 신중하게 선택하세요 (${selectedCards.length}/${maxCards})`}
                 </p>
               </motion.div>
             ) : (
@@ -241,14 +249,35 @@ function SelectContent() {
         </div>
 
         {/* 슬롯 영역 */}
-        <div className={`relative w-full max-w-5xl h-[220px] md:h-[380px] min-h-[220px] flex justify-center mx-auto ${rawCategory === 'today' ? 'items-center' : ''}`}>
+        <div className={`relative w-full max-w-5xl mx-auto flex justify-center ${
+          spreadParam === 'celtic' 
+            ? 'grid grid-cols-5 gap-y-6 md:gap-y-10 gap-x-2 md:gap-x-4 place-items-center mt-4' 
+            : spreadParam === 'today' 
+              ? 'items-center h-[220px] md:h-[380px] min-h-[220px]' 
+              : 'h-[220px] md:h-[380px] min-h-[220px]'
+        }`}>
           {roles.map((role, idx) => {
-            let leftPos = "50%";
-            if (rawCategory !== 'today') {
-              const offset = isMobile ? 120 : 250;
-              leftPos = idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)`;
+            const isCeltic = spreadParam === 'celtic';
+            const isToday = spreadParam === 'today';
+            
+            let posClass = "flex flex-col items-center";
+            let posStyle = {};
+            
+            if (!isCeltic) {
+              posClass += " absolute bottom-0 -translate-x-1/2";
+              if (isToday) {
+                posStyle = { left: "50%" };
+              } else {
+                const offset = isMobile ? 120 : 250;
+                posStyle = { left: idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)` };
+              }
+            } else {
+              posClass += " relative"; // For CSS grid placement
             }
             
+            const slotWidthClass = isCeltic ? "w-[56px] h-[88px] md:w-[130px] md:h-[203px]" : "w-[96px] h-[150px] md:w-[165px] md:h-[270px]";
+            const textSizeClass = isCeltic ? "text-[10px] md:text-sm mb-2" : "text-sm md:text-lg mb-6";
+
             const selection = selectedCards.find(c => c.role === role);
             const selectedCardData = selection ? cards.find(c => c.id === selection.id) : null;
             const isFilled = !!selection;
@@ -256,11 +285,13 @@ function SelectContent() {
             return (
               <div
                 key={role}
-                className="absolute bottom-0 flex flex-col items-center -translate-x-1/2"
-                style={{ left: leftPos }}
+                className={posClass}
+                style={posStyle}
               >
-                <span className="mb-6 text-white/50 text-sm md:text-lg font-semibold tracking-widest whitespace-nowrap uppercase">{role}</span>
-                <div className={`relative w-[96px] h-[150px] md:w-[165px] md:h-[270px] rounded-xl transition-all duration-700 flex items-center justify-center ${isFilled
+                <div className={`h-[24px] md:h-[32px] flex items-end ${textSizeClass}`}>
+                  <span className={`text-white/50 font-semibold tracking-widest whitespace-nowrap uppercase text-center w-full block drop-shadow-sm`}>{role}</span>
+                </div>
+                <div className={`relative ${slotWidthClass} rounded-xl transition-all duration-700 flex items-center justify-center ${isFilled
                   ? 'border-transparent bg-transparent shadow-[0_0_80px_rgba(251,191,36,0.3)]'
                   : 'border-2 border-dashed border-white/20 bg-white/5 shadow-inner'
                   }`}>
@@ -312,7 +343,7 @@ function SelectContent() {
       </div>
 
       <AnimatePresence>
-        {selectedCards.length === (rawCategory === 'today' ? 1 : 3) && (
+        {selectedCards.length === maxCards && (
           <motion.div
             className="fixed left-0 z-[600] w-full flex justify-center px-4"
             style={{ bottom: 'calc(4vh + env(safe-area-inset-bottom))' }}

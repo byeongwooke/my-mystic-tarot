@@ -47,9 +47,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 + (idx * 0.1), duration: 0.6 }}
             whileHover={{ scale: 1.03, y: -5 }}
-            whileTap={{ scale: 0.97 }}
-            onClick={() => router.push(`/select?category=${cat.id}`)}
-            className="group relative flex flex-col items-start p-6 rounded-2xl border border-indigo-500/30 bg-indigo-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] hover:bg-indigo-900/60 hover:border-amber-400/60 hover:shadow-[0_0_30px_rgba(251,191,36,0.2)] transition-all duration-300 text-left overflow-hidden"
+            onClick={() => router.push(cat.id === 'today' ? `/select?category=${cat.id}&spread=today` : `/spread?category=${cat.id}`)}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             
