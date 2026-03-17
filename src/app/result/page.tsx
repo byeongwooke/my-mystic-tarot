@@ -187,19 +187,27 @@ function ResultContent() {
   };
 
   const getCelticInterpretation = (cardData: any, idx: number) => {
-    if (!cardData || !cardData.celtic) return "운명의 메시지를 준비 중입니다";
+    if (!cardData || !cardData.celtic || !category) return "운명의 메시지를 준비 중입니다";
+    
+    // 만약 오늘의 운세 카테고리인데 캘틱을 시도할 경우 에러 방지 (기본값 love)
+    let targetCat = CATEGORY_MAP[category] || category;
+    if (targetCat === 'today') targetCat = 'love';
+    
+    const catCelticData = cardData.celtic[targetCat];
+    if (!catCelticData) return "운명의 메시지를 준비 중입니다";
+
     switch(idx) {
-        case 0: return cardData.celtic.core;
-        case 1: return cardData.celtic.obstacle;
-        case 2: return cardData.celtic.foundation;
-        case 3: return cardData.celtic.foundation;
-        case 4: return cardData.celtic.core;
-        case 5: return cardData.celtic.nearFuture;
-        case 6: return cardData.celtic.influence;
-        case 7: return cardData.celtic.influence;
-        case 8: return cardData.celtic.destiny;
-        case 9: return cardData.celtic.destiny;
-        default: return cardData.celtic.core;
+        case 0: return catCelticData.core || "운명의 메시지를 준비 중입니다";
+        case 1: return catCelticData.obstacle || "운명의 메시지를 준비 중입니다";
+        case 2: return catCelticData.foundation || "운명의 메시지를 준비 중입니다";
+        case 3: return catCelticData.foundation || "운명의 메시지를 준비 중입니다";
+        case 4: return catCelticData.core || "운명의 메시지를 준비 중입니다";
+        case 5: return catCelticData.nearFuture || "운명의 메시지를 준비 중입니다";
+        case 6: return catCelticData.influence || "운명의 메시지를 준비 중입니다";
+        case 7: return catCelticData.influence || "운명의 메시지를 준비 중입니다";
+        case 8: return catCelticData.destiny || "운명의 메시지를 준비 중입니다";
+        case 9: return catCelticData.destiny || "운명의 메시지를 준비 중입니다";
+        default: return catCelticData.core || "운명의 메시지를 준비 중입니다";
     }
   };
 
