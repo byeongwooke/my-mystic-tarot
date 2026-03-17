@@ -152,24 +152,24 @@ function SelectContent() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-x-hidden select-none pt-[env(safe-area-inset-top)]"
+      className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-x-hidden select-none"
       style={{
-        paddingTop: 'calc(env(safe-area-inset-top) + 1rem)',
+        paddingTop: 'calc(env(safe-area-inset-top) + 0.75rem)',
         paddingBottom: 'calc(env(safe-area-inset-bottom) + 8rem)'
       }}
     >
       {/* 상단 스테이지 */}
-      <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pt-2 md:pt-6 pb-8 px-4">
+      <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pb-6 px-4">
         <button 
           onClick={() => setShowHomeModal(!showHomeModal)}
-          className="absolute top-2 left-4 md:top-6 md:left-8 text-amber-400/50 active:text-amber-400 transition-colors z-[50] p-2"
+          className="fixed top-[calc(env(safe-area-inset-top)+0.85rem)] left-2 md:left-6 text-amber-400/50 active:text-amber-400 transition-colors z-[50] p-2"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 md:w-8 md:h-8">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
 
-        <div className="relative w-full flex flex-col items-center mb-6 md:mb-10 mt-4 md:mt-2 min-h-[40px] md:min-h-[50px] justify-center">
+        <div className="relative w-full flex flex-col items-center px-12 md:px-16 mb-4 md:mb-6 min-h-[40px] md:min-h-[50px] justify-center">
           <AnimatePresence>
             {!showHomeModal ? (
               <motion.h1 
@@ -197,7 +197,7 @@ function SelectContent() {
           </AnimatePresence>
         </div>
 
-        <div className="relative w-full max-w-md flex justify-center items-center mb-6 md:mb-10 min-h-[40px]">
+        <div className="relative w-full max-w-md flex justify-center items-center mb-4 md:mb-8 min-h-[40px]">
           <AnimatePresence>
             {!showHomeModal ? (
               <motion.div
