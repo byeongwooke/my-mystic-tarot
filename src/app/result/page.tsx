@@ -242,11 +242,11 @@ function ResultContent() {
     <main
       className="w-full min-h-screen flex flex-col items-center bg-slate-900 bg-fixed overflow-y-auto select-none pt-[env(safe-area-inset-top)]"
       style={{
-        paddingTop: 'calc(env(safe-area-inset-top) + 2rem)',
-        paddingBottom: 'calc(env(safe-area-inset-bottom) + 4rem)'
+        paddingTop: 'calc(env(safe-area-inset-top) + 0.5rem)',
+        paddingBottom: '2rem'
       }}
     >
-      <div className="w-full max-w-4xl px-4 md:px-8 mt-10 md:mt-16 flex flex-col items-center">
+      <div className="w-full max-w-4xl px-4 md:px-8 mt-6 md:mt-12 flex flex-col items-center">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -267,16 +267,17 @@ function ResultContent() {
         {spread === 'celtic' ? (
           <div className="w-full flex flex-col items-center">
             {/* 셀틱 크로스 10카드 절대좌표 그리드 */}
-            <div className="relative w-full max-w-5xl mx-auto h-[500px] md:h-[750px] mb-12 md:mb-16 mt-4 flex justify-center overflow-visible">
+            <div className="relative w-full max-w-5xl mx-auto h-[440px] md:h-[650px] mb-8 md:mb-12 mt-4 flex justify-center overflow-visible">
               {cardsInfo.map((item, idx) => {
                 const isActive = idx === activeCardIdx;
                 const cardW = isMobile ? 64 : 110;
                 const cardH = isMobile ? 100 : 171;
-                const gapX = cardW + (isMobile ? 12 : 24);
-                const gapY = cardH + (isMobile ? 12 : 24);
+                const gapX = isMobile ? 74 : 140; // slightly larger for result card sizes
+                const gapY = isMobile ? 104 : 190;
                 
-                const crossCx = isMobile ? '50%' : '35%';
-                const crossCy = isMobile ? '180px' : '50%';
+                const crossCx = `calc(50% - ${gapX}px)`;
+                const crossCy = `50%`;
+                const pillarX = `calc(50% + ${gapX * 1.5}px)`;
                 
                 let left = '50%';
                 let top = '50%';
@@ -284,32 +285,23 @@ function ResultContent() {
                 let zIndex = isActive ? 60 : 10;
                 
                 if (idx === 0) {
-                  left = `calc(${crossCx})`; top = `calc(${crossCy})`; zIndex = isActive ? 60 : 10;
+                  left = crossCx; top = crossCy; zIndex = isActive ? 60 : 10;
                 } else if (idx === 1) {
-                  left = `calc(${crossCx})`; top = `calc(${crossCy})`; 
+                  left = crossCx; top = crossCy; 
                   transform = 'translate(-50%, -50%) rotate(90deg)';
                   zIndex = isActive ? 60 : 11;
                 } else if (idx === 2) {
-                  left = `calc(${crossCx})`; top = `calc(${crossCy} + ${gapY}px)`; 
+                  left = crossCx; top = `calc(50% + ${gapY}px)`; 
                 } else if (idx === 3) {
-                  left = `calc(${crossCx} - ${gapX}px)`; top = `calc(${crossCy})`;
+                  left = `calc(${crossCx} - ${gapX}px)`; top = crossCy;
                 } else if (idx === 4) {
-                  left = `calc(${crossCx})`; top = `calc(${crossCy} - ${gapY}px)`;
+                  left = crossCx; top = `calc(50% - ${gapY}px)`;
                 } else if (idx === 5) {
-                  left = `calc(${crossCx} + ${gapX}px)`; top = `calc(${crossCy})`;
+                  left = `calc(${crossCx} + ${gapX}px)`; top = crossCy;
                 } else {
-                  if (isMobile) {
-                    const pGap = cardW + 8;
-                    const pStartX = `calc(50% - ${pGap * 1.5}px)`;
-                    left = `calc(${pStartX} + ${pGap * (idx - 6)}px)`;
-                    top = `calc(${crossCy} + ${gapY * 2.3}px)`;
-                  } else {
-                    const pillarX = '78%';
-                    const pGap = cardH + 20;
-                    const pStartY = `calc(50% + ${pGap * 1.5}px)`;
-                    left = `calc(${pillarX})`;
-                    top = `calc(${pStartY} - ${pGap * (idx - 6)}px)`;
-                  }
+                  left = pillarX;
+                  const multiplier = 1.5 - (idx - 6);
+                  top = `calc(50% + ${gapY * multiplier}px)`;
                 }
 
                 return (

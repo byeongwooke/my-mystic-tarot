@@ -164,8 +164,8 @@ function SelectContent() {
       transition={{ duration: 0.8 }}
       className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-x-hidden select-none"
       style={{
-        paddingTop: 'calc(env(safe-area-inset-top) + 0.75rem)',
-        paddingBottom: 'calc(env(safe-area-inset-bottom) + 8rem)'
+        paddingTop: 'calc(env(safe-area-inset-top) + 0.5rem)',
+        paddingBottom: '1rem'
       }}
     >
       {/* 상단 스테이지 */}
@@ -253,7 +253,7 @@ function SelectContent() {
         {/* 슬롯 영역 */}
         <div className={`relative w-full max-w-5xl mx-auto flex justify-center ${
           spreadParam === 'celtic' 
-            ? 'h-[420px] md:h-[600px] mt-4 overflow-visible' 
+            ? 'h-[440px] md:h-[650px] mt-4 overflow-visible' 
             : spreadParam === 'today' 
               ? 'items-center h-[220px] md:h-[380px] min-h-[220px]' 
               : 'h-[220px] md:h-[380px] min-h-[220px]'
@@ -277,11 +277,12 @@ function SelectContent() {
               posClass += " absolute";
               const cardW = isMobile ? 50 : 86;
               const cardH = isMobile ? 80 : 135;
-              const gapX = cardW + (isMobile ? 10 : 20);
-              const gapY = cardH + (isMobile ? 10 : 20);
+              const gapX = isMobile ? 68 : 120;
+              const gapY = isMobile ? 85 : 150;
               
-              const crossCx = isMobile ? '50%' : '35%';
-              const crossCy = isMobile ? '160px' : '50%';
+              const crossCx = `calc(50% - ${gapX}px)`;
+              const crossCy = `50%`;
+              const pillarX = `calc(50% + ${gapX * 1.5}px)`;
               
               let left = '50%';
               let top = '50%';
@@ -289,32 +290,23 @@ function SelectContent() {
               let zIndex = 10;
               
               if (idx === 0) {
-                left = `calc(${crossCx})`; top = `calc(${crossCy})`; zIndex = 10;
+                left = crossCx; top = crossCy; zIndex = 10;
               } else if (idx === 1) {
-                left = `calc(${crossCx})`; top = `calc(${crossCy})`; 
+                left = crossCx; top = crossCy; 
                 transform = 'translate(-50%, -50%) rotate(90deg)';
                 zIndex = 11;
               } else if (idx === 2) {
-                left = `calc(${crossCx})`; top = `calc(${crossCy} + ${gapY}px)`; 
+                left = crossCx; top = `calc(50% + ${gapY}px)`; 
               } else if (idx === 3) {
-                left = `calc(${crossCx} - ${gapX}px)`; top = `calc(${crossCy})`;
+                left = `calc(${crossCx} - ${gapX}px)`; top = crossCy;
               } else if (idx === 4) {
-                left = `calc(${crossCx})`; top = `calc(${crossCy} - ${gapY}px)`;
+                left = crossCx; top = `calc(50% - ${gapY}px)`;
               } else if (idx === 5) {
-                left = `calc(${crossCx} + ${gapX}px)`; top = `calc(${crossCy})`;
+                left = `calc(${crossCx} + ${gapX}px)`; top = crossCy;
               } else {
-                if (isMobile) {
-                  const pGap = cardW + 8;
-                  const pStartX = `calc(50% - ${pGap * 1.5}px)`;
-                  left = `calc(${pStartX} + ${pGap * (idx - 6)}px)`;
-                  top = `calc(${crossCy} + ${gapY * 2.2}px)`;
-                } else {
-                  const pillarX = '75%';
-                  const pGap = cardH + 16;
-                  const pStartY = `calc(50% + ${pGap * 1.5}px)`;
-                  left = `calc(${pillarX})`;
-                  top = `calc(${pStartY} - ${pGap * (idx - 6)}px)`;
-                }
+                left = pillarX;
+                const multiplier = 1.5 - (idx - 6);
+                top = `calc(50% + ${gapY * multiplier}px)`;
               }
               posStyle = { left, top, transform, zIndex };
             }
