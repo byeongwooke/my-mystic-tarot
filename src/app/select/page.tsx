@@ -161,22 +161,84 @@ function SelectContent() {
       {/* 상단 스테이지 */}
       <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pt-2 md:pt-6 pb-8 px-4">
         <button 
-          onClick={() => setShowHomeModal(true)}
-          className="absolute top-2 right-4 md:top-6 md:right-8 text-amber-400/50 text-xs md:text-sm tracking-widest active:text-amber-400 transition-colors z-[50] p-2"
+          onClick={() => setShowHomeModal(!showHomeModal)}
+          className="absolute top-2 left-4 md:top-6 md:left-8 text-amber-400/50 active:text-amber-400 transition-colors z-[50] p-2"
         >
-          홈으로
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 md:w-8 md:h-8">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
         </button>
-        <div className="flex flex-col items-center mb-6 md:mb-10 mt-4 md:mt-2 relative">
-          <h1 className="text-xl md:text-3xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep">
-            <span className="text-white">{displayCategory.replace(/[☀️❤️💰💼]/g, '')}</span>을(를) 위한 운명의 카드를 골라주세요
-          </h1>
+
+        <div className="relative w-full flex flex-col items-center mb-6 md:mb-10 mt-4 md:mt-2 min-h-[40px] md:min-h-[50px] justify-center">
+          <AnimatePresence>
+            {!showHomeModal ? (
+              <motion.h1 
+                key="title-default"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95, position: 'absolute' }}
+                transition={{ duration: 0.3 }}
+                className="text-xl md:text-3xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep w-full"
+              >
+                <span className="text-white">{displayCategory.replace(/[☀️❤️💰💼]/g, '')}</span>을(를) 위한 운명의 카드를 골라주세요
+              </motion.h1>
+            ) : (
+              <motion.h1 
+                key="title-confirm"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95, position: 'absolute' }}
+                transition={{ duration: 0.3 }}
+                className="text-xl md:text-2xl font-bold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep w-full"
+              >
+                질문 선택 화면으로 돌아가시겠습니까?
+              </motion.h1>
+            )}
+          </AnimatePresence>
         </div>
 
-        <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest max-w-md line-clamp-2 leading-relaxed text-center mb-6 md:mb-10 min-h-[40px]">
-          {selectedCards.length === (rawCategory === 'today' ? 1 : 3)
-            ? "당신의 운명이 선택되었습니다."
-            : `${rawCategory === 'today' ? '오늘' : '3장'}의 카드를 신중하게 선택하세요 (${selectedCards.length}/${rawCategory === 'today' ? 1 : 3})`}
-        </p>
+        <div className="relative w-full max-w-md flex justify-center items-center mb-6 md:mb-10 min-h-[40px]">
+          <AnimatePresence>
+            {!showHomeModal ? (
+              <motion.div
+                key="desc-default"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, position: 'absolute' }}
+                transition={{ duration: 0.3 }}
+                className="flex justify-center w-full"
+              >
+                <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest text-center line-clamp-2 leading-relaxed">
+                  {selectedCards.length === (rawCategory === 'today' ? 1 : 3)
+                    ? "당신의 운명이 선택되었습니다."
+                    : `${rawCategory === 'today' ? '오늘' : '3장'}의 카드를 신중하게 선택하세요 (${selectedCards.length}/${rawCategory === 'today' ? 1 : 3})`}
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="desc-confirm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, position: 'absolute' }}
+                transition={{ duration: 0.3 }}
+                className="flex gap-4 w-full justify-center"
+              >
+                <button
+                  onClick={() => setShowHomeModal(false)}
+                  className="px-6 py-2 rounded-full border border-gray-400/30 text-gray-300 text-sm md:text-base font-semibold active:bg-gray-400/20 transition-colors tracking-widest"
+                >
+                  아니오
+                </button>
+                <button
+                  onClick={() => router.push('/')}
+                  className="px-6 py-2 rounded-full bg-amber-500/20 border border-amber-500/50 text-amber-400 text-sm md:text-base font-bold active:bg-amber-500/40 shadow-[0_0_15px_rgba(251,191,36,0.2)] transition-all tracking-widest"
+                >
+                  예
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* 슬롯 영역 */}
         <div className={`relative w-full max-w-5xl h-[220px] md:h-[380px] min-h-[220px] flex justify-center mx-auto ${rawCategory === 'today' ? 'items-center' : ''}`}>
@@ -272,41 +334,6 @@ function SelectContent() {
         )}
       </AnimatePresence>
 
-      <AnimatePresence>
-        {showHomeModal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-900/90 backdrop-blur-md px-4"
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              className="w-full max-w-sm bg-slate-800/80 border border-amber-500/50 rounded-2xl p-6 md:p-8 flex flex-col items-center shadow-[0_0_40px_rgba(251,191,36,0.3)] text-center"
-            >
-              <h2 className="text-xl md:text-2xl font-bold text-amber-400 mb-8 drop-shadow-md break-keep">
-                질문 선택 화면으로 돌아가시겠습니까?
-              </h2>
-              <div className="w-full flex gap-4">
-                <button
-                  onClick={() => setShowHomeModal(false)}
-                  className="flex-1 py-3 md:py-4 rounded-xl border border-white/20 text-gray-300 font-semibold active:bg-white/10 transition-colors tracking-widest"
-                >
-                  아니오
-                </button>
-                <button
-                  onClick={() => router.push('/')}
-                  className="flex-1 py-3 md:py-4 rounded-xl bg-amber-500/20 border border-amber-500/50 text-amber-400 font-bold active:bg-amber-500/40 shadow-[0_0_15px_rgba(251,191,36,0.2)] transition-all tracking-widest"
-                >
-                  예
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.main>
   );
 }
