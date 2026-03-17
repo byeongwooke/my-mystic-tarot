@@ -127,7 +127,7 @@ function ResultContent() {
     
     // 오늘의 운세 전용 조언 우선
     if (spread === 'today' || category === 'today') {
-      return cardData.todayAdvice || "운명의 흐름을 읽어오는 중입니다";
+      return cardData.todayAdvice || "운명의 메시지를 준비 중입니다";
     }
 
     const timeMap: Record<string, "past" | "present" | "future"> = {
@@ -142,19 +142,19 @@ function ResultContent() {
     const catAdvice = cardData.advice?.[category];
 
     if (typeof catAdvice === 'string') return catAdvice;
-    return catAdvice?.[mappedTime] || "운명의 흐름을 읽어오는 중입니다";
+    return catAdvice?.[mappedTime] || "운명의 메시지를 준비 중입니다";
   };
 
   const getInterpretationText = (cardData: any) => {
     if (!cardData || !category) return "";
     if (spread === 'today' || category === 'today') {
-      return cardData.todayAdvice || "운명의 흐름을 읽어오는 중입니다";
+      return cardData.todayAdvice || "운명의 메시지를 준비 중입니다";
     }
-    return cardData.interpretations?.[category] || "운명의 흐름을 읽어오는 중입니다";
+    return cardData.interpretations?.[category] || "운명의 메시지를 준비 중입니다";
   };
 
   const getCelticInterpretation = (cardData: any, idx: number) => {
-    if (!cardData || !cardData.celtic) return "운명의 흐름을 읽어오는 중입니다";
+    if (!cardData || !cardData.celtic) return "운명의 메시지를 준비 중입니다";
     switch(idx) {
         case 0: return cardData.celtic.core;
         case 1: return cardData.celtic.obstacle;
