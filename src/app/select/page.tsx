@@ -76,6 +76,8 @@ function SelectContent() {
     }
   }, [rawCategory, router]);
 
+  const cleanCategory = rawCategory ? rawCategory.replace(/[^\w]/g, '') : '';
+
   const [selectedCards, setSelectedCards] = useState<{ id: number; role: string }[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [cards, setCards] = useState<typeof TAROT_DATA>([]);
@@ -103,8 +105,8 @@ function SelectContent() {
       'money': '재물운💰',
       'work': '직업운💼'
     };
-    return rawCategory ? (categoryNameMap[rawCategory] || '특별한 운세') : '';
-  }, [rawCategory]);
+    return cleanCategory ? (categoryNameMap[cleanCategory] || '특별한 운세') : '';
+  }, [cleanCategory]);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -123,7 +125,7 @@ function SelectContent() {
   }, []);
 
   const handleCardClick = (cardId: number) => {
-    if (!rawCategory) return;
+    if (!cleanCategory) return;
 
     const isAlreadySelected = selectedCards.some(c => c.id === cardId);
     if (isAlreadySelected) {
@@ -149,10 +151,10 @@ function SelectContent() {
     const sortedIds = sortedSelections.map(c => c.id).join(',');
     
     // 즉시 이동 (결과 페이지에서 로딩 애니메이션 처리)
-    router.push(`/result?category=${rawCategory}&spread=${spreadParam}&cards=${sortedIds}`);
+    router.push(`/result?category=${cleanCategory}&spread=${spreadParam}&cards=${sortedIds}`);
   };
 
-  if (!rawCategory) return null;
+  if (!cleanCategory) return null;
 
   return (
     <motion.main

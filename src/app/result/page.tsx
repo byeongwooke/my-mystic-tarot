@@ -89,7 +89,8 @@ function ResultContent() {
       return;
     }
 
-    setCategory(cat);
+    const cleanCat = cat.replace(/[^\w]/g, '');
+    setCategory(cleanCat);
     setSpread(spreadParam);
 
     const roles = spreadParam === 'today' ? ["오늘의 카드"] : 

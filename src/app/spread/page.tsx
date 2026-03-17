@@ -7,7 +7,8 @@ import { Suspense, useMemo, useState } from "react";
 function SpreadContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const category = searchParams.get('category');
+  const rawCategory = searchParams.get('category');
+  const category = rawCategory ? rawCategory.replace(/[^\w]/g, '') : null;
   const [showHomeModal, setShowHomeModal] = useState(false);
 
   const displayCategory = useMemo(() => {
