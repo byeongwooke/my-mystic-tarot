@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState, Suspense, useMemo, memo } from "react";
+import React, { useEffect, useState, useMemo, memo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { TAROT_DATA } from "@/constants/tarotData";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 const CATEGORY_MAP: Record<string, string> = {
   '애정운': 'love', 'love': 'love',
@@ -96,6 +96,9 @@ function ResultContent() {
   const [spread, setSpread] = useState<string>('basic');
   const [activeCardIdx, setActiveCardIdx] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isGridFolded, setIsGridFolded] = useState(false);
+  const [showSummary, setShowSummary] = useState(false);
+  const [swipeDir, setSwipeDir] = useState(1);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -266,8 +269,30 @@ function ResultContent() {
 
         {spread === 'celtic' ? (
           <div className="w-full flex flex-col items-center">
+            {/* 배열 영역 토글 버튼 */}
+            <button 
+              onClick={() => setIsGridFolded(!isGridFolded)}
+              className="flex items-center justify-center gap-2 mb-2 px-6 py-2 rounded-full border border-amber-500/30 text-amber-500/80 hover:text-amber-400 hover:bg-amber-500/10 active:bg-amber-500/20 transition-all font-semibold tracking-widest text-xs md:text-sm"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className={`w-4 h-4 transition-transform duration-300 ${isGridFolded ? 'rotate-180' : ''}`}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
+              </svg>
+              {isGridFolded ? "배열 다시 보기" : "배열 숨기기"}
+            </button>
+
             {/* 셀틱 크로스 10카드 절대좌표 그리드 */}
-            <div className="relative w-full max-w-5xl mx-auto h-[440px] md:h-[650px] mb-8 md:mb-12 mt-4 flex justify-center overflow-visible">
+            <motion.div 
+              initial={false}
+              animate={{ 
+                height: isGridFolded ? 0 : (isMobile ? 440 : 650),
+                opacity: isGridFolded ? 0 : 1,
+                marginBottom: isGridFolded ? 0 : (isMobile ? 32 : 48),
+                marginTop: isGridFolded ? 0 : 16
+              }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="relative w-full max-w-5xl mx-auto flex justify-center overflow-visible"
+              style={{ pointerEvents: isGridFolded ? 'none' : 'auto' }}
+            >
               {cardsInfo.map((item, idx) => {
                 const isActive = idx === activeCardIdx;
                 const cardW = isMobile ? 64 : 110;
@@ -322,51 +347,164 @@ function ResultContent() {
                   </div>
                 );
               })}
-            </div>
+            </motion.div>
 
-            {/* 활성 카드 상세 해석 (모달 대체 인라인 표시) */}
-            <div className="w-full max-w-3xl">
-              {cardsInfo[activeCardIdx] && (
-                <motion.div
-                  key={"celtic-detail-" + activeCardIdx}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-full bg-slate-800/80 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-amber-500/30 shadow-[0_0_50px_rgba(0,0,0,0.8)] flex flex-col relative overflow-hidden"
+            {/* 활성 카드 상세 해석 (모달 대체 인라인 표시, 스와이프 기능 적용) */}
+            <div className="w-full max-w-3xl overflow-hidden relative">
+              <AnimatePresence mode="wait" custom={swipeDir}>
+                {cardsInfo[activeCardIdx] && (
+                  <motion.div
+                    key={"celtic-detail-" + activeCardIdx}
+                    custom={swipeDir}
+                    initial={{ opacity: 0, x: swipeDir === 1 ? 50 : -50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: swipeDir === 1 ? -50 : 50 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.2}
+                    onDragEnd={(e, { offset, velocity }) => {
+                      const swipe = swipeDir;
+                      if (offset.x < -50 && activeCardIdx < 9) {
+                        setSwipeDir(1);
+                        setActiveCardIdx(prev => prev + 1);
+                        if (!isGridFolded) setIsGridFolded(true);
+                      } else if (offset.x > 50 && activeCardIdx > 0) {
+                        setSwipeDir(-1);
+                        setActiveCardIdx(prev => prev - 1);
+                        if (!isGridFolded) setIsGridFolded(true);
+                      }
+                    }}
+                    className="w-full bg-slate-800/80 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-amber-500/30 shadow-[0_0_50px_rgba(0,0,0,0.8)] flex flex-col relative"
+                  >
+                    <div className="absolute top-0 right-0 p-8 text-8xl text-white/[0.03] font-black italic pointer-events-none">
+                      {activeCardIdx + 1}
+                    </div>
+                    
+                    <div className="flex flex-col items-center mb-8 border-b border-amber-500/20 pb-6">
+                      <span className="text-amber-500 mb-2 font-bold tracking-widest text-sm md:text-base border border-amber-500/50 px-3 py-1 rounded-full">{cardsInfo[activeCardIdx].role}</span>
+                      <h2 className="text-2xl md:text-4xl font-bold text-amber-300 tracking-widest text-center mt-2 flex items-center justify-center gap-3">
+                        {cardsInfo[activeCardIdx].cardData.nameKr}
+                      </h2>
+                      <p className="text-amber-200/60 mt-2 text-sm md:text-md tracking-widest uppercase">{cardsInfo[activeCardIdx].cardData.name}</p>
+                      <p className="text-amber-100/80 mt-4 tracking-wide text-sm md:text-base text-center break-keep">
+                        "{cardsInfo[activeCardIdx].cardData.keywords.join(' · ')}"
+                      </p>
+                    </div>
+
+                    <div className="space-y-6">
+                      <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5">
+                        <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-300 rounded-full tracking-widest">이 위치에서의 의미</span>
+                        <p className="text-amber-50 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif">
+                          {getCelticInterpretation(cardsInfo[activeCardIdx].cardData, activeCardIdx)}
+                        </p>
+                      </div>
+
+                      <div className="bg-gradient-to-br from-indigo-900/30 to-black/40 border border-indigo-500/30 p-5 md:p-6 rounded-2xl relative">
+                        <span className="absolute -top-3 left-4 bg-indigo-900 border border-indigo-500/50 px-3 py-1 text-xs text-indigo-200 rounded-full tracking-widest">일반적 조언</span>
+                        <p className="text-indigo-100/90 text-sm md:text-base leading-loose break-keep mt-2">
+                          {getInterpretationText(cardsInfo[activeCardIdx].cardData)}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* 내비게이션 하단 영역 */}
+                    <div className={`mt-10 flex w-full ${activeCardIdx === 0 ? 'justify-end' : 'justify-between'}`}>
+                      {activeCardIdx > 0 && (
+                        <button 
+                          onClick={() => {
+                            setSwipeDir(-1);
+                            setActiveCardIdx(p => p - 1);
+                          }}
+                          className="px-6 py-3 rounded-full border border-amber-600/40 text-amber-500/80 active:bg-amber-500/10 font-bold tracking-widest transition-all text-sm md:text-base"
+                        >
+                          이전 해석 보기
+                        </button>
+                      )}
+                      {activeCardIdx < 9 ? (
+                        <button 
+                          onClick={() => {
+                            setSwipeDir(1);
+                            setActiveCardIdx(p => p + 1);
+                            if (!isGridFolded) setIsGridFolded(true);
+                          }}
+                          className="px-6 py-3 rounded-full bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-[0_0_15px_rgba(251,191,36,0.3)] active:scale-95 font-bold tracking-widest transition-all text-sm md:text-base"
+                        >
+                          다음 해석 보기
+                        </button>
+                      ) : (
+                        <button 
+                          onClick={() => setShowSummary(true)}
+                          className="px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-900 shadow-[0_0_20px_rgba(251,191,36,0.6)] active:scale-95 font-black tracking-widest transition-all text-sm md:text-base"
+                        >
+                          전체 해석 보기
+                        </button>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+            
+            {/* 전체 해석 리포트 모달 */}
+            <AnimatePresence>
+              {showSummary && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 100 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 100 }}
+                  className="fixed inset-0 z-[100] bg-slate-900 overflow-y-auto px-4 py-8 md:p-12 flex flex-col items-center"
                 >
-                  <div className="absolute top-0 right-0 p-8 text-8xl text-white/[0.03] font-black italic pointer-events-none">
-                    {activeCardIdx + 1}
+                  <button 
+                    onClick={() => setShowSummary(false)}
+                    className="absolute top-6 right-6 md:top-10 md:right-10 text-gray-400 hover:text-white"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                  <h1 className="text-3xl md:text-5xl font-extrabold text-amber-400 mb-4 tracking-widest drop-shadow-[0_0_15px_rgba(251,191,36,0.5)]">
+                    운명의 전체 흐름
+                  </h1>
+                  <p className="text-amber-200/60 mb-12 tracking-widest font-serif italic text-lg text-center">
+                    당신의 과거, 현재, 그리고 다가올 미래
+                  </p>
+                  
+                  <div className="w-full max-w-4xl space-y-4 md:space-y-6">
+                    {cardsInfo.map((item, idx) => (
+                      <div key={'summary-'+idx} className="bg-slate-800/50 border border-amber-500/20 p-4 md:p-6 rounded-2xl flex flex-col md:flex-row gap-4 md:gap-8 items-start md:items-center">
+                        <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 md:w-12 md:h-12 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold italic text-lg md:text-2xl">
+                          {idx + 1}
+                        </div>
+                        <div className="flex-grow">
+                          <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3 mb-1">
+                            <span className="text-amber-400 text-xs md:text-sm font-bold tracking-widest border border-amber-500/20 px-2 py-0.5 rounded-full inline-block w-fit">
+                              {item.role}
+                            </span>
+                            <span className="text-gray-200 text-lg md:text-xl font-bold tracking-widest">
+                              {item.cardData.nameKr}
+                            </span>
+                          </div>
+                          <p className="text-gray-400 text-sm tracking-wide mt-2 break-keep">
+                            {item.cardData.keywords.join(' · ')}
+                          </p>
+                        </div>
+                        <div className="flex-shrink-0 text-amber-100/60 font-serif text-sm md:text-base max-w-xs break-keep leading-relaxed line-clamp-3 md:line-clamp-2">
+                          {getCelticInterpretation(item.cardData, idx)}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                   
-                  <div className="flex flex-col items-center mb-8 border-b border-amber-500/20 pb-6">
-                    <span className="text-amber-500 mb-2 font-bold tracking-widest text-sm md:text-base border border-amber-500/50 px-3 py-1 rounded-full">{cardsInfo[activeCardIdx].role}</span>
-                    <h2 className="text-2xl md:text-4xl font-bold text-amber-300 tracking-widest text-center mt-2 flex items-center justify-center gap-3">
-                      {cardsInfo[activeCardIdx].cardData.nameKr}
-                    </h2>
-                    <p className="text-amber-200/60 mt-2 text-sm md:text-md tracking-widest uppercase">{cardsInfo[activeCardIdx].cardData.name}</p>
-                    <p className="text-amber-100/80 mt-4 tracking-wide text-sm md:text-base text-center break-keep">
-                      "{cardsInfo[activeCardIdx].cardData.keywords.join(' · ')}"
-                    </p>
-                  </div>
-
-                  <div className="space-y-6">
-                    <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5">
-                      <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-300 rounded-full tracking-widest">이 위치에서의 의미</span>
-                      <p className="text-amber-50 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif">
-                        {getCelticInterpretation(cardsInfo[activeCardIdx].cardData, activeCardIdx)}
-                      </p>
-                    </div>
-
-                    <div className="bg-gradient-to-br from-indigo-900/30 to-black/40 border border-indigo-500/30 p-5 md:p-6 rounded-2xl relative">
-                      <span className="absolute -top-3 left-4 bg-indigo-900 border border-indigo-500/50 px-3 py-1 text-xs text-indigo-200 rounded-full tracking-widest">일반적 조언</span>
-                      <p className="text-indigo-100/90 text-sm md:text-base leading-loose break-keep mt-2">
-                        {getInterpretationText(cardsInfo[activeCardIdx].cardData)}
-                      </p>
-                    </div>
-                  </div>
+                  <button
+                    onClick={() => router.push('/')}
+                    className="mt-16 px-10 py-4 bg-gradient-to-br from-indigo-900 to-indigo-800 border border-indigo-500/50 text-indigo-100 font-bold rounded-full shadow-[0_0_20px_rgba(79,70,229,0.4)] active:scale-95 transition-all tracking-widest text-lg"
+                  >
+                    새로운 질문하기
+                  </button>
                 </motion.div>
               )}
-            </div>
+            </AnimatePresence>
           </div>
         ) : (
           <>
