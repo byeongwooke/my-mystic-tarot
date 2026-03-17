@@ -393,17 +393,17 @@ function ResultContent() {
                     </div>
 
                     <div className="space-y-6">
-                      <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5">
-                        <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-300 rounded-full tracking-widest">이 위치에서의 의미</span>
-                        <p className="text-amber-50 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif">
-                          {getCelticInterpretation(cardsInfo[activeCardIdx].cardData, activeCardIdx)}
+                      <div className="bg-gradient-to-br from-indigo-900/30 to-black/40 border border-indigo-500/30 p-5 md:p-6 rounded-2xl relative">
+                        <span className="absolute -top-3 left-4 bg-indigo-900 border border-indigo-500/50 px-3 py-1 text-xs text-indigo-200 rounded-full tracking-widest">카드의 해석</span>
+                        <p className="text-indigo-100/90 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif">
+                          {getInterpretationText(cardsInfo[activeCardIdx].cardData)}
                         </p>
                       </div>
 
-                      <div className="bg-gradient-to-br from-indigo-900/30 to-black/40 border border-indigo-500/30 p-5 md:p-6 rounded-2xl relative">
-                        <span className="absolute -top-3 left-4 bg-indigo-900 border border-indigo-500/50 px-3 py-1 text-xs text-indigo-200 rounded-full tracking-widest">일반적 조언</span>
-                        <p className="text-indigo-100/90 text-sm md:text-base leading-loose break-keep mt-2">
-                          {getInterpretationText(cardsInfo[activeCardIdx].cardData)}
+                      <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5">
+                        <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-300 rounded-full tracking-widest">이 위치에서의 해석</span>
+                        <p className="text-amber-50 text-sm md:text-base leading-loose break-keep mt-2">
+                          {getCelticInterpretation(cardsInfo[activeCardIdx].cardData, activeCardIdx)}
                         </p>
                       </div>
                     </div>
