@@ -30,7 +30,7 @@ const TarotCardItem = memo(({
           whileInView={{ 
             scale: 1.25,
             zIndex: 150,
-            transition: { type: "spring", stiffness: 150, damping: 25 }
+            transition: { type: "spring", stiffness: 150, damping: 25, zIndex: { duration: 0 } }
           }}
           viewport={{ amount: 0.2, margin: "-5% 0px -5% 0px" }}
           animate={{ opacity: 1, y: 0 }}
@@ -38,12 +38,19 @@ const TarotCardItem = memo(({
           whileHover={{ 
             y: -40, 
             scale: 1.35,
-            zIndex: 100 
+            zIndex: 200,
+            transition: { zIndex: { duration: 0 } }
+          }}
+          whileTap={{ 
+            y: -40, 
+            scale: 1.35,
+            zIndex: 200,
+            transition: { zIndex: { duration: 0 } }
           }}
           transition={{ 
             type: "spring", 
-            stiffness: 150, 
-            damping: 25 
+            stiffness: 300, 
+            damping: 30 
           }}
         >
           <div
@@ -200,6 +207,7 @@ function SelectContent() {
                       onClick={() => handleCardClick(selectedCardData.id)}
                       className="relative cursor-pointer pointer-events-auto w-full h-full"
                       style={{ transformStyle: "preserve-3d" }}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     >
                       {/* 카드 뒷면 (선택 후 슬롯에 꽂힌 상태에서는 뒷면으로 고정) */}
                       <div
