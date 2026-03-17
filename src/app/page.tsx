@@ -46,16 +46,17 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 + (idx * 0.1), duration: 0.6 }}
-            whileHover={{ scale: 1.03, y: -5 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => router.push(cat.id === 'today' ? `/select?category=${cat.id}&spread=today` : `/spread?category=${cat.id}`)}
+            className="w-full relative flex flex-col items-center justify-center p-6 md:p-8 rounded-3xl border-[0.5px] border-emerald-900/40 bg-gradient-to-br from-zinc-800/80 to-zinc-900/90 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.3)] active:border-amber-400/50 active:shadow-[0_0_20px_rgba(251,191,36,0.3)] transition-colors duration-300 group overflow-hidden"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-emerald-950/20 to-transparent opacity-0 active:opacity-100 transition-opacity duration-300"></div>
             
-            <span className="text-3xl md:text-4xl mb-3 drop-shadow-md">{cat.icon}</span>
-            <h2 className="text-xl md:text-2xl font-bold text-amber-300 mb-2 tracking-wide group-hover:text-amber-400 transition-colors">
+            <span className="text-3xl md:text-4xl mb-3 drop-shadow-md z-10">{cat.icon}</span>
+            <h2 className="text-xl md:text-2xl font-bold text-gray-200 mb-2 tracking-wide group-active:text-amber-400 z-10">
               {cat.title}
             </h2>
-            <p className="text-indigo-200/70 text-sm md:text-base font-light break-keep group-hover:text-indigo-100 transition-colors">
+            <p className="text-gray-400 text-sm md:text-base font-light break-keep text-center leading-relaxed h-[2.5rem] flex items-center justify-center group-active:text-gray-300 z-10">
               {cat.desc}
             </p>
           </motion.button>
