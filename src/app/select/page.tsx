@@ -253,7 +253,7 @@ function SelectContent() {
         {/* 슬롯 영역 */}
         <div className={`relative w-full max-w-5xl mx-auto flex justify-center ${
           spreadParam === 'celtic' 
-            ? 'grid grid-cols-5 gap-y-6 md:gap-y-10 gap-x-2 md:gap-x-4 place-items-center mt-4' 
+            ? 'h-[420px] md:h-[600px] mt-4 overflow-visible' 
             : spreadParam === 'today' 
               ? 'items-center h-[220px] md:h-[380px] min-h-[220px]' 
               : 'h-[220px] md:h-[380px] min-h-[220px]'
@@ -262,8 +262,8 @@ function SelectContent() {
             const isCeltic = spreadParam === 'celtic';
             const isToday = spreadParam === 'today';
             
-            let posClass = "flex flex-col items-center";
-            let posStyle = {};
+            let posClass = "flex flex-col items-center justify-center";
+            let posStyle: React.CSSProperties = {};
             
             if (!isCeltic) {
               posClass += " absolute bottom-0 -translate-x-1/2";
@@ -274,15 +274,59 @@ function SelectContent() {
                 posStyle = { left: idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)` };
               }
             } else {
-              posClass += " relative"; // For CSS grid placement
+              posClass += " absolute";
+              const cardW = isMobile ? 50 : 86;
+              const cardH = isMobile ? 80 : 135;
+              const gapX = cardW + (isMobile ? 10 : 20);
+              const gapY = cardH + (isMobile ? 10 : 20);
+              
+              const crossCx = isMobile ? '50%' : '35%';
+              const crossCy = isMobile ? '160px' : '50%';
+              
+              let left = '50%';
+              let top = '50%';
+              let transform = 'translate(-50%, -50%)';
+              let zIndex = 10;
+              
+              if (idx === 0) {
+                left = `calc(${crossCx})`; top = `calc(${crossCy})`; zIndex = 10;
+              } else if (idx === 1) {
+                left = `calc(${crossCx})`; top = `calc(${crossCy})`; 
+                transform = 'translate(-50%, -50%) rotate(90deg)';
+                zIndex = 11;
+              } else if (idx === 2) {
+                left = `calc(${crossCx})`; top = `calc(${crossCy} + ${gapY}px)`; 
+              } else if (idx === 3) {
+                left = `calc(${crossCx} - ${gapX}px)`; top = `calc(${crossCy})`;
+              } else if (idx === 4) {
+                left = `calc(${crossCx})`; top = `calc(${crossCy} - ${gapY}px)`;
+              } else if (idx === 5) {
+                left = `calc(${crossCx} + ${gapX}px)`; top = `calc(${crossCy})`;
+              } else {
+                if (isMobile) {
+                  const pGap = cardW + 8;
+                  const pStartX = `calc(50% - ${pGap * 1.5}px)`;
+                  left = `calc(${pStartX} + ${pGap * (idx - 6)}px)`;
+                  top = `calc(${crossCy} + ${gapY * 2.2}px)`;
+                } else {
+                  const pillarX = '75%';
+                  const pGap = cardH + 16;
+                  const pStartY = `calc(50% + ${pGap * 1.5}px)`;
+                  left = `calc(${pillarX})`;
+                  top = `calc(${pStartY} - ${pGap * (idx - 6)}px)`;
+                }
+              }
+              posStyle = { left, top, transform, zIndex };
             }
             
-            const slotWidthClass = isCeltic ? "w-[56px] h-[88px] md:w-[130px] md:h-[203px]" : "w-[96px] h-[150px] md:w-[165px] md:h-[270px]";
-            const textSizeClass = isCeltic ? "text-[10px] md:text-sm mb-2" : "text-sm md:text-lg mb-6";
+            const slotWidthClass = isCeltic ? "w-[50px] h-[80px] md:w-[86px] md:h-[135px]" : "w-[96px] h-[150px] md:w-[165px] md:h-[270px]";
+            const textSizeClass = isCeltic ? "hidden" : "text-sm md:text-lg mb-6";
 
             const selection = selectedCards.find(c => c.role === role);
             const selectedCardData = selection ? cards.find(c => c.id === selection.id) : null;
             const isFilled = !!selection;
+
+            const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 
             return (
               <div
@@ -290,13 +334,21 @@ function SelectContent() {
                 className={posClass}
                 style={posStyle}
               >
-                <div className={`h-[24px] md:h-[32px] flex items-end ${textSizeClass}`}>
-                  <span className={`text-white/50 font-semibold tracking-widest whitespace-nowrap uppercase text-center w-full block drop-shadow-sm`}>{role}</span>
-                </div>
+                {!isCeltic && (
+                  <div className={`h-[24px] md:h-[32px] flex items-end ${textSizeClass}`}>
+                    <span className={`text-white/50 font-semibold tracking-widest whitespace-nowrap uppercase text-center w-full block drop-shadow-sm`}>{role}</span>
+                  </div>
+                )}
+                
                 <div className={`relative ${slotWidthClass} rounded-xl transition-all duration-700 flex items-center justify-center ${isFilled
                   ? 'border-transparent bg-transparent shadow-[0_0_80px_rgba(251,191,36,0.3)]'
-                  : 'border-2 border-dashed border-white/20 bg-white/5 shadow-inner'
+                  : 'border-[1px] border-amber-500/30 bg-black/40 shadow-inner backdrop-blur-sm'
                   }`}>
+                  {isCeltic && !isFilled && (
+                    <span className="absolute text-amber-500/40 font-serif text-[10px] md:text-xs tracking-widest pointer-events-none">
+                      {romanNumerals[idx]}
+                    </span>
+                  )}
                   {isFilled && selectedCardData && (
                     <motion.div
                       layoutId={`card-${selectedCardData.id}`}
@@ -305,13 +357,12 @@ function SelectContent() {
                       style={{ transformStyle: "preserve-3d" }}
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     >
-                      {/* 카드 뒷면 (선택 후 슬롯에 꽂힌 상태에서는 뒷면으로 고정) */}
                       <div
                         className="absolute inset-0 w-full h-full rounded-xl border border-amber-300 overflow-hidden bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center shadow-[0_0_25px_rgba(212,175,55,0.7)]"
                       >
                         <div className="absolute inset-1 border border-[#D4AF37]/40 rounded-lg"></div>
-                        <div className="w-8 h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45">
-                          <div className="w-3 h-3 bg-[#D4AF37]/40 rounded-full"></div>
+                        <div className="w-6 h-6 md:w-8 md:h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45">
+                          <div className="w-2 h-2 md:w-3 md:h-3 bg-[#D4AF37]/40 rounded-full"></div>
                         </div>
                       </div>
                     </motion.div>

@@ -19,14 +19,16 @@ const ResultCardItem = memo(({
   isLarge,
   isCeltic,
   isActive,
-  onClick
+  onClick,
+  idx
 }: { 
   cardData: any, 
   role: string, 
   isLarge: boolean,
   isCeltic?: boolean,
   isActive?: boolean,
-  onClick?: () => void
+  onClick?: () => void,
+  idx?: number
 }) => {
   const sizeClass = isLarge 
     ? 'w-[140px] h-[220px] md:w-[240px] md:h-[384px]'
@@ -34,18 +36,27 @@ const ResultCardItem = memo(({
       ? 'w-[64px] h-[100px] md:w-[110px] md:h-[171px]'
       : 'w-[80px] h-[128px] md:w-[150px] md:h-[240px]';
 
+  const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
-      className={`flex flex-col items-center ${onClick ? 'cursor-pointer' : ''} ${isActive ? 'scale-110 drop-shadow-[0_0_20px_rgba(251,191,36,0.6)] z-10' : isCeltic && !isActive ? 'opacity-60 scale-95 hover:opacity-100 hover:scale-100' : ''} transition-all duration-300`}
+      className={`flex flex-col items-center ${onClick ? 'cursor-pointer' : ''} ${isActive ? 'scale-110 drop-shadow-[0_0_20px_rgba(251,191,36,0.6)] z-[60]' : isCeltic ? 'opacity-90 hover:opacity-100 hover:scale-[1.03]' : ''} transition-all duration-300 w-full h-full`}
       onClick={onClick}
     >
-      <span className={`text-amber-400 border border-amber-400/50 px-2 md:px-4 py-1 rounded-full text-[10px] md:text-sm font-bold mb-2 md:mb-4 tracking-tighter md:tracking-widest whitespace-nowrap ${isActive ? 'bg-amber-400/40' : 'bg-amber-400/10'}`}>
-        {role}
-      </span>
-      <div className={`${sizeClass} rounded-xl border-2 ${isActive ? 'border-amber-400' : 'border-amber-400/50'} shadow-[0_0_25px_rgba(251,191,36,0.3)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transition-transform group`}>
+      {!isCeltic && (
+        <span className={`text-amber-400 border border-amber-400/50 px-2 md:px-4 py-1 rounded-full text-[10px] md:text-sm font-bold mb-2 md:mb-4 tracking-tighter md:tracking-widest whitespace-nowrap ${isActive ? 'bg-amber-400/40' : 'bg-amber-400/10'}`}>
+          {role}
+        </span>
+      )}
+      <div className={`${sizeClass} rounded-xl border-2 ${isActive ? 'border-amber-400' : 'border-amber-400/30'} shadow-[0_0_25px_rgba(251,191,36,0.2)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transition-transform group`}>
+        {isCeltic && (
+          <span className="absolute -top-1 left-2 text-white/50 text-[20px] md:text-[32px] font-black italic opacity-20 pointer-events-none z-0">
+            {romanNumerals[idx || 0]}
+          </span>
+        )}
         {cardData.id <= 21 ? (
           <>
             <img
@@ -84,6 +95,14 @@ function ResultContent() {
   const [category, setCategory] = useState<string | null>(null);
   const [spread, setSpread] = useState<string>('basic');
   const [activeCardIdx, setActiveCardIdx] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     const cat = searchParams.get('category');
@@ -247,19 +266,70 @@ function ResultContent() {
 
         {spread === 'celtic' ? (
           <div className="w-full flex flex-col items-center">
-            {/* 셀틱 크로스 10카드 그리드 */}
-            <div className="w-full flex flex-wrap justify-center gap-2 md:gap-4 mb-10 md:mb-16 px-2 lg:px-10">
-              {cardsInfo.map((item, idx) => (
-                <ResultCardItem 
-                  key={item.role + '-' + idx} 
-                  cardData={item.cardData} 
-                  role={item.role} 
-                  isLarge={false}
-                  isCeltic={true}
-                  isActive={idx === activeCardIdx}
-                  onClick={() => setActiveCardIdx(idx)}
-                />
-              ))}
+            {/* 셀틱 크로스 10카드 절대좌표 그리드 */}
+            <div className="relative w-full max-w-5xl mx-auto h-[500px] md:h-[750px] mb-12 md:mb-16 mt-4 flex justify-center overflow-visible">
+              {cardsInfo.map((item, idx) => {
+                const isActive = idx === activeCardIdx;
+                const cardW = isMobile ? 64 : 110;
+                const cardH = isMobile ? 100 : 171;
+                const gapX = cardW + (isMobile ? 12 : 24);
+                const gapY = cardH + (isMobile ? 12 : 24);
+                
+                const crossCx = isMobile ? '50%' : '35%';
+                const crossCy = isMobile ? '180px' : '50%';
+                
+                let left = '50%';
+                let top = '50%';
+                let transform = 'translate(-50%, -50%)';
+                let zIndex = isActive ? 60 : 10;
+                
+                if (idx === 0) {
+                  left = `calc(${crossCx})`; top = `calc(${crossCy})`; zIndex = isActive ? 60 : 10;
+                } else if (idx === 1) {
+                  left = `calc(${crossCx})`; top = `calc(${crossCy})`; 
+                  transform = 'translate(-50%, -50%) rotate(90deg)';
+                  zIndex = isActive ? 60 : 11;
+                } else if (idx === 2) {
+                  left = `calc(${crossCx})`; top = `calc(${crossCy} + ${gapY}px)`; 
+                } else if (idx === 3) {
+                  left = `calc(${crossCx} - ${gapX}px)`; top = `calc(${crossCy})`;
+                } else if (idx === 4) {
+                  left = `calc(${crossCx})`; top = `calc(${crossCy} - ${gapY}px)`;
+                } else if (idx === 5) {
+                  left = `calc(${crossCx} + ${gapX}px)`; top = `calc(${crossCy})`;
+                } else {
+                  if (isMobile) {
+                    const pGap = cardW + 8;
+                    const pStartX = `calc(50% - ${pGap * 1.5}px)`;
+                    left = `calc(${pStartX} + ${pGap * (idx - 6)}px)`;
+                    top = `calc(${crossCy} + ${gapY * 2.3}px)`;
+                  } else {
+                    const pillarX = '78%';
+                    const pGap = cardH + 20;
+                    const pStartY = `calc(50% + ${pGap * 1.5}px)`;
+                    left = `calc(${pillarX})`;
+                    top = `calc(${pStartY} - ${pGap * (idx - 6)}px)`;
+                  }
+                }
+
+                return (
+                  <div 
+                    key={item.role + '-' + idx} 
+                    className="absolute transition-all duration-700 pointer-events-auto"
+                    style={{ left, top, transform, zIndex }}
+                  >
+                    <ResultCardItem 
+                      cardData={item.cardData} 
+                      role={item.role} 
+                      isLarge={false}
+                      isCeltic={true}
+                      isActive={isActive}
+                      onClick={() => setActiveCardIdx(idx)}
+                      idx={idx}
+                    />
+                  </div>
+                );
+              })}
             </div>
 
             {/* 활성 카드 상세 해석 (모달 대체 인라인 표시) */}
