@@ -5,6 +5,13 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { TAROT_DATA } from "@/constants/tarotData";
 import { motion } from "framer-motion";
 
+const CATEGORY_MAP: Record<string, string> = {
+  '애정운': 'love', 'love': 'love',
+  '재물운': 'money', 'money': 'money',
+  '직업운': 'work', 'work': 'work',
+  '오늘': 'today', 'today': 'today'
+};
+
 // 개별 결과 카드 컴포넌트 (성능 최적화)
 const ResultCardItem = memo(({ 
   cardData, 
@@ -89,7 +96,8 @@ function ResultContent() {
       return;
     }
 
-    const cleanCat = cat.replace(/[^\w]/g, '');
+    const rawCat = cat.replace(/[^\w가-힣]/g, '');
+    const cleanCat = CATEGORY_MAP[rawCat] || CATEGORY_MAP[cat] || rawCat.replace(/[^\w]/g, '');
     setCategory(cleanCat);
     setSpread(spreadParam);
 
@@ -128,7 +136,7 @@ function ResultContent() {
     
     // 오늘의 운세 전용 조언 우선
     if (spread === 'today' || category === 'today') {
-      return cardData.todayAdvice || "운명의 메시지를 준비 중입니다";
+      return cardData.todayAdvice || "조언을 찾을 수 없습니다";
     }
 
     const timeMap: Record<string, "past" | "present" | "future"> = {
@@ -140,22 +148,24 @@ function ResultContent() {
 
     if (typeof cardData.advice === 'string') return cardData.advice;
 
-    const catAdvice = cardData.advice?.[category];
+    const key = CATEGORY_MAP[category] || category;
+    const catAdvice = cardData.advice?.[key];
 
     if (typeof catAdvice === 'string') return catAdvice;
-    return catAdvice?.[mappedTime] || "운명의 메시지를 준비 중입니다";
+    return catAdvice?.[mappedTime] || "조언을 찾을 수 없습니다";
   };
 
   const getInterpretationText = (cardData: any) => {
     if (!cardData || !category) return "";
     if (spread === 'today' || category === 'today') {
-      return cardData.todayAdvice || "운명의 메시지를 준비 중입니다";
+      return cardData.todayAdvice || "조언을 찾을 수 없습니다";
     }
-    return cardData.interpretations?.[category] || "운명의 메시지를 준비 중입니다";
+    const key = CATEGORY_MAP[category] || category;
+    return cardData.interpretations?.[key] || "조언을 찾을 수 없습니다";
   };
 
   const getCelticInterpretation = (cardData: any, idx: number) => {
-    if (!cardData || !cardData.celtic) return "운명의 메시지를 준비 중입니다";
+    if (!cardData || !cardData.celtic) return "조언을 찾을 수 없습니다";
     switch(idx) {
         case 0: return cardData.celtic.core;
         case 1: return cardData.celtic.obstacle;
