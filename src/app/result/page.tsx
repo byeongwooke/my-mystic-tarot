@@ -217,11 +217,12 @@ function ResultContent() {
       return `"${getAdviceText(cardsInfo[0].cardData, '오늘의 카드')}"`;
     }
     if (spread === 'celtic') {
-      return '"운명의 수레바퀴가 당신의 모든 순간을 비정하게 꿰뚫어봅니다."';
+      const activeData = cardsInfo[activeCardIdx]?.cardData;
+      return `"${getCelticInterpretation(activeData, activeCardIdx)}"`;
     }
     const futureItem = cardsInfo.find(c => c.role === "미래");
     return futureItem ? `"${getAdviceText(futureItem.cardData, '미래')}"` : "운명은 당신의 선택에 달려 있습니다.";
-  }, [cardsInfo, spread, category]);
+  }, [cardsInfo, spread, category, activeCardIdx]);
 
   if (isLoading) {
     return (
@@ -266,14 +267,20 @@ function ResultContent() {
           당신의 {categoryName} 결과입니다
         </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="text-amber-300 mb-12 md:mb-20 mt-4 tracking-widest text-center text-lg md:text-3xl font-serif italic drop-shadow-md break-keep leading-loose max-w-3xl"
-        >
-          {overallAdvice}
-        </motion.p>
+        <div className="mb-12 md:mb-20 mt-4 min-h-[80px] md:min-h-[120px] flex items-center justify-center w-full max-w-4xl px-2">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={activeCardIdx + overallAdvice}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="text-amber-300 tracking-widest text-center text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose"
+            >
+              {overallAdvice}
+            </motion.p>
+          </AnimatePresence>
+        </div>
 
         {spread === 'celtic' ? (
           <div className="w-full flex flex-col items-center">
