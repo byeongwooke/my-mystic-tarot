@@ -78,6 +78,7 @@ function SelectContent() {
   const [selectedCards, setSelectedCards] = useState<{ id: number; role: string }[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [cards, setCards] = useState<typeof TAROT_DATA>([]);
+  const [showHomeModal, setShowHomeModal] = useState(false);
 
   // 카테고리에 따른 역할 정의 (useMemo로 최적화)
   const roles = useMemo(() => 
@@ -159,6 +160,12 @@ function SelectContent() {
     >
       {/* 상단 스테이지 */}
       <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pt-2 md:pt-6 pb-8 px-4">
+        <button 
+          onClick={() => setShowHomeModal(true)}
+          className="absolute top-2 right-4 md:top-6 md:right-8 text-amber-400/50 text-xs md:text-sm tracking-widest active:text-amber-400 transition-colors z-[50] p-2"
+        >
+          홈으로
+        </button>
         <div className="flex flex-col items-center mb-6 md:mb-10 mt-4 md:mt-2 relative">
           <h1 className="text-xl md:text-3xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep">
             <span className="text-white">{displayCategory.replace(/[☀️❤️💰💼]/g, '')}</span>을(를) 위한 운명의 카드를 골라주세요
@@ -261,6 +268,42 @@ function SelectContent() {
                 운명 확인하기
               </span>
             </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showHomeModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-900/90 backdrop-blur-md px-4"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              className="w-full max-w-sm bg-slate-800/80 border border-amber-500/50 rounded-2xl p-6 md:p-8 flex flex-col items-center shadow-[0_0_40px_rgba(251,191,36,0.3)] text-center"
+            >
+              <h2 className="text-xl md:text-2xl font-bold text-amber-400 mb-8 drop-shadow-md break-keep">
+                질문 선택 화면으로 돌아가시겠습니까?
+              </h2>
+              <div className="w-full flex gap-4">
+                <button
+                  onClick={() => setShowHomeModal(false)}
+                  className="flex-1 py-3 md:py-4 rounded-xl border border-white/20 text-gray-300 font-semibold active:bg-white/10 transition-colors tracking-widest"
+                >
+                  아니오
+                </button>
+                <button
+                  onClick={() => router.push('/')}
+                  className="flex-1 py-3 md:py-4 rounded-xl bg-amber-500/20 border border-amber-500/50 text-amber-400 font-bold active:bg-amber-500/40 shadow-[0_0_15px_rgba(251,191,36,0.2)] transition-all tracking-widest"
+                >
+                  예
+                </button>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
