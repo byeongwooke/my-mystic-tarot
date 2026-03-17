@@ -94,7 +94,7 @@ function ResultContent() {
 
     const roles = spreadParam === 'today' ? ["오늘의 카드"] : 
       spreadParam === 'celtic' ? 
-      ["현재 상태", "장애물/도전", "목표/의식", "과거의 기초/무의식", "최근의 과거", "가까운 미래", "자아/태도", "주변 환경", "희망과 두려움", "최종 결과"] :
+      ["요즘 나의 모습", "지금 꼬인 포인트", "진짜 내 속마음", "이미 지나간 일", "내가 꿈꾸는 목표", "곧 일어날 일", "내가 생각하는 나", "남들이 보는 나", "기대 반 걱정 반", "마지막 결과"] :
       ["과거", "현재", "미래"];
 
     const cardIds = cardsParam.split(',').map(id => parseInt(id, 10));
@@ -126,8 +126,8 @@ function ResultContent() {
     if (!cardData || !category) return "";
     
     // 오늘의 운세 전용 조언 우선
-    if (spread === 'today') {
-      return cardData.todayAdvice || cardData.advice?.work || "조언을 준비 중입니다.";
+    if (spread === 'today' || category === 'today') {
+      return cardData.todayAdvice || "조언을 준비 중입니다.";
     }
 
     const timeMap: Record<string, "past" | "present" | "future"> = {
@@ -139,8 +139,7 @@ function ResultContent() {
 
     if (typeof cardData.advice === 'string') return cardData.advice;
 
-    const mappedCat = spread === 'today' ? 'work' : category;
-    const catAdvice = cardData.advice?.[mappedCat] || cardData.advice?.['work'];
+    const catAdvice = cardData.advice?.[category];
 
     if (typeof catAdvice === 'string') return catAdvice;
     return catAdvice?.[mappedTime] || "운명의 흐름을 조용히 관찰해 보세요.";
@@ -148,8 +147,10 @@ function ResultContent() {
 
   const getInterpretationText = (cardData: any) => {
     if (!cardData || !category) return "";
-    const mappedCat = spread === 'today' ? 'work' : category;
-    return cardData.interpretations?.[mappedCat] || cardData.interpretations?.['work'] || "카드가 신비로운 침묵을 지키고 있습니다.";
+    if (spread === 'today' || category === 'today') {
+      return cardData.todayAdvice || "카드가 신비로운 침묵을 지키고 있습니다.";
+    }
+    return cardData.interpretations?.[category] || "카드가 신비로운 침묵을 지키고 있습니다.";
   };
 
   const getCelticInterpretation = (cardData: any, idx: number) => {
@@ -157,9 +158,9 @@ function ResultContent() {
     switch(idx) {
         case 0: return cardData.celtic.core;
         case 1: return cardData.celtic.obstacle;
-        case 2: return cardData.celtic.core;
+        case 2: return cardData.celtic.foundation;
         case 3: return cardData.celtic.foundation;
-        case 4: return cardData.celtic.foundation;
+        case 4: return cardData.celtic.core;
         case 5: return cardData.celtic.nearFuture;
         case 6: return cardData.celtic.influence;
         case 7: return cardData.celtic.influence;
