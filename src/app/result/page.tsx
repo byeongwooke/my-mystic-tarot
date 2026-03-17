@@ -159,7 +159,7 @@ function ResultContent() {
 
   return (
     <main
-      className="w-full min-h-screen flex flex-col items-center bg-slate-900 bg-fixed overflow-y-auto"
+      className="w-full min-h-screen flex flex-col items-center bg-slate-900 bg-fixed overflow-y-auto select-none pt-[env(safe-area-inset-top)]"
       style={{
         paddingTop: 'calc(env(safe-area-inset-top) + 2rem)',
         paddingBottom: 'calc(env(safe-area-inset-bottom) + 4rem)'

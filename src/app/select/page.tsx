@@ -151,7 +151,7 @@ function SelectContent() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-x-hidden"
+      className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-x-hidden select-none pt-[env(safe-area-inset-top)]"
       style={{
         paddingTop: 'calc(env(safe-area-inset-top) + 1rem)',
         paddingBottom: 'calc(env(safe-area-inset-bottom) + 8rem)'

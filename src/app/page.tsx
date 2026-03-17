@@ -19,7 +19,7 @@ export default function Home() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8 }}
-      className="w-full min-h-screen flex flex-col items-center justify-center bg-slate-900 bg-fixed p-6"
+      className="w-full min-h-screen flex flex-col items-center justify-center bg-slate-900 bg-fixed p-6 select-none pt-[env(safe-area-inset-top)]"
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* 신비로운 배경 효과 */}
