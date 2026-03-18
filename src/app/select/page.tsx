@@ -1,115 +1,426 @@
 "use client";
 
-import React, { useState, useEffect, Suspense, useMemo } from "react";
-import { TAROT_BASE } from "@/data/tarot/base";
+import React, { useState, useEffect, Suspense, useMemo, memo } from "react";
+import { TAROT_BASE, TarotBase } from "@/data/tarot/base";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
+
+// 개별 카드 컴포넌트화하여 React.memo 적용 (불필요한 리렌더링 방지)
+const TarotCardItem = memo(({ 
+  card, 
+  isSelected, 
+  onCardClick 
+}: { 
+  card: TarotBase, 
+  isSelected: boolean, 
+  onCardClick: (id: number) => void 
+}) => {
+  return (
+    <div className="relative flex-shrink-0 perspective-1000">
+      {/* Placeholder - 카드 크기 일치화 (96x150 / 165x270) */}
+      <div className="w-[96px] h-[150px] md:w-[165px] md:h-[270px] invisible" />
+      
+      {!isSelected && (
+        <motion.div
+          layoutId={`card-${card.id}`}
+          onClick={() => onCardClick(card.id)}
+          className="absolute inset-0 cursor-pointer pointer-events-auto"
+          style={{ transformStyle: "preserve-3d" }}
+          initial={{ opacity: 0, scale: 0.8, y: 50 }}
+          whileInView={{ 
+            scale: 1.25,
+            zIndex: 150,
+            transition: { type: "spring", stiffness: 150, damping: 25, zIndex: { duration: 0 } }
+          }}
+          viewport={{ amount: 0.2, margin: "-5% 0px -5% 0px" }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          whileTap={{ 
+            y: -40, 
+            scale: 1.35,
+            zIndex: 200,
+            transition: { zIndex: { duration: 0 } }
+          }}
+          transition={{ 
+            type: "spring", 
+            stiffness: 300, 
+            damping: 30 
+          }}
+        >
+          <div
+            className="w-full h-full rounded-xl border border-[#D4AF37] bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center shadow-[0_4px_15px_rgba(0,0,0,0.6)] overflow-hidden"
+            style={{ backfaceVisibility: "hidden" }}
+          >
+            <div className="absolute inset-1 border border-[#D4AF37]/40 rounded-lg"></div>
+            <div className="w-6 h-6 md:w-8 md:h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45">
+              <div className="w-2 h-2 md:w-3 md:h-3 bg-[#D4AF37]/40 rounded-full"></div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </div>
+  );
+});
+
+TarotCardItem.displayName = "TarotCardItem";
 
 function SelectContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const rawCategory = searchParams.get('category') || 'today';
+  const rawCategory = searchParams.get('category');
   const spreadParam = searchParams.get('spread') || 'basic';
 
-  const [selectedCards, setSelectedCards] = useState<number[]>([]);
+  useEffect(() => {
+    if (!rawCategory) {
+      router.replace('/');
+    }
+  }, [rawCategory, router]);
 
-  // [에러 해결] 객체인 TAROT_BASE를 배열로 변환하여 초기화합니다.
-  const [cards, setCards] = useState(() => {
-    const baseArray = Object.values(TAROT_BASE);
-    return baseArray.length > 0 ? baseArray : [];
-  });
+  const cleanCategory = rawCategory ? rawCategory.replace(/[^\w]/g, '') : '';
 
-  const maxCards = useMemo(() => {
-    if (spreadParam === 'today') return 1;
-    if (spreadParam === 'celtic') return 10;
-    return 3;
+  const [selectedCards, setSelectedCards] = useState<{ id: number; role: string; isReversed: boolean }[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
+  const [cards, setCards] = useState<TarotBase[]>([]);
+  const [showHomeModal, setShowHomeModal] = useState(false);
+
+  const spreadData = useMemo(() => {
+    if (spreadParam === 'today') {
+      return { limit: 1, roles: ["오늘의 카드"] };
+    } else if (spreadParam === 'celtic') {
+      return { 
+        limit: 10, 
+        roles: ["지금, 당신의 중심 (현재)", "나를 가로막는 벽 (장애물)", "인지하지 못한 근본 (무의식/기반)", "지나온 시간의 잔상 (과거)", "의식의 지향점 (목표/의식)", "곧 마주할 상황 (가까운 미래)", "스스로 정의하는 나 (태도/자아)", "나를 둘러싼 환경 (주변 상황)", "내면의 기대와 불안 (심리)", "마주하게 될 결과 (결과)"] 
+      };
+    } else {
+      return { limit: 3, roles: ["과거", "현재", "미래"] };
+    }
   }, [spreadParam]);
 
-  // 초기 진입 시 셔플 (순정 그리드 시절의 그 느낌 그대로)
+  const { limit: maxCards, roles } = spreadData;
+
+  const displayCategory = useMemo(() => {
+    const categoryNameMap: Record<string, string> = {
+      'today': '오늘의 운세☀️',
+      'love': '애정운❤️',
+      'money': '재물운💰',
+      'work': '직업운💼'
+    };
+    return cleanCategory ? (categoryNameMap[cleanCategory] || '특별한 운세') : '';
+  }, [cleanCategory]);
+
   useEffect(() => {
-    setCards(prev => [...prev].sort(() => Math.random() - 0.5));
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    // 초기 셔플
+    const shuffledIds = Array.from({ length: 78 }, (_, i) => i);
+    for (let i = shuffledIds.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledIds[i], shuffledIds[j]] = [shuffledIds[j], shuffledIds[i]];
+    }
+    setCards(shuffledIds.map(id => TAROT_BASE[id] || TAROT_BASE[0]));
+
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const handleCardClick = (id: number) => {
-    if (selectedCards.includes(id) || selectedCards.length >= maxCards) return;
-    const newSelection = [...selectedCards, id];
-    setSelectedCards(newSelection);
+  const handleCardClick = (cardId: number) => {
+    if (!cleanCategory) return;
 
-    if (newSelection.length === maxCards) {
-      const idsParam = newSelection.map(cid => `${cid}${Math.random() < 0.5 ? 'r' : ''}`).join(',');
-      setTimeout(() => {
-        router.push(`/result?category=${rawCategory}&spread=${spreadParam}&cards=${idsParam}`);
-      }, 700);
+    const isAlreadySelected = selectedCards.some(c => c.id === cardId);
+    if (isAlreadySelected) {
+      setSelectedCards(prev => {
+        const remaining = prev.filter(c => c.id !== cardId);
+        return remaining.map((c, i) => ({ ...c, role: roles[i] }));
+      });
+      return;
     }
+
+    if (selectedCards.length >= maxCards) {
+      alert(`이미 ${maxCards}장의 카드를 모두 고르셨습니다!`);
+      return;
+    }
+
+    setSelectedCards(prev => [...prev, { id: cardId, role: roles[prev.length], isReversed: Math.random() < 0.5 }]);
   };
 
+  const handleCheckDestiny = () => {
+    if (selectedCards.length !== maxCards) return;
+    
+    const sortedSelections = [...selectedCards].sort((a, b) => roles.indexOf(a.role) - roles.indexOf(b.role));
+    const sortedIds = sortedSelections.map(c => `${c.id}${c.isReversed ? 'r' : ''}`).join(',');
+    
+    // 즉시 이동 (결과 페이지에서 로딩 애니메이션 처리)
+    router.push(`/result?category=${cleanCategory}&spread=${spreadParam}&cards=${sortedIds}`);
+  };
+
+  if (!cleanCategory) return null;
+
   return (
-    <main className="min-h-screen bg-[#0f1117] text-white flex flex-col overflow-hidden select-none">
-      {/* 1. 상단 타이틀 & 선택 현황 */}
-      <header className="pt-12 pb-6 text-center z-10 bg-gradient-to-b from-[#0f1117] to-transparent">
-        <h1 className="text-2xl md:text-3xl font-bold text-amber-400 mb-2 drop-shadow-lg">운명의 카드를 골라주세요</h1>
-        <p className="text-gray-400 text-sm tracking-widest">{selectedCards.length} / {maxCards} 선택됨</p>
-      </header>
+    <motion.main
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8 }}
+      className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-x-hidden select-none"
+      style={{
+        paddingTop: 'calc(env(safe-area-inset-top) + 0.5rem)',
+        paddingBottom: '1rem'
+      }}
+    >
+      {/* 상단 스테이지 */}
+      <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pb-6 px-4">
+        <button 
+          onClick={() => setShowHomeModal(!showHomeModal)}
+          className="fixed top-[calc(env(safe-area-inset-top)+0.85rem)] left-2 md:left-6 text-amber-400/50 active:text-amber-400 transition-colors z-[50] p-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 md:w-8 md:h-8">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
 
-      {/* 2. 중앙 선택된 카드 슬롯 */}
-      <div className="flex-grow flex items-center justify-center gap-2 md:gap-4 px-4 overflow-x-auto">
-        {Array.from({ length: maxCards }).map((_, i) => (
-          <div key={i} className="flex-shrink-0 w-16 h-28 md:w-32 md:h-52 border-2 border-dashed border-indigo-900/50 rounded-xl flex items-center justify-center relative overflow-hidden bg-white/5">
-            {selectedCards[i] ? (
-              <motion.div
-                initial={{ scale: 0.5, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="absolute inset-0 bg-gradient-to-br from-indigo-800 to-slate-900 border-2 border-amber-400 rounded-lg flex items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.4)]"
+        <div className="relative w-full flex flex-col items-center px-12 md:px-16 mb-4 md:mb-6 min-h-[40px] md:min-h-[50px] justify-center">
+          <AnimatePresence>
+            {!showHomeModal ? (
+              <motion.h1 
+                key="title-default"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95, position: 'absolute' }}
+                transition={{ duration: 0.3 }}
+                className="text-xl md:text-3xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep w-full"
               >
-                <span className="text-amber-400 text-xl font-bold">✨</span>
-              </motion.div>
+                <span className="text-white">{displayCategory.replace(/[☀️❤️💰💼]/g, '')}</span>을(를) 위한 운명의 카드를 골라주세요
+              </motion.h1>
             ) : (
-              <span className="text-indigo-900/30 text-2xl md:text-4xl font-black">{i + 1}</span>
+              <motion.h1 
+                key="title-confirm"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95, position: 'absolute' }}
+                transition={{ duration: 0.3 }}
+                className="text-xl md:text-2xl font-bold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep w-full"
+              >
+                질문 선택 화면으로 돌아가시겠습니까?
+              </motion.h1>
             )}
-          </div>
-        ))}
-      </div>
-
-      {/* 3. 하단 좌우 스크롤 덱 */}
-      <div className="h-64 md:h-80 w-full relative mb-10 flex flex-col justify-end">
-        <div className="w-full overflow-x-auto overflow-y-hidden scrollbar-hide">
-          {/* px-[45vw]를 주어 첫 카드가 화면 중앙에 오도록 배치 */}
-          <div className="flex items-center gap-3 py-10 px-[45vw]" style={{ width: 'max-content' }}>
-            {cards.map((card) => {
-              const isSelected = selectedCards.includes(card.id);
-              return (
-                <motion.div
-                  key={card.id}
-                  whileHover={{ y: -30, scale: 1.1, zIndex: 50 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => handleCardClick(card.id)}
-                  className={`
-                    flex-shrink-0 w-28 h-44 md:w-40 md:h-64 rounded-xl border-2 cursor-pointer transition-all duration-300
-                    ${isSelected ? 'opacity-0 scale-50 pointer-events-none' : 'border-amber-500/30 bg-indigo-950 shadow-2xl'}
-                  `}
-                >
-                  <div className="w-full h-full flex flex-col items-center justify-center relative bg-slate-900 overflow-hidden rounded-lg">
-                    {/* 카드 뒷면 문양 */}
-                    <div className="absolute inset-1 border border-amber-500/10 rounded-lg" />
-                    <span className="text-amber-500/20 text-4xl">✨</span>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+          </AnimatePresence>
         </div>
 
-        {/* 양옆 페이드 효과 */}
-        <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#0f1117] to-transparent pointer-events-none z-20" />
-        <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#0f1117] to-transparent pointer-events-none z-20" />
+        <div className="relative w-full max-w-md flex justify-center items-center mb-4 md:mb-8 min-h-[40px]">
+          <AnimatePresence>
+            {!showHomeModal ? (
+              <motion.div
+                key="desc-default"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, position: 'absolute' }}
+                transition={{ duration: 0.3 }}
+                className="flex justify-center w-full"
+              >
+                <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest text-center line-clamp-2 leading-relaxed">
+                  {selectedCards.length === maxCards
+                    ? "당신의 운명이 선택되었습니다."
+                    : `${maxCards > 1 ? `${maxCards}장` : '오늘'}의 카드를 신중하게 선택하세요 (${selectedCards.length}/${maxCards})`}
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="desc-confirm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, position: 'absolute' }}
+                transition={{ duration: 0.3 }}
+                className="flex gap-4 w-full justify-center"
+              >
+                <button
+                  onClick={() => setShowHomeModal(false)}
+                  className="px-6 py-2 rounded-full border border-gray-400/30 text-gray-300 text-sm md:text-base font-semibold active:bg-gray-400/20 transition-colors tracking-widest"
+                >
+                  아니오
+                </button>
+                <button
+                  onClick={() => router.push('/')}
+                  className="px-6 py-2 rounded-full bg-amber-500/20 border border-amber-500/50 text-amber-400 text-sm md:text-base font-bold active:bg-amber-500/40 shadow-[0_0_15px_rgba(251,191,36,0.2)] transition-all tracking-widest"
+                >
+                  예
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* 슬롯 영역 */}
+        <div className={`relative w-full max-w-5xl mx-auto flex justify-center ${
+          spreadParam === 'celtic' 
+            ? 'h-[440px] md:h-[650px] mt-4 overflow-visible' 
+            : spreadParam === 'today' 
+              ? 'items-center h-[220px] md:h-[380px] min-h-[220px]' 
+              : 'h-[220px] md:h-[380px] min-h-[220px]'
+        }`}>
+          {roles.map((role, idx) => {
+            const isCeltic = spreadParam === 'celtic';
+            const isToday = spreadParam === 'today';
+            
+            let posClass = "flex flex-col items-center justify-center";
+            let posStyle: React.CSSProperties = {};
+            
+            if (!isCeltic) {
+              posClass += " absolute bottom-0 -translate-x-1/2";
+              if (isToday) {
+                posStyle = { left: "50%" };
+              } else {
+                const offset = isMobile ? 120 : 250;
+                posStyle = { left: idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)` };
+              }
+            } else {
+              posClass += " absolute";
+              const cardW = isMobile ? 50 : 86;
+              const cardH = isMobile ? 80 : 135;
+              const gapX = isMobile ? 68 : 120;
+              const gapY = isMobile ? 85 : 150;
+              
+              const crossCx = `calc(50% - ${gapX}px)`;
+              const crossCy = `50%`;
+              const pillarX = `calc(50% + ${gapX * 1.5}px)`;
+              
+              let left = '50%';
+              let top = '50%';
+              let transform = 'translate(-50%, -50%)';
+              let zIndex = 10;
+              
+              if (idx === 0) {
+                left = crossCx; top = crossCy; zIndex = 10;
+              } else if (idx === 1) {
+                left = crossCx; top = crossCy; 
+                transform = 'translate(-50%, -50%) rotate(90deg)';
+                zIndex = 11;
+              } else if (idx === 2) {
+                left = crossCx; top = `calc(50% + ${gapY}px)`; 
+              } else if (idx === 3) {
+                left = `calc(${crossCx} - ${gapX}px)`; top = crossCy;
+              } else if (idx === 4) {
+                left = crossCx; top = `calc(50% - ${gapY}px)`;
+              } else if (idx === 5) {
+                left = `calc(${crossCx} + ${gapX}px)`; top = crossCy;
+              } else {
+                left = pillarX;
+                const multiplier = 1.5 - (idx - 6);
+                top = `calc(50% + ${gapY * multiplier}px)`;
+              }
+              posStyle = { left, top, transform, zIndex };
+            }
+            
+            const slotWidthClass = isCeltic ? "w-[50px] h-[80px] md:w-[86px] md:h-[135px]" : "w-[96px] h-[150px] md:w-[165px] md:h-[270px]";
+            const textSizeClass = isCeltic ? "hidden" : "text-sm md:text-lg mb-6";
+
+            const selection = selectedCards.find(c => c.role === role);
+            const selectedCardData = selection ? cards.find(c => c.id === selection.id) : null;
+            const isFilled = !!selection;
+
+            const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
+
+            return (
+              <div
+                key={role}
+                className={posClass}
+                style={posStyle}
+              >
+                {!isCeltic && (
+                  <div className={`h-[24px] md:h-[32px] flex items-end ${textSizeClass}`}>
+                    <span className={`text-white/50 font-semibold tracking-widest whitespace-nowrap uppercase text-center w-full block drop-shadow-sm`}>{role}</span>
+                  </div>
+                )}
+                
+                <div className={`relative ${slotWidthClass} rounded-xl transition-all duration-700 flex items-center justify-center ${isFilled
+                  ? 'border-transparent bg-transparent shadow-[0_0_80px_rgba(251,191,36,0.3)]'
+                  : 'border-[1px] border-amber-500/30 bg-black/40 shadow-inner backdrop-blur-sm'
+                  }`}>
+                  {isCeltic && !isFilled && (
+                    <span className="absolute text-amber-500/40 font-serif text-[10px] md:text-xs tracking-widest pointer-events-none">
+                      {romanNumerals[idx]}
+                    </span>
+                  )}
+                  {isFilled && selectedCardData && (
+                    <motion.div
+                      layoutId={`card-${selectedCardData.id}`}
+                      onClick={() => handleCardClick(selectedCardData.id)}
+                      className="relative cursor-pointer pointer-events-auto w-full h-full"
+                      style={{ transformStyle: "preserve-3d" }}
+                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                    >
+                      <div
+                        className="absolute inset-0 w-full h-full rounded-xl border border-amber-300 overflow-hidden bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center shadow-[0_0_25px_rgba(212,175,55,0.7)]"
+                      >
+                        <div className="absolute inset-1 border border-[#D4AF37]/40 rounded-lg"></div>
+                        <div className="w-6 h-6 md:w-8 md:h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45">
+                          <div className="w-2 h-2 md:w-3 md:h-3 bg-[#D4AF37]/40 rounded-full"></div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
-    </main>
+
+      {/* 하단 덱 영역 */}
+      <div className="w-full mt-4 md:mt-8 relative overflow-hidden flex-grow flex items-center">
+        <div 
+          className="w-full h-full overflow-x-auto scrollbar-hide flex items-center px-[45vw]" 
+          style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x' }}
+        >
+          <div className="flex items-center space-x-[-35px] md:space-x-[-65px] py-16">
+            <AnimatePresence>
+              {cards.map((card) => (
+                <TarotCardItem 
+                  key={card.id}
+                  card={card}
+                  isSelected={selectedCards.some(c => c.id === card.id)}
+                  onCardClick={handleCardClick}
+                />
+              ))}
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {selectedCards.length === maxCards && (
+          <motion.div
+            className="fixed left-0 z-[600] w-full flex justify-center px-4"
+            style={{ bottom: 'calc(4vh + env(safe-area-inset-bottom))' }}
+            initial={{ y: 80, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 80, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 250, damping: 20 }}
+          >
+            <button
+              onClick={handleCheckDestiny}
+              className="relative w-full max-w-[320px] py-4 md:py-5 bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 bg-[length:200%_auto] text-white font-extrabold text-xl md:text-2xl rounded-full border border-amber-300/50 shadow-[0_0_40px_rgba(251,191,36,0.5)] hover:shadow-[0_0_60px_rgba(251,191,36,0.8)] hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
+              <span className="relative z-10 drop-shadow-md tracking-wide">
+                운명 확인하기
+              </span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+    </motion.main>
   );
 }
 
 export default function SelectPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#0f1117] flex items-center justify-center">카드 뭉치를 가져오는 중...</div>}>
+    <Suspense fallback={
+      <div className="w-full min-h-screen flex items-center justify-center bg-slate-900">
+        <div className="w-16 h-16 border-4 border-amber-500/30 border-t-amber-400 rounded-full animate-spin"></div>
+      </div>
+    }>
       <SelectContent />
     </Suspense>
   );
