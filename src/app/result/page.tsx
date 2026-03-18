@@ -2,7 +2,10 @@
 
 import React, { useEffect, useState, useMemo, memo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { TAROT_DATA } from "@/constants/tarotData";
+import { TAROT_BASE } from "@/data/tarot/base";
+import { TAROT_TODAY } from "@/data/tarot/today";
+import { TAROT_SPREAD3 } from "@/data/tarot/spread3";
+import { TAROT_CELTIC } from "@/data/tarot/celtic";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CATEGORY_MAP: Record<string, string> = {
@@ -143,8 +146,17 @@ function ResultContent() {
 
     const cardIds = cardsParam.split(',').map(id => parseInt(id, 10));
     const loadedCards = cardIds.map((id, index) => {
-      const cardData = TAROT_DATA.find(c => c.id === id);
-      return cardData ? { cardData, role: roles[index] || "오늘의 카드" } : null;
+      const base = TAROT_BASE[id];
+      if (!base) return null;
+      let cardData: any = { ...base };
+      if (spreadParam === 'today') {
+        cardData = { ...cardData, ...TAROT_TODAY[id] };
+      } else if (spreadParam === 'celtic') {
+        cardData = { ...cardData, celtic: TAROT_CELTIC[id] };
+      } else {
+        cardData = { ...cardData, ...TAROT_SPREAD3[id] };
+      }
+      return { cardData, role: roles[index] || "오늘의 카드" };
     }).filter((item): item is { cardData: any, role: string } => item !== null);
 
     const requiredCount = spreadParam === 'today' ? 1 : spreadParam === 'celtic' ? 10 : 3;

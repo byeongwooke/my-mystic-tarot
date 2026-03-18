@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, Suspense, useMemo, memo } from "react";
-import { TAROT_DATA } from "@/constants/tarotData";
+import { TAROT_BASE, TarotBase } from "@/data/tarot/base";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -11,7 +11,7 @@ const TarotCardItem = memo(({
   isSelected, 
   onCardClick 
 }: { 
-  card: typeof TAROT_DATA[0], 
+  card: TarotBase, 
   isSelected: boolean, 
   onCardClick: (id: number) => void 
 }) => {
@@ -80,7 +80,7 @@ function SelectContent() {
 
   const [selectedCards, setSelectedCards] = useState<{ id: number; role: string }[]>([]);
   const [isMobile, setIsMobile] = useState(false);
-  const [cards, setCards] = useState<typeof TAROT_DATA>([]);
+  const [cards, setCards] = useState<TarotBase[]>([]);
   const [showHomeModal, setShowHomeModal] = useState(false);
 
   const spreadData = useMemo(() => {
@@ -119,7 +119,7 @@ function SelectContent() {
       const j = Math.floor(Math.random() * (i + 1));
       [shuffledIds[i], shuffledIds[j]] = [shuffledIds[j], shuffledIds[i]];
     }
-    setCards(shuffledIds.map(id => TAROT_DATA[id] || TAROT_DATA[0]));
+    setCards(shuffledIds.map(id => TAROT_BASE[id] || TAROT_BASE[0]));
 
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
