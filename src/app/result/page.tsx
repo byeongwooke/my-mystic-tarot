@@ -296,12 +296,17 @@ function ResultContent() {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mb-4 md:mb-8 text-center bg-red-950/30 border border-red-500/20 py-3 px-6 rounded-full inline-block"
+            className="mb-6 md:mb-10 w-full flex justify-center px-4"
           >
-            <p className="text-red-400/90 text-sm md:text-base font-bold tracking-widest break-keep">
-              <span className="text-red-500 mr-2 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]">주의!</span>
-              {`${cardsInfo[0]?.cardData?.warning} (역방향 해석)`}
-            </p>
+            <div className="flex flex-col items-center justify-center text-center bg-slate-800/40 border border-slate-700/50 py-4 px-6 md:px-8 rounded-2xl max-w-xl gap-1.5 shadow-md backdrop-blur-sm">
+              <p className="text-slate-300 text-sm md:text-balance font-medium tracking-widest break-keep leading-relaxed">
+                <span className="text-slate-400 font-bold mr-2">참고!</span>
+                {cardsInfo[0].cardData.warning.replace(/[\[\]]/g, '')}
+              </p>
+              <span className="text-slate-500/80 text-[11px] md:text-xs tracking-widest font-light">
+                (역방향 해석)
+              </span>
+            </div>
           </motion.div>
         )}
 
