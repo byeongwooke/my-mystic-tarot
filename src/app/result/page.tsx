@@ -300,7 +300,7 @@ function ResultContent() {
           >
             <p className="text-red-400/90 text-sm md:text-base font-bold tracking-widest break-keep">
               <span className="text-red-500 mr-2 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]">주의!</span>
-              {cardsInfo[0].cardData.warning}
+              {`${cardsInfo[0]?.cardData?.warning} (역방향 해석)`}
             </p>
           </motion.div>
         )}
