@@ -83,14 +83,9 @@ const ResultCardItem = memo(({
               loading="lazy"
               className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isReversed ? 'rotate-180' : ''}`}
             />
-            <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent ${isCeltic ? 'pt-6 pb-1' : 'pt-8 pb-3'} px-1`}>
-              <div className={`${isCeltic ? 'text-[8px] md:text-[10px]' : 'text-[9px] md:text-sm'} font-bold text-amber-400 flex flex-col items-center gap-0.5 text-center drop-shadow-md tracking-tighter`}>
-                <span>{cardData.nameKr}</span>
-                {isReversed !== undefined && (
-                  <span className={`text-[0.8em] font-normal ${isReversed ? 'text-slate-400' : 'text-slate-300'}`}>
-                    [{isReversed ? '역방향' : '정방향'}]
-                  </span>
-                )}
+            <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent ${isCeltic ? 'pt-6 pb-1' : 'pt-8 pb-2'} px-1`}>
+              <div className={`${isCeltic ? 'text-[8px] md:text-[10px]' : 'text-[9px] md:text-sm'} font-bold text-amber-400 text-center drop-shadow-md tracking-tighter`}>
+                {cardData.nameKr}
               </div>
             </div>
           </>
@@ -98,10 +93,7 @@ const ResultCardItem = memo(({
           <>
             <div className="absolute inset-1 border border-amber-500/20 rounded-lg"></div>
             <div className={`${isCeltic ? 'text-[9px] md:text-sm' : 'text-[11px] md:text-lg'} font-bold text-amber-200 text-center px-1 md:px-4 leading-relaxed break-keep z-10`}>{cardData.nameKr}</div>
-            <div className={`${isCeltic ? 'hidden md:block text-[8px]' : 'text-[9px] md:text-xs'} font-bold text-amber-400/60 mt-1 z-10 text-center px-1 tracking-widest uppercase`}>{cardData.name}</div>
-            {isReversed !== undefined && (
-               <div className="absolute bottom-2 text-slate-300/80 font-light text-[8px] md:text-[10px] tracking-widest bg-black/50 px-2 py-0.5 rounded-full z-10">[{isReversed ? '역방향' : '정방향'}]</div>
-            )}
+            <div className={`${isCeltic ? 'hidden md:block text-[8px]' : 'text-[9px] md:text-xs'} font-bold text-amber-400/60 mt-2 z-10 text-center px-1 tracking-widest uppercase`}>{cardData.name}</div>
           </>
         )}
       </div>
@@ -166,7 +158,9 @@ function ResultContent() {
       } else {
         cardData = { ...cardData, ...TAROT_SPREAD3[id] };
       }
-      return { cardData, role: roles[index] || "오늘의 카드", isReversed };
+      const baseRole = roles[index] || "오늘의 카드";
+      const appendedRole = `${baseRole} (${isReversed ? '역방향' : '정방향'})`;
+      return { cardData, role: appendedRole, isReversed };
     }).filter((item): item is { cardData: any, role: string, isReversed: boolean } => item !== null);
 
     const requiredCount = spreadParam === 'today' ? 1 : spreadParam === 'celtic' ? 10 : 3;
@@ -613,19 +607,21 @@ function ResultContent() {
 
                   <div className="flex items-center gap-4 mb-6 border-b border-amber-500/20 pb-4">
                     <div className={`w-4 h-4 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.8)] ${
-                      item.role === '과거' ? 'bg-amber-700 border-2 border-amber-500' :
-                      item.role === '현재' ? 'bg-amber-500 border-2 border-amber-300' :
+                      item.role.startsWith('과거') ? 'bg-amber-700 border-2 border-amber-500' :
+                      item.role.startsWith('현재') ? 'bg-amber-500 border-2 border-amber-300' :
                       'bg-yellow-400 border-2 border-yellow-200'
                     }`}></div>
-                    <h2 className="text-2xl md:text-3xl font-bold text-amber-400 tracking-widest">
-                      {spread === 'today' ? '오늘의 종합 조언' : item.role === '과거' ? '과거의 기반' : item.role === '현재' ? '현재의 조언' : '미래의 가능성'}
+                    <h2 className="text-2xl md:text-3xl font-bold text-amber-400 tracking-widest flex items-center">
+                      {spread === 'today' ? '오늘의 종합 조언' : item.role.startsWith('과거') ? '과거의 기반' : item.role.startsWith('현재') ? '현재의 조언' : '미래의 가능성'}
+                      <span className="text-xl md:text-2xl text-amber-400/60 font-medium ml-3">
+                        ({item.isReversed ? '역방향' : '정방향'})
+                      </span>
                     </h2>
                   </div>
 
                   <div className="flex flex-col gap-2 mb-6">
                     <h3 className="text-2xl text-white font-bold flex items-center gap-3">
                       {item.cardData.nameKr}
-                      <span className="text-lg text-emerald-400 opacity-80 font-normal">정방향</span>
                     </h3>
                     <p className="text-amber-200/80 tracking-wide text-sm md:text-base">
                       {item.cardData.keywords.join(' · ')}
