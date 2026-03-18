@@ -78,7 +78,7 @@ function SelectContent() {
 
   const cleanCategory = rawCategory ? rawCategory.replace(/[^\w]/g, '') : '';
 
-  const [selectedCards, setSelectedCards] = useState<{ id: number; role: string }[]>([]);
+  const [selectedCards, setSelectedCards] = useState<{ id: number; role: string; isReversed: boolean }[]>([]);
   const [isMobile, setIsMobile] = useState(false);
   const [cards, setCards] = useState<TarotBase[]>([]);
   const [showHomeModal, setShowHomeModal] = useState(false);
@@ -141,14 +141,14 @@ function SelectContent() {
       return;
     }
 
-    setSelectedCards(prev => [...prev, { id: cardId, role: roles[prev.length] }]);
+    setSelectedCards(prev => [...prev, { id: cardId, role: roles[prev.length], isReversed: Math.random() < 0.5 }]);
   };
 
   const handleCheckDestiny = () => {
     if (selectedCards.length !== maxCards) return;
     
     const sortedSelections = [...selectedCards].sort((a, b) => roles.indexOf(a.role) - roles.indexOf(b.role));
-    const sortedIds = sortedSelections.map(c => c.id).join(',');
+    const sortedIds = sortedSelections.map(c => `${c.id}${c.isReversed ? 'r' : ''}`).join(',');
     
     // 즉시 이동 (결과 페이지에서 로딩 애니메이션 처리)
     router.push(`/result?category=${cleanCategory}&spread=${spreadParam}&cards=${sortedIds}`);

@@ -35,6 +35,7 @@ const ResultCardItem = memo(({
   isLarge,
   isCeltic,
   isActive,
+  isReversed,
   onClick,
   idx
 }: { 
@@ -43,6 +44,7 @@ const ResultCardItem = memo(({
   isLarge: boolean,
   isCeltic?: boolean,
   isActive?: boolean,
+  isReversed?: boolean,
   onClick?: () => void,
   idx?: number
 }) => {
@@ -79,11 +81,16 @@ const ResultCardItem = memo(({
               src={`/images/cards/${cardData.id}.webp`}
               alt={cardData.nameKr}
               loading="lazy"
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isReversed ? 'rotate-180' : ''}`}
             />
-            <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent ${isCeltic ? 'pt-6 pb-1' : 'pt-8 pb-2'} px-1`}>
-              <div className={`${isCeltic ? 'text-[8px] md:text-[10px]' : 'text-[9px] md:text-sm'} font-bold text-amber-400 text-center drop-shadow-md tracking-tighter`}>
-                {cardData.nameKr}
+            <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent ${isCeltic ? 'pt-6 pb-1' : 'pt-8 pb-3'} px-1`}>
+              <div className={`${isCeltic ? 'text-[8px] md:text-[10px]' : 'text-[9px] md:text-sm'} font-bold text-amber-400 flex flex-col items-center gap-0.5 text-center drop-shadow-md tracking-tighter`}>
+                <span>{cardData.nameKr}</span>
+                {isReversed !== undefined && (
+                  <span className={`text-[0.8em] font-normal ${isReversed ? 'text-slate-400' : 'text-slate-300'}`}>
+                    [{isReversed ? '역방향' : '정방향'}]
+                  </span>
+                )}
               </div>
             </div>
           </>
@@ -91,7 +98,10 @@ const ResultCardItem = memo(({
           <>
             <div className="absolute inset-1 border border-amber-500/20 rounded-lg"></div>
             <div className={`${isCeltic ? 'text-[9px] md:text-sm' : 'text-[11px] md:text-lg'} font-bold text-amber-200 text-center px-1 md:px-4 leading-relaxed break-keep z-10`}>{cardData.nameKr}</div>
-            <div className={`${isCeltic ? 'hidden md:block text-[8px]' : 'text-[9px] md:text-xs'} font-bold text-amber-400/60 mt-2 z-10 text-center px-1 tracking-widest uppercase`}>{cardData.name}</div>
+            <div className={`${isCeltic ? 'hidden md:block text-[8px]' : 'text-[9px] md:text-xs'} font-bold text-amber-400/60 mt-1 z-10 text-center px-1 tracking-widest uppercase`}>{cardData.name}</div>
+            {isReversed !== undefined && (
+               <div className="absolute bottom-2 text-slate-300/80 font-light text-[8px] md:text-[10px] tracking-widest bg-black/50 px-2 py-0.5 rounded-full z-10">[{isReversed ? '역방향' : '정방향'}]</div>
+            )}
           </>
         )}
       </div>
@@ -107,7 +117,7 @@ function ResultContent() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
-  const [cardsInfo, setCardsInfo] = useState<{ cardData: any, role: string }[]>([]);
+  const [cardsInfo, setCardsInfo] = useState<{ cardData: any, role: string, isReversed: boolean }[]>([]);
   const [category, setCategory] = useState<string | null>(null);
   const [spread, setSpread] = useState<string>('basic');
   const [activeCardIdx, setActiveCardIdx] = useState(0);
@@ -144,8 +154,8 @@ function ResultContent() {
       ["지금, 당신의 중심 (현재)", "나를 가로막는 벽 (장애물)", "인지하지 못한 근본 (무의식/기반)", "지나온 시간의 잔상 (과거)", "의식의 지향점 (목표/의식)", "곧 마주할 상황 (가까운 미래)", "스스로 정의하는 나 (태도/자아)", "나를 둘러싼 환경 (주변 상황)", "내면의 기대와 불안 (심리)", "마주하게 될 결과 (결과)"] :
       ["과거", "현재", "미래"];
 
-    const cardIds = cardsParam.split(',').map(id => parseInt(id, 10));
-    const loadedCards = cardIds.map((id, index) => {
+    const cardSelections = cardsParam.split(',').map(val => ({ id: parseInt(val, 10), isReversed: val.endsWith('r') }));
+    const loadedCards = cardSelections.map(({ id, isReversed }, index) => {
       const base = TAROT_BASE[id];
       if (!base) return null;
       let cardData: any = { ...base };
@@ -156,8 +166,8 @@ function ResultContent() {
       } else {
         cardData = { ...cardData, ...TAROT_SPREAD3[id] };
       }
-      return { cardData, role: roles[index] || "오늘의 카드" };
-    }).filter((item): item is { cardData: any, role: string } => item !== null);
+      return { cardData, role: roles[index] || "오늘의 카드", isReversed };
+    }).filter((item): item is { cardData: any, role: string, isReversed: boolean } => item !== null);
 
     const requiredCount = spreadParam === 'today' ? 1 : spreadParam === 'celtic' ? 10 : 3;
     if (loadedCards.length !== requiredCount) {
@@ -178,12 +188,13 @@ function ResultContent() {
     return category ? (map[category] || '') : '';
   }, [category]);
 
-  const getAdviceText = (cardData: any, roleStr: string) => {
+  const getAdviceText = (item: any) => {
+    const { cardData, role, isReversed } = item;
     if (!cardData || !category) return "";
     
     // 오늘의 운세 전용 조언 우선
     if (spread === 'today' || category === 'today') {
-      return cardData.todayAdvice || "운명의 메시지를 준비 중입니다";
+      return isReversed ? (cardData.warning || cardData.todayAdvice) : (cardData.todayAdvice || "운명의 메시지를 준비 중입니다");
     }
 
     const timeMap: Record<string, "past" | "present" | "future"> = {
@@ -191,7 +202,11 @@ function ResultContent() {
       '현재': 'present',
       '미래': 'future'
     };
-    const mappedTime = timeMap[roleStr] || 'future';
+    const mappedTime = timeMap[role] || 'future';
+
+    if (isReversed && cardData.interpretations?.reversed) {
+      return cardData.interpretations.reversed;
+    }
 
     if (typeof cardData.advice === 'string') return cardData.advice;
 
@@ -202,11 +217,17 @@ function ResultContent() {
     return catAdvice?.[mappedTime] || "운명의 메시지를 준비 중입니다";
   };
 
-  const getInterpretationText = (cardData: any) => {
+  const getInterpretationText = (item: any) => {
+    const { cardData, isReversed } = item;
     if (!cardData || !category) return "";
     if (spread === 'today' || category === 'today') {
-      return cardData.todayAdvice || "운명의 메시지를 준비 중입니다";
+      return isReversed ? (cardData.warning || cardData.todayAdvice) : (cardData.todayAdvice || "운명의 메시지를 준비 중입니다");
     }
+
+    if (isReversed && cardData.interpretations?.reversed) {
+      return cardData.interpretations.reversed;
+    }
+
     const key = CATEGORY_MAP[category] || category;
     return cardData.interpretations?.[key] || "운명의 메시지를 준비 중입니다";
   };
@@ -239,14 +260,14 @@ function ResultContent() {
   const overallAdvice = useMemo(() => {
     if (cardsInfo.length === 0) return "운명의 메시지를 기다리는 중입니다.";
     if (spread === 'today') {
-      return `"${getAdviceText(cardsInfo[0].cardData, '오늘의 카드')}"`;
+      return `"${getAdviceText(cardsInfo[0])}"`;
     }
     if (spread === 'celtic') {
       const activeData = cardsInfo[activeCardIdx]?.cardData;
       return `"${getCelticInterpretation(activeData, activeCardIdx)}"`;
     }
     const futureItem = cardsInfo.find(c => c.role === "미래");
-    return futureItem ? `"${getAdviceText(futureItem.cardData, '미래')}"` : "운명은 당신의 선택에 달려 있습니다.";
+    return futureItem ? `"${getAdviceText(futureItem)}"` : "운명은 당신의 선택에 달려 있습니다.";
   }, [cardsInfo, spread, category, activeCardIdx]);
 
   if (isLoading) {
@@ -454,7 +475,7 @@ function ResultContent() {
                       <div className="bg-gradient-to-br from-indigo-900/30 to-black/40 border border-indigo-500/30 p-5 md:p-6 rounded-2xl relative">
                         <span className="absolute -top-3 left-4 bg-indigo-900 border border-indigo-500/50 px-3 py-1 text-xs text-indigo-200 rounded-full tracking-widest">카드의 해석</span>
                         <p className="text-indigo-100/90 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif">
-                          {getInterpretationText(cardsInfo[activeCardIdx].cardData)}
+                          {getInterpretationText(cardsInfo[activeCardIdx])}
                         </p>
                       </div>
 
@@ -631,7 +652,7 @@ function ResultContent() {
                         </div>
                       ) : (
                         <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep mt-2">
-                          {getInterpretationText(item.cardData)}
+                          {getInterpretationText(item)}
                         </p>
                       )}
                     </div>
@@ -639,7 +660,7 @@ function ResultContent() {
                     <div className="bg-gradient-to-br from-amber-900/30 to-black/40 border border-amber-500/30 p-5 md:p-6 rounded-2xl relative">
                       <span className="absolute -top-3 left-4 bg-amber-900 border border-amber-500/50 px-3 py-1 text-xs text-amber-200 rounded-full tracking-widest">타로 마스터의 한마디</span>
                       <p className="text-amber-50/90 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif italic">
-                        "{getAdviceText(item.cardData, item.role)}"
+                        "{getAdviceText(item)}"
                       </p>
                     </div>
                   </div>
