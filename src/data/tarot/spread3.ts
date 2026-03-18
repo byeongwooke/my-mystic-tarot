@@ -498,7 +498,7 @@ export const TAROT_SPREAD3: Record<number, Spread3Card> = {
         "interpretations": {
             "love": "축복 관계, 최고 행복",
             "money": "금전 대박, 자산 투명",
-            "work": "인정 성과, 최고 에너지",
+            "work": "인정 성과, 최고 흐름",
             "reversed": "일시 정체, 과한 낙관 실수"
         },
         "advice": {
