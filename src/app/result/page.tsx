@@ -188,7 +188,7 @@ function ResultContent() {
     
     // 오늘의 운세 전용 조언 우선
     if (spread === 'today' || category === 'today') {
-      return isReversed ? (cardData.warning || cardData.todayAdvice) : (cardData.todayAdvice || "운명의 메시지를 준비 중입니다");
+      return isReversed ? (cardData?.todayWarningAdvice || cardData?.warning || cardData?.todayAdvice || "운명의 메시지를 준비 중입니다") : (cardData?.todayAdvice || "운명의 메시지를 준비 중입니다");
     }
 
     const timeMap: Record<string, "past" | "present" | "future"> = {
@@ -215,7 +215,7 @@ function ResultContent() {
     const { cardData, isReversed } = item;
     if (!cardData || !category) return "";
     if (spread === 'today' || category === 'today') {
-      return isReversed ? (cardData.warning || cardData.todayAdvice) : (cardData.todayAdvice || "운명의 메시지를 준비 중입니다");
+      return isReversed ? (cardData?.todayWarningAdvice || cardData?.warning || cardData?.todayAdvice || "운명의 메시지를 준비 중입니다") : (cardData?.todayAdvice || "운명의 메시지를 준비 중입니다");
     }
 
     if (isReversed && cardData.interpretations?.reversed) {
@@ -307,23 +307,6 @@ function ResultContent() {
           당신의 {categoryName} 결과입니다
         </motion.h1>
 
-        {spread === 'today' && cardsInfo[0]?.cardData?.warning && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-6 md:mb-10 w-full flex justify-center px-4"
-          >
-            <div className="flex flex-col items-center justify-center text-center bg-slate-800/40 border border-slate-700/50 py-4 px-6 md:px-8 rounded-2xl max-w-xl gap-1.5 shadow-md backdrop-blur-sm">
-              <p className="text-slate-300 text-sm md:text-balance font-medium tracking-widest break-keep leading-relaxed">
-                <span className="text-slate-400 font-bold mr-2">참고!</span>
-                {cardsInfo[0].cardData.warning.replace(/[\[\]]/g, '')}
-              </p>
-              <span className="text-slate-500/80 text-[11px] md:text-xs tracking-widest font-light">
-                (역방향 해석)
-              </span>
-            </div>
-          </motion.div>
-        )}
 
         <div className="mb-12 md:mb-20 mt-4 min-h-[80px] md:min-h-[120px] flex items-center justify-center w-full max-w-4xl px-2">
           <AnimatePresence mode="wait">
@@ -631,19 +614,19 @@ function ResultContent() {
                   <div className="space-y-6 md:space-y-8">
                     <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative">
                       <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">카드의 해석</span>
-                      {spread === 'today' && item.cardData?.summary ? (
+                      {spread === 'today' && (item.cardData?.summary || item.cardData?.warningSummary) ? (
                         <div className="flex flex-col gap-6 mt-4">
                           <div className="flex flex-col gap-1">
                             <span className="text-pink-400/80 font-bold text-xs md:text-sm tracking-widest uppercase">Love</span>
-                            <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.cardData.summary.love}</p>
+                            <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.isReversed ? item.cardData?.warningSummary?.love : item.cardData?.summary?.love}</p>
                           </div>
                           <div className="flex flex-col gap-1">
                             <span className="text-amber-400/80 font-bold text-xs md:text-sm tracking-widest uppercase">Money</span>
-                            <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.cardData.summary.money}</p>
+                            <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.isReversed ? item.cardData?.warningSummary?.money : item.cardData?.summary?.money}</p>
                           </div>
                           <div className="flex flex-col gap-1">
                             <span className="text-blue-400/80 font-bold text-xs md:text-sm tracking-widest uppercase">Work</span>
-                            <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.cardData.summary.work}</p>
+                            <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.isReversed ? item.cardData?.warningSummary?.work : item.cardData?.summary?.work}</p>
                           </div>
                         </div>
                       ) : (
