@@ -292,6 +292,19 @@ function ResultContent() {
           당신의 {categoryName} 결과입니다
         </motion.h1>
 
+        {spread === 'today' && cardsInfo[0]?.cardData?.warning && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 md:mb-8 text-center bg-red-950/30 border border-red-500/20 py-3 px-6 rounded-full inline-block"
+          >
+            <p className="text-red-400/90 text-sm md:text-base font-bold tracking-widest break-keep">
+              <span className="text-red-500 mr-2 drop-shadow-[0_0_8px_rgba(239,68,68,0.5)]">주의!</span>
+              {cardsInfo[0].cardData.warning}
+            </p>
+          </motion.div>
+        )}
+
         <div className="mb-12 md:mb-20 mt-4 min-h-[80px] md:min-h-[120px] flex items-center justify-center w-full max-w-4xl px-2">
           <AnimatePresence mode="wait">
             <motion.p
@@ -596,9 +609,26 @@ function ResultContent() {
                   <div className="space-y-6 md:space-y-8">
                     <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative">
                       <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">카드의 해석</span>
-                      <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep mt-2">
-                        {getInterpretationText(item.cardData)}
-                      </p>
+                      {spread === 'today' && item.cardData?.summary ? (
+                        <div className="flex flex-col gap-6 mt-4">
+                          <div className="flex flex-col gap-1">
+                            <span className="text-pink-400/80 font-bold text-xs md:text-sm tracking-widest uppercase">Love</span>
+                            <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.cardData.summary.love}</p>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <span className="text-amber-400/80 font-bold text-xs md:text-sm tracking-widest uppercase">Money</span>
+                            <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.cardData.summary.money}</p>
+                          </div>
+                          <div className="flex flex-col gap-1">
+                            <span className="text-blue-400/80 font-bold text-xs md:text-sm tracking-widest uppercase">Work</span>
+                            <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.cardData.summary.work}</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep mt-2">
+                          {getInterpretationText(item.cardData)}
+                        </p>
+                      )}
                     </div>
 
                     <div className="bg-gradient-to-br from-amber-900/30 to-black/40 border border-amber-500/30 p-5 md:p-6 rounded-2xl relative">
