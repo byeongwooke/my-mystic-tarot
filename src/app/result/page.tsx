@@ -309,18 +309,38 @@ function ResultContent() {
 
 
         <div className="mb-12 md:mb-20 mt-4 min-h-[80px] md:min-h-[120px] flex items-center justify-center w-full max-w-4xl px-2">
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={activeCardIdx + overallAdvice}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="text-amber-300 tracking-widest text-center text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose"
-            >
-              {overallAdvice}
-            </motion.p>
-          </AnimatePresence>
+          {spread === 'today' && cardsInfo[0] ? (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={cardsInfo[0].cardData?.id || 'today-score'}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="flex flex-col items-center justify-center gap-6 text-center w-full"
+              >
+                <div className="text-3xl md:text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-amber-200 to-amber-600 drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]">
+                  오늘의 운세 점수: {cardsInfo[0].isReversed ? cardsInfo[0].cardData?.warningScore?.toFixed(1) : cardsInfo[0].cardData?.score?.toFixed(1)}점
+                </div>
+                <p className="text-amber-100/90 tracking-widest text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose px-2 md:px-8">
+                  "{getAdviceText(cardsInfo[0])}"
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          ) : (
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={activeCardIdx + overallAdvice}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="text-amber-300 tracking-widest text-center text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose"
+              >
+                {overallAdvice}
+              </motion.p>
+            </AnimatePresence>
+          )}
         </div>
 
         {spread === 'celtic' ? (

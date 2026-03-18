@@ -1,4 +1,6 @@
 export interface TodayCard {
+    score: number;
+    warningScore: number;
     id: number;
     todayAdvice: string;
     todayWarningAdvice: string; // 역방향용 마스터의 한마디
@@ -18,6 +20,8 @@ export interface TodayCard {
 export const TAROT_TODAY: Record<number, TodayCard> = {
     "0": {
         "id": 0,
+        "score": 85.4,
+        "warningScore": 32.1,
         "todayAdvice": "정해진 규칙이 없는 날입니다. 계산기를 두드리기보다 발길 닿는 대로 움직일 때 의외의 소득이 있습니다.",
         "todayWarningAdvice": "자유가 방임이 될 때 발밑의 낭떠러지를 잊기 쉽습니다. 지금의 무계획은 용기가 아닌 위태로움일 수 있습니다.",
         "warning": "준비 부족 혹은 경솔함",
@@ -26,6 +30,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "1": {
         "id": 1,
+        "score": 92.5,
+        "warningScore": 45.3,
         "todayAdvice": "준비는 끝났습니다. 당신이 가진 도구들을 어떻게 조합하느냐에 따라 오늘의 결과가 달라집니다.",
         "todayWarningAdvice": "기술은 훌륭하나 진실함이 빠져있을 수 있습니다. 상대를 설득하는 힘이 자칫 기만으로 흐르지 않게 하세요.",
         "warning": "재능 오용 혹은 사기 경계",
@@ -34,6 +40,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "2": {
         "id": 2,
+        "score": 88,
+        "warningScore": 50.1,
         "todayAdvice": "지식보다 지혜가, 말보다 침묵이 더 많은 것을 설명하는 날입니다. 내면의 소리에 귀 기울이세요.",
         "todayWarningAdvice": "직관이 아닌 고집에 귀를 기울이고 있지는 않나요? 숨겨진 진실이 드러날 때 당혹스러울 수 있습니다.",
         "warning": "비밀의 폭로, 왜곡된 직관",
@@ -42,6 +50,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "3": {
         "id": 3,
+        "score": 95.5,
+        "warningScore": 40.5,
         "todayAdvice": "씨를 뿌린 자가 수확의 기쁨을 누리는 날입니다. 스스로를 아끼고 충분한 안식을 허락하세요.",
         "todayWarningAdvice": "풍요에 대한 집착이 오히려 결핍을 부릅니다. 지나친 소유욕은 당신의 아름다움을 시들게 할 뿐입니다.",
         "warning": "집착, 낭비, 창의력 정체",
@@ -50,6 +60,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "4": {
         "id": 4,
+        "score": 90.2,
+        "warningScore": 55.4,
         "todayAdvice": "흔들리지 않는 원칙이 필요한 하루입니다. 감정보다 이성을 앞세워 상황을 통제하세요.",
         "todayWarningAdvice": "강함이 유연함을 잃으면 부러지기 마련입니다. 원칙을 지키는 것과 타인을 억압하는 것을 혼동하지 마세요.",
         "warning": "독단적 횡포, 융통성 부족",
@@ -58,6 +70,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "5": {
         "id": 5,
+        "score": 82,
+        "warningScore": 48.2,
         "todayAdvice": "혼자만의 정답을 찾기보다 검증된 규칙과 지혜를 따르세요. 조력자의 조언이 해결의 열쇠가 됩니다.",
         "todayWarningAdvice": "전통이라는 이름의 감옥에 갇혀 있지는 않나요? 때로는 낡은 가르침보다 당신의 파격이 더 필요할 수 있습니다.",
         "warning": "고립된 생각, 잘못된 가르침",
@@ -66,6 +80,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "6": {
         "id": 6,
+        "score": 94.6,
+        "warningScore": 35.8,
         "todayAdvice": "마음이 향하는 곳에 진실이 있습니다. 머리보다 가슴이 시키는 선택을 믿어보세요.",
         "todayWarningAdvice": "순간의 이끌림이 평생의 속박이 될 수 있습니다. 지금의 조화가 환상인지 실제인지 차분히 들여다보세요.",
         "warning": "부조화, 유혹, 이별",
@@ -74,6 +90,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "7": {
         "id": 7,
+        "score": 89.1,
+        "warningScore": 41.2,
         "todayAdvice": "목표를 향해 거침없이 질주하세요. 앞을 가로막는 장애물은 당신의 추진력을 키워줄 뿐입니다.",
         "todayWarningAdvice": "속도보다 중요한 것은 방향입니다. 고삐 풀린 추진력은 결국 당신 자신을 집어삼킬 수도 있습니다.",
         "warning": "통제 상실, 폭주, 패배",
@@ -82,6 +100,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "8": {
         "id": 8,
+        "score": 87.3,
+        "warningScore": 52,
         "todayAdvice": "강한 힘보다 유연한 미소가 더 큰 승리를 가져옵니다. 본능을 다스리고 상황을 포용하세요.",
         "todayWarningAdvice": "자신을 억누르기만 하는 것은 인내가 아닙니다. 다스리지 못한 내면의 야성이 뜻밖의 지점에서 폭발할 수 있습니다.",
         "warning": "자신감 상실, 감정 폭발",
@@ -90,6 +110,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "9": {
         "id": 9,
+        "score": 75.5,
+        "warningScore": 30.4,
         "todayAdvice": "외부의 소음보다 내면의 목소리에 집중하세요. 혼자만의 시간을 가지며 생각을 정리해 보세요.",
         "todayWarningAdvice": "고독이 고립으로 변하고 있습니다. 세상을 등지는 것이 해답은 아닙니다. 이제 문 밖으로 나갈 때입니다.",
         "warning": "사회적 고립, 아집, 소통 거부",
@@ -98,6 +120,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "10": {
         "id": 10,
+        "score": 80,
+        "warningScore": 45,
         "todayAdvice": "운명의 바퀴가 돌기 시작했습니다. 다가오는 변화를 거부하지 말고 기꺼이 그 흐름에 올라타세요.",
         "todayWarningAdvice": "상승이 있으면 하강도 있는 법입니다. 지금의 변화를 막으려 할수록 당신의 상황은 더 꼬여만 갈 것입니다.",
         "warning": "불운의 시작, 변화 저항",
@@ -106,6 +130,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "11": {
         "id": 11,
+        "score": 81.2,
+        "warningScore": 60.5,
         "todayAdvice": "감정에 치우치지 않는 냉철한 판단이 필요한 날입니다. 옳고 그름을 분명히 하되 균형을 지키세요.",
         "todayWarningAdvice": "정의라는 잣대가 가혹해지고 있습니다. 타인을 향한 당신의 공평함이 혹시 냉담함은 아니었는지 돌아보세요.",
         "warning": "불공정 처우, 판단 착오",
@@ -114,6 +140,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "12": {
         "id": 12,
+        "score": 45.3,
+        "warningScore": 65.2,
         "todayAdvice": "움직이지 않는 것이 최선의 움직임입니다. 거꾸로 선 세상을 통해 평소 못 보던 가치를 발견하세요.",
         "todayWarningAdvice": "정체된 상황을 견디지 못하고 발버둥 치면 밧줄은 더 조여질 뿐입니다. 지금은 헛된 희망보다 현실의 인내가 우선입니다.",
         "warning": "무의미한 희생, 조급함",
@@ -122,6 +150,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "13": {
         "id": 13,
+        "score": 20.5,
+        "warningScore": 68,
         "todayAdvice": "과거의 낡은 껍데기를 벗어던져야 새 살이 돋아납니다. 끝은 화려한 부활의 전조입니다.",
         "todayWarningAdvice": "이미 끝난 일에 미련을 두는 것은 고통을 연장할 뿐입니다. 썩은 가지를 잘라내지 못하면 나무 전체가 위태롭습니다.",
         "warning": "과거 집착, 변화 거부",
@@ -130,6 +160,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "14": {
         "id": 14,
+        "score": 88.5,
+        "warningScore": 42.1,
         "todayAdvice": "서로 다른 것을 섞어 최적의 비율을 찾아내는 날입니다. 조율이 성공의 열쇠입니다.",
         "todayWarningAdvice": "조화가 깨지고 불협화음이 시작됩니다. 극단을 오가는 당신의 태도가 주변을 불안하게 만들고 있습니다.",
         "warning": "불균형, 절제력 부족",
@@ -138,6 +170,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "15": {
         "id": 15,
+        "score": 18.9,
+        "warningScore": 62.1,
         "todayAdvice": "사슬의 열쇠는 당신의 손안에 있습니다. 달콤한 유혹 뒤의 진실을 냉정하게 바라보세요.",
         "todayWarningAdvice": "유혹보다 무서운 것은 그것이 유혹임을 모르는 당신의 무지입니다. 속박을 즐기는 순간 자유는 영영 사라집니다.",
         "warning": "속박 해방, 각성과 자유",
@@ -146,6 +180,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "16": {
         "id": 16,
+        "score": 15.5,
+        "warningScore": 35,
         "todayAdvice": "견고해 보였던 탑이 무너집니다. 하지만 무너져야 할 것은 무너져야 더 큰 집을 지을 수 있습니다.",
         "todayWarningAdvice": "붕괴를 막으려 애써봤자 소용없습니다. 진실이 폭로되는 순간을 겸허히 받아들이고 기초부터 다시 설계하세요.",
         "warning": "위기 모면, 재건 시작",
@@ -154,6 +190,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "17": {
         "id": 17,
+        "score": 96.4,
+        "warningScore": 25.5,
         "todayAdvice": "어둠이 깊을수록 별은 더 밝게 빛납니다. 지금 당신의 마음속에 떠오른 그 작은 희망을 믿으세요.",
         "todayWarningAdvice": "희망이라는 이름의 환상에 빠져 현실을 보지 못하고 있습니다. 뜬구름 잡는 계획은 결국 당신을 공허하게 만듭니다.",
         "warning": "실망감, 헛된 희망",
@@ -162,6 +200,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "18": {
         "id": 18,
+        "score": 35,
+        "warningScore": 75.2,
         "todayAdvice": "안개가 자욱한 밤길입니다. 보이는 것 너머의 진실을 느끼세요. 지금은 직관이 당신의 지도입니다.",
         "todayWarningAdvice": "불안이 당신을 잠식하고 있습니다. 존재하지 않는 유령에 겁먹지 마세요. 안개 너머의 실체는 생각보다 작습니다.",
         "warning": "불안 해소, 진실 규명",
@@ -170,6 +210,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "19": {
         "id": 19,
+        "score": 98.2,
+        "warningScore": 30.1,
         "todayAdvice": "구름 한 점 없는 맑은 날입니다. 모든 것이 명확해졌으니 당신의 밝은 기운을 세상에 마음껏 펼치세요.",
         "todayWarningAdvice": "태양이 너무 밝으면 그림자도 짙어집니다. 지나친 자신감이 타인의 노력을 가리고 있지는 않은지 살피세요.",
         "warning": "일시 정체, 과한 낙관 실수",
@@ -178,6 +220,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "20": {
         "id": 20,
+        "score": 85,
+        "warningScore": 40.2,
         "todayAdvice": "과거의 행위에 대한 성적표를 받는 날입니다. 당신의 양심이 가리키는 방향으로 용기 있게 나아가세요.",
         "todayWarningAdvice": "외면해왔던 과거가 당신의 발목을 잡습니다. 뒤늦은 후회보다 지금의 책임을 지는 것이 더 중요합니다.",
         "warning": "기회 상실, 과거 발목",
@@ -186,6 +230,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "21": {
         "id": 21,
+        "score": 99.5,
+        "warningScore": 50,
         "todayAdvice": "긴 여행이 끝나고 마침내 목적지에 도착했습니다. 당신의 세계는 이제 완벽합니다. 축하받으세요.",
         "todayWarningAdvice": "완성이 코앞인데 마무리가 소홀해지고 있습니다. 끝날 때까지는 끝난 것이 아니니 마지막 한 조각을 채우세요.",
         "warning": "미완 성공, 지연 마무리",
@@ -195,6 +241,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     // --- Wands (지팡이): 22 ~ 35 ---
     "22": {
         "id": 22,
+        "score": 85,
+        "warningScore": 37,
         "todayAdvice": "생각만 하던 일을 현실로 옮길 첫 번째 기회가 옵니다. 지금은 계산보다 움직임이 우선입니다.",
         "todayWarningAdvice": "불씨만 지피고 정작 장작을 넣지 못하고 있네요. 시작은 거창하나 흐름이 금세 끊길 수 있습니다.",
         "warning": "의욕 저하, 지연되는 시작, 모호한 방향",
@@ -203,6 +251,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "23": {
         "id": 23,
+        "score": 71.5,
+        "warningScore": 39,
         "todayAdvice": "한 손에는 성취를, 한 손에는 가능성을 쥐고 있네요. 이제 성 밖으로 나갈 시간입니다.",
         "todayWarningAdvice": "준비가 길어지면 기회는 남의 손으로 넘어갑니다. 성벽 안의 안락함에 안주하여 시야를 닫고 있지는 않나요?",
         "warning": "확신 없는 결정, 지연된 이동",
@@ -211,6 +261,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "24": {
         "id": 24,
+        "score": 73,
+        "warningScore": 41,
         "todayAdvice": "배는 이미 떠났습니다. 이제 당신의 정성이 결실이 되어 돌아오기만을 기다리는 여유가 필요합니다.",
         "todayWarningAdvice": "자신만만했던 계획이 변수를 만납니다. 저 멀리 보이는 수평선이 당신이 생각한 그 풍경이 아닐 수도 있습니다.",
         "warning": "지연된 소식, 협력의 부재",
@@ -219,6 +271,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "25": {
         "id": 25,
+        "score": 67,
+        "warningScore": 43,
         "todayAdvice": "평화로운 정착의 날입니다. 지금 당신 곁에 있는 사람들과 이 평온함을 온전히 누려보세요.",
         "todayWarningAdvice": "축제의 분위기 뒤로 긴장감이 흐릅니다. 겉으로는 평화로워 보이나 내부의 토대가 흔들리고 있음을 직시하세요.",
         "warning": "불안정한 상황, 사소한 다툼, 지연된 축하",
@@ -227,6 +281,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "26": {
         "id": 26,
+        "score": 48.5,
+        "warningScore": 45,
         "todayAdvice": "사공이 많아 배가 산으로 가고 있네요. 이 혼란 속에서 당신만의 중심을 잡는 것이 중요합니다.",
         "todayWarningAdvice": "소모적인 논쟁이 잦아들고 있습니다. 이 싸움의 승자가 누구인지보다, 우리가 무엇을 잃었는지 먼저 생각하세요.",
         "warning": "갈등의 해소, 타협점의 발견, 경쟁 종료",
@@ -235,6 +291,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "27": {
         "id": 27,
+        "score": 70,
+        "warningScore": 47,
         "todayAdvice": "모두가 당신의 이름을 연호하고 있습니다. 승리의 기쁨을 누리되, 조력자들의 공로를 잊지 마세요.",
         "todayWarningAdvice": "왕관의 무게가 당신을 짓누릅니다. 오늘의 승리가 내일의 독이 되지 않도록 겸손의 미덕을 챙기세요.",
         "warning": "자만심 경계, 명예의 실추, 지연된 보상",
@@ -243,6 +301,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "28": {
         "id": 28,
+        "score": 71.5,
+        "warningScore": 35,
         "todayAdvice": "유리한 고지를 선점했습니다. 하지만 그 자리를 노리는 경쟁자들이 많으니 방패를 높이 드세요.",
         "todayWarningAdvice": "버티는 것만이 능사는 아닙니다. 포위망이 좁혀오고 있는데 혼자만의 고집으로 상황을 악화시키고 있지는 않나요?",
         "warning": "압박에 대한 굴복, 무력감으로 인한 포기",
@@ -251,6 +311,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "29": {
         "id": 29,
+        "score": 73,
+        "warningScore": 37,
         "todayAdvice": "상황이 매우 빠르게 전개됩니다. 기회가 왔을 때 망설이지 말고 신속하게 움직이세요.",
         "todayWarningAdvice": "속도가 통제를 벗어났습니다. 섣부른 움직임은 목적지가 아닌 엉뚱한 곳으로 당신을 데려다 놓을 것입니다.",
         "warning": "조절의 실패, 지연되는 소식, 성급함",
@@ -259,6 +321,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "30": {
         "id": 30,
+        "score": 47,
+        "warningScore": 39,
         "todayAdvice": "목표를 코앞에 두고 마지막 고비가 찾아왔습니다. 조금만 더 인내하며 끝까지 방심하지 마세요.",
         "todayWarningAdvice": "방어벽이 무너지고 있습니다. 상처가 깊어지기 전에 잠시 물러나 추스르는 것도 용기입니다.",
         "warning": "체력의 고갈, 포기하고 싶은 마음, 무너진 방어",
@@ -267,6 +331,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "31": {
         "id": 31,
+        "score": 78.5,
+        "warningScore": 41,
         "todayAdvice": "책임감이 무거워 몸과 마음이 지칩니다. 모든 것을 혼자 짊어지려다가는 목적지에 닿기도 전에 쓰러집니다.",
         "todayWarningAdvice": "등 위의 짐을 내려놓을 때가 되었습니다. 책임이 아닌 집착으로 붙들고 있었던 것들을 기꺼이 놓아주세요.",
         "warning": "부담의 해소, 업무의 위임, 자유의 획득",
@@ -275,6 +341,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "32": {
         "id": 32,
+        "score": 70,
+        "warningScore": 43,
         "todayAdvice": "낯선 곳에서 흥미로운 제안이 들어옵니다. 지금은 결과보다 과정의 재미에 집중할 때입니다.",
         "todayWarningAdvice": "호기심이 과하면 독이 됩니다. 깊이 없는 흥미는 당신의 시간을 낭비하게 만들고 소중한 기회를 가릴 것입니다.",
         "warning": "미숙한 판단, 나쁜 소식의 유입, 성급한 포기",
@@ -283,6 +351,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "33": {
         "id": 33,
+        "score": 71.5,
+        "warningScore": 45,
         "todayAdvice": "생각보다 행동이 앞서야 하는 날입니다. 모험심을 발휘하되, 방향성을 잃지 않도록 주의하세요.",
         "todayWarningAdvice": "말만 앞선 추진력은 주변을 지치게 합니다. 당신의 열정이 타인을 태워버리는 불꽃이 되지 않도록 다스리세요.",
         "warning": "무모한 폭주, 중도 포기, 갈등의 야기",
@@ -291,6 +361,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "34": {
         "id": 34,
+        "score": 73,
+        "warningScore": 47,
         "todayAdvice": "당신의 카리스마가 주변을 환하게 비춥니다. 당당하게 주인공이 되어 상황을 주도하세요.",
         "todayWarningAdvice": "자신감이 오만으로 변하고 있습니다. 타인의 목소리를 무시한 채 독주하는 것은 당신의 왕국을 위태롭게 할 뿐입니다.",
         "warning": "질투심의 발현, 히스테리, 지배욕",
@@ -299,6 +371,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "35": {
         "id": 35,
+        "score": 82,
+        "warningScore": 35,
         "todayAdvice": "큰 그림을 그려야 하는 날입니다. 직관을 믿고 대담하게 결단을 내리세요.",
         "todayWarningAdvice": "권위에 취해 현장을 잊고 있지는 않나요? 당신의 결단이 독단이 되는 순간, 쌓아온 신뢰는 한순간에 무너집니다.",
         "warning": "독재적인 태도, 판단의 착오, 허세",
@@ -309,6 +383,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     // --- Cups (컵): 36 ~ 49 ---
     "36": {
         "id": 36,
+        "score": 93.5,
+        "warningScore": 37,
         "todayAdvice": "마음 한구석에서 새로운 감정의 싹이 틉니다. 그것이 무엇이든 밀어내지 말고 가만히 느껴보세요.",
         "todayWarningAdvice": "넘쳐흐르는 감정이 이성을 가리고 있습니다. 실체 없는 기대감에 젖어 현실의 문제를 외면하고 있지는 않나요?",
         "warning": "감정의 정체, 일방적인 기대, 공허함",
@@ -317,6 +393,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "37": {
         "id": 37,
+        "score": 80,
+        "warningScore": 39,
         "todayAdvice": "마음이 맞는 이를 만나는 날입니다. 거창한 약속보다 눈빛을 나누는 것만으로도 충분합니다.",
         "todayWarningAdvice": "조화로운 관계에 금이 가고 있습니다. 서로의 차이를 인정하지 못한 채 자신만의 방식을 강요하고 있지는 않은지 살피세요.",
         "warning": "의견 불일치, 오해, 소통의 부재, 조화 상실",
@@ -325,6 +403,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "38": {
         "id": 38,
+        "score": 81.5,
+        "warningScore": 41,
         "todayAdvice": "혼자 즐기는 기쁨보다 나누는 기쁨이 큰 날입니다. 주변 사람들과 온기를 공유하세요.",
         "todayWarningAdvice": "즐거움에 취해 본질을 잊고 있습니다. 겉치레뿐인 관계 속에서 당신의 진심이 소모되고 있음을 느껴보세요.",
         "warning": "과도한 유흥 경계, 시기 질투, 성취의 지연",
@@ -333,6 +413,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "39": {
         "id": 39,
+        "score": 83,
+        "warningScore": 43,
         "todayAdvice": "눈앞의 제안들이 무의미하게 느껴질 수 있습니다. 지금은 밖이 아닌 안을 들여다볼 때입니다.",
         "todayWarningAdvice": "권태에서 벗어날 기회가 왔습니다. 스스로를 가둔 침묵의 방에서 나와 당신에게 내밀어진 새로운 손을 잡으세요.",
         "warning": "의욕 회복, 기회의 포착, 권태 탈출",
@@ -341,6 +423,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "40": {
         "id": 40,
+        "score": 57,
+        "warningScore": 45,
         "todayAdvice": "엎질러진 물에 마음 쓰기보다 아직 당신 곁에 남은 두 개의 잔을 소중히 여기세요.",
         "todayWarningAdvice": "슬픔의 터널이 끝나가고 있습니다. 잃어버린 것에 대한 미련을 접고, 이제 당신 뒤에 여전히 서 있는 사람들을 돌아보세요.",
         "warning": "회복의 시작, 새로운 희망, 슬픔의 종료",
@@ -349,6 +433,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "41": {
         "id": 41,
+        "score": 78.5,
+        "warningScore": 47,
         "todayAdvice": "가장 순수했던 시절의 당신을 기억하시나요? 그때의 꿈이 오늘 당신의 길을 안내할 것입니다.",
         "todayWarningAdvice": "추억은 힘이 되기도 하지만, 당신을 과거에 묶어두는 족쇄가 되기도 합니다. 이제 기억 속에서 나와 오늘을 사세요.",
         "warning": "과거 탈피, 현실 직시, 미래로의 전진",
@@ -357,6 +443,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "42": {
         "id": 42,
+        "score": 80,
+        "warningScore": 35,
         "todayAdvice": "잔 속의 보석들이 영원할 것 같나요? 구름 위를 걷는 기분에서 내려와 이제 하나를 골라야 합니다.",
         "todayWarningAdvice": "환상이 걷히고 차가운 현실이 드러납니다. 뜬구름 잡는 소리는 그만두고 당신이 책임질 수 있는 단 하나를 선택하세요.",
         "warning": "현실 직시, 환상 타파, 구체적 실행의 시작",
@@ -365,6 +453,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "43": {
         "id": 43,
+        "score": 81.5,
+        "warningScore": 37,
         "todayAdvice": "충분히 가졌지만 마음은 여전히 공허하네요. 당신의 영혼을 채울 진짜 가치를 찾아 길을 떠나세요.",
         "todayWarningAdvice": "떠나야 할 때를 놓치고 제자리를 맴돌고 있습니다. 변화를 두려워하며 익숙한 공허함 속에 자신을 방치하고 있지는 않나요?",
         "warning": "떠나지 못함, 포기의 취소, 미련에 의한 정체",
@@ -373,6 +463,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "44": {
         "id": 44,
+        "score": 63,
+        "warningScore": 39,
         "todayAdvice": "당신의 소망이 하나 이루어졌습니다. 이 안락함을 충분히 즐기세요. 당신은 그럴 자격이 있습니다.",
         "todayWarningAdvice": "만족이 자만으로 변하는 순간, 얻은 것들은 모래알처럼 빠져나갑니다. 채워진 잔이 영원할 것이라는 착각을 경계하세요.",
         "warning": "탐욕, 겉치레 만족, 미완의 소망",
@@ -381,6 +473,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "45": {
         "id": 45,
+        "score": 87,
+        "warningScore": 41,
         "todayAdvice": "무지개 아래 모든 근심이 사라집니다. 당신이 꿈꾸던 완벽한 평화가 바로 눈앞에 있습니다.",
         "todayWarningAdvice": "완벽해 보이는 평화 속에 불만족이 자라납니다. 겉보기에만 화려한 행복이 아닌, 내면의 실질적인 유대를 점검할 시간입니다.",
         "warning": "가정 내 불협화음, 겉치레뿐인 관계, 성취감의 저하",
@@ -389,6 +483,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "46": {
         "id": 46,
+        "score": 78.5,
+        "warningScore": 43,
         "todayAdvice": "잔 속에서 튀어나온 물고기가 말을 겁니다. 엉뚱한 상상이라도 귀 기울여 보세요. 새로운 영감의 원천입니다.",
         "todayWarningAdvice": "감성이 이성을 삼키고 있습니다. 사소한 말에 상처받고 현실을 도피하려는 당신의 태도가 성장을 가로막고 있습니다.",
         "warning": "감정 과잉, 환상에 빠진 판단, 나쁜 소식 유입",
@@ -397,6 +493,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "47": {
         "id": 47,
+        "score": 80,
+        "warningScore": 45,
         "todayAdvice": "품격 있는 제안이 당신을 설레게 할 수 있습니다. 다가오는 인연을 정중하게 맞아주세요.",
         "todayWarningAdvice": "매력적인 제안 뒤에 숨은 의도를 파악하세요. 감언이설에 속아 당신의 소중한 가치를 헐값에 넘기고 있지는 않은가요?",
         "warning": "사기성 제안 주의, 변덕스러운 감정, 속임수",
@@ -405,6 +503,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "48": {
         "id": 48,
+        "score": 81.5,
+        "warningScore": 47,
         "todayAdvice": "당신의 마음은 고요한 호수와 같습니다. 타인의 아픔을 어루만져 주는 따뜻함이 결국 당신을 더 빛나게 합니다.",
         "todayWarningAdvice": "과도한 공감은 당신을 갉아먹습니다. 남의 감정을 짊어지느라 정작 당신 자신의 영혼이 피폐해지고 있음을 인지하세요.",
         "warning": "감정 기복 주의, 과도한 의존, 현실 도피",
@@ -413,6 +513,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "49": {
         "id": 49,
+        "score": 97.8,
+        "warningScore": 35,
         "todayAdvice": "감정의 파도가 몰아쳐도 당신의 중심은 흔들리지 않습니다. 고요한 지혜로 결단을 내리세요.",
         "todayWarningAdvice": "감정을 무기로 타인을 조종하려 하지 마세요. 겉으로만 평온을 가장한 채 속으로 칼을 갈고 있는 것은 당신을 망칠 뿐입니다.",
         "warning": "교활한 성격 경계, 불안정한 감정, 타인 조종",
@@ -423,6 +525,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     // --- Swords (검): 50 ~ 63 ---
     "50": {
         "id": 50,
+        "score": 67,
+        "warningScore": 52,
         "todayAdvice": "안개를 뚫고 지나가는 날카로운 통찰이 필요한 날입니다. 한 번 정한 마음은 머뭇거림 없이 실행하세요.",
         "todayWarningAdvice": "당신의 진실이 타인에게 상처가 되고 있습니다. 날카로운 칼날은 문제를 해결할 수도 있지만, 관계를 끊어낼 수도 있습니다.",
         "warning": "판단의 착오, 혼란, 성급한 언행 경계",
@@ -431,6 +535,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "51": {
         "id": 51,
+        "score": 53.5,
+        "warningScore": 54,
         "todayAdvice": "눈을 감는다고 진실이 사라지지는 않습니다. 하지만 지금은 잠시 침묵하며 평정을 지키는 것이 유리합니다.",
         "todayWarningAdvice": "이제는 눈을 떠야 할 때입니다. 회피를 평화로 착각하지 마세요. 당신이 등 돌린 진실이 뒤에서 당신을 노리고 있습니다.",
         "warning": "결정의 강요, 거짓 평화의 파괴, 진실 공개",
@@ -439,6 +545,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "52": {
         "id": 52,
+        "score": 30.5,
+        "warningScore": 62.4,
         "todayAdvice": "심장을 찌르는 고통조차 당신의 성장을 위한 과정입니다. 아픈 진실을 담담하게 받아들이세요.",
         "todayWarningAdvice": "상처를 헤집는 것은 치유가 아닙니다. 아픔에 매몰되어 당신의 본모습을 잃어가지 않도록 감정의 거리를 두세요.",
         "warning": "상처 치유 시작, 오해 해소, 회복",
@@ -447,6 +555,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "53": {
         "id": 53,
+        "score": 56.5,
+        "warningScore": 58,
         "todayAdvice": "세상과 잠시 연결을 끊으세요. 침묵 속에 머물 때 당신의 무기는 다시 예리하게 벼려집니다.",
         "todayWarningAdvice": "휴식이 도피가 되고 있지는 않나요? 칼을 벼리는 시간은 끝났습니다. 이제 침대에서 일어나 현실의 전장으로 복귀하세요.",
         "warning": "활동 재개, 사회 복귀, 조급한 움직임",
@@ -455,6 +565,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "54": {
         "id": 54,
+        "score": 38,
+        "warningScore": 60,
         "todayAdvice": "이겼지만 곁에 아무도 남지 않았네요. 축하해 주는 이 없는 승리가 과연 당신이 원하던 결과인가요?",
         "todayWarningAdvice": "승패의 의미가 사라집니다. 부당하게 얻은 결과는 반드시 당신의 명예를 갉아먹을 것입니다. 지금이라도 화해의 손을 내미세요.",
         "warning": "갈등 종료, 화해 시도, 패배 인정",
@@ -463,6 +575,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "55": {
         "id": 55,
+        "score": 52,
+        "warningScore": 62,
         "todayAdvice": "아픈 기억을 배에 싣고 강을 건너는 중입니다. 저 멀리 보이는 수평선에는 당신을 위한 평온이 기다립니다.",
         "todayWarningAdvice": "배가 제자리에서 맴돕니다. 과거의 무게를 덜어내지 못하면 당신의 여정은 끝나지 않은 채 고통의 바다를 표류할 것입니다.",
         "warning": "문제 회귀, 이동 지연, 해결되지 않는 난제",
@@ -471,6 +585,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "56": {
         "id": 56,
+        "score": 53.5,
+        "warningScore": 50,
         "todayAdvice": "다섯 개의 칼을 훔쳐 달아나는 당신의 발걸음이 위태롭습니다. 요행은 언젠가 바닥을 드러내기 마련입니다.",
         "todayWarningAdvice": "정공법만이 살길입니다. 꼼수가 통하는 것은 이번이 마지막일 수 있습니다. 훔친 성과는 당신의 진짜 실력이 되지 못합니다.",
         "warning": "비밀의 폭로, 참회, 정공법 선택",
@@ -479,6 +595,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "57": {
         "id": 57,
+        "score": 55,
+        "warningScore": 52,
         "todayAdvice": "당신을 묶고 있는 붕대와 칼들은 당신의 공포가 만든 환상입니다. 제자리에서 한 발자국만 떼어보세요.",
         "todayWarningAdvice": "스스로를 가둔 감옥의 문이 열렸습니다. 공포에 질려 눈을 감고 있기보다, 지금 당장 발밑의 밧줄을 끊고 밖으로 나오세요.",
         "warning": "속박 해제, 돌파구 발견, 자유로운 행동",
@@ -487,6 +605,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "58": {
         "id": 58,
+        "score": 29.9,
+        "warningScore": 62.6,
         "todayAdvice": "밤은 깊고 생각은 꼬리에 꼬리를 뭅니다. 하지만 태양이 뜨면 당신을 괴롭히던 괴물들은 아침 이슬처럼 사라질 것입니다.",
         "todayWarningAdvice": "최악의 시나리오는 당신의 상상 속에만 존재합니다. 이제 비명을 멈추고 현실의 빛을 켜세요. 당신이 걱정하던 일은 일어나지 않습니다.",
         "warning": "불안 해소, 진실 직면, 악몽 끝",
@@ -495,6 +615,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "59": {
         "id": 59,
+        "score": 30.3,
+        "warningScore": 65,
         "todayAdvice": "바닥을 치는 힘든 상황이 마무리되는 시점입니다. 이제 더 나빠질 곳은 없으니 다시 일어날 준비를 하세요.",
         "todayWarningAdvice": "고통의 끝에서 희망이 보입니다. 당신을 찌르던 칼들이 하나씩 거둬지고 있습니다. 이제 상처를 꿰매고 다시 숨을 쉬세요.",
         "warning": "회복의 시작, 새로운 태양, 재기",
@@ -503,6 +625,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "60": {
         "id": 60,
+        "score": 52,
+        "warningScore": 58,
         "todayAdvice": "주변 상황을 예리하게 관찰하고 정보를 수집하세요. 경계심을 늦추지 말고 다가올 소식을 기다리세요.",
         "todayWarningAdvice": "말을 옮기는 입을 조심하세요. 당신의 분석이 타인의 비수가 될 수도 있습니다. 지금은 정보의 수집보다 입단속이 우선입니다.",
         "warning": "성급한 비난, 헛소문 유포, 정보 유출",
@@ -511,6 +635,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "61": {
         "id": 61,
+        "score": 53.5,
+        "warningScore": 60,
         "todayAdvice": "목표를 향해 거침없이 달려가는 속도감이 느껴집니다. 성급한 말 한마디가 화를 부를 수 있으니 주의하세요.",
         "todayWarningAdvice": "속도에 취해 뒤를 돌아보지 못하고 있습니다. 당신의 거침없는 전진이 소중한 사람들을 밟고 지나가고 있지는 않은지 살피세요.",
         "warning": "무모한 폭주, 중도 좌절, 언어폭력, 사고 주의",
@@ -519,6 +645,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "62": {
         "id": 62,
+        "score": 55,
+        "warningScore": 62,
         "todayAdvice": "독립적이고 냉철한 판단력이 돋보이는 날입니다. 감정에 휘둘리지 말고 공과 사를 명확히 구분하세요.",
         "todayWarningAdvice": "차가움이 잔인함으로 흐르고 있습니다. 당신의 논리가 정당할지라도, 온기 없는 진실은 상대를 밀어내기만 할 뿐입니다.",
         "warning": "비정함, 독설 갈등, 잔인한 이기주의",
@@ -527,6 +655,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "63": {
         "id": 63,
+        "score": 71.5,
+        "warningScore": 50,
         "todayAdvice": "전략적이고 이성적인 사고가 지배하는 날입니다. 객관적인 사실로 당당하게 사람들을 리드하세요.",
         "todayWarningAdvice": "권위는 타인을 굴복시키는 칼이 아닙니다. 당신의 판단이 아집으로 변하는 순간, 당신의 왕국은 내부에서부터 무너지기 시작할 것입니다.",
         "warning": "아집, 권위주의적 횡포, 음모",
@@ -537,6 +667,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     // --- Pentacles (펜타클): 64 ~ 77 ---
     "64": {
         "id": 64,
+        "score": 97.8,
+        "warningScore": 37,
         "todayAdvice": "손에 잡히는 이득이 눈앞에 있습니다. 새로운 가능성의 씨앗이 놓였으니 그 가치를 먼저 알아보세요.",
         "todayWarningAdvice": "풍요의 씨앗이 썩어가고 있습니다. 기회는 왔으나 당신의 게으름이나 과도한 의심이 그 결실을 가로막고 있습니다.",
         "warning": "기회의 상실, 실속 없는 계획, 지연되는 성과",
@@ -545,6 +677,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "65": {
         "id": 65,
+        "score": 77,
+        "warningScore": 39,
         "todayAdvice": "여러 일을 동시에 처리해야 하는 분주한 날입니다. 어느 한쪽으로 치우치지 않는 리듬감이 필요합니다.",
         "todayWarningAdvice": "저글링 하던 공들이 하나둘 떨어지기 시작합니다. 욕심을 내려놓고 가장 중요한 것 하나에만 집중하지 않으면 모든 것을 잃게 됩니다.",
         "warning": "불균형, 무리한 일정으로 인한 실수",
@@ -553,6 +687,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "66": {
         "id": 66,
+        "score": 78.5,
+        "warningScore": 41,
         "todayAdvice": "동료들과 힘을 합쳐 실질적인 결과물을 만드는 날입니다. 당신의 전문 지식을 공유하세요.",
         "todayWarningAdvice": "각자도생의 흐름입니다. 협력은 무너지고 서로의 공로를 시기하는 분위기가 당신의 성취를 방해하고 있습니다.",
         "warning": "숙련도 부족, 협력의 실패, 사내 불화 경계",
@@ -561,6 +697,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "67": {
         "id": 67,
+        "score": 80,
+        "warningScore": 43,
         "todayAdvice": "가진 것을 지키려는 방어적인 태도가 강해집니다. 지나친 인색함이 기회를 막고 있지는 않나요?",
         "todayWarningAdvice": "움켜쥔 손안의 모래는 결국 빠져나갑니다. 소유에 대한 공포가 당신을 고립시키고 있습니다. 이제 손을 펴고 흐름을 받아들이세요.",
         "warning": "개방적인 태도, 지출의 시작, 집착으로부터의 해방",
@@ -569,6 +707,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "68": {
         "id": 68,
+        "score": 33.9,
+        "warningScore": 63.2,
         "todayAdvice": "현실적인 고난이나 외로움이 느껴질 수 있는 날입니다. 혼자 끙끙대기보다 손을 내미는 용기가 필요합니다.",
         "todayWarningAdvice": "터널의 끝에 빛이 보입니다. 당신을 돕고 싶어 하는 손길이 주변에 이미 있었습니다. 고집스러운 외로움을 버리고 도움을 수용하세요.",
         "warning": "상황의 호전, 도움의 손길 발견, 회복",
@@ -577,6 +717,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "69": {
         "id": 69,
+        "score": 83,
+        "warningScore": 47,
         "todayAdvice": "베푸는 만큼 돌아오는 날입니다. 정당한 대가를 지불하거나 도움의 손길을 내밀어 보세요.",
         "todayWarningAdvice": "베풂이 권력이 되지 않도록 하세요. 당신의 호의가 타인에게 굴욕이 되고 있지는 않은지, 혹은 생색내기에 그치고 있지는 않은지 돌아보세요.",
         "warning": "불공정한 분배, 생색내기, 착취 경계",
@@ -585,6 +727,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "70": {
         "id": 70,
+        "score": 77,
+        "warningScore": 35,
         "todayAdvice": "성과를 거두기 직전의 구간입니다. 조급함에 설익은 열매를 따지 말고 조금 더 인내하세요.",
         "todayWarningAdvice": "애쓴 보람이 보이지 않아 허탈함이 느껴집니다. 하지만 지금 포기하는 것은 지금까지의 공을 모두 버리는 일입니다. 묵묵히 마지막 거름을 주어야 합니다.",
         "warning": "불만족으로 인한 포기, 조급한 손해",
@@ -593,6 +737,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "71": {
         "id": 71,
+        "score": 78.5,
+        "warningScore": 37,
         "todayAdvice": "한 땀 한 땀 정성을 들이는 장인 정신이 필요한 날입니다. 성실함이 최고의 재산임을 잊지 마세요.",
         "todayWarningAdvice": "단조로운 반복이 당신을 지치게 합니다. 실력 없는 완벽주의는 시간만 낭비하게 할 뿐입니다. 이제는 속도와 효율을 고민할 때입니다.",
         "warning": "나태함 주의, 기술 부족, 단조로움의 지루함",
@@ -601,6 +747,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "72": {
         "id": 72,
+        "score": 60,
+        "warningScore": 39,
         "todayAdvice": "경제적 자립과 우아한 여유를 만끽할 수 있는 날입니다. 자신을 위해 작은 보상을 허락하세요.",
         "todayWarningAdvice": "화려한 겉모습 뒤에 공허함이 있습니다. 당신의 여유가 타인의 희생 위에 세워진 것은 아닌지, 혹은 혼자만의 성에 갇힌 고립은 아닌지 살펴보세요.",
         "warning": "허영심 주의, 금전적 불안, 의존적인 태도",
@@ -609,6 +757,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "73": {
         "id": 73,
+        "score": 91.5,
+        "warningScore": 41,
         "todayAdvice": "안정된 기반 위에서 소중한 이들과 풍요를 나누는 날입니다. 대물림되는 가치에 감사하세요.",
         "todayWarningAdvice": "전통과 규칙이 당신의 숨통을 조입니다. 안정이라는 이름의 지루함에서 벗어나고 싶은 욕망이 꿈틀댑니다. 가족이나 조직과의 갈등을 경계하세요.",
         "warning": "가족 갈등 주의, 경제적 기반의 흔들림, 답답한 규율",
@@ -617,6 +767,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "74": {
         "id": 74,
+        "score": 83,
+        "warningScore": 43,
         "todayAdvice": "새로운 재테크 공부나 계획을 세우기에 좋은 날입니다. 작은 시작이 큰 산을 만듭니다.",
         "todayWarningAdvice": "현실성 없는 계획이 당신의 자산을 위협합니다. 공부만 하고 실행하지 않는 것은 지적 허영에 불과합니다. 이제는 실전의 감각을 익히세요.",
         "warning": "무책임한 태도, 실천 없는 계획, 시야의 부재",
@@ -625,6 +777,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "75": {
         "id": 75,
+        "score": 77,
+        "warningScore": 45,
         "todayAdvice": "느리지만 확실한 길을 가야 하는 날입니다. 완벽하게 처리하려는 고집이 결국 성취를 가져옵니다.",
         "todayWarningAdvice": "완고함이 정체를 만듭니다. 변화하는 세상을 무시한 채 당신의 방식만 고집하다가는 목적지에 닿기도 전에 지쳐버릴 것입니다.",
         "warning": "융통성 부족, 정체된 상황, 나태함 주의",
@@ -633,6 +787,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "76": {
         "id": 76,
+        "score": 78.5,
+        "warningScore": 47,
         "todayAdvice": "실질적인 관리와 따뜻한 보살핌이 조화를 이루는 날입니다. 주변의 자원을 너그럽게 돌보세요.",
         "todayWarningAdvice": "돌봄이 구속이 되고 있습니다. 당신의 친절이 상대를 숨 막히게 하고 있지는 않은지, 혹은 당신의 희생을 보상받으려 하지는 않는지 살피세요.",
         "warning": "의심 주의, 인색함, 지나친 간섭 경계",
@@ -641,6 +797,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
     },
     "77": {
         "id": 77,
+        "score": 95,
+        "warningScore": 35,
         "todayAdvice": "경제적 성취와 강력한 권위가 따르는 날입니다. 당신의 능력을 믿고 대담하게 결단을 내리세요.",
         "todayWarningAdvice": "물질적 성공이 당신의 눈을 가리고 있습니다. 숫자에만 집착하다 소중한 사람들의 진심을 잃고 있지는 않은가요? 진정한 부는 관계에서 나옵니다.",
         "warning": "물질 만능주의 경계, 탐욕으로 인한 손실",
