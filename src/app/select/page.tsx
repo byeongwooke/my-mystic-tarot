@@ -2,10 +2,9 @@
 
 import React, { useState, useEffect, Suspense, useMemo, memo } from "react";
 import { TAROT_BASE, TarotBase } from "@/data/tarot/base";
-import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 
-// 개별 카드 컴포넌트화하여 React.memo 적용 (불필요한 리렌더링 방지)
+// 순수 CSS 카드 컴포넌트
 const TarotCardItem = memo(({ 
   card, 
   isSelected, 
@@ -16,52 +15,23 @@ const TarotCardItem = memo(({
   onCardClick: (id: number) => void 
 }) => {
   return (
-    <div className="relative flex-shrink-0 perspective-1000">
-      {/* Placeholder - 카드 크기 일치화 (96x150 / 165x270) */}
-      <div className="w-[96px] h-[150px] md:w-[165px] md:h-[270px] invisible" />
-      
-      {!isSelected && (
-        <motion.div
-          layoutId={`card-${card.id}`}
-          onClick={() => onCardClick(card.id)}
-          className="absolute inset-0 cursor-pointer pointer-events-auto"
-          style={{ transformStyle: "preserve-3d" }}
-          initial={{ opacity: 0, scale: 0.8, y: 50 }}
-          whileInView={{ 
-            scale: 1.25,
-            zIndex: 150,
-            transition: { type: "spring", stiffness: 150, damping: 25, zIndex: { duration: 0 } }
-          }}
-          viewport={{ amount: 0.2, margin: "-5% 0px -5% 0px" }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          whileTap={{ 
-            y: -40, 
-            scale: 1.35,
-            zIndex: 200,
-            transition: { zIndex: { duration: 0 } }
-          }}
-          transition={{ 
-            type: "spring", 
-            stiffness: 300, 
-            damping: 30 
-          }}
-        >
-          <div
-            className="w-full h-full rounded-xl border border-[#D4AF37] bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center shadow-[0_4px_15px_rgba(0,0,0,0.6)] overflow-hidden"
-            style={{ backfaceVisibility: "hidden" }}
-          >
-            <div className="absolute inset-1 border border-[#D4AF37]/40 rounded-lg"></div>
-            <div className="w-6 h-6 md:w-8 md:h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45">
-              <div className="w-2 h-2 md:w-3 md:h-3 bg-[#D4AF37]/40 rounded-full"></div>
-            </div>
-          </div>
-        </motion.div>
-      )}
+    <div 
+      onClick={() => onCardClick(card.id)}
+      className={`relative w-full aspect-[2/3] cursor-pointer rounded-xl overflow-hidden shadow-md transition-all duration-300 ${
+        isSelected 
+          ? 'scale-105 z-10 border-2 border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.8)]'
+          : 'border border-[#D4AF37]/50 hover:border-amber-400/80 hover:scale-[1.02]'
+      }`}
+    >
+      <div className="w-full h-full bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center">
+        <div className={`absolute inset-1 border rounded-lg ${isSelected ? 'border-amber-400/50' : 'border-[#D4AF37]/40'}`}></div>
+        <div className={`w-4 h-4 md:w-6 md:h-6 border rounded-full flex items-center justify-center rotate-45 ${isSelected ? 'border-amber-400/80' : 'border-[#D4AF37]/50'}`}>
+          <div className={`w-1 h-1 md:w-2 md:h-2 rounded-full ${isSelected ? 'bg-amber-400/80' : 'bg-[#D4AF37]/40'}`}></div>
+        </div>
+      </div>
     </div>
   );
 });
-
 TarotCardItem.displayName = "TarotCardItem";
 
 function SelectContent() {
@@ -79,9 +49,7 @@ function SelectContent() {
   const cleanCategory = rawCategory ? rawCategory.replace(/[^\w]/g, '') : '';
 
   const [selectedCards, setSelectedCards] = useState<{ id: number; role: string; isReversed: boolean }[]>([]);
-  const [isMobile, setIsMobile] = useState(false);
   const [cards, setCards] = useState<TarotBase[]>([]);
-  const [showHomeModal, setShowHomeModal] = useState(false);
 
   const spreadData = useMemo(() => {
     if (spreadParam === 'today') {
@@ -109,10 +77,6 @@ function SelectContent() {
   }, [cleanCategory]);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
     // 초기 셔플
     const shuffledIds = Array.from({ length: 78 }, (_, i) => i);
     for (let i = shuffledIds.length - 1; i > 0; i--) {
@@ -120,12 +84,11 @@ function SelectContent() {
       [shuffledIds[i], shuffledIds[j]] = [shuffledIds[j], shuffledIds[i]];
     }
     setCards(shuffledIds.map(id => TAROT_BASE[id] || TAROT_BASE[0]));
-
-    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   const handleCardClick = (cardId: number) => {
     if (!cleanCategory) return;
+    if (selectedCards.length >= maxCards) return;
 
     const isAlreadySelected = selectedCards.some(c => c.id === cardId);
     if (isAlreadySelected) {
@@ -136,281 +99,64 @@ function SelectContent() {
       return;
     }
 
-    if (selectedCards.length >= maxCards) {
-      alert(`이미 ${maxCards}장의 카드를 모두 고르셨습니다!`);
-      return;
+    const newSelections = [...selectedCards, { id: cardId, role: roles[selectedCards.length], isReversed: Math.random() < 0.5 }];
+    setSelectedCards(newSelections);
+
+    if (newSelections.length === maxCards) {
+      const sortedSelections = [...newSelections].sort((a, b) => roles.indexOf(a.role) - roles.indexOf(b.role));
+      const sortedIds = sortedSelections.map(c => `${c.id}${c.isReversed ? 'r' : ''}`).join(',');
+      
+      // 즉시 이동 (선택 피드백이 눈에 띄도록 약간의 딜레이만 줌)
+      setTimeout(() => {
+        router.push(`/result?category=${cleanCategory}&spread=${spreadParam}&cards=${sortedIds}`);
+      }, 300);
     }
-
-    setSelectedCards(prev => [...prev, { id: cardId, role: roles[prev.length], isReversed: Math.random() < 0.5 }]);
-  };
-
-  const handleCheckDestiny = () => {
-    if (selectedCards.length !== maxCards) return;
-    
-    const sortedSelections = [...selectedCards].sort((a, b) => roles.indexOf(a.role) - roles.indexOf(b.role));
-    const sortedIds = sortedSelections.map(c => `${c.id}${c.isReversed ? 'r' : ''}`).join(',');
-    
-    // 즉시 이동 (결과 페이지에서 로딩 애니메이션 처리)
-    router.push(`/result?category=${cleanCategory}&spread=${spreadParam}&cards=${sortedIds}`);
   };
 
   if (!cleanCategory) return null;
 
   return (
-    <motion.main
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.8 }}
-      className="w-full min-h-screen flex flex-col bg-slate-900 bg-fixed overflow-x-hidden select-none"
-      style={{
-        paddingTop: 'calc(env(safe-area-inset-top) + 0.5rem)',
-        paddingBottom: '1rem'
-      }}
-    >
-      {/* 상단 스테이지 */}
-      <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pb-6 px-4">
+    <main className="w-full min-h-screen flex flex-col bg-slate-900 overflow-x-hidden select-none">
+      {/* 헤더 영역 (순수 HTML) */}
+      <div className="w-full flex items-center justify-between sticky top-0 z-50 bg-slate-900 border-b border-indigo-900/50 px-4 md:px-8 py-4 backdrop-blur-sm bg-opacity-90">
         <button 
-          onClick={() => setShowHomeModal(!showHomeModal)}
-          className="fixed top-[calc(env(safe-area-inset-top)+0.85rem)] left-2 md:left-6 text-amber-400/50 active:text-amber-400 transition-colors z-[50] p-2"
+          onClick={() => router.push('/')}
+          className="text-amber-400/50 hover:text-amber-400 transition-colors p-2"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 md:w-8 md:h-8">
             <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-
-        <div className="relative w-full flex flex-col items-center px-12 md:px-16 mb-4 md:mb-6 min-h-[40px] md:min-h-[50px] justify-center">
-          <AnimatePresence>
-            {!showHomeModal ? (
-              <motion.h1 
-                key="title-default"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95, position: 'absolute' }}
-                transition={{ duration: 0.3 }}
-                className="text-xl md:text-3xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep w-full"
-              >
-                <span className="text-white">{displayCategory.replace(/[☀️❤️💰💼]/g, '')}</span>을(를) 위한 운명의 카드를 골라주세요
-              </motion.h1>
-            ) : (
-              <motion.h1 
-                key="title-confirm"
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95, position: 'absolute' }}
-                transition={{ duration: 0.3 }}
-                className="text-xl md:text-2xl font-bold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep w-full"
-              >
-                질문 선택 화면으로 돌아가시겠습니까?
-              </motion.h1>
-            )}
-          </AnimatePresence>
+        
+        <div className="flex flex-col items-center">
+          <h1 className="text-base md:text-2xl font-extrabold tracking-widest text-amber-400 drop-shadow-md text-center">
+            <span className="text-white mr-1">{displayCategory.replace(/[☀️❤️💰💼]/g, '')}</span>
+            카드 선택 ({selectedCards.length}/{maxCards})
+          </h1>
+          <p className="text-xs md:text-sm text-gray-400 mt-1 tracking-widest text-center">
+            {selectedCards.length === maxCards 
+              ? "운명을 확인하는 중..." 
+              : "직관에 따라 카드를 선택해주세요"}
+          </p>
         </div>
-
-        <div className="relative w-full max-w-md flex justify-center items-center mb-4 md:mb-8 min-h-[40px]">
-          <AnimatePresence>
-            {!showHomeModal ? (
-              <motion.div
-                key="desc-default"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0, position: 'absolute' }}
-                transition={{ duration: 0.3 }}
-                className="flex justify-center w-full"
-              >
-                <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest text-center line-clamp-2 leading-relaxed">
-                  {selectedCards.length === maxCards
-                    ? "당신의 운명이 선택되었습니다."
-                    : `${maxCards > 1 ? `${maxCards}장` : '오늘'}의 카드를 신중하게 선택하세요 (${selectedCards.length}/${maxCards})`}
-                </p>
-              </motion.div>
-            ) : (
-              <motion.div
-                key="desc-confirm"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0, position: 'absolute' }}
-                transition={{ duration: 0.3 }}
-                className="flex gap-4 w-full justify-center"
-              >
-                <button
-                  onClick={() => setShowHomeModal(false)}
-                  className="px-6 py-2 rounded-full border border-gray-400/30 text-gray-300 text-sm md:text-base font-semibold active:bg-gray-400/20 transition-colors tracking-widest"
-                >
-                  아니오
-                </button>
-                <button
-                  onClick={() => router.push('/')}
-                  className="px-6 py-2 rounded-full bg-amber-500/20 border border-amber-500/50 text-amber-400 text-sm md:text-base font-bold active:bg-amber-500/40 shadow-[0_0_15px_rgba(251,191,36,0.2)] transition-all tracking-widest"
-                >
-                  예
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {/* 슬롯 영역 */}
-        <div className={`relative w-full max-w-5xl mx-auto flex justify-center ${
-          spreadParam === 'celtic' 
-            ? 'h-[440px] md:h-[650px] mt-4 overflow-visible' 
-            : spreadParam === 'today' 
-              ? 'items-center h-[220px] md:h-[380px] min-h-[220px]' 
-              : 'h-[220px] md:h-[380px] min-h-[220px]'
-        }`}>
-          {roles.map((role, idx) => {
-            const isCeltic = spreadParam === 'celtic';
-            const isToday = spreadParam === 'today';
-            
-            let posClass = "flex flex-col items-center justify-center";
-            let posStyle: React.CSSProperties = {};
-            
-            if (!isCeltic) {
-              posClass += " absolute bottom-0 -translate-x-1/2";
-              if (isToday) {
-                posStyle = { left: "50%" };
-              } else {
-                const offset = isMobile ? 120 : 250;
-                posStyle = { left: idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)` };
-              }
-            } else {
-              posClass += " absolute";
-              const cardW = isMobile ? 50 : 86;
-              const cardH = isMobile ? 80 : 135;
-              const gapX = isMobile ? 68 : 120;
-              const gapY = isMobile ? 85 : 150;
-              
-              const crossCx = `calc(50% - ${gapX}px)`;
-              const crossCy = `50%`;
-              const pillarX = `calc(50% + ${gapX * 1.5}px)`;
-              
-              let left = '50%';
-              let top = '50%';
-              let transform = 'translate(-50%, -50%)';
-              let zIndex = 10;
-              
-              if (idx === 0) {
-                left = crossCx; top = crossCy; zIndex = 10;
-              } else if (idx === 1) {
-                left = crossCx; top = crossCy; 
-                transform = 'translate(-50%, -50%) rotate(90deg)';
-                zIndex = 11;
-              } else if (idx === 2) {
-                left = crossCx; top = `calc(50% + ${gapY}px)`; 
-              } else if (idx === 3) {
-                left = `calc(${crossCx} - ${gapX}px)`; top = crossCy;
-              } else if (idx === 4) {
-                left = crossCx; top = `calc(50% - ${gapY}px)`;
-              } else if (idx === 5) {
-                left = `calc(${crossCx} + ${gapX}px)`; top = crossCy;
-              } else {
-                left = pillarX;
-                const multiplier = 1.5 - (idx - 6);
-                top = `calc(50% + ${gapY * multiplier}px)`;
-              }
-              posStyle = { left, top, transform, zIndex };
-            }
-            
-            const slotWidthClass = isCeltic ? "w-[50px] h-[80px] md:w-[86px] md:h-[135px]" : "w-[96px] h-[150px] md:w-[165px] md:h-[270px]";
-            const textSizeClass = isCeltic ? "hidden" : "text-sm md:text-lg mb-6";
-
-            const selection = selectedCards.find(c => c.role === role);
-            const selectedCardData = selection ? cards.find(c => c.id === selection.id) : null;
-            const isFilled = !!selection;
-
-            const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
-
-            return (
-              <div
-                key={role}
-                className={posClass}
-                style={posStyle}
-              >
-                {!isCeltic && (
-                  <div className={`h-[24px] md:h-[32px] flex items-end ${textSizeClass}`}>
-                    <span className={`text-white/50 font-semibold tracking-widest whitespace-nowrap uppercase text-center w-full block drop-shadow-sm`}>{role}</span>
-                  </div>
-                )}
-                
-                <div className={`relative ${slotWidthClass} rounded-xl transition-all duration-700 flex items-center justify-center ${isFilled
-                  ? 'border-transparent bg-transparent shadow-[0_0_80px_rgba(251,191,36,0.3)]'
-                  : 'border-[1px] border-amber-500/30 bg-black/40 shadow-inner backdrop-blur-sm'
-                  }`}>
-                  {isCeltic && !isFilled && (
-                    <span className="absolute text-amber-500/40 font-serif text-[10px] md:text-xs tracking-widest pointer-events-none">
-                      {romanNumerals[idx]}
-                    </span>
-                  )}
-                  {isFilled && selectedCardData && (
-                    <motion.div
-                      layoutId={`card-${selectedCardData.id}`}
-                      onClick={() => handleCardClick(selectedCardData.id)}
-                      className="relative cursor-pointer pointer-events-auto w-full h-full"
-                      style={{ transformStyle: "preserve-3d" }}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    >
-                      <div
-                        className="absolute inset-0 w-full h-full rounded-xl border border-amber-300 overflow-hidden bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center shadow-[0_0_25px_rgba(212,175,55,0.7)]"
-                      >
-                        <div className="absolute inset-1 border border-[#D4AF37]/40 rounded-lg"></div>
-                        <div className="w-6 h-6 md:w-8 md:h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45">
-                          <div className="w-2 h-2 md:w-3 md:h-3 bg-[#D4AF37]/40 rounded-full"></div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        
+        <div className="w-10"></div> {/* Center alignment anchor */}
       </div>
 
-      {/* 하단 덱 영역 */}
-      <div className="w-full mt-4 md:mt-8 relative overflow-hidden flex-grow flex items-center">
-        <div 
-          className="w-full h-full overflow-x-auto scrollbar-hide flex items-center px-[45vw]" 
-          style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-x' }}
-        >
-          <div className="flex items-center space-x-[-35px] md:space-x-[-65px] py-16">
-            <AnimatePresence>
-              {cards.map((card) => (
-                <TarotCardItem 
-                  key={card.id}
-                  card={card}
-                  isSelected={selectedCards.some(c => c.id === card.id)}
-                  onCardClick={handleCardClick}
-                />
-              ))}
-            </AnimatePresence>
-          </div>
+      {/* Grid 렌더링 영역 */}
+      <div className="w-full max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3 md:gap-4 lg:gap-5 pb-20">
+          {cards.map((card) => (
+            <TarotCardItem 
+              key={card.id}
+              card={card}
+              isSelected={selectedCards.some(c => c.id === card.id)}
+              onCardClick={handleCardClick}
+            />
+          ))}
         </div>
       </div>
-
-      <AnimatePresence>
-        {selectedCards.length === maxCards && (
-          <motion.div
-            className="fixed left-0 z-[600] w-full flex justify-center px-4"
-            style={{ bottom: 'calc(4vh + env(safe-area-inset-bottom))' }}
-            initial={{ y: 80, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 80, opacity: 0 }}
-            transition={{ type: "spring", stiffness: 250, damping: 20 }}
-          >
-            <button
-              onClick={handleCheckDestiny}
-              className="relative w-full max-w-[320px] py-4 md:py-5 bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 bg-[length:200%_auto] text-white font-extrabold text-xl md:text-2xl rounded-full border border-amber-300/50 shadow-[0_0_40px_rgba(251,191,36,0.5)] hover:shadow-[0_0_60px_rgba(251,191,36,0.8)] hover:scale-105 active:scale-95 transition-all duration-300 overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
-              <span className="relative z-10 drop-shadow-md tracking-wide">
-                운명 확인하기
-              </span>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-    </motion.main>
+    </main>
   );
 }
 
