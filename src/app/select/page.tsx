@@ -85,7 +85,7 @@ function SelectContent() {
 
   const spreadData = useMemo(() => {
     if (spreadParam === 'today') {
-      return { limit: 1, roles: ["오늘의 카드"] };
+      return { limit: 1, roles: ["운명의 카드"] };
     } else if (spreadParam === 'celtic') {
       return { 
         limit: 10, 
@@ -222,7 +222,7 @@ function SelectContent() {
                 <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest text-center line-clamp-2 leading-relaxed">
                   {selectedCards.length === maxCards
                     ? "당신의 운명이 선택되었습니다."
-                    : `${maxCards > 1 ? `${maxCards}장` : '오늘'}의 카드를 신중하게 선택하세요 (${selectedCards.length}/${maxCards})`}
+                    : `${maxCards > 1 ? `${maxCards}장` : '운명'}의 카드를 신중하게 선택하세요 (${selectedCards.length}/${maxCards})`}
                 </p>
               </motion.div>
             ) : (
