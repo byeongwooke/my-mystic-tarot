@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useMemo, memo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { TAROT_BASE } from "@/data/tarot/base";
-import { TAROT_TODAY } from "@/data/tarot/today";
+import { TAROT_FORTUNE } from "@/data/tarot/today";
 import { TAROT_SPREAD3 } from "@/data/tarot/spread3";
 import { TAROT_CELTIC } from "@/data/tarot/celtic";
 import { motion, AnimatePresence } from "framer-motion";
@@ -153,7 +153,7 @@ function ResultContent() {
       if (!base) return null;
       let cardData: any = { ...base };
       if (spreadParam === 'today') {
-        cardData = { ...cardData, ...TAROT_TODAY[id] };
+        cardData = { ...cardData, ...TAROT_FORTUNE[id] };
       } else if (spreadParam === 'celtic') {
         cardData = { ...cardData, celtic: TAROT_CELTIC[id] };
       } else {
@@ -190,8 +190,8 @@ function ResultContent() {
     
     if (category === 'worry') {
       const curScore = isReversed ? cardData.warningScore : cardData.score;
-      if (curScore <= 40) return cardData.warningWorry || "운명의 메시지를 준비 중입니다";
-      return cardData.worry || "운명의 메시지를 준비 중입니다";
+      if (curScore <= 40) return TAROT_FORTUNE[cardData.id]?.warningWorry || "운명의 메시지를 준비 중입니다";
+      return TAROT_FORTUNE[cardData.id]?.worry || "운명의 메시지를 준비 중입니다";
     }
 
     // 오늘의 운세 전용 조언 우선

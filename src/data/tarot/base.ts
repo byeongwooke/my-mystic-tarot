@@ -5,8 +5,6 @@ export interface TarotBase {
     keywords: string[];
     score: number;
     warningScore: number;
-    worry: string;
-    warningWorry: string;
 }
 
 export const TAROT_BASE: Record<number, TarotBase> = {
@@ -20,9 +18,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "변수"
         ],
         "score": 85.4,
-        "warningScore": 32.1,
-        "worry": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 32.1
     },
     "1": {
         "id": 1,
@@ -34,9 +30,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "주도권"
         ],
         "score": 92.5,
-        "warningScore": 45.3,
-        "worry": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 45.3
     },
     "2": {
         "id": 2,
@@ -48,9 +42,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "침묵"
         ],
         "score": 88,
-        "warningScore": 50.1,
-        "worry": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 50.1
     },
     "3": {
         "id": 3,
@@ -62,9 +54,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "포용"
         ],
         "score": 95.5,
-        "warningScore": 40.5,
-        "worry": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 40.5
     },
     "4": {
         "id": 4,
@@ -76,9 +66,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "권위"
         ],
         "score": 90.2,
-        "warningScore": 55.4,
-        "worry": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 55.4
     },
     "5": {
         "id": 5,
@@ -90,9 +78,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "믿음"
         ],
         "score": 82,
-        "warningScore": 48.2,
-        "worry": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 48.2
     },
     "6": {
         "id": 6,
@@ -104,9 +90,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "결합"
         ],
         "score": 94.6,
-        "warningScore": 35.8,
-        "worry": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 35.8
     },
     "7": {
         "id": 7,
@@ -118,9 +102,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "추진력"
         ],
         "score": 89.1,
-        "warningScore": 41.2,
-        "worry": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 41.2
     },
     "8": {
         "id": 8,
@@ -132,9 +114,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "부드러움"
         ],
         "score": 87.3,
-        "warningScore": 52,
-        "worry": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 52
     },
     "9": {
         "id": 9,
@@ -146,9 +126,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "진리"
         ],
         "score": 75.5,
-        "warningScore": 30.4,
-        "worry": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 30.4
     },
     "10": {
         "id": 10,
@@ -160,9 +138,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "전환점"
         ],
         "score": 80,
-        "warningScore": 45,
-        "worry": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 45
     },
     "11": {
         "id": 11,
@@ -174,9 +150,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "결단"
         ],
         "score": 81.2,
-        "warningScore": 60.5,
-        "worry": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 60.5
     },
     "12": {
         "id": 12,
@@ -188,9 +162,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "관점 전환"
         ],
         "score": 45.3,
-        "warningScore": 65.2,
-        "worry": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 65.2
     },
     "13": {
         "id": 13,
@@ -202,9 +174,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "새로운 시작"
         ],
         "score": 20.5,
-        "warningScore": 68,
-        "worry": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 68
     },
     "14": {
         "id": 14,
@@ -216,9 +186,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "중용"
         ],
         "score": 88.5,
-        "warningScore": 42.1,
-        "worry": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 42.1
     },
     "15": {
         "id": 15,
@@ -230,9 +198,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "속박"
         ],
         "score": 18.9,
-        "warningScore": 62.1,
-        "worry": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 62.1
     },
     "16": {
         "id": 16,
@@ -244,9 +210,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "충격"
         ],
         "score": 15.5,
-        "warningScore": 35,
-        "worry": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 35
     },
     "17": {
         "id": 17,
@@ -258,9 +222,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "영감"
         ],
         "score": 96.4,
-        "warningScore": 25.5,
-        "worry": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 25.5
     },
     "18": {
         "id": 18,
@@ -272,9 +234,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "잠재의식"
         ],
         "score": 35,
-        "warningScore": 75.2,
-        "worry": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 75.2
     },
     "19": {
         "id": 19,
@@ -286,9 +246,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "명료함"
         ],
         "score": 98.2,
-        "warningScore": 30.1,
-        "worry": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 30.1
     },
     "20": {
         "id": 20,
@@ -300,9 +258,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "보상"
         ],
         "score": 85,
-        "warningScore": 40.2,
-        "worry": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 40.2
     },
     "21": {
         "id": 21,
@@ -314,9 +270,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "새로운 여정"
         ],
         "score": 99.5,
-        "warningScore": 50,
-        "worry": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 50
     },
     "22": {
         "id": 22,
@@ -328,9 +282,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "영감"
         ],
         "score": 85,
-        "warningScore": 37,
-        "worry": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 37
     },
     "23": {
         "id": 23,
@@ -342,9 +294,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "선택"
         ],
         "score": 71.5,
-        "warningScore": 39,
-        "worry": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 39
     },
     "24": {
         "id": 24,
@@ -356,9 +306,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "기다림"
         ],
         "score": 73,
-        "warningScore": 41,
-        "worry": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 41
     },
     "25": {
         "id": 25,
@@ -370,9 +318,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "축제"
         ],
         "score": 67,
-        "warningScore": 43,
-        "worry": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 43
     },
     "26": {
         "id": 26,
@@ -384,9 +330,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "성장통"
         ],
         "score": 48.5,
-        "warningScore": 45,
-        "worry": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 45
     },
     "27": {
         "id": 27,
@@ -398,9 +342,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "인정"
         ],
         "score": 70,
-        "warningScore": 47,
-        "worry": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 47
     },
     "28": {
         "id": 28,
@@ -412,9 +354,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "입지"
         ],
         "score": 71.5,
-        "warningScore": 35,
-        "worry": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 35
     },
     "29": {
         "id": 29,
@@ -426,9 +366,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "소식"
         ],
         "score": 73,
-        "warningScore": 37,
-        "worry": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 37
     },
     "30": {
         "id": 30,
@@ -440,9 +378,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "최후의 시험"
         ],
         "score": 47,
-        "warningScore": 39,
-        "worry": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 39
     },
     "31": {
         "id": 31,
@@ -454,9 +390,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "압박"
         ],
         "score": 78.5,
-        "warningScore": 41,
-        "worry": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 41
     },
     "32": {
         "id": 32,
@@ -468,9 +402,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "잠재력"
         ],
         "score": 70,
-        "warningScore": 43,
-        "worry": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 43
     },
     "33": {
         "id": 33,
@@ -482,9 +414,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "추진력"
         ],
         "score": 71.5,
-        "warningScore": 45,
-        "worry": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 45
     },
     "34": {
         "id": 34,
@@ -496,9 +426,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "활력"
         ],
         "score": 73,
-        "warningScore": 47,
-        "worry": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 47
     },
     "35": {
         "id": 35,
@@ -510,9 +438,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "성취"
         ],
         "score": 82,
-        "warningScore": 35,
-        "worry": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 35
     },
     "36": {
         "id": 36,
@@ -524,9 +450,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "충만"
         ],
         "score": 93.5,
-        "warningScore": 37,
-        "worry": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 37
     },
     "37": {
         "id": 37,
@@ -538,9 +462,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "파트너십"
         ],
         "score": 80,
-        "warningScore": 39,
-        "worry": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 39
     },
     "38": {
         "id": 38,
@@ -552,9 +474,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "환희"
         ],
         "score": 81.5,
-        "warningScore": 41,
-        "worry": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 41
     },
     "39": {
         "id": 39,
@@ -566,9 +486,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "내면 탐색"
         ],
         "score": 83,
-        "warningScore": 43,
-        "worry": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 43
     },
     "40": {
         "id": 40,
@@ -580,9 +498,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "시선 전환"
         ],
         "score": 57,
-        "warningScore": 45,
-        "worry": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 45
     },
     "41": {
         "id": 41,
@@ -594,9 +510,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "재방문"
         ],
         "score": 78.5,
-        "warningScore": 47,
-        "worry": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 47
     },
     "42": {
         "id": 42,
@@ -608,9 +522,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "신기루"
         ],
         "score": 80,
-        "warningScore": 35,
-        "worry": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 35
     },
     "43": {
         "id": 43,
@@ -622,9 +534,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "여정"
         ],
         "score": 81.5,
-        "warningScore": 37,
-        "worry": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 37
     },
     "44": {
         "id": 44,
@@ -636,9 +546,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "자기애"
         ],
         "score": 63,
-        "warningScore": 39,
-        "worry": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 39
     },
     "45": {
         "id": 45,
@@ -650,9 +558,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "조화"
         ],
         "score": 87,
-        "warningScore": 41,
-        "worry": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 41
     },
     "46": {
         "id": 46,
@@ -664,9 +570,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "호기심"
         ],
         "score": 78.5,
-        "warningScore": 43,
-        "worry": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 43
     },
     "47": {
         "id": 47,
@@ -678,9 +582,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "우아함"
         ],
         "score": 80,
-        "warningScore": 45,
-        "worry": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 45
     },
     "48": {
         "id": 48,
@@ -692,9 +594,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "통찰"
         ],
         "score": 81.5,
-        "warningScore": 47,
-        "worry": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 47
     },
     "49": {
         "id": 49,
@@ -706,9 +606,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "정서적 숙련"
         ],
         "score": 97.8,
-        "warningScore": 35,
-        "worry": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 35
     },
     "50": {
         "id": 50,
@@ -720,9 +618,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "돌파"
         ],
         "score": 67,
-        "warningScore": 52,
-        "worry": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 52
     },
     "51": {
         "id": 51,
@@ -734,9 +630,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "균형"
         ],
         "score": 53.5,
-        "warningScore": 54,
-        "worry": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 54
     },
     "52": {
         "id": 52,
@@ -748,9 +642,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "직면"
         ],
         "score": 30.5,
-        "warningScore": 62.4,
-        "worry": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 62.4
     },
     "53": {
         "id": 53,
@@ -762,9 +654,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "정지"
         ],
         "score": 56.5,
-        "warningScore": 58,
-        "worry": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 58
     },
     "54": {
         "id": 54,
@@ -776,9 +666,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "상처뿐인 승리"
         ],
         "score": 38,
-        "warningScore": 60,
-        "worry": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 60
     },
     "55": {
         "id": 55,
@@ -790,9 +678,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "국면 전환"
         ],
         "score": 52,
-        "warningScore": 62,
-        "worry": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 62
     },
     "56": {
         "id": 56,
@@ -804,9 +690,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "책임 회피"
         ],
         "score": 53.5,
-        "warningScore": 50,
-        "worry": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 50
     },
     "57": {
         "id": 57,
@@ -818,9 +702,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "제약"
         ],
         "score": 55,
-        "warningScore": 52,
-        "worry": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 52
     },
     "58": {
         "id": 58,
@@ -832,9 +714,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "죄책감"
         ],
         "score": 29.9,
-        "warningScore": 62.6,
-        "worry": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 62.6
     },
     "59": {
         "id": 59,
@@ -846,9 +726,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "수용"
         ],
         "score": 30.3,
-        "warningScore": 65,
-        "worry": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 65
     },
     "60": {
         "id": 60,
@@ -860,9 +738,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "미숙함"
         ],
         "score": 52,
-        "warningScore": 58,
-        "worry": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 58
     },
     "61": {
         "id": 61,
@@ -874,9 +750,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "논리적 관철"
         ],
         "score": 53.5,
-        "warningScore": 60,
-        "worry": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 60
     },
     "62": {
         "id": 62,
@@ -888,9 +762,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "경계 설정"
         ],
         "score": 55,
-        "warningScore": 62,
-        "worry": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 62
     },
     "63": {
         "id": 63,
@@ -902,9 +774,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "이성적 권위"
         ],
         "score": 71.5,
-        "warningScore": 50,
-        "worry": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 50
     },
     "64": {
         "id": 64,
@@ -916,9 +786,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "실질적 결실"
         ],
         "score": 97.8,
-        "warningScore": 37,
-        "worry": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 37
     },
     "65": {
         "id": 65,
@@ -930,9 +798,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "변동성"
         ],
         "score": 77,
-        "warningScore": 39,
-        "worry": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 39
     },
     "66": {
         "id": 66,
@@ -944,9 +810,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "인정"
         ],
         "score": 78.5,
-        "warningScore": 41,
-        "worry": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 41
     },
     "67": {
         "id": 67,
@@ -958,9 +822,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "보수적"
         ],
         "score": 80,
-        "warningScore": 43,
-        "worry": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 43
     },
     "68": {
         "id": 68,
@@ -972,9 +834,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "소외"
         ],
         "score": 33.9,
-        "warningScore": 63.2,
-        "worry": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 63.2
     },
     "69": {
         "id": 69,
@@ -986,9 +846,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "균형"
         ],
         "score": 83,
-        "warningScore": 47,
-        "worry": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 47
     },
     "70": {
         "id": 70,
@@ -1000,9 +858,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "중간 점검"
         ],
         "score": 77,
-        "warningScore": 35,
-        "worry": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 35
     },
     "71": {
         "id": 71,
@@ -1014,9 +870,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "장인 정신"
         ],
         "score": 78.5,
-        "warningScore": 37,
-        "worry": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 37
     },
     "72": {
         "id": 72,
@@ -1028,9 +882,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "품격"
         ],
         "score": 60,
-        "warningScore": 39,
-        "worry": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 39
     },
     "73": {
         "id": 73,
@@ -1042,9 +894,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "부유함"
         ],
         "score": 91.5,
-        "warningScore": 41,
-        "worry": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 41
     },
     "74": {
         "id": 74,
@@ -1056,9 +906,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "기회 포착"
         ],
         "score": 83,
-        "warningScore": 43,
-        "worry": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요.",
-        "warningWorry": "감정적 판단보다는 냉정함이 절실한 시기입니다. 섣부른 결정을 유보하십시오."
+        "warningScore": 43
     },
     "75": {
         "id": 75,
@@ -1070,9 +918,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "실천"
         ],
         "score": 77,
-        "warningScore": 45,
-        "worry": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다.",
-        "warningWorry": "위험 요소가 감지됩니다. 기존의 방식을 고집하지 말고 대안을 찾아보는 것이 안전합니다."
+        "warningScore": 45
     },
     "76": {
         "id": 76,
@@ -1084,9 +930,7 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "보살핌"
         ],
         "score": 78.5,
-        "warningScore": 47,
-        "worry": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요.",
-        "warningWorry": "상황이 여의치 않습니다. 지금은 앞서가기보다 잠시 숨을 고르며 기다려야 할 때입니다."
+        "warningScore": 47
     },
     "77": {
         "id": 77,
@@ -1098,8 +942,6 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "경제적 권위"
         ],
         "score": 95,
-        "warningScore": 35,
-        "worry": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요.",
-        "warningWorry": "예상치 못한 변수가 도사리고 있습니다. 무리한 진행은 화를 부를 수 있으니 극히 경계하세요."
+        "warningScore": 35
     }
 };
