@@ -189,7 +189,9 @@ function ResultContent() {
     if (!cardData || !category) return "";
     
     if (category === 'worry') {
-      return cardData?.worry?.advice || "운명의 메시지를 준비 중입니다";
+      const curScore = isReversed ? cardData.warningScore : cardData.score;
+      if (curScore <= 40) return cardData.warningWorry || "운명의 메시지를 준비 중입니다";
+      return cardData.worry || "운명의 메시지를 준비 중입니다";
     }
 
     // 오늘의 운세 전용 조언 우선
@@ -319,28 +321,34 @@ function ResultContent() {
 
         <div className="mb-12 md:mb-20 mt-4 min-h-[80px] md:min-h-[120px] flex items-center justify-center w-full max-w-4xl px-2">
           {category === 'worry' && cardsInfo[0] ? (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={cardsInfo[0].cardData?.id || 'worry-score'}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-                className="flex flex-col items-center justify-center gap-4 text-center w-full"
-              >
-                <div className={`text-4xl md:text-6xl font-black tracking-widest uppercase drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] ${
-                  !cardsInfo[0].isReversed ? 'text-emerald-400 drop-shadow-[0_0_25px_rgba(52,211,153,0.5)]' : 'text-rose-500 drop-shadow-[0_0_25px_rgba(244,63,94,0.5)]'
-                }`}>
-                  {!cardsInfo[0].isReversed ? 'YES / GO!' : 'NO / STOP'}
-                </div>
-                <div className="text-amber-300 font-bold tracking-widest text-xs md:text-sm border border-amber-500/50 px-3 py-1 rounded-full bg-amber-500/10">
-                  마스터의 한마디
-                </div>
-                <p className="text-amber-100/90 tracking-widest text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose px-2 md:px-8 mt-2">
-                  "{getAdviceText(cardsInfo[0])}"
-                </p>
-              </motion.div>
-            </AnimatePresence>
+            (() => {
+              const curScore = cardsInfo[0].isReversed ? cardsInfo[0].cardData?.warningScore : cardsInfo[0].cardData?.score;
+              const isStop = curScore !== undefined && curScore <= 40;
+              return (
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={cardsInfo[0].cardData?.id || 'worry-score'}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    className="flex flex-col items-center justify-center gap-4 text-center w-full"
+                  >
+                    <div className={`text-4xl md:text-6xl font-black tracking-widest uppercase drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] ${
+                      !isStop ? 'text-emerald-400 drop-shadow-[0_0_25px_rgba(52,211,153,0.5)]' : 'text-rose-600 drop-shadow-[0_0_35px_rgba(225,29,72,1)]'
+                    }`}>
+                      {!isStop ? 'YES / GO!' : 'NO / STOP'}
+                    </div>
+                    <div className="text-amber-300 font-bold tracking-widest text-xs md:text-sm border border-amber-500/50 px-3 py-1 rounded-full bg-amber-500/10">
+                      마스터의 한마디
+                    </div>
+                    <p className="text-amber-100/90 tracking-widest text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose px-2 md:px-8 mt-2">
+                      "{getAdviceText(cardsInfo[0])}"
+                    </p>
+                  </motion.div>
+                </AnimatePresence>
+              );
+            })()
           ) : spread === 'today' && cardsInfo[0] ? (
             <AnimatePresence mode="wait">
               <motion.div
