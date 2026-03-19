@@ -10,6 +10,10 @@ export interface TodayCard {
         money: string;
         work: string;
     };
+    worry: {
+        isPositive: boolean;
+        advice: string;
+    };
     warningSummary: { // 역방향용 카드의 해석
         love: string;
         money: string;
@@ -26,7 +30,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "자유가 방임이 될 때 발밑의 낭떠러지를 잊기 쉽습니다. 지금의 무계획은 용기가 아닌 위태로움일 수 있습니다.",
         "warning": "준비 부족 혹은 경솔함",
         "summary": { "love": "의도 없는 이끌림", "money": "계획 밖의 흐름", "work": "새로운 영역 진입" },
-        "warningSummary": { "love": "불안정한 관계, 무책임한 태도", "money": "충동적인 지출, 무모한 베팅", "work": "체계 없는 업무, 성급한 시작" }
+        "warningSummary": { "love": "불안정한 관계, 무책임한 태도", "money": "충동적인 지출, 무모한 베팅", "work": "체계 없는 업무, 성급한 시작" },
+        "worry": { "isPositive": true, "advice": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요." }
     },
     "1": {
         "id": 1,
@@ -36,7 +41,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "기술은 훌륭하나 진실함이 빠져있을 수 있습니다. 상대를 설득하는 힘이 자칫 기만으로 흐르지 않게 하세요.",
         "warning": "재능 오용 혹은 사기 경계",
         "summary": { "love": "매력 발현, 주도적 관계", "money": "아이디어 수익화", "work": "기술의 숙련, 다재다능" },
-        "warningSummary": { "love": "말뿐인 약속, 가벼운 유혹", "money": "불투명한 정보, 미숙한 자금 운용", "work": "실력 부족의 탄로, 잘못된 기획" }
+        "warningSummary": { "love": "말뿐인 약속, 가벼운 유혹", "money": "불투명한 정보, 미숙한 자금 운용", "work": "실력 부족의 탄로, 잘못된 기획" },
+        "worry": { "isPositive": true, "advice": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요." }
     },
     "2": {
         "id": 2,
@@ -46,7 +52,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "직관이 아닌 고집에 귀를 기울이고 있지는 않나요? 숨겨진 진실이 드러날 때 당혹스러울 수 있습니다.",
         "warning": "비밀의 폭로, 왜곡된 직관",
         "summary": { "love": "정신적 유대, 신비주의", "money": "문서운 강세, 신중한 관리", "work": "분석적 업무, 심도 있는 연구" },
-        "warningSummary": { "love": "의심의 시작, 소통의 부재", "money": "숨겨진 부채, 판단 착오", "work": "피상적인 분석, 정보의 누수" }
+        "warningSummary": { "love": "의심의 시작, 소통의 부재", "money": "숨겨진 부채, 판단 착오", "work": "피상적인 분석, 정보의 누수" },
+        "worry": { "isPositive": true, "advice": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요." }
     },
     "3": {
         "id": 3,
@@ -56,7 +63,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "풍요에 대한 집착이 오히려 결핍을 부릅니다. 지나친 소유욕은 당신의 아름다움을 시들게 할 뿐입니다.",
         "warning": "집착, 낭비, 창의력 정체",
         "summary": { "love": "안정적 사랑, 결실의 기미", "money": "자산 증식, 물질적 만족", "work": "노력의 가시화, 성과" },
-        "warningSummary": { "love": "과도한 간섭, 소유욕으로 인한 갈등", "money": "무절제한 사치, 자금의 정체", "work": "창의성 부족, 권태로운 업무" }
+        "warningSummary": { "love": "과도한 간섭, 소유욕으로 인한 갈등", "money": "무절제한 사치, 자금의 정체", "work": "창의성 부족, 권태로운 업무" },
+        "worry": { "isPositive": true, "advice": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다." }
     },
     "4": {
         "id": 4,
@@ -66,7 +74,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "강함이 유연함을 잃으면 부러지기 마련입니다. 원칙을 지키는 것과 타인을 억압하는 것을 혼동하지 마세요.",
         "warning": "독단적 횡포, 융통성 부족",
         "summary": { "love": "책임감 있는 관계, 안정적 리드", "money": "체계적 관리, 확실한 계획", "work": "지위 성취, 리더십 발휘" },
-        "warningSummary": { "love": "가부장적 태도, 지배적인 관계", "money": "경직된 자금 흐름, 손실 방치", "work": "권위주의적 갈등, 융통성 없는 고집" }
+        "warningSummary": { "love": "가부장적 태도, 지배적인 관계", "money": "경직된 자금 흐름, 손실 방치", "work": "권위주의적 갈등, 융통성 없는 고집" },
+        "worry": { "isPositive": true, "advice": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요." }
     },
     "5": {
         "id": 5,
@@ -76,7 +85,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "전통이라는 이름의 감옥에 갇혀 있지는 않나요? 때로는 낡은 가르침보다 당신의 파격이 더 필요할 수 있습니다.",
         "warning": "고립된 생각, 잘못된 가르침",
         "summary": { "love": "정신적 유대, 모범적 관계", "money": "안정적 운용, 전문가 조언", "work": "멘토의 조력, 원만한 조직" },
-        "warningSummary": { "love": "형식적인 만남, 고리타분한 소통", "money": "잘못된 자문, 고정 관념으로 인한 손실", "work": "보수적인 조직의 한계, 혁신 부족" }
+        "warningSummary": { "love": "형식적인 만남, 고리타분한 소통", "money": "잘못된 자문, 고정 관념으로 인한 손실", "work": "보수적인 조직의 한계, 혁신 부족" },
+        "worry": { "isPositive": true, "advice": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요." }
     },
     "6": {
         "id": 6,
@@ -86,7 +96,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "순간의 이끌림이 평생의 속박이 될 수 있습니다. 지금의 조화가 환상인지 실제인지 차분히 들여다보세요.",
         "warning": "부조화, 유혹, 이별",
         "summary": { "love": "강렬한 이끌림, 운명적 만남", "money": "동업 가능성, 선택의 기로", "work": "최상의 팀워크, 제안 수락" },
-        "warningSummary": { "love": "관계의 불협화음, 제3자의 개입", "money": "불리한 계약, 감정적인 과소비", "work": "협업 붕괴, 선택의 오류" }
+        "warningSummary": { "love": "관계의 불협화음, 제3자의 개입", "money": "불리한 계약, 감정적인 과소비", "work": "협업 붕괴, 선택의 오류" },
+        "worry": { "isPositive": true, "advice": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다." }
     },
     "7": {
         "id": 7,
@@ -96,7 +107,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "속도보다 중요한 것은 방향입니다. 고삐 풀린 추진력은 결국 당신 자신을 집어삼킬 수도 있습니다.",
         "warning": "통제 상실, 폭주, 패배",
         "summary": { "love": "적극적 고백, 급격한 진전", "money": "공격적 투자, 단기 수익", "work": "목표 달성, 경쟁 승리" },
-        "warningSummary": { "love": "성급한 이별 선언, 일방적인 구애", "money": "무리한 투자 지출, 자금 사고", "work": "압박감으로 인한 실수, 중도 하차" }
+        "warningSummary": { "love": "성급한 이별 선언, 일방적인 구애", "money": "무리한 투자 지출, 자금 사고", "work": "압박감으로 인한 실수, 중도 하차" },
+        "worry": { "isPositive": true, "advice": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다." }
     },
     "8": {
         "id": 8,
@@ -106,7 +118,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "자신을 억누르기만 하는 것은 인내가 아닙니다. 다스리지 못한 내면의 야성이 뜻밖의 지점에서 폭발할 수 있습니다.",
         "warning": "자신감 상실, 감정 폭발",
         "summary": { "love": "포용, 인내하는 사랑", "money": "지출 관리 인내, 안정", "work": "끈기 있는 해결, 설득" },
-        "warningSummary": { "love": "감정 조절의 실패, 자존심 다툼", "money": "충동 조절 장애, 금전적 불안", "work": "포용력 상실, 권위로 제압하려는 태도" }
+        "warningSummary": { "love": "감정 조절의 실패, 자존심 다툼", "money": "충동 조절 장애, 금전적 불안", "work": "포용력 상실, 권위로 제압하려는 태도" },
+        "worry": { "isPositive": true, "advice": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요." }
     },
     "9": {
         "id": 9,
@@ -116,7 +129,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "고독이 고립으로 변하고 있습니다. 세상을 등지는 것이 해답은 아닙니다. 이제 문 밖으로 나갈 때입니다.",
         "warning": "사회적 고립, 아집, 소통 거부",
         "summary": { "love": "신중한 접근, 혼자만의 성찰", "money": "무소유 태도, 정체 흐름", "work": "전문성 강화, 심도 있는 연구" },
-        "warningSummary": { "love": "의도적인 거리두기, 외로움 심화", "money": "경제 활동 위축, 인색함", "work": "협업 기피, 독단적인 연구 정체" }
+        "warningSummary": { "love": "의도적인 거리두기, 외로움 심화", "money": "경제 활동 위축, 인색함", "work": "협업 기피, 독단적인 연구 정체" },
+        "worry": { "isPositive": true, "advice": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요." }
     },
     "10": {
         "id": 10,
@@ -126,7 +140,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "상승이 있으면 하강도 있는 법입니다. 지금의 변화를 막으려 할수록 당신의 상황은 더 꼬여만 갈 것입니다.",
         "warning": "불운의 시작, 변화 저항",
         "summary": { "love": "운명적 만남, 관계의 반전", "money": "뜻밖의 횡재, 금전운 상승", "work": "새로운 기회, 승진 혹은 이직" },
-        "warningSummary": { "love": "엇갈리는 타이밍, 관계의 악화", "money": "예기치 못한 지출, 수익 하락", "work": "기회 상실, 정체된 업무 흐름" }
+        "warningSummary": { "love": "엇갈리는 타이밍, 관계의 악화", "money": "예기치 못한 지출, 수익 하락", "work": "기회 상실, 정체된 업무 흐름" },
+        "worry": { "isPositive": true, "advice": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요." }
     },
     "11": {
         "id": 11,
@@ -136,7 +151,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "정의라는 잣대가 가혹해지고 있습니다. 타인을 향한 당신의 공평함이 혹시 냉담함은 아니었는지 돌아보세요.",
         "warning": "불공정 처우, 판단 착오",
         "summary": { "love": "이성적 관계, 공평한 소통", "money": "정직한 거래, 법적 계약 유리", "work": "객관적 평가, 합리적 처리" },
-        "warningSummary": { "love": "냉정함으로 인한 결별, 편파적 태도", "money": "불리한 계약 조건, 법적 분쟁 소지", "work": "부당한 평가, 결단의 지연" }
+        "warningSummary": { "love": "냉정함으로 인한 결별, 편파적 태도", "money": "불리한 계약 조건, 법적 분쟁 소지", "work": "부당한 평가, 결단의 지연" },
+        "worry": { "isPositive": true, "advice": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다." }
     },
     "12": {
         "id": 12,
@@ -146,7 +162,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "정체된 상황을 견디지 못하고 발버둥 치면 밧줄은 더 조여질 뿐입니다. 지금은 헛된 희망보다 현실의 인내가 우선입니다.",
         "warning": "무의미한 희생, 조급함",
         "summary": { "love": "헌신적 태도, 기다림", "money": "자금 정체, 미래 위한 희생", "work": "새로운 시각 분석, 정체" },
-        "warningSummary": { "love": "보답 없는 헌신, 지지부진한 관계", "money": "묶인 자산의 손실, 의미 없는 투자", "work": "노력 대비 성과 부재, 업무 지연" }
+        "warningSummary": { "love": "보답 없는 헌신, 지지부진한 관계", "money": "묶인 자산의 손실, 의미 없는 투자", "work": "노력 대비 성과 부재, 업무 지연" },
+        "worry": { "isPositive": true, "advice": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요." }
     },
     "13": {
         "id": 13,
@@ -156,7 +173,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "이미 끝난 일에 미련을 두는 것은 고통을 연장할 뿐입니다. 썩은 가지를 잘라내지 못하면 나무 전체가 위태롭습니다.",
         "warning": "과거 집착, 변화 거부",
         "summary": { "love": "관계 종료 후 새로운 인연", "money": "손실 끊기, 재테크 변화", "work": "프로젝트 종료, 과감한 이직" },
-        "warningSummary": { "love": "질질 끄는 관계, 이별의 부정", "money": "손실 확대, 낡은 투자처 고집", "work": "실패한 프로젝트의 미련, 변화의 두려움" }
+        "warningSummary": { "love": "질질 끄는 관계, 이별의 부정", "money": "손실 확대, 낡은 투자처 고집", "work": "실패한 프로젝트의 미련, 변화의 두려움" },
+        "worry": { "isPositive": true, "advice": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요." }
     },
     "14": {
         "id": 14,
@@ -166,7 +184,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "조화가 깨지고 불협화음이 시작됩니다. 극단을 오가는 당신의 태도가 주변을 불안하게 만들고 있습니다.",
         "warning": "불균형, 절제력 부족",
         "summary": { "love": "평온한 소통, 서로 맞춤", "money": "수입 지출 균형, 안정", "work": "협상 조율, 원만한 협동" },
-        "warningSummary": { "love": "감정 기복으로 인한 다툼, 권태", "money": "자금 관리 실패, 무리한 자금 융통", "work": "소통의 단절, 비효율적인 업무 처리" }
+        "warningSummary": { "love": "감정 기복으로 인한 다툼, 권태", "money": "자금 관리 실패, 무리한 자금 융통", "work": "소통의 단절, 비효율적인 업무 처리" },
+        "worry": { "isPositive": true, "advice": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다." }
     },
     "15": {
         "id": 15,
@@ -176,7 +195,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "유혹보다 무서운 것은 그것이 유혹임을 모르는 당신의 무지입니다. 속박을 즐기는 순간 자유는 영영 사라집니다.",
         "warning": "속박 해방, 각성과 자유",
         "summary": { "love": "강렬한 끌림, 벗어나기 힘든 관계", "money": "욕심 손실, 금전 중독", "work": "과도 스트레스, 부정한 제안" },
-        "warningSummary": { "love": "집착에서 벗어남, 관계의 진실 직면", "money": "투기적인 성향 자제, 중독에서의 회복", "work": "업무 압박의 완화, 부당한 환경 탈피" }
+        "warningSummary": { "love": "집착에서 벗어남, 관계의 진실 직면", "money": "투기적인 성향 자제, 중독에서의 회복", "work": "업무 압박의 완화, 부당한 환경 탈피" },
+        "worry": { "isPositive": true, "advice": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다." }
     },
     "16": {
         "id": 16,
@@ -186,7 +206,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "붕괴를 막으려 애써봤자 소용없습니다. 진실이 폭로되는 순간을 겸허히 받아들이고 기초부터 다시 설계하세요.",
         "warning": "위기 모면, 재건 시작",
         "summary": { "love": "갑작스러운 격변, 진실 폭로", "money": "금전적 충격, 예기치 못한 지출", "work": "조직 변화, 업무 종료" },
-        "warningSummary": { "love": "서서히 드러나는 균열, 예견된 이별", "money": "장기적인 손실의 시작, 재정적 위기", "work": "내부적인 갈등 폭발, 조직 해체 위기" }
+        "warningSummary": { "love": "서서히 드러나는 균열, 예견된 이별", "money": "장기적인 손실의 시작, 재정적 위기", "work": "내부적인 갈등 폭발, 조직 해체 위기" },
+        "worry": { "isPositive": true, "advice": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요." }
     },
     "17": {
         "id": 17,
@@ -196,7 +217,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "희망이라는 이름의 환상에 빠져 현실을 보지 못하고 있습니다. 뜬구름 잡는 계획은 결국 당신을 공허하게 만듭니다.",
         "warning": "실망감, 헛된 희망",
         "summary": { "love": "이상형 만남, 희망 미래", "money": "금전 회복, 낙관 상태", "work": "아이디어 발산, 미래 사업" },
-        "warningSummary": { "love": "비현실적인 기대, 짝사랑의 환상", "money": "불확실한 투자에 올인, 실속 없는 계획", "work": "현실성 없는 기획, 성과 없는 낙관" }
+        "warningSummary": { "love": "비현실적인 기대, 짝사랑의 환상", "money": "불확실한 투자에 올인, 실속 없는 계획", "work": "현실성 없는 기획, 성과 없는 낙관" },
+        "worry": { "isPositive": true, "advice": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요." }
     },
     "18": {
         "id": 18,
@@ -206,7 +228,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "불안이 당신을 잠식하고 있습니다. 존재하지 않는 유령에 겁먹지 마세요. 안개 너머의 실체는 생각보다 작습니다.",
         "warning": "불안 해소, 진실 규명",
         "summary": { "love": "불안한 연애, 불신", "money": "불투명 투자, 혼란", "work": "막막함, 보이지 않는 경쟁" },
-        "warningSummary": { "love": "오해의 해소, 의심의 끝", "money": "금전적 혼란 정리, 진실 확인", "work": "막연한 두려움 극복, 실질적인 대안 마련" }
+        "warningSummary": { "love": "오해의 해소, 의심의 끝", "money": "금전적 혼란 정리, 진실 확인", "work": "막연한 두려움 극복, 실질적인 대안 마련" },
+        "worry": { "isPositive": true, "advice": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요." }
     },
     "19": {
         "id": 19,
@@ -216,7 +239,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "태양이 너무 밝으면 그림자도 짙어집니다. 지나친 자신감이 타인의 노력을 가리고 있지는 않은지 살피세요.",
         "warning": "일시 정체, 과한 낙관 실수",
         "summary": { "love": "축복 관계, 최고 행복", "money": "금전 대박, 자산 투명", "work": "인정 성과, 최고 흐름" },
-        "warningSummary": { "love": "과도한 자존심 대립, 일시적인 불만", "money": "수익의 정체, 과시형 지출", "work": "성과에 대한 과신, 자만으로 인한 누수" }
+        "warningSummary": { "love": "과도한 자존심 대립, 일시적인 불만", "money": "수익의 정체, 과시형 지출", "work": "성과에 대한 과신, 자만으로 인한 누수" },
+        "worry": { "isPositive": true, "advice": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다." }
     },
     "20": {
         "id": 20,
@@ -226,7 +250,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "외면해왔던 과거가 당신의 발목을 잡습니다. 뒤늦은 후회보다 지금의 책임을 지는 것이 더 중요합니다.",
         "warning": "기회 상실, 과거 발목",
         "summary": { "love": "인연 재회, 중요한 결단", "money": "노력 보상, 자금 회수", "work": "승진 합격, 결과 발표" },
-        "warningSummary": { "love": "결단의 미련, 잘못된 판단", "money": "보상 지연, 금전적 패배", "work": "불합격 통보, 기회의 박탈" }
+        "warningSummary": { "love": "결단의 미련, 잘못된 판단", "money": "보상 지연, 금전적 패배", "work": "불합격 통보, 기회의 박탈" },
+        "worry": { "isPositive": true, "advice": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요." }
     },
     "21": {
         "id": 21,
@@ -236,7 +261,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "완성이 코앞인데 마무리가 소홀해지고 있습니다. 끝날 때까지는 끝난 것이 아니니 마지막 한 조각을 채우세요.",
         "warning": "미완 성공, 지연 마무리",
         "summary": { "love": "혼인 결실, 관계 완성, 최고 만족", "money": "목표 달성, 경제 자유", "work": "성공 마무리, 글로벌 진출" },
-        "warningSummary": { "love": "불만족스러운 관계 지속, 지연되는 결합", "money": "성과에 미치지 못하는 보상, 자산의 동결", "work": "마무리 단계의 정체, 미완의 프로젝트" }
+        "warningSummary": { "love": "불만족스러운 관계 지속, 지연되는 결합", "money": "성과에 미치지 못하는 보상, 자산의 동결", "work": "마무리 단계의 정체, 미완의 프로젝트" },
+        "worry": { "isPositive": true, "advice": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요." }
     },
     // --- Wands (지팡이): 22 ~ 35 ---
     "22": {
@@ -247,7 +273,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "불씨만 지피고 정작 장작을 넣지 못하고 있네요. 시작은 거창하나 흐름이 금세 끊길 수 있습니다.",
         "warning": "의욕 저하, 지연되는 시작, 모호한 방향",
         "summary": { "love": "새로운 호감의 시작, 관계의 실마리", "money": "수익 창출의 아이디어, 경제적 자극", "work": "새로운 임무, 창의적인 시도의 기점" },
-        "warningSummary": { "love": "고백의 타이밍 상실, 애매한 태도", "money": "투자 시점 실기, 불필요한 초기 지출", "work": "기획안 반려, 실행력 부족" }
+        "warningSummary": { "love": "고백의 타이밍 상실, 애매한 태도", "money": "투자 시점 실기, 불필요한 초기 지출", "work": "기획안 반려, 실행력 부족" },
+        "worry": { "isPositive": true, "advice": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다." }
     },
     "23": {
         "id": 23,
@@ -257,7 +284,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "준비가 길어지면 기회는 남의 손으로 넘어갑니다. 성벽 안의 안락함에 안주하여 시야를 닫고 있지는 않나요?",
         "warning": "확신 없는 결정, 지연된 이동",
         "summary": { "love": "미래의 설계, 관계의 확장성 고민", "money": "투자처의 결정, 자산 확장의 기틀", "work": "새로운 무대로의 진출 준비, 전략적 파트너십" },
-        "warningSummary": { "love": "관계의 정체, 미래가 보이지 않는 만남", "money": "잘못된 투자처 고수, 확장 실패", "work": "계획의 오류, 부적절한 협업 제안" }
+        "warningSummary": { "love": "관계의 정체, 미래가 보이지 않는 만남", "money": "잘못된 투자처 고수, 확장 실패", "work": "계획의 오류, 부적절한 협업 제안" },
+        "worry": { "isPositive": true, "advice": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다." }
     },
     "24": {
         "id": 24,
@@ -267,7 +295,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "자신만만했던 계획이 변수를 만납니다. 저 멀리 보이는 수평선이 당신이 생각한 그 풍경이 아닐 수도 있습니다.",
         "warning": "지연된 소식, 협력의 부재",
         "summary": { "love": "관계의 진전, 멀리서 오는 소식", "money": "투자의 가시적인 결과, 성장의 시작", "work": "업무 영역의 확대, 비즈니스의 성공" },
-        "warningSummary": { "love": "기다리던 소식의 부재, 어긋난 만남", "money": "이익 실현의 지연, 자금 회수 곤란", "work": "해외 사업 차질, 파트너의 배신" }
+        "warningSummary": { "love": "기다리던 소식의 부재, 어긋난 만남", "money": "이익 실현의 지연, 자금 회수 곤란", "work": "해외 사업 차질, 파트너의 배신" },
+        "worry": { "isPositive": true, "advice": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요." }
     },
     "25": {
         "id": 25,
@@ -277,7 +306,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "축제의 분위기 뒤로 긴장감이 흐릅니다. 겉으로는 평화로워 보이나 내부의 토대가 흔들리고 있음을 직시하세요.",
         "warning": "불안정한 상황, 사소한 다툼, 지연된 축하",
         "summary": { "love": "결합의 축하, 안정적인 연애 지속", "money": "재정적 평온, 경사스러운 지출 발생", "work": "성과에 따른 휴식, 조직의 화합 달성" },
-        "warningSummary": { "love": "일시적인 별거, 가족 간의 갈등", "money": "자산 유지의 불안, 예기치 못한 가정 지출", "work": "조직 내 파벌 싸움, 축하받지 못한 성과" }
+        "warningSummary": { "love": "일시적인 별거, 가족 간의 갈등", "money": "자산 유지의 불안, 예기치 못한 가정 지출", "work": "조직 내 파벌 싸움, 축하받지 못한 성과" },
+        "worry": { "isPositive": true, "advice": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요." }
     },
     "26": {
         "id": 26,
@@ -287,7 +317,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "소모적인 논쟁이 잦아들고 있습니다. 이 싸움의 승자가 누구인지보다, 우리가 무엇을 잃었는지 먼저 생각하세요.",
         "warning": "갈등의 해소, 타협점의 발견, 경쟁 종료",
         "summary": { "love": "의견 대립, 관계의 경쟁자 출현", "money": "치열한 수익 경쟁, 불필요한 비용 소모", "work": "팀 내 주도권 싸움, 바쁜 업무 스케줄" },
-        "warningSummary": { "love": "오해의 해소, 화해의 기미", "money": "법적 분쟁 종료, 비용 절감의 시작", "work": "팀워크 회복, 불필요한 경쟁 중단" }
+        "warningSummary": { "love": "오해의 해소, 화해의 기미", "money": "법적 분쟁 종료, 비용 절감의 시작", "work": "팀워크 회복, 불필요한 경쟁 중단" },
+        "worry": { "isPositive": true, "advice": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요." }
     },
     "27": {
         "id": 27,
@@ -297,7 +328,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "왕관의 무게가 당신을 짓누릅니다. 오늘의 승리가 내일의 독이 되지 않도록 겸손의 미덕을 챙기세요.",
         "warning": "자만심 경계, 명예의 실추, 지연된 보상",
         "summary": { "love": "마음의 쟁취, 선망의 대상이 됨", "money": "투자 성공, 금전적 보상의 획득", "work": "승진, 공로의 인정, 프로젝트의 성공" },
-        "warningSummary": { "love": "인기의 하락, 연인에 대한 거만함", "money": "실속 없는 수익, 보너스 취소", "work": "공로를 가로채임, 권위주의적 리더십" }
+        "warningSummary": { "love": "인기의 하락, 연인에 대한 거만함", "money": "실속 없는 수익, 보너스 취소", "work": "공로를 가로채임, 권위주의적 리더십" },
+        "worry": { "isPositive": true, "advice": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다." }
     },
     "28": {
         "id": 28,
@@ -307,7 +339,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "버티는 것만이 능사는 아닙니다. 포위망이 좁혀오고 있는데 혼자만의 고집으로 상황을 악화시키고 있지는 않나요?",
         "warning": "압박에 대한 굴복, 무력감으로 인한 포기",
         "summary": { "love": "관계 유지의 노력, 방어적인 태도 전환", "money": "자산 방어, 지출 압박의 수호", "work": "업무 압박의 극복, 경쟁사 제압" },
-        "warningSummary": { "love": "감정의 소모, 관계에 대한 회의감", "money": "재정적 방어선 붕괴, 자금 잠식", "work": "업무량 초과, 경쟁에서 밀려남" }
+        "warningSummary": { "love": "감정의 소모, 관계에 대한 회의감", "money": "재정적 방어선 붕괴, 자금 잠식", "work": "업무량 초과, 경쟁에서 밀려남" },
+        "worry": { "isPositive": true, "advice": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요." }
     },
     "29": {
         "id": 29,
@@ -317,7 +350,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "속도가 통제를 벗어났습니다. 섣부른 움직임은 목적지가 아닌 엉뚱한 곳으로 당신을 데려다 놓을 것입니다.",
         "warning": "조절의 실패, 지연되는 소식, 성급함",
         "summary": { "love": "빠른 관계의 진전, 갑작스러운 소통", "money": "빠른 자금 회전, 단기적인 이득 발생", "work": "업무의 신속한 처리, 급박한 변화" },
-        "warningSummary": { "love": "갑작스러운 이별 소식, 감정적 폭발", "money": "자산 유출, 성급한 투자 손실", "work": "진행 중인 일의 중단, 통신 오류" }
+        "warningSummary": { "love": "갑작스러운 이별 소식, 감정적 폭발", "money": "자산 유출, 성급한 투자 손실", "work": "진행 중인 일의 중단, 통신 오류" },
+        "worry": { "isPositive": true, "advice": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요." }
     },
     "30": {
         "id": 30,
@@ -327,7 +361,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "방어벽이 무너지고 있습니다. 상처가 깊어지기 전에 잠시 물러나 추스르는 것도 용기입니다.",
         "warning": "체력의 고갈, 포기하고 싶은 마음, 무너진 방어",
         "summary": { "love": "과거 상처의 극복, 마지막 신뢰 시험", "money": "위기 대비 태세, 자금의 수성", "work": "마지막 검수, 체력 소모의 관리" },
-        "warningSummary": { "love": "신뢰의 붕괴, 다시 살아나는 과거 상처", "money": "재난 대비 실패, 비상금 소진", "work": "검수 누락으로 인한 사고, 번아웃" }
+        "warningSummary": { "love": "신뢰의 붕괴, 다시 살아나는 과거 상처", "money": "재난 대비 실패, 비상금 소진", "work": "검수 누락으로 인한 사고, 번아웃" },
+        "worry": { "isPositive": true, "advice": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다." }
     },
     "31": {
         "id": 31,
@@ -337,7 +372,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "등 위의 짐을 내려놓을 때가 되었습니다. 책임이 아닌 집착으로 붙들고 있었던 것들을 기꺼이 놓아주세요.",
         "warning": "부담의 해소, 업무의 위임, 자유의 획득",
         "summary": { "love": "의무감으로 변한 사랑, 헌신적인 태도의 한계", "money": "금전적 중압감, 부채의 상환 압박", "work": "과도한 업무량, 번아웃의 경고, 책임의 독식" },
-        "warningSummary": { "love": "무거운 관계에서의 탈피, 심리적 해방", "money": "채무 상환 완료, 자금 압박 해소", "work": "과업의 위임, 업무 부담 완화" }
+        "warningSummary": { "love": "무거운 관계에서의 탈피, 심리적 해방", "money": "채무 상환 완료, 자금 압박 해소", "work": "과업의 위임, 업무 부담 완화" },
+        "worry": { "isPositive": true, "advice": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다." }
     },
     "32": {
         "id": 32,
@@ -347,7 +383,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "호기심이 과하면 독이 됩니다. 깊이 없는 흥미는 당신의 시간을 낭비하게 만들고 소중한 기회를 가릴 것입니다.",
         "warning": "미숙한 판단, 나쁜 소식의 유입, 성급한 포기",
         "summary": { "love": "관계의 예고, 호기심 어린 만남의 시작", "money": "작은 제안의 접수, 정보의 수집기", "work": "새로운 실무의 시작, 학습의 의지" },
-        "warningSummary": { "love": "가벼운 만남의 실망, 소문의 발단", "money": "잘못된 정보로 인한 소액 손실", "work": "업무 집중도 하락, 배움의 지연" }
+        "warningSummary": { "love": "가벼운 만남의 실망, 소문의 발단", "money": "잘못된 정보로 인한 소액 손실", "work": "업무 집중도 하락, 배움의 지연" },
+        "worry": { "isPositive": true, "advice": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요." }
     },
     "33": {
         "id": 33,
@@ -357,7 +394,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "말만 앞선 추진력은 주변을 지치게 합니다. 당신의 열정이 타인을 태워버리는 불꽃이 되지 않도록 다스리세요.",
         "warning": "무모한 폭주, 중도 포기, 갈등의 야기",
         "summary": { "love": "불타는 호감, 저돌적인 구애 행위", "money": "과감한 시도, 공격적인 자금 회전", "work": "강력한 추진력, 해외 도전의 발판" },
-        "warningSummary": { "love": "금세 식어버린 열정, 다툼 후 이별", "money": "충동적인 계약 파기, 손실", "work": "추진력 상실, 무책임한 중도 하차" }
+        "warningSummary": { "love": "금세 식어버린 열정, 다툼 후 이별", "money": "충동적인 계약 파기, 손실", "work": "추진력 상실, 무책임한 중도 하차" },
+        "worry": { "isPositive": true, "advice": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요." }
     },
     "34": {
         "id": 34,
@@ -367,7 +405,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "자신감이 오만으로 변하고 있습니다. 타인의 목소리를 무시한 채 독주하는 것은 당신의 왕국을 위태롭게 할 뿐입니다.",
         "warning": "질투심의 발현, 히스테리, 지배욕",
         "summary": { "love": "매력의 발산, 주도적인 관계 유지", "money": "풍요로운 자금 관리, 직관적인 투자", "work": "사업가적인 기질, 팀의 분위기 메이커" },
-        "warningSummary": { "love": "상대에 대한 집착, 질투로 인한 관계 악화", "money": "감정적인 소비, 재정 상태의 오판", "work": "강압적인 태도로 인한 팀워크 붕괴" }
+        "warningSummary": { "love": "상대에 대한 집착, 질투로 인한 관계 악화", "money": "감정적인 소비, 재정 상태의 오판", "work": "강압적인 태도로 인한 팀워크 붕괴" },
+        "worry": { "isPositive": true, "advice": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요." }
     },
     "35": {
         "id": 35,
@@ -377,7 +416,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "권위에 취해 현장을 잊고 있지는 않나요? 당신의 결단이 독단이 되는 순간, 쌓아온 신뢰는 한순간에 무너집니다.",
         "warning": "독재적인 태도, 판단의 착오, 허세",
         "summary": { "love": "듬직한 리드, 책임감 있는 태도", "money": "거시적인 수익 창출, 비즈니스적 성공", "work": "지도자의 위치, 확고한 결단력 발휘" },
-        "warningSummary": { "love": "무책임한 태도 전환, 위압적인 소통", "money": "무리한 사업 확장 실패, 자금난", "work": "판단 착오로 인한 손실, 리더십 상실" }
+        "warningSummary": { "love": "무책임한 태도 전환, 위압적인 소통", "money": "무리한 사업 확장 실패, 자금난", "work": "판단 착오로 인한 손실, 리더십 상실" },
+        "worry": { "isPositive": true, "advice": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다." }
     },
 
     // --- Cups (컵): 36 ~ 49 ---
@@ -389,7 +429,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "넘쳐흐르는 감정이 이성을 가리고 있습니다. 실체 없는 기대감에 젖어 현실의 문제를 외면하고 있지는 않나요?",
         "warning": "감정의 정체, 일방적인 기대, 공허함",
         "summary": { "love": "새로운 호감, 감정의 개방", "money": "정서적 만족을 주는 소득, 소박한 횡재", "work": "새로운 아이디어, 조화로운 협업의 기점" },
-        "warningSummary": { "love": "짝사랑의 종료, 감정의 메마름", "money": "기대한 보상의 무산, 정서적 허기 지출", "work": "창의성 고갈, 일에 대한 흥미 상실" }
+        "warningSummary": { "love": "짝사랑의 종료, 감정의 메마름", "money": "기대한 보상의 무산, 정서적 허기 지출", "work": "창의성 고갈, 일에 대한 흥미 상실" },
+        "worry": { "isPositive": true, "advice": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요." }
     },
     "37": {
         "id": 37,
@@ -399,7 +440,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "조화로운 관계에 금이 가고 있습니다. 서로의 차이를 인정하지 못한 채 자신만의 방식을 강요하고 있지는 않은지 살피세요.",
         "warning": "의견 불일치, 오해, 소통의 부재, 조화 상실",
         "summary": { "love": "깊은 소통, 마음의 일치, 새로운 결합", "money": "유리한 계약, 상호 신뢰를 바탕으로 한 수익", "work": "조화로운 협업, 동업의 시작, 계약 성사" },
-        "warningSummary": { "love": "잦은 다툼, 약속 파기", "money": "동업자와의 갈등, 불리한 재정 계약", "work": "팀원 간의 불신, 프로젝트 지연" }
+        "warningSummary": { "love": "잦은 다툼, 약속 파기", "money": "동업자와의 갈등, 불리한 재정 계약", "work": "팀원 간의 불신, 프로젝트 지연" },
+        "worry": { "isPositive": true, "advice": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요." }
     },
     "38": {
         "id": 38,
@@ -409,7 +451,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "즐거움에 취해 본질을 잊고 있습니다. 겉치레뿐인 관계 속에서 당신의 진심이 소모되고 있음을 느껴보세요.",
         "warning": "과도한 유흥 경계, 시기 질투, 성취의 지연",
         "summary": { "love": "기쁜 모임, 즐거운 만남, 삼각관계(주의)", "money": "인맥을 통한 수익, 경사스러운 지출", "work": "팀 프로젝트의 성공, 화기애애한 분위기" },
-        "warningSummary": { "love": "친구 이상의 감정 충돌, 삼각관계 갈등", "money": "과도한 친목 비용 지출, 자산 낭비", "work": "성과에 대한 시기, 내부 협력 저하" }
+        "warningSummary": { "love": "친구 이상의 감정 충돌, 삼각관계 갈등", "money": "과도한 친목 비용 지출, 자산 낭비", "work": "성과에 대한 시기, 내부 협력 저하" },
+        "worry": { "isPositive": true, "advice": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다." }
     },
     "39": {
         "id": 39,
@@ -419,7 +462,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "권태에서 벗어날 기회가 왔습니다. 스스로를 가둔 침묵의 방에서 나와 당신에게 내밀어진 새로운 손을 잡으세요.",
         "warning": "의욕 회복, 기회의 포착, 권태 탈출",
         "summary": { "love": "관계의 정체기, 새로운 호의에 대한 무관심", "money": "수익 제안의 거절, 금전적 나태함", "work": "업무 의욕 저하, 제안 무시, 매너리즘" },
-        "warningSummary": { "love": "연애 의욕의 부활, 오해의 풀림", "money": "새로운 투자 기회 직면, 자금의 재순환", "work": "업무 복귀, 새로운 프로젝트 수락" }
+        "warningSummary": { "love": "연애 의욕의 부활, 오해의 풀림", "money": "새로운 투자 기회 직면, 자금의 재순환", "work": "업무 복귀, 새로운 프로젝트 수락" },
+        "worry": { "isPositive": true, "advice": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다." }
     },
     "40": {
         "id": 40,
@@ -429,7 +473,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "슬픔의 터널이 끝나가고 있습니다. 잃어버린 것에 대한 미련을 접고, 이제 당신 뒤에 여전히 서 있는 사람들을 돌아보세요.",
         "warning": "회복의 시작, 새로운 희망, 슬픔의 종료",
         "summary": { "love": "이별의 상처, 실망감, 과거에 대한 미련", "money": "투자 손실, 지출에 대한 후회, 상실감", "work": "실패에 대한 자책, 고립감, 실망스러운 결과" },
-        "warningSummary": { "love": "상처의 치유, 과거 연인과의 완전한 정리", "money": "재정적 손실 복구 시작, 새로운 안목", "work": "실패 극복, 새로운 업무 환경 진입" }
+        "warningSummary": { "love": "상처의 치유, 과거 연인과의 완전한 정리", "money": "재정적 손실 복구 시작, 새로운 안목", "work": "실패 극복, 새로운 업무 환경 진입" },
+        "worry": { "isPositive": true, "advice": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요." }
     },
     "41": {
         "id": 41,
@@ -439,7 +484,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "추억은 힘이 되기도 하지만, 당신을 과거에 묶어두는 족쇄가 되기도 합니다. 이제 기억 속에서 나와 오늘을 사세요.",
         "warning": "과거 탈피, 현실 직시, 미래로의 전진",
         "summary": { "love": "과거 인연과의 재회, 동심 어린 사랑", "money": "과거의 투자 경험 활용, 지인의 금전적 도움", "work": "익숙한 업무의 재개, 과거 인맥의 조력" },
-        "warningSummary": { "love": "과거의 연인에게서 독립, 새로운 만남", "money": "낡은 경제관념 버리기, 자립적인 재정", "work": "구태의연한 방식 탈피, 신사업 적응" }
+        "warningSummary": { "love": "과거의 연인에게서 독립, 새로운 만남", "money": "낡은 경제관념 버리기, 자립적인 재정", "work": "구태의연한 방식 탈피, 신사업 적응" },
+        "worry": { "isPositive": true, "advice": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요." }
     },
     "42": {
         "id": 42,
@@ -449,7 +495,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "환상이 걷히고 차가운 현실이 드러납니다. 뜬구름 잡는 소리는 그만두고 당신이 책임질 수 있는 단 하나를 선택하세요.",
         "warning": "현실 직시, 환상 타파, 구체적 실행의 시작",
         "summary": { "love": "비현실적인 상상, 수많은 유혹, 짝사랑의 망상", "money": "허황된 수익 기대, 사치스러운 상상, 투자 혼선", "work": "계획만 무성한 상태, 실행력 부족, 모호한 목표" },
-        "warningSummary": { "love": "상대에 대한 객관적 파악, 망상 종료", "money": "허위 매물 판별, 실속 있는 자산 관리", "work": "구체적인 로드맵 수립, 업무 실행력 강화" }
+        "warningSummary": { "love": "상대에 대한 객관적 파악, 망상 종료", "money": "허위 매물 판별, 실속 있는 자산 관리", "work": "구체적인 로드맵 수립, 업무 실행력 강화" },
+        "worry": { "isPositive": true, "advice": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요." }
     },
     "43": {
         "id": 43,
@@ -459,7 +506,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "떠나야 할 때를 놓치고 제자리를 맴돌고 있습니다. 변화를 두려워하며 익숙한 공허함 속에 자신을 방치하고 있지는 않나요?",
         "warning": "떠나지 못함, 포기의 취소, 미련에 의한 정체",
         "summary": { "love": "관계의 정리, 더 나은 가치 탐색, 자발적 이별", "money": "수익의 포기, 새로운 가치 투자, 욕심의 정화", "work": "이직 혹은 전직의 확정, 현재의 한계 직시" },
-        "warningSummary": { "love": "포기했던 연인에게 복귀, 미련의 지속", "money": "포기한 사업의 재개, 미온적인 재정 관리", "work": "이직 포기, 현 직장에 대한 마지못한 안주" }
+        "warningSummary": { "love": "포기했던 연인에게 복귀, 미련의 지속", "money": "포기한 사업의 재개, 미온적인 재정 관리", "work": "이직 포기, 현 직장에 대한 마지못한 안주" },
+        "worry": { "isPositive": true, "advice": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다." }
     },
     "44": {
         "id": 44,
@@ -469,7 +517,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "만족이 자만으로 변하는 순간, 얻은 것들은 모래알처럼 빠져나갑니다. 채워진 잔이 영원할 것이라는 착각을 경계하세요.",
         "warning": "탐욕, 겉치레 만족, 미완의 소망",
         "summary": { "love": "사랑의 만족, 짝사랑의 성공, 자기만족적 연애", "money": "풍족한 생활, 기대 이상의 수익, 금전적 자부심", "work": "목표 달성, 완벽한 성과, 인정받는 위치" },
-        "warningSummary": { "love": "가까스로 지켜온 관계의 균열, 외로움", "money": "금전적 허세 부리다 손실, 소득 하락", "work": "성과에 대한 오판, 지위 하락 위험" }
+        "warningSummary": { "love": "가까스로 지켜온 관계의 균열, 외로움", "money": "금전적 허세 부리다 손실, 소득 하락", "work": "성과에 대한 오판, 지위 하락 위험" },
+        "worry": { "isPositive": true, "advice": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요." }
     },
     "45": {
         "id": 45,
@@ -479,7 +528,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "완벽해 보이는 평화 속에 불만족이 자라납니다. 겉보기에만 화려한 행복이 아닌, 내면의 실질적인 유대를 점검할 시간입니다.",
         "warning": "가정 내 불협화음, 겉치레뿐인 관계, 성취감의 저하",
         "summary": { "love": "축복받는 결합, 최고의 가정적 행복, 영혼의 동반자", "money": "가족의 자산 형성, 평화로운 재정, 유산의 상속", "work": "팀 화합의 정점, 프로젝트의 완벽한 종료, 만족스러운 직장" },
-        "warningSummary": { "love": "가족 갈등의 표출, 형식적인 결혼 생활", "money": "자산 분할 분쟁, 실속 없는 가정 재정", "work": "조직 내 불협화음, 결과에 대한 불만" }
+        "warningSummary": { "love": "가족 갈등의 표출, 형식적인 결혼 생활", "money": "자산 분할 분쟁, 실속 없는 가정 재정", "work": "조직 내 불협화음, 결과에 대한 불만" },
+        "worry": { "isPositive": true, "advice": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요." }
     },
     "46": {
         "id": 46,
@@ -489,7 +539,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "감성이 이성을 삼키고 있습니다. 사소한 말에 상처받고 현실을 도피하려는 당신의 태도가 성장을 가로막고 있습니다.",
         "warning": "감정 과잉, 환상에 빠진 판단, 나쁜 소식 유입",
         "summary": { "love": "새 인연의 예고, 수줍은 고백, 감성적인 접근", "money": "기분 좋은 소액 수익, 직관적인 지출, 저축 제안", "work": "참신한 아이디어 제안, 학습 의지, 예술적 업무 시작" },
-        "warningSummary": { "love": "감정의 기복으로 인한 오해, 유치한 태도", "money": "충동적인 소액 지출 반복, 자산 누수", "work": "집중력 부족, 비현실적인 아이디어 고수" }
+        "warningSummary": { "love": "감정의 기복으로 인한 오해, 유치한 태도", "money": "충동적인 소액 지출 반복, 자산 누수", "work": "집중력 부족, 비현실적인 아이디어 고수" },
+        "worry": { "isPositive": true, "advice": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다." }
     },
     "47": {
         "id": 47,
@@ -499,7 +550,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "매력적인 제안 뒤에 숨은 의도를 파악하세요. 감언이설에 속아 당신의 소중한 가치를 헐값에 넘기고 있지는 않은가요?",
         "warning": "사기성 제안 주의, 변덕스러운 감정, 속임수",
         "summary": { "love": "로맨틱한 구애, 프러포즈, 매력적인 인연", "money": "유리한 수익 제안, 금전적 희소식, 우아한 투자", "work": "중재자 역할 수행, 평화로운 제안의 수락" },
-        "warningSummary": { "love": "상대의 외도 의심, 신뢰할 수 없는 고백", "money": "부정한 제안의 유입, 자금 세탁 경계", "work": "실속 없는 협약, 표면적인 합의" }
+        "warningSummary": { "love": "상대의 외도 의심, 신뢰할 수 없는 고백", "money": "부정한 제안의 유입, 자금 세탁 경계", "work": "실속 없는 협약, 표면적인 합의" },
+        "worry": { "isPositive": true, "advice": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다." }
     },
     "48": {
         "id": 48,
@@ -509,7 +561,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "과도한 공감은 당신을 갉아먹습니다. 남의 감정을 짊어지느라 정작 당신 자신의 영혼이 피폐해지고 있음을 인지하세요.",
         "warning": "감정 기복 주의, 과도한 의존, 현실 도피",
         "summary": { "love": "따뜻한 배려, 헌신적인 사랑, 직관적인 교감", "money": "직관적인 자금 운용, 조력자의 후원, 평온한 재정", "work": "경청하는 리더십, 예술적 성과, 팀의 정신적 지주" },
-        "warningSummary": { "love": "감정적인 피로도 누적, 관계에서의 소외", "money": "지나친 동정심에 의한 금전적 손실", "work": "지나치게 주관적인 판단, 업무 성과 정체" }
+        "warningSummary": { "love": "감정적인 피로도 누적, 관계에서의 소외", "money": "지나친 동정심에 의한 금전적 손실", "work": "지나치게 주관적인 판단, 업무 성과 정체" },
+        "worry": { "isPositive": true, "advice": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요." }
     },
     "49": {
         "id": 49,
@@ -519,7 +572,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "감정을 무기로 타인을 조종하려 하지 마세요. 겉으로만 평온을 가장한 채 속으로 칼을 갈고 있는 것은 당신을 망칠 뿐입니다.",
         "warning": "교활한 성격 경계, 불안정한 감정, 타인 조종",
         "summary": { "love": "성숙한 사랑, 평온한 관계 유지, 신뢰받는 동반자", "money": "현명한 지출, 안정적 자금 운용, 풍부한 자산가", "work": "노련한 리더십, 전략적 중재, 감정 조절의 대가" },
-        "warningSummary": { "love": "정서적 학대 혹은 소통의 단절", "money": "불투명한 자금 운용, 투기적 지출", "work": "부정한 방법의 리더십, 신뢰의 하락" }
+        "warningSummary": { "love": "정서적 학대 혹은 소통의 단절", "money": "불투명한 자금 운용, 투기적 지출", "work": "부정한 방법의 리더십, 신뢰의 하락" },
+        "worry": { "isPositive": true, "advice": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요." }
     },
 
     // --- Swords (검): 50 ~ 63 ---
@@ -531,7 +585,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "당신의 진실이 타인에게 상처가 되고 있습니다. 날카로운 칼날은 문제를 해결할 수도 있지만, 관계를 끊어낼 수도 있습니다.",
         "warning": "판단의 착오, 혼란, 성급한 언행 경계",
         "summary": { "love": "이성적인 정리, 명확한 관계 정립", "money": "단호한 투자 결정, 법적인 승리", "work": "새로운 사업 계획, 난제의 해결" },
-        "warningSummary": { "love": "잔인한 이별 선언, 오해의 심화", "money": "잘못된 계약 체결, 법적 패배", "work": "무모한 프로젝트 착수, 판단 실수" }
+        "warningSummary": { "love": "잔인한 이별 선언, 오해의 심화", "money": "잘못된 계약 체결, 법적 패배", "work": "무모한 프로젝트 착수, 판단 실수" },
+        "worry": { "isPositive": true, "advice": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요." }
     },
     "51": {
         "id": 51,
@@ -541,7 +596,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "이제는 눈을 떠야 할 때입니다. 회피를 평화로 착각하지 마세요. 당신이 등 돌린 진실이 뒤에서 당신을 노리고 있습니다.",
         "warning": "결정의 강요, 거짓 평화의 파괴, 진실 공개",
         "summary": { "love": "결정장애, 마음을 닫은 상태", "money": "자금 융통 보류, 팽팽한 눈치싸움", "work": "딜레마, 갈등 지연, 정보 부족" },
-        "warningSummary": { "love": "억눌린 감정의 폭발, 소통의 강요", "money": "자금 정체의 해소 혹은 충돌", "work": "정보 누설로 인한 혼란, 결단의 압박" }
+        "warningSummary": { "love": "억눌린 감정의 폭발, 소통의 강요", "money": "자금 정체의 해소 혹은 충돌", "work": "정보 누설로 인한 혼란, 결단의 압박" },
+        "worry": { "isPositive": true, "advice": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다." }
     },
     "52": {
         "id": 52,
@@ -551,7 +607,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "상처를 헤집는 것은 치유가 아닙니다. 아픔에 매몰되어 당신의 본모습을 잃어가지 않도록 감정의 거리를 두세요.",
         "warning": "상처 치유 시작, 오해 해소, 회복",
         "summary": { "love": "이별, 상처, 삼각관계의 아픔", "money": "금전적 배신, 손실의 고통", "work": "비난, 계약 파기, 동료 갈등" },
-        "warningSummary": { "love": "상처를 딛고 일어섬, 갈등의 봉합", "money": "손실 이후의 재건, 보상 절차 시작", "work": "과실의 인정, 다시 시작하는 신뢰" }
+        "warningSummary": { "love": "상처를 딛고 일어섬, 갈등의 봉합", "money": "손실 이후의 재건, 보상 절차 시작", "work": "과실의 인정, 다시 시작하는 신뢰" },
+        "worry": { "isPositive": true, "advice": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요." }
     },
     "53": {
         "id": 53,
@@ -561,7 +618,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "휴식이 도피가 되고 있지는 않나요? 칼을 벼리는 시간은 끝났습니다. 이제 침대에서 일어나 현실의 전장으로 복귀하세요.",
         "warning": "활동 재개, 사회 복귀, 조급한 움직임",
         "summary": { "love": "연애 휴식기, 거리 두기, 생각 정리", "money": "투자 관망, 지출 억제, 흐름 정지", "work": "업무 중단, 안식년, 번아웃 회복" },
-        "warningSummary": { "love": "사회 활동 재개로 인한 만남, 관계 회복", "money": "금전적 정체 해소, 재지출의 시작", "work": "업무 복귀, 새로운 프로젝트 재가동" }
+        "warningSummary": { "love": "사회 활동 재개로 인한 만남, 관계 회복", "money": "금전적 정체 해소, 재지출의 시작", "work": "업무 복귀, 새로운 프로젝트 재가동" },
+        "worry": { "isPositive": true, "advice": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요." }
     },
     "54": {
         "id": 54,
@@ -571,7 +629,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "승패의 의미가 사라집니다. 부당하게 얻은 결과는 반드시 당신의 명예를 갉아먹을 것입니다. 지금이라도 화해의 손을 내미세요.",
         "warning": "갈등 종료, 화해 시도, 패배 인정",
         "summary": { "love": "이기적인 태도, 자존심 싸움의 파국", "money": "부정한 이득 경계, 손실 동반 수익", "work": "신뢰 상실, 비난 속의 성공, 팀워크 붕괴" },
-        "warningSummary": { "love": "잘못의 시인, 화해의 시작", "money": "금전적 합의, 손실의 최소화", "work": "패배 인정 후 재기, 갈등의 원만적 해결" }
+        "warningSummary": { "love": "잘못의 시인, 화해의 시작", "money": "금전적 합의, 손실의 최소화", "work": "패배 인정 후 재기, 갈등의 원만적 해결" },
+        "worry": { "isPositive": true, "advice": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다." }
     },
     "55": {
         "id": 55,
@@ -581,7 +640,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "배가 제자리에서 맴돕니다. 과거의 무게를 덜어내지 못하면 당신의 여정은 끝나지 않은 채 고통의 바다를 표류할 것입니다.",
         "warning": "문제 회귀, 이동 지연, 해결되지 않는 난제",
         "summary": { "love": "갈등 극복, 평온한 곳으로 이동, 이별 후 여행", "money": "금전 상황 호전, 부채 해결 시작, 점진적 회복", "work": "국면 전환, 이직 성공, 갈등 종료" },
-        "warningSummary": { "love": "해결되지 않은 갈등의 재발, 이동의 취소", "money": "재정적 곤경의 장기화, 부채 독촉", "work": "이직 실패, 해결된 줄 알았던 업무의 오류" }
+        "warningSummary": { "love": "해결되지 않은 갈등의 재발, 이동의 취소", "money": "재정적 곤경의 장기화, 부채 독촉", "work": "이직 실패, 해결된 줄 알았던 업무의 오류" },
+        "worry": { "isPositive": true, "advice": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다." }
     },
     "56": {
         "id": 56,
@@ -591,7 +651,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "정공법만이 살길입니다. 꼼수가 통하는 것은 이번이 마지막일 수 있습니다. 훔친 성과는 당신의 진짜 실력이 되지 못합니다.",
         "warning": "비밀의 폭로, 참회, 정공법 선택",
         "summary": { "love": "비밀이 있는 관계, 솔직하지 못함", "money": "편법 투자 주의, 도난, 손실 위험", "work": "사내 정치, 잔머리, 비정상적 경로 성과" },
-        "warningSummary": { "love": "솔직한 고백, 거짓의 탄로", "money": "부정한 거래의 발각, 정직한 수익 전환", "work": "잔머리의 한계 노출, 정석대로의 재작업" }
+        "warningSummary": { "love": "솔직한 고백, 거짓의 탄로", "money": "부정한 거래의 발각, 정직한 수익 전환", "work": "잔머리의 한계 노출, 정석대로의 재작업" },
+        "worry": { "isPositive": true, "advice": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요." }
     },
     "57": {
         "id": 57,
@@ -601,7 +662,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "스스로를 가둔 감옥의 문이 열렸습니다. 공포에 질려 눈을 감고 있기보다, 지금 당장 발밑의 밧줄을 끊고 밖으로 나오세요.",
         "warning": "속박 해제, 돌파구 발견, 자유로운 행동",
         "summary": { "love": "자신을 가둔 사랑, 제약 많은 관계", "money": "자금 묶임, 금전적 곤경, 사고 정체", "work": "환경 탓, 진퇴양난, 업무 스트레스" },
-        "warningSummary": { "love": "집착에서 벗어남, 관계의 새로운 활로", "money": "묶인 자금의 해방, 해결책 발견", "work": "스트레스 요인 제거, 돌파구 마련" }
+        "warningSummary": { "love": "집착에서 벗어남, 관계의 새로운 활로", "money": "묶인 자금의 해방, 해결책 발견", "work": "스트레스 요인 제거, 돌파구 마련" },
+        "worry": { "isPositive": true, "advice": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요." }
     },
     "58": {
         "id": 58,
@@ -611,7 +673,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "최악의 시나리오는 당신의 상상 속에만 존재합니다. 이제 비명을 멈추고 현실의 빛을 켜세요. 당신이 걱정하던 일은 일어나지 않습니다.",
         "warning": "불안 해소, 진실 직면, 악몽 끝",
         "summary": { "love": "의심, 이별 공포, 죄책감, 집착", "money": "금전적 스트레스, 파산 공포, 판단 미스", "work": "실수 압박, 번아웃, 업무 스트레스" },
-        "warningSummary": { "love": "의심의 해소, 신뢰의 회복", "money": "막연한 불안감 제거, 재정적 안정", "work": "압박감에서의 탈피, 심리적 안정" }
+        "warningSummary": { "love": "의심의 해소, 신뢰의 회복", "money": "막연한 불안감 제거, 재정적 안정", "work": "압박감에서의 탈피, 심리적 안정" },
+        "worry": { "isPositive": true, "advice": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요." }
     },
     "59": {
         "id": 59,
@@ -621,7 +684,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "고통의 끝에서 희망이 보입니다. 당신을 찌르던 칼들이 하나씩 거둬지고 있습니다. 이제 상처를 꿰매고 다시 숨을 쉬세요.",
         "warning": "회복의 시작, 새로운 태양, 재기",
         "summary": { "love": "완전한 파국, 상처의 끝, 배신", "money": "완전한 손실, 바닥을 친 재정, 파산 위기", "work": "프로젝트 종료, 실패 인정, 해고" },
-        "warningSummary": { "love": "최악의 상황을 모면함, 용서의 시작", "money": "파산 위기 극복, 재기 발판 마련", "work": "위기 이후의 대안 수립, 새로운 시작" }
+        "warningSummary": { "love": "최악의 상황을 모면함, 용서의 시작", "money": "파산 위기 극복, 재기 발판 마련", "work": "위기 이후의 대안 수립, 새로운 시작" },
+        "worry": { "isPositive": true, "advice": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다." }
     },
     "60": {
         "id": 60,
@@ -631,7 +695,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "말을 옮기는 입을 조심하세요. 당신의 분석이 타인의 비수가 될 수도 있습니다. 지금은 정보의 수집보다 입단속이 우선입니다.",
         "warning": "성급한 비난, 헛소문 유포, 정보 유출",
         "summary": { "love": "상대 탐색 중, 비밀 연애의 예고, SNS 염탐", "money": "정보 수집기, 신중한 투자 검토, 자금 감시", "work": "예리한 분석 업무, 영리한 아이디어, 비평가" },
-        "warningSummary": { "love": "말실수로 인한 결별, 상대를 얕잡아 봄", "money": "잘못된 루머에 휩쓸림, 가짜 정보 주의", "work": "동료 비방, 성급한 업무 보고로 인한 오류" }
+        "warningSummary": { "love": "말실수로 인한 결별, 상대를 얕잡아 봄", "money": "잘못된 루머에 휩쓸림, 가짜 정보 주의", "work": "동료 비방, 성급한 업무 보고로 인한 오류" },
+        "worry": { "isPositive": true, "advice": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요." }
     },
     "61": {
         "id": 61,
@@ -641,7 +706,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "속도에 취해 뒤를 돌아보지 못하고 있습니다. 당신의 거침없는 전진이 소중한 사람들을 밟고 지나가고 있지는 않은지 살피세요.",
         "warning": "무모한 폭주, 중도 좌절, 언어폭력, 사고 주의",
         "summary": { "love": "성급한 구애, 말다툼, 저돌적인 사랑", "money": "신속한 투자 결정, 위험한 베팅, 급격한 회전", "work": "추진력, 독단적인 처리, 거침없는 경쟁" },
-        "warningSummary": { "love": "강압적인 관계, 연인에 대한 무시", "money": "무리한 지출로 인한 파산 위험, 자금 경색", "work": "무계획적 추진으로 인한 팀워크 파괴, 해고 위기" }
+        "warningSummary": { "love": "강압적인 관계, 연인에 대한 무시", "money": "무리한 지출로 인한 파산 위험, 자금 경색", "work": "무계획적 추진으로 인한 팀워크 파괴, 해고 위기" },
+        "worry": { "isPositive": true, "advice": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요." }
     },
     "62": {
         "id": 62,
@@ -651,7 +717,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "차가움이 잔인함으로 흐르고 있습니다. 당신의 논리가 정당할지라도, 온기 없는 진실은 상대를 밀어내기만 할 뿐입니다.",
         "warning": "비정함, 독설 갈등, 잔인한 이기주의",
         "summary": { "love": "차가운 매력, 독신주의, 냉정한 이별", "money": "철저한 예산 관리, 낭비 없는 생활, 실속 투자", "work": "전문가 포스, 분석적 리더십, 완벽한 처리" },
-        "warningSummary": { "love": "지나친 냉대로 인한 관계 단절, 고립", "money": "인색함으로 인한 신뢰 상실, 자금 동결", "work": "비판적인 태도로 인한 고립, 협업 불가 상태" }
+        "warningSummary": { "love": "지나친 냉대로 인한 관계 단절, 고립", "money": "인색함으로 인한 신뢰 상실, 자금 동결", "work": "비판적인 태도로 인한 고립, 협업 불가 상태" },
+        "worry": { "isPositive": true, "advice": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다." }
     },
     "63": {
         "id": 63,
@@ -661,7 +728,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "권위는 타인을 굴복시키는 칼이 아닙니다. 당신의 판단이 아집으로 변하는 순간, 당신의 왕국은 내부에서부터 무너지기 시작할 것입니다.",
         "warning": "아집, 권위주의적 횡포, 음모",
         "summary": { "love": "지적 교감, 원칙적인 사랑", "money": "체계적 자산 운용, 투명한 경영", "work": "전략적 리더, 공정한 판결" },
-        "warningSummary": { "love": "위압적인 관계 유지, 상대에 대한 조종", "money": "부정한 자금 탈취 경계, 권력형 지출", "work": "독재적 경영, 잘못된 전략 강요" }
+        "warningSummary": { "love": "위압적인 관계 유지, 상대에 대한 조종", "money": "부정한 자금 탈취 경계, 권력형 지출", "work": "독재적 경영, 잘못된 전략 강요" },
+        "worry": { "isPositive": true, "advice": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다." }
     },
 
     // --- Pentacles (펜타클): 64 ~ 77 ---
@@ -673,7 +741,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "풍요의 씨앗이 썩어가고 있습니다. 기회는 왔으나 당신의 게으름이나 과도한 의심이 그 결실을 가로막고 있습니다.",
         "warning": "기회의 상실, 실속 없는 계획, 지연되는 성과",
         "summary": { "love": "안정적인 유대의 시작, 현실적 조건의 일치", "money": "수익원의 발생, 새로운 경제적 통로", "work": "새로운 프로젝트 착수, 보상이 따르는 기회" },
-        "warningSummary": { "love": "조건만 따지는 만남, 관계의 지연", "money": "투자 자금의 손실, 가짜 기회", "work": "기획안의 보류, 지연되는 보너스" }
+        "warningSummary": { "love": "조건만 따지는 만남, 관계의 지연", "money": "투자 자금의 손실, 가짜 기회", "work": "기획안의 보류, 지연되는 보너스" },
+        "worry": { "isPositive": true, "advice": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요." }
     },
     "65": {
         "id": 65,
@@ -683,7 +752,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "저글링 하던 공들이 하나둘 떨어지기 시작합니다. 욕심을 내려놓고 가장 중요한 것 하나에만 집중하지 않으면 모든 것을 잃게 됩니다.",
         "warning": "불균형, 무리한 일정으로 인한 실수",
         "summary": { "love": "일과 사랑의 조율, 관계의 밀당", "money": "자금 융통, 수입과 지출의 균형", "work": "멀티태스킹, 바쁜 업무 스케줄" },
-        "warningSummary": { "love": "우유부단한 태도로 인한 관계 악화", "money": "자금 회전의 정체, 무리한 돌려막기", "work": "업무 과부하로 인한 대형 사고" }
+        "warningSummary": { "love": "우유부단한 태도로 인한 관계 악화", "money": "자금 회전의 정체, 무리한 돌려막기", "work": "업무 과부하로 인한 대형 사고" },
+        "worry": { "isPositive": true, "advice": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요." }
     },
     "66": {
         "id": 66,
@@ -693,7 +763,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "각자도생의 흐름입니다. 협력은 무너지고 서로의 공로를 시기하는 분위기가 당신의 성취를 방해하고 있습니다.",
         "warning": "숙련도 부족, 협력의 실패, 사내 불화 경계",
         "summary": { "love": "주변의 도움을 받는 유대, 성실한 관계 구축", "money": "전문적 조언을 통한 이득, 기술의 가치 상승", "work": "팀워크의 성공, 전문성 인정, 협력 프로젝트" },
-        "warningSummary": { "love": "주변의 시선에 갇힌 관계, 형식적 만남", "money": "잘못된 조언에 의한 손실, 기술료 미지급", "work": "팀 내 불화, 프로젝트의 좌초" }
+        "warningSummary": { "love": "주변의 시선에 갇힌 관계, 형식적 만남", "money": "잘못된 조언에 의한 손실, 기술료 미지급", "work": "팀 내 불화, 프로젝트의 좌초" },
+        "worry": { "isPositive": true, "advice": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요." }
     },
     "67": {
         "id": 67,
@@ -703,7 +774,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "움켜쥔 손안의 모래는 결국 빠져나갑니다. 소유에 대한 공포가 당신을 고립시키고 있습니다. 이제 손을 펴고 흐름을 받아들이세요.",
         "warning": "개방적인 태도, 지출의 시작, 집착으로부터의 해방",
         "summary": { "love": "소유욕이 강한 유대, 변화에 대한 거부", "money": "지나친 절약, 안정 고수, 자금의 정체", "work": "현상 유지에 집중, 새로운 시도 거피" },
-        "warningSummary": { "love": "상대의 자유를 구속함, 관계의 경직", "money": "인색함으로 인한 큰 손실, 자산 동결", "work": "변화 거부로 인한 도태, 조직 내 고립" }
+        "warningSummary": { "love": "상대의 자유를 구속함, 관계의 경직", "money": "인색함으로 인한 큰 손실, 자산 동결", "work": "변화 거부로 인한 도태, 조직 내 고립" },
+        "worry": { "isPositive": true, "advice": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다." }
     },
     "68": {
         "id": 68,
@@ -713,7 +785,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "터널의 끝에 빛이 보입니다. 당신을 돕고 싶어 하는 손길이 주변에 이미 있었습니다. 고집스러운 외로움을 버리고 도움을 수용하세요.",
         "warning": "상황의 호전, 도움의 손길 발견, 회복",
         "summary": { "love": "고난 속의 유대, 정서적 소외감", "money": "금전적 곤경, 일시적 자금 부족, 지원의 필요", "work": "업무 스트레스, 조직 내 고군분투" },
-        "warningSummary": { "love": "관계의 회복 시작, 소외감 탈출", "money": "금전적 지원 유입, 재정 상황 호전", "work": "지원군의 등장, 업무 부담의 완화" }
+        "warningSummary": { "love": "관계의 회복 시작, 소외감 탈출", "money": "금전적 지원 유입, 재정 상황 호전", "work": "지원군의 등장, 업무 부담의 완화" },
+        "worry": { "isPositive": true, "advice": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요." }
     },
     "69": {
         "id": 69,
@@ -723,7 +796,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "베풂이 권력이 되지 않도록 하세요. 당신의 호의가 타인에게 굴욕이 되고 있지는 않은지, 혹은 생색내기에 그치고 있지는 않은지 돌아보세요.",
         "warning": "불공정한 분배, 생색내기, 착취 경계",
         "summary": { "love": "헌신적인 돌봄, 실질적인 지원", "money": "정당한 보상, 자금의 순환, 자선", "work": "공정한 분배, 후원자의 등장, 재능 공유" },
-        "warningSummary": { "love": "기만적인 호의, 불평등한 관계", "money": "자금 회수 지연, 부당한 대우", "work": "성과 분배의 불공정, 재능 착취" }
+        "warningSummary": { "love": "기만적인 호의, 불평등한 관계", "money": "자금 회수 지연, 부당한 대우", "work": "성과 분배의 불공정, 재능 착취" },
+        "worry": { "isPositive": true, "advice": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요." }
     },
     "70": {
         "id": 70,
@@ -733,7 +807,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "애쓴 보람이 보이지 않아 허탈함이 느껴집니다. 하지만 지금 포기하는 것은 지금까지의 공을 모두 버리는 일입니다. 묵묵히 마지막 거름을 주어야 합니다.",
         "warning": "불만족으로 인한 포기, 조급한 손해",
         "summary": { "love": "미래를 위한 성찰기, 인내하는 사랑", "money": "결실 대기, 수익 구조 고민, 중간 평가", "work": "진행 상황 점검, 효율성 검토, 노력의 과정" },
-        "warningSummary": { "love": "관계에 대한 권태, 성급한 결별", "money": "투자 중간 포기로 인한 손실, 수익 정체", "work": "업무 중단 위기, 불만족스러운 중간 성과" }
+        "warningSummary": { "love": "관계에 대한 권태, 성급한 결별", "money": "투자 중간 포기로 인한 손실, 수익 정체", "work": "업무 중단 위기, 불만족스러운 중간 성과" },
+        "worry": { "isPositive": true, "advice": "불필요한 고집을 버리고 상황에 유연하게 대처하는 것이 유리하게 작용할 것입니다." }
     },
     "71": {
         "id": 71,
@@ -743,7 +818,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "단조로운 반복이 당신을 지치게 합니다. 실력 없는 완벽주의는 시간만 낭비하게 할 뿐입니다. 이제는 속도와 효율을 고민할 때입니다.",
         "warning": "나태함 주의, 기술 부족, 단조로움의 지루함",
         "summary": { "love": "신뢰 구축, 한결같은 사랑, 노력하는 유대", "money": "성실한 저축, 본업 수익의 증가, 꾸준한 수익", "work": "기술 연마, 전문성 확보, 성실한 업무 태도" },
-        "warningSummary": { "love": "의무감만 남은 사랑, 소홀해진 관계", "money": "수익 정체, 성실함의 상실로 인한 감봉", "work": "숙련도 부족 노출, 불성실한 태도" }
+        "warningSummary": { "love": "의무감만 남은 사랑, 소홀해진 관계", "money": "수익 정체, 성실함의 상실로 인한 감봉", "work": "숙련도 부족 노출, 불성실한 태도" },
+        "worry": { "isPositive": true, "advice": "과거의 낡은 미련이나 아쉬움을 털어내고, 온전히 현재의 삶에 집중해야 할 때입니다." }
     },
     "72": {
         "id": 72,
@@ -753,7 +829,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "화려한 겉모습 뒤에 공허함이 있습니다. 당신의 여유가 타인의 희생 위에 세워진 것은 아닌지, 혹은 혼자만의 성에 갇힌 고립은 아닌지 살펴보세요.",
         "warning": "허영심 주의, 금전적 불안, 의존적인 태도",
         "summary": { "love": "독립적인 행복, 품격 있는 관계, 자존감 높은 사랑", "money": "풍족한 생활, 자수성가, 여유로운 지출", "work": "최고의 성과 달성, 안정된 지위, 전문성 인정" },
-        "warningSummary": { "love": "상대에 대한 금전적 의존, 실속 없는 만남", "money": "과소비로 인한 자산 누수, 빚내서 하는 사치", "work": "성과 부풀리기, 지위 유지를 위한 무리수" }
+        "warningSummary": { "love": "상대에 대한 금전적 의존, 실속 없는 만남", "money": "과소비로 인한 자산 누수, 빚내서 하는 사치", "work": "성과 부풀리기, 지위 유지를 위한 무리수" },
+        "worry": { "isPositive": true, "advice": "당신의 에너지가 상승하고 있습니다. 직관을 믿고 언제나처럼 자신감 있게 추진하세요." }
     },
     "73": {
         "id": 73,
@@ -763,7 +840,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "전통과 규칙이 당신의 숨통을 조입니다. 안정이라는 이름의 지루함에서 벗어나고 싶은 욕망이 꿈틀댑니다. 가족이나 조직과의 갈등을 경계하세요.",
         "warning": "가족 갈등 주의, 경제적 기반의 흔들림, 답답한 규율",
         "summary": { "love": "안정된 결속, 축복받는 결합, 든든한 반려자", "money": "부동산 소유, 가업 번창, 거액의 상속 가능성", "work": "장기 프로젝트 성공, 안정된 커리어 기반 확보" },
-        "warningSummary": { "love": "집안 반대로 인한 갈등, 답답한 관계", "money": "유산 분쟁, 고정 자산의 가치 하락", "work": "보수적인 조직의 폐해, 변화 없는 업무" }
+        "warningSummary": { "love": "집안 반대로 인한 갈등, 답답한 관계", "money": "유산 분쟁, 고정 자산의 가치 하락", "work": "보수적인 조직의 폐해, 변화 없는 업무" },
+        "worry": { "isPositive": true, "advice": "지금은 성급한 결정보다 내실을 다지며 때를 기다릴 시기입니다. 조금 더 인내하세요." }
     },
     "74": {
         "id": 74,
@@ -773,7 +851,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "현실성 없는 계획이 당신의 자산을 위협합니다. 공부만 하고 실행하지 않는 것은 지적 허영에 불과합니다. 이제는 실전의 감각을 익히세요.",
         "warning": "무책임한 태도, 실천 없는 계획, 시야의 부재",
         "summary": { "love": "신중한 시작, 진실한 만남, 배울 점 많은 인연", "money": "저축 계획 수립, 소액 투자 기회, 재테크 학습", "work": "새로운 실무 습득, 학구적인 태도, 자격증 취득" },
-        "warningSummary": { "love": "상대에 대한 환상 붕괴, 불성실한 태도", "money": "잘못된 정보로 인한 투자 실수, 지연되는 소득", "work": "업무 적응 실패, 공부의 중단" }
+        "warningSummary": { "love": "상대에 대한 환상 붕괴, 불성실한 태도", "money": "잘못된 정보로 인한 투자 실수, 지연되는 소득", "work": "업무 적응 실패, 공부의 중단" },
+        "worry": { "isPositive": true, "advice": "객관적 시각으로 상황을 분석하고 이성적으로 판단해야 합니다. 감정에 휘둘리지 마세요." }
     },
     "75": {
         "id": 75,
@@ -783,7 +862,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "완고함이 정체를 만듭니다. 변화하는 세상을 무시한 채 당신의 방식만 고집하다가는 목적지에 닿기도 전에 지쳐버릴 것입니다.",
         "warning": "융통성 부족, 정체된 상황, 나태함 주의",
         "summary": { "love": "한결같은 사랑, 믿음직한 태도, 신중한 관계 전개", "money": "안전 자산 선호, 꾸준한 증식, 정직한 수입", "work": "철저한 업무 처리, 완벽주의, 신뢰받는 인재" },
-        "warningSummary": { "love": "지루한 관계의 지속, 권태기 직면", "money": "자금 흐름의 정체, 보수적인 투자 손해", "work": "업무 지체, 무책임한 방관" }
+        "warningSummary": { "love": "지루한 관계의 지속, 권태기 직면", "money": "자금 흐름의 정체, 보수적인 투자 손해", "work": "업무 지체, 무책임한 방관" },
+        "worry": { "isPositive": true, "advice": "과감한 결단이 필요한 순간입니다. 두려움을 버리고 나아가면 긍정적인 답을 얻을 수 있습니다." }
     },
     "76": {
         "id": 76,
@@ -793,7 +873,8 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "돌봄이 구속이 되고 있습니다. 당신의 친절이 상대를 숨 막히게 하고 있지는 않은지, 혹은 당신의 희생을 보상받으려 하지는 않는지 살피세요.",
         "warning": "의심 주의, 인색함, 지나친 간섭 경계",
         "summary": { "love": "따뜻한 배려, 안정적인 가정생활, 포용력", "money": "알뜰한 관리, 실속 있는 투자, 여유로운 생활", "work": "실용적인 리더십, 실력자, 팀원을 챙기는 카리스마" },
-        "warningSummary": { "love": "지나친 간섭으로 인한 다툼, 의존적 관계", "money": "금전적 불신, 인색한 자금 집행", "work": "실무 능력의 의심, 팀 내 소통 부재" }
+        "warningSummary": { "love": "지나친 간섭으로 인한 다툼, 의존적 관계", "money": "금전적 불신, 인색한 자금 집행", "work": "실무 능력의 의심, 팀 내 소통 부재" },
+        "worry": { "isPositive": true, "advice": "주변의 조언을 수용하며 한 템포 쉬어가는 여유가 필요합니다. 주변을 둘러보세요." }
     },
     "77": {
         "id": 77,
@@ -803,6 +884,7 @@ export const TAROT_TODAY: Record<number, TodayCard> = {
         "todayWarningAdvice": "물질적 성공이 당신의 눈을 가리고 있습니다. 숫자에만 집착하다 소중한 사람들의 진심을 잃고 있지는 않은가요? 진정한 부는 관계에서 나옵니다.",
         "warning": "물질 만능주의 경계, 탐욕으로 인한 손실",
         "summary": { "love": "듬직한 보호자, 책임감 있는 사랑", "money": "부의 성취, 강력한 재력, 비즈니스 대박", "work": "성공적 사업 리더십, 최고의 영향력" },
-        "warningSummary": { "love": "부정직한 관계, 돈으로 환산된 사랑", "money": "탐욕으로 인한 대형 손실, 부정한 자금 사고", "work": "권위주의적 경영 실패, 신뢰 하락" }
-    }
+        "warningSummary": { "love": "부정직한 관계, 돈으로 환산된 사랑", "money": "탐욕으로 인한 대형 손실, 부정한 자금 사고", "work": "권위주의적 경영 실패, 신뢰 하락" },
+        "worry": { "isPositive": true, "advice": "작은 성취들이 모여 큰 결과를 만듭니다. 꾸준함을 잃지 말고 페이스를 유지하세요." }
+    },
 };

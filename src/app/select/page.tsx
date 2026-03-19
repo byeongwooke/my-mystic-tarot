@@ -103,7 +103,8 @@ function SelectContent() {
       'today': '오늘의 운세☀️',
       'love': '애정운❤️',
       'money': '재물운💰',
-      'work': '직업운💼'
+      'work': '직업운💼',
+      'worry': '고민뽑기⚖️'
     };
     return cleanCategory ? (categoryNameMap[cleanCategory] || '특별한 운세') : '';
   }, [cleanCategory]);
