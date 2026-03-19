@@ -345,23 +345,6 @@ function ResultContent() {
                     <p className="text-amber-100/90 tracking-widest text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose px-2 md:px-8 mt-2">
                       "{getAdviceText(cardsInfo[0])}"
                     </p>
-
-                    <div className={`mt-8 md:mt-10 w-full max-w-3xl rounded-2xl p-6 md:p-8 flex flex-col items-center border ${
-                      !isStop 
-                        ? 'bg-emerald-900/10 border-emerald-500/20 shadow-[0_0_30px_rgba(52,211,153,0.1)]' 
-                        : 'bg-rose-900/10 border-rose-500/20 shadow-[0_0_30px_rgba(225,29,72,0.1)]'
-                    }`}>
-                      <div className={`text-xs md:text-sm font-bold tracking-widest border px-4 py-1.5 rounded-full mb-4 md:mb-5 ${
-                        !isStop 
-                          ? 'text-emerald-300 border-emerald-500/50 bg-emerald-500/10' 
-                          : 'text-rose-300 border-rose-500/50 bg-rose-500/10'
-                      }`}>
-                        오늘의 종합 조언
-                      </div>
-                      <p className="text-gray-300 tracking-widest text-sm md:text-base font-light break-keep leading-relaxed text-center px-2 md:px-6">
-                        {cardsInfo[0].isReversed ? cardsInfo[0].cardData?.todayWarningAdvice : cardsInfo[0].cardData?.todayAdvice}
-                      </p>
-                    </div>
                   </motion.div>
                 </AnimatePresence>
               );
@@ -653,8 +636,7 @@ function ResultContent() {
               ))}
             </div>
 
-            {category !== 'worry' && (
-              <div className="w-full max-w-3xl flex flex-col gap-10 md:gap-16">
+            <div className="w-full max-w-3xl flex flex-col gap-10 md:gap-16">
                 {cardsInfo.map((item, idx) => (
                   <motion.div
                   key={item.role + '-detail'}
@@ -715,17 +697,35 @@ function ResultContent() {
                       )}
                     </div>
 
-                    <div className="bg-gradient-to-br from-amber-900/30 to-black/40 border border-amber-500/30 p-5 md:p-6 rounded-2xl relative">
-                      <span className="absolute -top-3 left-4 bg-amber-900 border border-amber-500/50 px-3 py-1 text-xs text-amber-200 rounded-full tracking-widest">타로 마스터의 한마디</span>
-                      <p className="text-amber-50/90 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif italic">
-                        "{getAdviceText(item)}"
-                      </p>
-                    </div>
+                    {(() => {
+                      const isNegative = (item.isReversed ? item.cardData?.reversePolarity : item.cardData?.polarity) === 'negative';
+                      return (
+                        <div className={`p-5 md:p-6 rounded-2xl relative border ${
+                          category === 'worry' 
+                            ? (isNegative ? 'bg-gradient-to-br from-rose-900/30 to-black/40 border-rose-500/30 shadow-[0_0_30px_rgba(225,29,72,0.15)]' : 'bg-gradient-to-br from-emerald-900/30 to-black/40 border-emerald-500/30 shadow-[0_0_30px_rgba(52,211,153,0.15)]')
+                            : 'bg-gradient-to-br from-amber-900/30 to-black/40 border-amber-500/30'
+                        }`}>
+                          <span className={`absolute -top-3 left-4 px-3 py-1 text-xs rounded-full tracking-widest border ${
+                            category === 'worry'
+                              ? (isNegative ? 'bg-rose-900 border-rose-500/50 text-rose-200' : 'bg-emerald-900 border-emerald-500/50 text-emerald-200')
+                              : 'bg-amber-900 border-amber-500/50 text-amber-200'
+                          }`}>
+                            타로 마스터의 한마디
+                          </span>
+                          <p className={`text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif italic ${
+                            category === 'worry'
+                              ? (isNegative ? 'text-rose-50/90' : 'text-emerald-50/90')
+                              : 'text-amber-50/90'
+                          }`}>
+                            "{category === 'worry' ? (item.isReversed ? item.cardData?.todayWarningAdvice : item.cardData?.todayAdvice) : getAdviceText(item)}"
+                          </p>
+                        </div>
+                      );
+                    })()}
                   </div>
                 </motion.div>
               ))}
             </div>
-            )}
           </>
         )}
 
