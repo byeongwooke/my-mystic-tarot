@@ -189,8 +189,8 @@ function ResultContent() {
     if (!cardData || !category) return "";
     
     if (category === 'worry') {
-      const curScore = isReversed ? cardData.warningScore : cardData.score;
-      if (curScore <= 40) return TAROT_FORTUNE[cardData.id]?.warningWorry || "운명의 메시지를 준비 중입니다";
+      const polarity = isReversed ? cardData.reversePolarity : cardData.polarity;
+      if (polarity === 'negative') return TAROT_FORTUNE[cardData.id]?.warningWorry || "운명의 경고를 준비 중입니다";
       return TAROT_FORTUNE[cardData.id]?.worry || "운명의 메시지를 준비 중입니다";
     }
 
@@ -322,8 +322,8 @@ function ResultContent() {
         <div className="mb-12 md:mb-20 mt-4 min-h-[80px] md:min-h-[120px] flex items-center justify-center w-full max-w-4xl px-2">
           {category === 'worry' && cardsInfo[0] ? (
             (() => {
-              const curScore = cardsInfo[0].isReversed ? cardsInfo[0].cardData?.warningScore : cardsInfo[0].cardData?.score;
-              const isStop = curScore !== undefined && curScore <= 40;
+              const polarity = cardsInfo[0].isReversed ? cardsInfo[0].cardData?.reversePolarity : cardsInfo[0].cardData?.polarity;
+              const isStop = polarity === 'negative';
               return (
                 <AnimatePresence mode="wait">
                   <motion.div

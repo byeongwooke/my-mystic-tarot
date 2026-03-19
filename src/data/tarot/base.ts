@@ -5,6 +5,8 @@ export interface TarotBase {
     keywords: string[];
     score: number;
     warningScore: number;
+    polarity: 'positive' | 'negative';
+    reversePolarity: 'positive' | 'negative';
 }
 
 export const TAROT_BASE: Record<number, TarotBase> = {
@@ -18,7 +20,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "변수"
         ],
         "score": 85.4,
-        "warningScore": 32.1
+        "warningScore": 32.1,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "1": {
         "id": 1,
@@ -30,7 +34,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "주도권"
         ],
         "score": 92.5,
-        "warningScore": 45.3
+        "warningScore": 45.3,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "2": {
         "id": 2,
@@ -42,7 +48,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "침묵"
         ],
         "score": 88,
-        "warningScore": 50.1
+        "warningScore": 50.1,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "3": {
         "id": 3,
@@ -54,7 +62,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "포용"
         ],
         "score": 95.5,
-        "warningScore": 40.5
+        "warningScore": 40.5,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "4": {
         "id": 4,
@@ -66,7 +76,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "권위"
         ],
         "score": 90.2,
-        "warningScore": 55.4
+        "warningScore": 55.4,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "5": {
         "id": 5,
@@ -78,7 +90,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "믿음"
         ],
         "score": 82,
-        "warningScore": 48.2
+        "warningScore": 48.2,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "6": {
         "id": 6,
@@ -90,7 +104,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "결합"
         ],
         "score": 94.6,
-        "warningScore": 35.8
+        "warningScore": 35.8,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "7": {
         "id": 7,
@@ -102,7 +118,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "추진력"
         ],
         "score": 89.1,
-        "warningScore": 41.2
+        "warningScore": 41.2,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "8": {
         "id": 8,
@@ -114,7 +132,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "부드러움"
         ],
         "score": 87.3,
-        "warningScore": 52
+        "warningScore": 52,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "9": {
         "id": 9,
@@ -126,7 +146,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "진리"
         ],
         "score": 75.5,
-        "warningScore": 30.4
+        "warningScore": 30.4,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "10": {
         "id": 10,
@@ -138,7 +160,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "전환점"
         ],
         "score": 80,
-        "warningScore": 45
+        "warningScore": 45,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "11": {
         "id": 11,
@@ -150,7 +174,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "결단"
         ],
         "score": 81.2,
-        "warningScore": 60.5
+        "warningScore": 60.5,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "12": {
         "id": 12,
@@ -162,7 +188,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "관점 전환"
         ],
         "score": 45.3,
-        "warningScore": 65.2
+        "warningScore": 65.2,
+        "polarity": "negative",
+        "reversePolarity": "positive"
     },
     "13": {
         "id": 13,
@@ -174,7 +202,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "새로운 시작"
         ],
         "score": 20.5,
-        "warningScore": 68
+        "warningScore": 68,
+        "polarity": "negative",
+        "reversePolarity": "positive"
     },
     "14": {
         "id": 14,
@@ -186,7 +216,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "중용"
         ],
         "score": 88.5,
-        "warningScore": 42.1
+        "warningScore": 42.1,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "15": {
         "id": 15,
@@ -198,7 +230,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "속박"
         ],
         "score": 18.9,
-        "warningScore": 62.1
+        "warningScore": 62.1,
+        "polarity": "negative",
+        "reversePolarity": "positive"
     },
     "16": {
         "id": 16,
@@ -210,7 +244,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "충격"
         ],
         "score": 15.5,
-        "warningScore": 35
+        "warningScore": 35,
+        "polarity": "negative",
+        "reversePolarity": "negative"
     },
     "17": {
         "id": 17,
@@ -222,7 +258,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "영감"
         ],
         "score": 96.4,
-        "warningScore": 25.5
+        "warningScore": 25.5,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "18": {
         "id": 18,
@@ -234,7 +272,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "잠재의식"
         ],
         "score": 35,
-        "warningScore": 75.2
+        "warningScore": 75.2,
+        "polarity": "negative",
+        "reversePolarity": "positive"
     },
     "19": {
         "id": 19,
@@ -246,7 +286,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "명료함"
         ],
         "score": 98.2,
-        "warningScore": 30.1
+        "warningScore": 30.1,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "20": {
         "id": 20,
@@ -258,7 +300,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "보상"
         ],
         "score": 85,
-        "warningScore": 40.2
+        "warningScore": 40.2,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "21": {
         "id": 21,
@@ -270,7 +314,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "새로운 여정"
         ],
         "score": 99.5,
-        "warningScore": 50
+        "warningScore": 50,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "22": {
         "id": 22,
@@ -282,7 +328,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "영감"
         ],
         "score": 85,
-        "warningScore": 37
+        "warningScore": 37,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "23": {
         "id": 23,
@@ -294,7 +342,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "선택"
         ],
         "score": 71.5,
-        "warningScore": 39
+        "warningScore": 39,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "24": {
         "id": 24,
@@ -306,7 +356,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "기다림"
         ],
         "score": 73,
-        "warningScore": 41
+        "warningScore": 41,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "25": {
         "id": 25,
@@ -318,7 +370,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "축제"
         ],
         "score": 67,
-        "warningScore": 43
+        "warningScore": 43,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "26": {
         "id": 26,
@@ -330,7 +384,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "성장통"
         ],
         "score": 48.5,
-        "warningScore": 45
+        "warningScore": 45,
+        "polarity": "negative",
+        "reversePolarity": "negative"
     },
     "27": {
         "id": 27,
@@ -342,7 +398,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "인정"
         ],
         "score": 70,
-        "warningScore": 47
+        "warningScore": 47,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "28": {
         "id": 28,
@@ -354,7 +412,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "입지"
         ],
         "score": 71.5,
-        "warningScore": 35
+        "warningScore": 35,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "29": {
         "id": 29,
@@ -366,7 +426,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "소식"
         ],
         "score": 73,
-        "warningScore": 37
+        "warningScore": 37,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "30": {
         "id": 30,
@@ -378,7 +440,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "최후의 시험"
         ],
         "score": 47,
-        "warningScore": 39
+        "warningScore": 39,
+        "polarity": "negative",
+        "reversePolarity": "negative"
     },
     "31": {
         "id": 31,
@@ -390,7 +454,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "압박"
         ],
         "score": 78.5,
-        "warningScore": 41
+        "warningScore": 41,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "32": {
         "id": 32,
@@ -402,7 +468,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "잠재력"
         ],
         "score": 70,
-        "warningScore": 43
+        "warningScore": 43,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "33": {
         "id": 33,
@@ -414,7 +482,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "추진력"
         ],
         "score": 71.5,
-        "warningScore": 45
+        "warningScore": 45,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "34": {
         "id": 34,
@@ -426,7 +496,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "활력"
         ],
         "score": 73,
-        "warningScore": 47
+        "warningScore": 47,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "35": {
         "id": 35,
@@ -438,7 +510,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "성취"
         ],
         "score": 82,
-        "warningScore": 35
+        "warningScore": 35,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "36": {
         "id": 36,
@@ -450,7 +524,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "충만"
         ],
         "score": 93.5,
-        "warningScore": 37
+        "warningScore": 37,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "37": {
         "id": 37,
@@ -462,7 +538,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "파트너십"
         ],
         "score": 80,
-        "warningScore": 39
+        "warningScore": 39,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "38": {
         "id": 38,
@@ -474,7 +552,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "환희"
         ],
         "score": 81.5,
-        "warningScore": 41
+        "warningScore": 41,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "39": {
         "id": 39,
@@ -486,7 +566,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "내면 탐색"
         ],
         "score": 83,
-        "warningScore": 43
+        "warningScore": 43,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "40": {
         "id": 40,
@@ -498,7 +580,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "시선 전환"
         ],
         "score": 57,
-        "warningScore": 45
+        "warningScore": 45,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "41": {
         "id": 41,
@@ -510,7 +594,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "재방문"
         ],
         "score": 78.5,
-        "warningScore": 47
+        "warningScore": 47,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "42": {
         "id": 42,
@@ -522,7 +608,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "신기루"
         ],
         "score": 80,
-        "warningScore": 35
+        "warningScore": 35,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "43": {
         "id": 43,
@@ -534,7 +622,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "여정"
         ],
         "score": 81.5,
-        "warningScore": 37
+        "warningScore": 37,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "44": {
         "id": 44,
@@ -546,7 +636,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "자기애"
         ],
         "score": 63,
-        "warningScore": 39
+        "warningScore": 39,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "45": {
         "id": 45,
@@ -558,7 +650,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "조화"
         ],
         "score": 87,
-        "warningScore": 41
+        "warningScore": 41,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "46": {
         "id": 46,
@@ -570,7 +664,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "호기심"
         ],
         "score": 78.5,
-        "warningScore": 43
+        "warningScore": 43,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "47": {
         "id": 47,
@@ -582,7 +678,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "우아함"
         ],
         "score": 80,
-        "warningScore": 45
+        "warningScore": 45,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "48": {
         "id": 48,
@@ -594,7 +692,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "통찰"
         ],
         "score": 81.5,
-        "warningScore": 47
+        "warningScore": 47,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "49": {
         "id": 49,
@@ -606,7 +706,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "정서적 숙련"
         ],
         "score": 97.8,
-        "warningScore": 35
+        "warningScore": 35,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "50": {
         "id": 50,
@@ -618,7 +720,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "돌파"
         ],
         "score": 67,
-        "warningScore": 52
+        "warningScore": 52,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "51": {
         "id": 51,
@@ -630,7 +734,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "균형"
         ],
         "score": 53.5,
-        "warningScore": 54
+        "warningScore": 54,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "52": {
         "id": 52,
@@ -642,7 +748,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "직면"
         ],
         "score": 30.5,
-        "warningScore": 62.4
+        "warningScore": 62.4,
+        "polarity": "negative",
+        "reversePolarity": "positive"
     },
     "53": {
         "id": 53,
@@ -654,7 +762,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "정지"
         ],
         "score": 56.5,
-        "warningScore": 58
+        "warningScore": 58,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "54": {
         "id": 54,
@@ -666,7 +776,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "상처뿐인 승리"
         ],
         "score": 38,
-        "warningScore": 60
+        "warningScore": 60,
+        "polarity": "negative",
+        "reversePolarity": "positive"
     },
     "55": {
         "id": 55,
@@ -678,7 +790,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "국면 전환"
         ],
         "score": 52,
-        "warningScore": 62
+        "warningScore": 62,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "56": {
         "id": 56,
@@ -690,7 +804,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "책임 회피"
         ],
         "score": 53.5,
-        "warningScore": 50
+        "warningScore": 50,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "57": {
         "id": 57,
@@ -702,7 +818,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "제약"
         ],
         "score": 55,
-        "warningScore": 52
+        "warningScore": 52,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "58": {
         "id": 58,
@@ -714,7 +832,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "죄책감"
         ],
         "score": 29.9,
-        "warningScore": 62.6
+        "warningScore": 62.6,
+        "polarity": "negative",
+        "reversePolarity": "positive"
     },
     "59": {
         "id": 59,
@@ -726,7 +846,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "수용"
         ],
         "score": 30.3,
-        "warningScore": 65
+        "warningScore": 65,
+        "polarity": "negative",
+        "reversePolarity": "positive"
     },
     "60": {
         "id": 60,
@@ -738,7 +860,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "미숙함"
         ],
         "score": 52,
-        "warningScore": 58
+        "warningScore": 58,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "61": {
         "id": 61,
@@ -750,7 +874,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "논리적 관철"
         ],
         "score": 53.5,
-        "warningScore": 60
+        "warningScore": 60,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "62": {
         "id": 62,
@@ -762,7 +888,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "경계 설정"
         ],
         "score": 55,
-        "warningScore": 62
+        "warningScore": 62,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "63": {
         "id": 63,
@@ -774,7 +902,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "이성적 권위"
         ],
         "score": 71.5,
-        "warningScore": 50
+        "warningScore": 50,
+        "polarity": "positive",
+        "reversePolarity": "positive"
     },
     "64": {
         "id": 64,
@@ -786,7 +916,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "실질적 결실"
         ],
         "score": 97.8,
-        "warningScore": 37
+        "warningScore": 37,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "65": {
         "id": 65,
@@ -798,7 +930,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "변동성"
         ],
         "score": 77,
-        "warningScore": 39
+        "warningScore": 39,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "66": {
         "id": 66,
@@ -810,7 +944,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "인정"
         ],
         "score": 78.5,
-        "warningScore": 41
+        "warningScore": 41,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "67": {
         "id": 67,
@@ -822,7 +958,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "보수적"
         ],
         "score": 80,
-        "warningScore": 43
+        "warningScore": 43,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "68": {
         "id": 68,
@@ -834,7 +972,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "소외"
         ],
         "score": 33.9,
-        "warningScore": 63.2
+        "warningScore": 63.2,
+        "polarity": "negative",
+        "reversePolarity": "positive"
     },
     "69": {
         "id": 69,
@@ -846,7 +986,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "균형"
         ],
         "score": 83,
-        "warningScore": 47
+        "warningScore": 47,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "70": {
         "id": 70,
@@ -858,7 +1000,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "중간 점검"
         ],
         "score": 77,
-        "warningScore": 35
+        "warningScore": 35,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "71": {
         "id": 71,
@@ -870,7 +1014,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "장인 정신"
         ],
         "score": 78.5,
-        "warningScore": 37
+        "warningScore": 37,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "72": {
         "id": 72,
@@ -882,7 +1028,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "품격"
         ],
         "score": 60,
-        "warningScore": 39
+        "warningScore": 39,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "73": {
         "id": 73,
@@ -894,7 +1042,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "부유함"
         ],
         "score": 91.5,
-        "warningScore": 41
+        "warningScore": 41,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "74": {
         "id": 74,
@@ -906,7 +1056,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "기회 포착"
         ],
         "score": 83,
-        "warningScore": 43
+        "warningScore": 43,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "75": {
         "id": 75,
@@ -918,7 +1070,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "실천"
         ],
         "score": 77,
-        "warningScore": 45
+        "warningScore": 45,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "76": {
         "id": 76,
@@ -930,7 +1084,9 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "보살핌"
         ],
         "score": 78.5,
-        "warningScore": 47
+        "warningScore": 47,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     },
     "77": {
         "id": 77,
@@ -942,6 +1098,8 @@ export const TAROT_BASE: Record<number, TarotBase> = {
             "경제적 권위"
         ],
         "score": 95,
-        "warningScore": 35
+        "warningScore": 35,
+        "polarity": "positive",
+        "reversePolarity": "negative"
     }
 };
