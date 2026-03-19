@@ -345,6 +345,23 @@ function ResultContent() {
                     <p className="text-amber-100/90 tracking-widest text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose px-2 md:px-8 mt-2">
                       "{getAdviceText(cardsInfo[0])}"
                     </p>
+
+                    <div className={`mt-8 md:mt-10 w-full max-w-3xl rounded-2xl p-6 md:p-8 flex flex-col items-center border ${
+                      !isStop 
+                        ? 'bg-emerald-900/10 border-emerald-500/20 shadow-[0_0_30px_rgba(52,211,153,0.1)]' 
+                        : 'bg-rose-900/10 border-rose-500/20 shadow-[0_0_30px_rgba(225,29,72,0.1)]'
+                    }`}>
+                      <div className={`text-xs md:text-sm font-bold tracking-widest border px-4 py-1.5 rounded-full mb-4 md:mb-5 ${
+                        !isStop 
+                          ? 'text-emerald-300 border-emerald-500/50 bg-emerald-500/10' 
+                          : 'text-rose-300 border-rose-500/50 bg-rose-500/10'
+                      }`}>
+                        오늘의 종합 조언
+                      </div>
+                      <p className="text-gray-300 tracking-widest text-sm md:text-base font-light break-keep leading-relaxed text-center px-2 md:px-6">
+                        {cardsInfo[0].isReversed ? cardsInfo[0].cardData?.todayWarningAdvice : cardsInfo[0].cardData?.todayAdvice}
+                      </p>
+                    </div>
                   </motion.div>
                 </AnimatePresence>
               );
