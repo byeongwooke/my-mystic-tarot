@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/providers/AuthProvider';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDocs, query, collection, where } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 export default function Home() {
@@ -17,9 +17,10 @@ export default function Home() {
     const checkDoor = async () => {
       if (user?.uid) {
         try {
-          const userDocSnap = await getDoc(doc(db, "users", user.uid));
-          if (userDocSnap.exists()) {
-            const hasValidName = userDocSnap.data().displayName && !userDocSnap.data().displayName.includes('호');
+          const userQuery = query(collection(db, "users"), where("uid", "==", user.uid));
+          const snap = await getDocs(userQuery);
+          if (!snap.empty) {
+            const hasValidName = snap.docs[0].data().displayName && !snap.docs[0].data().displayName.includes('호');
             const targetBase = hasValidName ? '/select' : '/welcome';
             if (pathname !== targetBase) router.replace(targetBase);
           } else {

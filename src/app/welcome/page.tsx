@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { updateProfile } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
-import { doc, setDoc, getDoc, getDocs, collection, query, where } from 'firebase/firestore';
+import { doc, setDoc, getDocs, updateDoc, collection, query, where } from 'firebase/firestore';
 import { useAuth } from '@/providers/AuthProvider';
 
 export default function WelcomePage() {
@@ -23,14 +23,15 @@ export default function WelcomePage() {
 
       if (user?.uid) {
         try {
-          const userDocSnap = await getDoc(doc(db, "users", user.uid));
-          if (userDocSnap.exists()) {
-            const hasValidName = userDocSnap.data().displayName && !userDocSnap.data().displayName.includes('호');
+          const userQuery = query(collection(db, "users"), where("uid", "==", user.uid));
+          const snap = await getDocs(userQuery);
+          if (!snap.empty) {
+            const docData = snap.docs[0].data();
+            const hasValidName = docData.displayName && !docData.displayName.includes('호');
             if (hasValidName) {
-              setName(userDocSnap.data().displayName);
+              setName(docData.displayName);
             }
           } else {
-            // 유령 데이터인 경우 강제로 빈 값 처리
             setName('');
           }
         } catch (err) {
@@ -55,32 +56,48 @@ export default function WelcomePage() {
     setIsSubmitting(true);
 
     try {
+      if (!user) throw new Error("No user");
+
+      const oldQuery = query(collection(db, "users"), where("uid", "==", user.uid));
+      const oldSnap = await getDocs(oldQuery);
+
       const q = query(collection(db, "users"), where("displayName", "==", typedName));
       const snap = await getDocs(q);
 
       if (!snap.empty) {
-        // 기가입자 본인 인증 검사
-        const existingData = snap.docs[0].data();
+        const existingDoc = snap.docs[0];
+        const existingData = existingDoc.data();
+        
         if (existingData.pin !== pin) {
           setError("이미 다른 영혼이 사용 중인 성명입니다.");
           setIsSubmitting(false);
           return;
         }
-        // PIN이 일치하면 무사 통과 (아래에서 프로필 / 토큰 uid 최신화)
-      }
 
-      if (user) {
-        await updateProfile(user, { displayName: typedName });
-        await setDoc(doc(db, "users", user.uid), {
+        for (const d of oldSnap.docs) {
+          if (d.id !== existingDoc.id) {
+            await updateDoc(doc(db, "users", d.id), { uid: null });
+          }
+        }
+        await updateDoc(doc(db, "users", existingDoc.id), { uid: user.uid, updatedAt: new Date().toISOString() });
+      } else {
+        for (const d of oldSnap.docs) {
+          await updateDoc(doc(db, "users", d.id), { uid: null });
+        }
+        await setDoc(doc(db, "users", typedName), {
           displayName: typedName,
           pin: pin,
+          uid: user.uid,
           isInitial: false,
+          counts: {},
           updatedAt: new Date().toISOString()
-        }, { merge: true });
+        });
+      }
 
-        if (pathname !== '/select') {
-          router.replace('/select');
-        }
+      await updateProfile(user, { displayName: typedName });
+      
+      if (pathname !== '/select') {
+        router.replace('/select');
       }
     } catch (err) {
       console.error(err);
