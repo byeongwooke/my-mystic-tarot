@@ -8,6 +8,7 @@ import { TAROT_SPREAD3 } from "@/data/tarot/spread3";
 import { TAROT_CELTIC } from "@/data/tarot/celtic";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/providers/AuthProvider";
+import { saveTarotResult } from "@/lib/tarot";
 
 const CATEGORY_MAP: Record<string, string> = {
   '애정운': 'love', 'love': 'love',
@@ -120,6 +121,8 @@ function ResultContent() {
   const [isGridFolded, setIsGridFolded] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
   const [swipeDir, setSwipeDir] = useState(1);
+
+  const isSavedRef = React.useRef(false);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -276,6 +279,21 @@ function ResultContent() {
     const futureItem = cardsInfo.find(c => c.role === "미래");
     return futureItem ? `"${getAdviceText(futureItem)}"` : "운명은 당신의 선택에 달려 있습니다.";
   }, [cardsInfo, spread, category, activeCardIdx]);
+
+  useEffect(() => {
+    if (cardsInfo.length > 0 && user && !isLoading && !hasError && !isSavedRef.current) {
+      isSavedRef.current = true;
+      saveTarotResult(
+        user.uid,
+        user.displayName || 'Unknown',
+        cardsInfo.map(c => ({ id: c.cardData?.id, role: c.role, isReversed: c.isReversed, name: c.cardData?.nameKr })),
+        overallAdvice
+      ).catch(err => {
+        console.error("Save error:", err);
+        isSavedRef.current = false;
+      });
+    }
+  }, [cardsInfo, user, isLoading, hasError, overallAdvice]);
 
   if (isLoading) {
     return (
