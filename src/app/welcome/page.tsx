@@ -27,7 +27,7 @@ export default function WelcomePage() {
         if (hasValidName) {
           // 중복 이동 방지
           if (pathname !== '/select') {
-            router.replace('/select?category=today&spread=today');
+            router.replace('/select');
           }
           return;
         }
@@ -89,7 +89,7 @@ export default function WelcomePage() {
         }, { merge: true });
         
         if (pathname !== '/select') {
-          router.replace('/select?category=today&spread=today');
+          router.replace('/select');
         }
       }
     } catch (err) {

@@ -13,7 +13,7 @@ export default function Home() {
     if (loading) return;
 
     const hasValidName = user?.displayName && !user.displayName.includes('호');
-    const targetPath = hasValidName ? '/select?category=today&spread=today' : '/welcome';
+    const targetPath = hasValidName ? '/select' : '/welcome';
     const targetBase = hasValidName ? '/select' : '/welcome';
 
     if (pathname === targetBase) return;
