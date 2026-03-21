@@ -18,13 +18,11 @@ export default function WelcomePage() {
   useEffect(() => {
     const assignInitialName = async () => {
       if (!loading && user) {
-        // 이미 본인이 설정한 이름이 있다면 바로 선택지로 패스
         if (user.displayName && !user.displayName.includes('호')) {
           router.push('/select');
           return;
         }
 
-        // 이름이 없거나 임시 이름(..호)인 경우 창고에서 배정
         if (!user.displayName) {
           try {
             const poolRef = collection(db, "naming_pool");

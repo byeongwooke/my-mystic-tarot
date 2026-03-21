@@ -7,7 +7,6 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // 묻지도 따지지도 않고 입구(Welcome)로 안내합니다.
     router.push('/welcome');
   }, [router]);
 
