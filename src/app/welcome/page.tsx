@@ -67,7 +67,8 @@ export default function WelcomePage() {
 
   const handleStart = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSubmitting || !name.trim()) return;
+    const typedName = name.trim();
+    if (isSubmitting || !typedName) return;
 
     if (!/^\d{4}$/.test(pin)) {
       setError("PIN은 정확히 4자리 숫자여야 합니다.");
@@ -77,19 +78,31 @@ export default function WelcomePage() {
     setIsSubmitting(true);
 
     try {
-      const q = query(collection(db, "users"), where("displayName", "==", name.trim()));
+      const q = query(collection(db, "users"), where("displayName", "==", typedName));
       const snap = await getDocs(q);
       
-      if (!snap.empty && snap.docs[0].id !== user?.uid) {
-        setError("이미 다른 영혼이 사용 중인 성명입니다.");
-        setIsSubmitting(false);
-        return;
+      if (!snap.empty) {
+        // 기가입자 본인 인증 검사
+        const existingData = snap.docs[0].data();
+        if (existingData.pin !== pin) {
+          setError("이미 다른 영혼이 사용 중인 성명입니다.");
+          setIsSubmitting(false);
+          return;
+        }
+        // PIN이 일치하면 무사 통과 (아래에서 프로필 / 토큰 uid 최신화)
+      } else {
+        // 신규 가입 시: 입력한 이름이 풀에 있으면 isUsed: true 처리
+        const poolQ = query(collection(db, "naming_pool"), where("name", "==", typedName));
+        const poolSnap = await getDocs(poolQ);
+        if (!poolSnap.empty) {
+          await updateDoc(doc(db, "naming_pool", poolSnap.docs[0].id), { isUsed: true });
+        }
       }
 
       if (user) {
-        await updateProfile(user, { displayName: name.trim() });
+        await updateProfile(user, { displayName: typedName });
         await setDoc(doc(db, "users", user.uid), {
-          displayName: name.trim(),
+          displayName: typedName,
           pin: pin,
           isInitial: false,
           updatedAt: new Date().toISOString()
@@ -100,6 +113,7 @@ export default function WelcomePage() {
         }
       }
     } catch (err) {
+      console.error(err);
       setError("운명의 연결이 불안정합니다.");
       setIsSubmitting(false);
     }
