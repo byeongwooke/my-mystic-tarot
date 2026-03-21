@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { updateProfile } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
-import { doc, setDoc, getDocs, collection, query, where, limit, orderBy, updateDoc, writeBatch } from 'firebase/firestore';
+import { doc, setDoc, getDocs, collection, query, where } from 'firebase/firestore';
 import { useAuth } from '@/providers/AuthProvider';
 
 export default function WelcomePage() {
@@ -22,41 +22,9 @@ export default function WelcomePage() {
       if (loading) return; // Loading 방어
 
       if (user) {
-        // 이름 판정 로직 통일
+        // 이름 판정 로직
         const hasValidName = user.displayName && !user.displayName.includes('호');
-        
         if (hasValidName) {
-          // 리다이렉트 제외: 유저가 폼을 변경하거나 확인 후 버튼을 누를 기회를 줌
-          setName(user.displayName);
-          setIsReady(true);
-          return;
-        }
-
-        // 이름이 없거나 임시 이름(..호)인 경우 창고에서 배정
-        if (!user.displayName) {
-          try {
-            const poolRef = collection(db, "naming_pool");
-            const q = query(poolRef, where("isUsed", "==", false), orderBy("order"), limit(1));
-            const snapshot = await getDocs(q);
-
-            if (!snapshot.empty) {
-              const nameDoc = snapshot.docs[0];
-              const assignedName = nameDoc.data().name;
-
-              const batch = writeBatch(db);
-              batch.update(doc(db, "naming_pool", nameDoc.id), { isUsed: true });
-              batch.set(doc(db, "users", user.uid), { 
-                uid: user.uid, 
-                displayName: assignedName, 
-                isInitial: true 
-              }, { merge: true });
-
-              await batch.commit();
-              await updateProfile(user, { displayName: assignedName });
-              setName(assignedName);
-            }
-          } catch (err) { console.error(err); }
-        } else {
           setName(user.displayName);
         }
         setIsReady(true);
@@ -90,13 +58,6 @@ export default function WelcomePage() {
           return;
         }
         // PIN이 일치하면 무사 통과 (아래에서 프로필 / 토큰 uid 최신화)
-      } else {
-        // 신규 가입 시: 입력한 이름이 풀에 있으면 isUsed: true 처리
-        const poolQ = query(collection(db, "naming_pool"), where("name", "==", typedName));
-        const poolSnap = await getDocs(poolQ);
-        if (!poolSnap.empty) {
-          await updateDoc(doc(db, "naming_pool", poolSnap.docs[0].id), { isUsed: true });
-        }
       }
 
       if (user) {
@@ -150,15 +111,15 @@ export default function WelcomePage() {
               value={pin}
               onChange={(e) => { setPin(e.target.value.replace(/[^0-9]/g, '')); setError(''); }}
               className="w-full border-b-2 border-slate-800 bg-transparent py-4 text-center text-xl font-bold text-indigo-400 outline-none focus:border-indigo-500 transition-all tracking-[1em]"
-              placeholder="PIN (숫자 4자리)"
+              placeholder="password(4자리)"
               maxLength={4}
             />
           </div>
           {error && <p className="text-sm text-rose-500 animate-pulse">{error}</p>}
           <button
             type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-2xl bg-indigo-600 py-5 text-lg font-bold text-white shadow-xl hover:bg-indigo-500 transition-all active:scale-95"
+            disabled={isSubmitting || pin.length !== 4}
+            className={`w-full rounded-2xl py-5 text-lg font-bold text-white shadow-xl transition-all active:scale-95 ${isSubmitting || pin.length !== 4 ? 'bg-slate-700 cursor-not-allowed text-slate-400 shadow-none' : 'bg-indigo-600 hover:bg-indigo-500'}`}
           >
             {isSubmitting ? "각인 중..." : "운명의 여정 시작하기"}
           </button>
