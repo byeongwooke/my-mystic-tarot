@@ -7,6 +7,7 @@ import { TAROT_FORTUNE } from "@/data/tarot/today";
 import { TAROT_SPREAD3 } from "@/data/tarot/spread3";
 import { TAROT_CELTIC } from "@/data/tarot/celtic";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/providers/AuthProvider";
 
 const CATEGORY_MAP: Record<string, string> = {
   '애정운': 'love', 'love': 'love',
@@ -107,6 +108,7 @@ ResultCardItem.displayName = "ResultCardItem";
 function ResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { user } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -334,6 +336,11 @@ function ResultContent() {
                     transition={{ duration: 0.4, ease: "easeOut" }}
                     className="flex flex-col items-center justify-center gap-4 text-center w-full"
                   >
+                    {user?.displayName && (
+                      <div className="text-amber-200/80 font-serif text-base md:text-xl tracking-widest mb-1">
+                        {user.displayName} 님의 운명의 결과
+                      </div>
+                    )}
                     <div className={`text-4xl md:text-6xl font-black tracking-widest uppercase drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] ${
                       !isStop ? 'text-emerald-400 drop-shadow-[0_0_25px_rgba(52,211,153,0.5)]' : 'text-rose-600 drop-shadow-[0_0_35px_rgba(225,29,72,1)]'
                     }`}>
