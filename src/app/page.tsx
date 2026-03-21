@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/providers/AuthProvider';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 
 export default function Home() {
   const router = useRouter();
@@ -12,13 +14,26 @@ export default function Home() {
   useEffect(() => {
     if (loading) return;
 
-    const hasValidName = user?.displayName && !user.displayName.includes('호');
-    const targetPath = hasValidName ? '/select' : '/welcome';
-    const targetBase = hasValidName ? '/select' : '/welcome';
+    const checkDoor = async () => {
+      if (user?.uid) {
+        try {
+          const userDocSnap = await getDoc(doc(db, "users", user.uid));
+          if (userDocSnap.exists()) {
+            const hasValidName = userDocSnap.data().displayName && !userDocSnap.data().displayName.includes('호');
+            const targetBase = hasValidName ? '/select' : '/welcome';
+            if (pathname !== targetBase) router.replace(targetBase);
+          } else {
+            if (pathname !== '/welcome') router.replace('/welcome');
+          }
+        } catch (err) {
+          if (pathname !== '/welcome') router.replace('/welcome');
+        }
+      } else {
+        if (pathname !== '/welcome') router.replace('/welcome');
+      }
+    };
 
-    if (pathname === targetBase) return;
-
-    router.replace(targetPath);
+    checkDoor();
   }, [router, pathname, user, loading]);
 
   return (

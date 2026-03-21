@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { updateProfile } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
-import { doc, setDoc, getDocs, collection, query, where } from 'firebase/firestore';
+import { doc, setDoc, getDoc, getDocs, collection, query, where } from 'firebase/firestore';
 import { useAuth } from '@/providers/AuthProvider';
 
 export default function WelcomePage() {
@@ -21,11 +21,20 @@ export default function WelcomePage() {
     const assignInitialName = async () => {
       if (loading) return; // Loading 방어
 
-      if (user) {
-        // 이름 판정 로직
-        const hasValidName = user.displayName && !user.displayName.includes('호');
-        if (hasValidName) {
-          setName(user.displayName);
+      if (user?.uid) {
+        try {
+          const userDocSnap = await getDoc(doc(db, "users", user.uid));
+          if (userDocSnap.exists()) {
+            const hasValidName = userDocSnap.data().displayName && !userDocSnap.data().displayName.includes('호');
+            if (hasValidName) {
+              setName(userDocSnap.data().displayName);
+            }
+          } else {
+            // 유령 데이터인 경우 강제로 빈 값 처리
+            setName('');
+          }
+        } catch (err) {
+          setName('');
         }
         setIsReady(true);
       }
