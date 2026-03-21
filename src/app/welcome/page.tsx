@@ -25,10 +25,9 @@ export default function WelcomePage() {
         const hasValidName = user.displayName && !user.displayName.includes('호');
         
         if (hasValidName) {
-          // 중복 이동 방지
-          if (pathname !== '/select') {
-            router.replace('/select');
-          }
+          // 리다이렉트 제외: 유저가 폼을 변경하거나 확인 후 버튼을 누를 기회를 줌
+          setName(user.displayName);
+          setIsReady(true);
           return;
         }
 
