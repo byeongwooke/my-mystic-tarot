@@ -3,7 +3,8 @@
 import React, { useState, useEffect, Suspense, useMemo, memo } from "react";
 import { TAROT_BASE, TarotBase } from "@/data/tarot/base";
 import { motion, AnimatePresence } from "framer-motion";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useAuth } from "@/providers/AuthProvider";
 
 // 개별 카드 컴포넌트화하여 React.memo 적용 (불필요한 리렌더링 방지)
 const TarotCardItem = memo(({ 
@@ -66,15 +67,32 @@ TarotCardItem.displayName = "TarotCardItem";
 
 function SelectContent() {
   const router = useRouter();
+  const pathname = usePathname();
   const searchParams = useSearchParams();
   const rawCategory = searchParams.get('category');
   const spreadParam = searchParams.get('spread') || 'basic';
+  const { user, loading } = useAuth();
 
   useEffect(() => {
-    if (!rawCategory) {
-      router.replace('/');
+    if (loading) return; // Loading 방어
+
+    // 이름 판정 로직 통일
+    const hasValidName = user?.displayName && !user.displayName.includes('호');
+
+    if (!hasValidName) {
+      if (pathname !== '/welcome') { // 중복 이동 방지
+        router.replace('/welcome');
+      }
+      return;
     }
-  }, [rawCategory, router]);
+
+    if (!rawCategory) {
+      // 카테고리가 없을 때 '/'로 튕겨서 무한루프 생기는 현상 방지. 임의 해소로 파라미터 부여
+      const targetQuery = '/select?category=today&spread=today';
+      // pathname 자체는 쿼리를 뺀 /select 이므로, 이미 파라미터 없는 상태라면 강제 리다이렉트
+      router.replace(targetQuery);
+    }
+  }, [rawCategory, router, pathname, user, loading]);
 
   const cleanCategory = rawCategory ? rawCategory.replace(/[^\w]/g, '') : '';
 

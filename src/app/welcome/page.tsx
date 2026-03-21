@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { updateProfile } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { doc, setDoc, getDocs, collection, query, where, limit, orderBy, updateDoc, writeBatch } from 'firebase/firestore';
@@ -10,6 +10,7 @@ import { useAuth } from '@/providers/AuthProvider';
 export default function WelcomePage() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
   const [name, setName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -17,12 +18,21 @@ export default function WelcomePage() {
 
   useEffect(() => {
     const assignInitialName = async () => {
-      if (!loading && user) {
-        if (user.displayName && !user.displayName.includes('호')) {
-          router.push('/select');
+      if (loading) return; // Loading 방어
+
+      if (user) {
+        // 이름 판정 로직 통일
+        const hasValidName = user.displayName && !user.displayName.includes('호');
+        
+        if (hasValidName) {
+          // 중복 이동 방지
+          if (pathname !== '/select') {
+            router.replace('/select?category=today&spread=today');
+          }
           return;
         }
 
+        // 이름이 없거나 임시 이름(..호)인 경우 창고에서 배정
         if (!user.displayName) {
           try {
             const poolRef = collection(db, "naming_pool");
@@ -53,7 +63,7 @@ export default function WelcomePage() {
       }
     };
     assignInitialName();
-  }, [user, loading, router]);
+  }, [user, loading, router, pathname]);
 
   const handleStart = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,7 +88,9 @@ export default function WelcomePage() {
           updatedAt: new Date().toISOString()
         }, { merge: true });
         
-        router.push('/select');
+        if (pathname !== '/select') {
+          router.replace('/select?category=today&spread=today');
+        }
       }
     } catch (err) {
       setError("운명의 연결이 불안정합니다.");
