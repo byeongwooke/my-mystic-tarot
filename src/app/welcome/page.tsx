@@ -12,6 +12,7 @@ export default function WelcomePage() {
   const router = useRouter();
   const pathname = usePathname();
   const [name, setName] = useState('');
+  const [pin, setPin] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [isReady, setIsReady] = useState(false);
@@ -67,6 +68,12 @@ export default function WelcomePage() {
   const handleStart = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting || !name.trim()) return;
+
+    if (!/^\d{4}$/.test(pin)) {
+      setError("PIN은 정확히 4자리 숫자여야 합니다.");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -83,6 +90,7 @@ export default function WelcomePage() {
         await updateProfile(user, { displayName: name.trim() });
         await setDoc(doc(db, "users", user.uid), {
           displayName: name.trim(),
+          pin: pin,
           isInitial: false,
           updatedAt: new Date().toISOString()
         }, { merge: true });
@@ -112,14 +120,26 @@ export default function WelcomePage() {
         </div>
 
         <form onSubmit={handleStart} className="space-y-8">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => { setName(e.target.value); setError(''); }}
-            className="w-full border-b-2 border-slate-800 bg-transparent py-4 text-center text-3xl font-bold text-indigo-400 outline-none focus:border-indigo-500 transition-all"
-            placeholder="이름 입력"
-            maxLength={10}
-          />
+          <div className="space-y-4">
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => { setName(e.target.value); setError(''); }}
+              className="w-full border-b-2 border-slate-800 bg-transparent py-4 text-center text-3xl font-bold text-indigo-400 outline-none focus:border-indigo-500 transition-all"
+              placeholder="이름 입력"
+              maxLength={10}
+            />
+            <input
+              type="password"
+              pattern="[0-9]*"
+              inputMode="numeric"
+              value={pin}
+              onChange={(e) => { setPin(e.target.value.replace(/[^0-9]/g, '')); setError(''); }}
+              className="w-full border-b-2 border-slate-800 bg-transparent py-4 text-center text-xl font-bold text-indigo-400 outline-none focus:border-indigo-500 transition-all tracking-[1em]"
+              placeholder="PIN (숫자 4자리)"
+              maxLength={4}
+            />
+          </div>
           {error && <p className="text-sm text-rose-500 animate-pulse">{error}</p>}
           <button
             type="submit"
