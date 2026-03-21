@@ -48,7 +48,7 @@ export default function WelcomePage() {
     try {
       const q = query(collection(db, "users"), where("displayName", "==", typedName));
       const snap = await getDocs(q);
-      
+
       if (!snap.empty) {
         // 기가입자 본인 인증 검사
         const existingData = snap.docs[0].data();
@@ -68,7 +68,7 @@ export default function WelcomePage() {
           isInitial: false,
           updatedAt: new Date().toISOString()
         }, { merge: true });
-        
+
         if (pathname !== '/select') {
           router.replace('/select');
         }
@@ -101,7 +101,7 @@ export default function WelcomePage() {
               value={name}
               onChange={(e) => { setName(e.target.value); setError(''); }}
               className="w-full border-b-2 border-slate-800 bg-transparent py-4 text-center text-3xl font-bold text-indigo-400 outline-none focus:border-indigo-500 transition-all"
-              placeholder="이름 입력"
+              placeholder="닉네임 입력"
               maxLength={10}
             />
             <input
@@ -110,7 +110,7 @@ export default function WelcomePage() {
               inputMode="numeric"
               value={pin}
               onChange={(e) => { setPin(e.target.value.replace(/[^0-9]/g, '')); setError(''); }}
-              className="w-full border-b-2 border-slate-800 bg-transparent py-4 text-center text-xl font-bold text-indigo-400 outline-none focus:border-indigo-500 transition-all tracking-[1em]"
+              className="w-full border-b-2 border-slate-800 bg-transparent py-4 text-center text-xl font-bold text-indigo-400 outline-none focus:border-indigo-500 transition-all tracking-[1em] placeholder:tracking-normal"
               placeholder="password(4자리)"
               maxLength={4}
             />
