@@ -107,7 +107,7 @@ ResultCardItem.displayName = "ResultCardItem";
 
 function ResultContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const { user } = useAuth();  const router = useRouter();
   const { user } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -291,7 +291,7 @@ function ResultContent() {
         <div className="w-20 h-20 mb-6 text-amber-500/50 flex items-center justify-center border-2 border-amber-500/30 rounded-full text-4xl">⚠️</div>
         <h1 className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 tracking-widest">운명의 흐름이 끊겼습니다</h1>
         <p className="text-gray-300 mb-10 tracking-wide text-sm md:text-base leading-relaxed break-keep max-w-sm">
-          정상적인 타로 결과를 불러올 수 없습니다. 카드를 다시 선택해 주세요.
+          정상적인 ${user?.displayName || "인도자"} 님의 운명의 결과를 불러올 수 없습니다. 카드를 다시 선택해 주세요.
         </p>
         <button
           onClick={() => router.push('/')}
