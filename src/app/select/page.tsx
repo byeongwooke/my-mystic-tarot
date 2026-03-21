@@ -5,7 +5,7 @@ import { TAROT_BASE, TarotBase } from "@/data/tarot/base";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
-import { doc, updateDoc, increment } from "firebase/firestore";
+import { doc, updateDoc, increment, getDocs, query, collection, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 // 개별 카드 컴포넌트화하여 React.memo 적용 (불필요한 리렌더링 방지)
@@ -162,14 +162,18 @@ function SelectContent() {
   const handleCheckDestiny = async () => {
     if (selectedCards.length !== maxCards) return;
     
-    if (user?.uid && cleanCategory) {
+    if (user?.displayName && cleanCategory) {
       const complexCategories = ['love', 'money', 'work'];
       const fieldName = complexCategories.includes(cleanCategory) ? `${cleanCategory}_${spreadParam}` : cleanCategory;
       
       try {
-        await updateDoc(doc(db, "users", user.uid), {
-          [`counts.${fieldName}`]: increment(1)
-        });
+        const userQuery = query(collection(db, "users"), where("displayName", "==", user.displayName));
+        const snap = await getDocs(userQuery);
+        if (!snap.empty) {
+          await updateDoc(doc(db, "users", snap.docs[0].id), {
+            [`counts.${fieldName}`]: increment(1)
+          });
+        }
       } catch (err) {
         console.error(err);
       }
