@@ -312,10 +312,10 @@ function ResultContent() {
           정상적인 {user ? (user.displayName || "운명의 인도자") : "운명을 읽는 중..."} 님의 운명의 결과를 불러올 수 없습니다. 카드를 다시 선택해 주세요.
         </p>
         <button
-          onClick={() => router.push('/')}
-          className="px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold rounded-full shadow-[0_0_20px_rgba(251,191,36,0.3)] hover:scale-105 active:scale-95 transition-all tracking-widest"
+          onClick={() => router.push('/select?category=today&spread=today')}
+          className="px-8 py-3 bg-slate-800 text-emerald-500 font-bold rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-105 active:scale-95 transition-all tracking-widest border border-emerald-500/30"
         >
-          메인으로 돌아가기
+          다른 운명 점치기
         </button>
       </main>
     );
@@ -638,10 +638,10 @@ function ResultContent() {
                   </div>
                   
                   <button
-                    onClick={() => router.push('/')}
-                    className="mt-16 px-10 py-4 bg-gradient-to-br from-indigo-900 to-indigo-800 border border-indigo-500/50 text-indigo-100 font-bold rounded-full shadow-[0_0_20px_rgba(79,70,229,0.4)] active:scale-95 transition-all tracking-widest text-lg"
+                    onClick={() => router.push('/select?category=today&spread=today')}
+                    className="mt-16 px-10 py-4 bg-slate-800 border border-emerald-500/50 text-emerald-500 font-bold rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:bg-slate-700 active:scale-95 transition-all tracking-widest text-lg"
                   >
-                    새로운 질문하기
+                    다른 운명 점치기
                   </button>
                 </motion.div>
               )}
@@ -764,10 +764,10 @@ function ResultContent() {
             본 결과는 삶의 방향을 잡기 위한 참고용이며, 진정한 운명은 스스로 개척하는 것입니다.
           </p>
           <button
-            onClick={() => router.push('/')}
-            className="w-full max-w-sm py-4 md:py-6 bg-gradient-to-r from-amber-600 to-amber-500 text-white font-bold text-xl rounded-full shadow-[0_0_30px_rgba(251,191,36,0.3)] hover:shadow-[0_0_50px_rgba(251,191,36,0.6)] hover:scale-105 active:scale-95 transition-all tracking-widest border border-amber-300/50"
+            onClick={() => router.push('/select?category=today&spread=today')}
+            className="w-full max-w-sm py-4 md:py-6 bg-slate-800 text-emerald-500 font-bold text-xl rounded-full shadow-[0_0_30px_rgba(16,185,129,0.3)] hover:shadow-[0_0_50px_rgba(16,185,129,0.5)] hover:bg-slate-700 hover:scale-105 active:scale-95 transition-all tracking-widest border border-emerald-500/50"
           >
-            새로운 운명 펼치기
+            다른 운명 점치기
           </button>
         </motion.div>
       </div>
