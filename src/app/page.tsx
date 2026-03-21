@@ -1,3 +1,4 @@
+import IdentityModal from "@/components/IdentityModal";
 "use client";
 
 import { motion } from "framer-motion";
