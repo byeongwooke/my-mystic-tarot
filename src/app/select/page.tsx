@@ -5,6 +5,8 @@ import { TAROT_BASE, TarotBase } from "@/data/tarot/base";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
+import { doc, updateDoc, increment } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 // 개별 카드 컴포넌트화하여 React.memo 적용 (불필요한 리렌더링 방지)
 const TarotCardItem = memo(({ 
@@ -157,9 +159,22 @@ function SelectContent() {
     setSelectedCards(prev => [...prev, { id: cardId, role: roles[prev.length], isReversed: Math.random() < 0.5 }]);
   };
 
-  const handleCheckDestiny = () => {
+  const handleCheckDestiny = async () => {
     if (selectedCards.length !== maxCards) return;
     
+    if (user?.uid && cleanCategory) {
+      const validCategories = ['today', 'love', 'money', 'work', 'worry'];
+      if (validCategories.includes(cleanCategory)) {
+        try {
+          await updateDoc(doc(db, "users", user.uid), {
+            [`counts.${cleanCategory}`]: increment(1)
+          });
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    }
+
     const sortedSelections = [...selectedCards].sort((a, b) => roles.indexOf(a.role) - roles.indexOf(b.role));
     const sortedIds = sortedSelections.map(c => `${c.id}${c.isReversed ? 'r' : ''}`).join(',');
     
