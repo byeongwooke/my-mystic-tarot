@@ -163,15 +163,15 @@ function SelectContent() {
     if (selectedCards.length !== maxCards) return;
     
     if (user?.uid && cleanCategory) {
-      const validCategories = ['today', 'love', 'money', 'work', 'worry'];
-      if (validCategories.includes(cleanCategory)) {
-        try {
-          await updateDoc(doc(db, "users", user.uid), {
-            [`counts.${cleanCategory}`]: increment(1)
-          });
-        } catch (err) {
-          console.error(err);
-        }
+      const complexCategories = ['love', 'money', 'work'];
+      const fieldName = complexCategories.includes(cleanCategory) ? `${cleanCategory}_${spreadParam}` : cleanCategory;
+      
+      try {
+        await updateDoc(doc(db, "users", user.uid), {
+          [`counts.${fieldName}`]: increment(1)
+        });
+      } catch (err) {
+        console.error(err);
       }
     }
 
