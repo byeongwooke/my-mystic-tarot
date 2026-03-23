@@ -7,6 +7,7 @@ import { TAROT_FORTUNE } from "@/data/tarot/today";
 import { TAROT_SPREAD3 } from "@/data/tarot/spread3";
 import { TAROT_CELTIC } from "@/data/tarot/celtic";
 import { CELTIC_LAYOUT_INFO } from "@/constants/tarot";
+import { getDailyCardCondition } from "@/utils/cardCondition";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/providers/AuthProvider";
 import { saveTarotResult } from "@/lib/tarot";
@@ -60,6 +61,11 @@ const ResultCardItem = memo(({
 
   const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 
+  const condition = getDailyCardCondition(cardData.id);
+  const filterStyle = {
+    filter: `sepia(${condition.level * 5}%) saturate(${100 - (condition.level * 3)}%) brightness(${100 - (condition.level * 2)}%) contrast(${100 + (condition.level * 1)}%)`
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -79,27 +85,37 @@ const ResultCardItem = memo(({
             {romanNumerals[idx || 0]}
           </span>
         )}
-        {cardData.id <= 21 ? (
-          <>
-            <img
-              src={`/images/cards/${cardData.id}.webp`}
-              alt={cardData.nameKr}
-              loading="lazy"
-              className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isReversed ? 'rotate-180' : ''}`}
-            />
-            <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent ${isCeltic ? 'pt-6 pb-1' : 'pt-8 pb-2'} px-1`}>
-              <div className={`${isCeltic ? 'text-[8px] md:text-[10px]' : 'text-[9px] md:text-sm'} font-bold text-amber-400 text-center drop-shadow-md tracking-tighter`}>
-                {cardData.nameKr}
+        <div className="absolute inset-0 w-full h-full" style={filterStyle}>
+          {cardData.id <= 21 ? (
+            <>
+              <img
+                src={`/images/cards/${cardData.id}.webp`}
+                alt={cardData.nameKr}
+                loading="lazy"
+                className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isReversed ? 'rotate-180' : ''}`}
+              />
+              <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent ${isCeltic ? 'pt-6 pb-1' : 'pt-8 pb-2'} px-1`}>
+                <div className={`${isCeltic ? 'text-[8px] md:text-[10px]' : 'text-[9px] md:text-sm'} font-bold text-amber-400 text-center drop-shadow-md tracking-tighter`}>
+                  {cardData.nameKr}
+                </div>
               </div>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="absolute inset-1 border border-amber-500/20 rounded-lg"></div>
-            <div className={`${isCeltic ? 'text-[9px] md:text-sm' : 'text-[11px] md:text-lg'} font-bold text-amber-200 text-center px-1 md:px-4 leading-relaxed break-keep z-10`}>{cardData.nameKr}</div>
-            <div className={`${isCeltic ? 'hidden md:block text-[8px]' : 'text-[9px] md:text-xs'} font-bold text-amber-400/60 mt-2 z-10 text-center px-1 tracking-widest uppercase`}>{cardData.name}</div>
-          </>
-        )}
+            </>
+          ) : (
+            <>
+              <div className="absolute inset-1 border border-amber-500/20 rounded-lg"></div>
+              <div className="flex flex-col h-full w-full justify-center">
+                <div className={`${isCeltic ? 'text-[9px] md:text-sm' : 'text-[11px] md:text-lg'} font-bold text-amber-200 text-center px-1 md:px-4 leading-relaxed break-keep z-10`}>{cardData.nameKr}</div>
+                <div className={`${isCeltic ? 'hidden md:block text-[8px]' : 'text-[9px] md:text-xs'} font-bold text-amber-400/60 mt-2 z-10 text-center px-1 tracking-widest uppercase`}>{cardData.name}</div>
+              </div>
+            </>
+          )}
+        </div>
+        
+        {/* Dynamic Condition Overlays */}
+        <div className="absolute inset-0 bg-black mix-blend-overlay pointer-events-none" style={{ opacity: condition.level * 0.05 }}></div>
+        {condition.hasStain && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stucco.png')] mix-blend-overlay opacity-50 pointer-events-none z-20"></div>}
+        {condition.hasScratch && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')] mix-blend-overlay opacity-40 pointer-events-none z-20"></div>}
+        {condition.hasGlint && <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-amber-300/40 to-transparent mix-blend-overlay animate-[shimmer_3s_infinite] pointer-events-none z-20"></div>}
       </div>
     </motion.div>
   );

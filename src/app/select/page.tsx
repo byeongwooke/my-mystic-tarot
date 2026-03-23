@@ -4,6 +4,7 @@ import React, { useState, useEffect, Suspense, useMemo, memo } from "react";
 import { TAROT_BASE, TarotBase } from "@/data/tarot/base";
 import { TAROT_CELTIC } from "@/data/tarot/celtic";
 import { CELTIC_LAYOUT_INFO } from "@/constants/tarot";
+import { getDailyCardCondition } from "@/utils/cardCondition";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
@@ -20,6 +21,11 @@ const TarotCardItem = memo(({
   isSelected: boolean, 
   onCardClick: (id: number) => void 
 }) => {
+  const condition = getDailyCardCondition(card.id);
+  const filterStyle = {
+    filter: `sepia(${condition.level * 5}%) saturate(${100 - (condition.level * 3)}%) brightness(${100 - (condition.level * 2)}%) contrast(${100 + (condition.level * 1)}%)`
+  };
+
   return (
     <div className="relative flex-shrink-0" style={{ perspective: "1500px" }}>
       {/* Placeholder - 카드 크기 일치화 (96x150 / 165x270) */}
@@ -63,7 +69,7 @@ const TarotCardItem = memo(({
         >
           <div
             className="w-full h-full rounded-xl flex items-center justify-center overflow-hidden"
-            style={{ backfaceVisibility: "hidden" }}
+            style={{ backfaceVisibility: "hidden", ...filterStyle }}
           >
             <img 
               src="/images/card_back.webp" 
@@ -71,6 +77,11 @@ const TarotCardItem = memo(({
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 shadow-[inset_0_0_10px_rgba(255,255,255,0.1)] rounded-xl pointer-events-none border border-white/10 mix-blend-overlay"></div>
+            {/* Dynamic Condition Overlays */}
+            <div className="absolute inset-0 bg-black mix-blend-overlay pointer-events-none" style={{ opacity: condition.level * 0.05 }}></div>
+            {condition.hasStain && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stucco.png')] mix-blend-overlay opacity-50 pointer-events-none z-20"></div>}
+            {condition.hasScratch && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')] mix-blend-overlay opacity-40 pointer-events-none z-20"></div>}
+            {condition.hasGlint && <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-amber-300/40 to-transparent mix-blend-overlay animate-[shimmer_3s_infinite] pointer-events-none z-20"></div>}
           </div>
         </motion.div>
       )}
@@ -456,30 +467,41 @@ function SelectContent() {
                       {romanNumerals[idx]}
                     </span>
                   )}
-                  {isFilled && selectedCardData && (
-                    <motion.div
-                      layoutId={`card-${selectedCardData.id}`}
-                      onClick={() => handleCardClick(selectedCardData.id)}
-                      className="absolute inset-0 cursor-pointer pointer-events-auto"
-                      style={{ transformStyle: "preserve-3d" }}
-                      initial={{ rotateY: 180, boxShadow: "0px 30px 60px rgba(0,0,0,0.8)" }}
-                      animate={{ rotateY: 0, boxShadow: "0px 10px 20px rgba(0,0,0,0.4)" }}
-                      whileHover={{ scale: 1.05, rotateY: 5, rotateX: 5, boxShadow: "10px 20px 40px rgba(0,0,0,0.6)" }}
-                      transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-                    >
-                      <div
-                        className="w-full h-full rounded-xl overflow-hidden flex items-center justify-center"
-                        style={{ backfaceVisibility: "hidden" }}
+                  {isFilled && selectedCardData && (() => {
+                    const condition = getDailyCardCondition(selectedCardData.id);
+                    const filterStyle = {
+                      filter: `sepia(${condition.level * 5}%) saturate(${100 - (condition.level * 3)}%) brightness(${100 - (condition.level * 2)}%) contrast(${100 + (condition.level * 1)}%)`
+                    };
+                    return (
+                      <motion.div
+                        layoutId={`card-${selectedCardData.id}`}
+                        onClick={() => handleCardClick(selectedCardData.id)}
+                        className="absolute inset-0 cursor-pointer pointer-events-auto"
+                        style={{ transformStyle: "preserve-3d" }}
+                        initial={{ rotateY: 180, boxShadow: "0px 30px 60px rgba(0,0,0,0.8)" }}
+                        animate={{ rotateY: 0, boxShadow: "0px 10px 20px rgba(0,0,0,0.4)" }}
+                        whileHover={{ scale: 1.05, rotateY: 5, rotateX: 5, boxShadow: "10px 20px 40px rgba(0,0,0,0.6)" }}
+                        transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
                       >
-                        <img 
-                          src="/images/card_back.webp" 
-                          alt="카드 뒷면" 
-                          className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 shadow-[inset_0_0_10px_rgba(255,255,255,0.1)] rounded-xl pointer-events-none border border-white/10 mix-blend-overlay"></div>
-                      </div>
-                    </motion.div>
-                  )}
+                        <div
+                          className="w-full h-full rounded-xl overflow-hidden flex items-center justify-center"
+                          style={{ backfaceVisibility: "hidden", ...filterStyle }}
+                        >
+                          <img 
+                            src="/images/card_back.webp" 
+                            alt="카드 뒷면" 
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 shadow-[inset_0_0_10px_rgba(255,255,255,0.1)] rounded-xl pointer-events-none border border-white/10 mix-blend-overlay"></div>
+                          {/* Dynamic Condition Overlays */}
+                          <div className="absolute inset-0 bg-black mix-blend-overlay pointer-events-none" style={{ opacity: condition.level * 0.05 }}></div>
+                          {condition.hasStain && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stucco.png')] mix-blend-overlay opacity-50 pointer-events-none z-20"></div>}
+                          {condition.hasScratch && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')] mix-blend-overlay opacity-40 pointer-events-none z-20"></div>}
+                          {condition.hasGlint && <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-amber-300/40 to-transparent mix-blend-overlay animate-[shimmer_3s_infinite] pointer-events-none z-20"></div>}
+                        </div>
+                      </motion.div>
+                    );
+                  })()}
                 </div>
               </div>
             );
