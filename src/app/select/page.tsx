@@ -21,7 +21,7 @@ const TarotCardItem = memo(({
   onCardClick: (id: number) => void 
 }) => {
   return (
-    <div className="relative flex-shrink-0 perspective-1000">
+    <div className="relative flex-shrink-0" style={{ perspective: "1500px" }}>
       {/* Placeholder - 카드 크기 일치화 (96x150 / 165x270) */}
       <div className="w-[96px] h-[150px] md:w-[165px] md:h-[270px] invisible" />
       
@@ -31,35 +31,46 @@ const TarotCardItem = memo(({
           onClick={() => onCardClick(card.id)}
           className="absolute inset-0 cursor-pointer pointer-events-auto"
           style={{ transformStyle: "preserve-3d" }}
-          initial={{ opacity: 0, scale: 0.8, y: 50 }}
+          initial={{ opacity: 0, scale: 0.8, y: 50, rotateY: 0, boxShadow: "0px 10px 20px rgba(0,0,0,0.3)" }}
           whileInView={{ 
             scale: 1.25,
             zIndex: 150,
             transition: { type: "spring", stiffness: 150, damping: 25, zIndex: { duration: 0 } }
           }}
           viewport={{ amount: 0.2, margin: "-5% 0px -5% 0px" }}
-          animate={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0, rotateY: 0, boxShadow: "0px 15px 30px rgba(0,0,0,0.4)" }}
           exit={{ opacity: 0, scale: 0.5 }}
+          whileHover={{
+            scale: 1.3,
+            rotateY: -5,
+            rotateX: 10,
+            boxShadow: "20px 30px 50px rgba(0,0,0,0.6)",
+            transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] }
+          }}
           whileTap={{ 
             y: -40, 
             scale: 1.35,
+            rotateY: 15,
+            rotateX: 5,
+            boxShadow: "10px 40px 60px rgba(0,0,0,0.7)",
             zIndex: 200,
-            transition: { zIndex: { duration: 0 } }
+            transition: { zIndex: { duration: 0 }, duration: 0.8, ease: [0.4, 0, 0.2, 1] }
           }}
           transition={{ 
-            type: "spring", 
-            stiffness: 300, 
-            damping: 30 
+            duration: 0.8,
+            ease: [0.4, 0, 0.2, 1]
           }}
         >
           <div
-            className="w-full h-full rounded-xl border border-[#D4AF37] bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center shadow-[0_4px_15px_rgba(0,0,0,0.6)] overflow-hidden"
+            className="w-full h-full rounded-xl flex items-center justify-center overflow-hidden"
             style={{ backfaceVisibility: "hidden" }}
           >
-            <div className="absolute inset-1 border border-[#D4AF37]/40 rounded-lg"></div>
-            <div className="w-6 h-6 md:w-8 md:h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45">
-              <div className="w-2 h-2 md:w-3 md:h-3 bg-[#D4AF37]/40 rounded-full"></div>
-            </div>
+            <img 
+              src="/images/card_back.webp" 
+              alt="카드 뒷면" 
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 shadow-[inset_0_0_10px_rgba(255,255,255,0.1)] rounded-xl pointer-events-none border border-white/10 mix-blend-overlay"></div>
           </div>
         </motion.div>
       )}
@@ -435,12 +446,13 @@ function SelectContent() {
                   </div>
                 )}
                 
-                <div className={`relative ${slotWidthClass} rounded-xl transition-all duration-700 flex items-center justify-center ${isFilled
-                  ? 'border-transparent bg-transparent shadow-[0_0_80px_rgba(251,191,36,0.3)]'
-                  : 'border-[1px] border-amber-500/30 bg-black/40 shadow-inner backdrop-blur-sm'
-                  }`}>
+                <div className={`relative ${slotWidthClass} rounded-xl transition-all duration-700 flex items-center justify-center`} style={{ perspective: "1500px" }}>
+                  <div className={`absolute inset-0 rounded-xl transition-all duration-700 ${isFilled
+                    ? 'border-transparent bg-transparent shadow-[0_0_80px_rgba(251,191,36,0.3)]'
+                    : 'border-[1px] border-amber-500/30 bg-black/40 shadow-inner backdrop-blur-sm'
+                  }`}></div>
                   {isCeltic && !isFilled && (
-                    <span className="absolute text-amber-500/40 font-serif text-[10px] md:text-xs tracking-widest pointer-events-none">
+                    <span className="absolute text-amber-500/40 font-serif text-[10px] md:text-xs tracking-widest pointer-events-none z-10">
                       {romanNumerals[idx]}
                     </span>
                   )}
@@ -448,17 +460,23 @@ function SelectContent() {
                     <motion.div
                       layoutId={`card-${selectedCardData.id}`}
                       onClick={() => handleCardClick(selectedCardData.id)}
-                      className="relative cursor-pointer pointer-events-auto w-full h-full"
+                      className="absolute inset-0 cursor-pointer pointer-events-auto"
                       style={{ transformStyle: "preserve-3d" }}
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                      initial={{ rotateY: 180, boxShadow: "0px 30px 60px rgba(0,0,0,0.8)" }}
+                      animate={{ rotateY: 0, boxShadow: "0px 10px 20px rgba(0,0,0,0.4)" }}
+                      whileHover={{ scale: 1.05, rotateY: 5, rotateX: 5, boxShadow: "10px 20px 40px rgba(0,0,0,0.6)" }}
+                      transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
                     >
                       <div
-                        className="absolute inset-0 w-full h-full rounded-xl border border-amber-300 overflow-hidden bg-gradient-to-br from-[#191970] via-indigo-950 to-[#191970] flex items-center justify-center shadow-[0_0_25px_rgba(212,175,55,0.7)]"
+                        className="w-full h-full rounded-xl overflow-hidden flex items-center justify-center"
+                        style={{ backfaceVisibility: "hidden" }}
                       >
-                        <div className="absolute inset-1 border border-[#D4AF37]/40 rounded-lg"></div>
-                        <div className="w-6 h-6 md:w-8 md:h-8 border border-[#D4AF37]/50 rounded-full flex items-center justify-center rotate-45">
-                          <div className="w-2 h-2 md:w-3 md:h-3 bg-[#D4AF37]/40 rounded-full"></div>
-                        </div>
+                        <img 
+                          src="/images/card_back.webp" 
+                          alt="카드 뒷면" 
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 shadow-[inset_0_0_10px_rgba(255,255,255,0.1)] rounded-xl pointer-events-none border border-white/10 mix-blend-overlay"></div>
                       </div>
                     </motion.div>
                   )}
