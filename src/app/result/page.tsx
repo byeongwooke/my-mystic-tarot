@@ -6,6 +6,7 @@ import { TAROT_BASE } from "@/data/tarot/base";
 import { TAROT_FORTUNE } from "@/data/tarot/today";
 import { TAROT_SPREAD3 } from "@/data/tarot/spread3";
 import { TAROT_CELTIC } from "@/data/tarot/celtic";
+import { CELTIC_LAYOUT_INFO } from "@/constants/tarot";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/providers/AuthProvider";
 import { saveTarotResult } from "@/lib/tarot";
@@ -149,7 +150,7 @@ function ResultContent() {
 
     const roles = spreadParam === 'today' ? ["오늘의 카드"] : 
       spreadParam === 'celtic' ? 
-      ["지금, 당신의 중심 (현재)", "나를 가로막는 벽 (장애물)", "인지하지 못한 근본 (무의식/기반)", "지나온 시간의 잔상 (과거)", "의식의 지향점 (목표/의식)", "곧 마주할 상황 (가까운 미래)", "스스로 정의하는 나 (태도/자아)", "나를 둘러싼 환경 (주변 상황)", "내면의 기대와 불안 (심리)", "마주하게 될 결과 (결과)"] :
+      CELTIC_LAYOUT_INFO.map(info => `${info.labelKr} (${info.labelEn})`) :
       ["과거", "현재", "미래"];
 
     const cardSelections = cardsParam.split(',').map(val => ({ id: parseInt(val, 10), isReversed: val.endsWith('r') }));
@@ -249,19 +250,8 @@ function ResultContent() {
     const catCelticData = cardData.celtic[targetCat];
     if (!catCelticData) return "운명의 메시지를 준비 중입니다";
 
-    switch(idx) {
-        case 0: return catCelticData.core || "운명의 메시지를 준비 중입니다";
-        case 1: return catCelticData.obstacle || "운명의 메시지를 준비 중입니다";
-        case 2: return catCelticData.foundation || "운명의 메시지를 준비 중입니다";
-        case 3: return catCelticData.foundation || "운명의 메시지를 준비 중입니다";
-        case 4: return catCelticData.core || "운명의 메시지를 준비 중입니다";
-        case 5: return catCelticData.nearFuture || "운명의 메시지를 준비 중입니다";
-        case 6: return catCelticData.influence || "운명의 메시지를 준비 중입니다";
-        case 7: return catCelticData.influence || "운명의 메시지를 준비 중입니다";
-        case 8: return catCelticData.destiny || "운명의 메시지를 준비 중입니다";
-        case 9: return catCelticData.destiny || "운명의 메시지를 준비 중입니다";
-        default: return catCelticData.core || "운명의 메시지를 준비 중입니다";
-    }
+    const key = CELTIC_LAYOUT_INFO[idx]?.key as keyof typeof catCelticData;
+    return key && catCelticData[key] ? catCelticData[key] : "운명의 메시지를 준비 중입니다";
   };
 
   const overallAdvice = useMemo(() => {
@@ -533,9 +523,21 @@ function ResultContent() {
                       </p>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-4 md:space-y-6">
+                      {spread === 'celtic' && CELTIC_LAYOUT_INFO[activeCardIdx] && (
+                        <div className="bg-amber-900/10 border-l-4 border-amber-500/50 p-4 md:p-5 rounded-r-xl">
+                           <div className="flex items-center gap-3 mb-2">
+                             <span className="text-amber-500/90 font-bold text-xs md:text-sm tracking-widest bg-amber-500/10 px-2 py-0.5 rounded">{CELTIC_LAYOUT_INFO[activeCardIdx].labelEn.toUpperCase()}</span>
+                             <span className="text-gray-200 font-bold tracking-widest text-sm md:text-base">{CELTIC_LAYOUT_INFO[activeCardIdx].labelKr}</span>
+                           </div>
+                           <p className="text-amber-100/70 text-sm md:text-[15px] leading-relaxed break-keep">
+                             {CELTIC_LAYOUT_INFO[activeCardIdx].desc}
+                           </p>
+                        </div>
+                      )}
+
                       <div className="bg-gradient-to-br from-indigo-900/30 to-black/40 border border-indigo-500/30 p-5 md:p-6 rounded-2xl relative">
-                        <span className="absolute -top-3 left-4 bg-indigo-900 border border-indigo-500/50 px-3 py-1 text-xs text-indigo-200 rounded-full tracking-widest">카드의 해석</span>
+                        <span className="absolute -top-3 left-4 bg-indigo-900 border border-indigo-500/50 px-3 py-1 text-xs text-indigo-200 rounded-full tracking-widest">일반적인 카드의 해석</span>
                         <p className="text-indigo-100/90 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif">
                           {getInterpretationText(cardsInfo[activeCardIdx])}
                         </p>
