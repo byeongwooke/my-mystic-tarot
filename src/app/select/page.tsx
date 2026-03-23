@@ -157,8 +157,18 @@ function SelectContent() {
     }
     setCards(shuffledIds.map(id => TAROT_BASE[id] || TAROT_BASE[0]));
 
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      setShowHomeModal(false);
+      setIsModalOpen(false);
+      setModalStep(0);
+    };
   }, []);
+
+  // ✅ 질문/모드가 바뀌거나 진입할 때 무조건 카드 선택 내역 초기화 (Reset on Mount)
+  useEffect(() => {
+    setSelectedCards([]);
+  }, [cleanCategory, spreadParam]);
 
   const handleCardClick = (cardId: number) => {
     if (!cleanCategory) return;
@@ -291,7 +301,13 @@ function SelectContent() {
       {/* 상단 스테이지 */}
       <div className="w-full flex flex-col items-center justify-start relative z-10 border-b-4 border-indigo-900 bg-slate-900/50 shadow-[0_15px_50px_rgba(0,0,0,0.8)] pb-6 px-4">
         <button 
-          onClick={() => setShowHomeModal(!showHomeModal)}
+          onClick={() => {
+            if (spreadParam === 'today') {
+              router.push('/');
+            } else {
+              setShowHomeModal(!showHomeModal);
+            }
+          }}
           className="fixed top-[calc(env(safe-area-inset-top)+0.85rem)] left-2 md:left-6 text-amber-400/50 active:text-amber-400 transition-colors z-[50] p-2"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-6 h-6 md:w-8 md:h-8">
@@ -321,7 +337,7 @@ function SelectContent() {
                 transition={{ duration: 0.3 }}
                 className="text-xl md:text-2xl font-bold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep w-full"
               >
-                질문 선택 화면으로 돌아가시겠습니까?
+                배열법 선택 화면으로 돌아가시겠습니까?
               </motion.h1>
             )}
           </AnimatePresence>
@@ -360,7 +376,10 @@ function SelectContent() {
                   아니오
                 </button>
                 <button
-                  onClick={() => router.push('/select')}
+                  onClick={() => {
+                    setShowHomeModal(false);
+                    router.push(`/spread?category=${cleanCategory}`);
+                  }}
                   className="px-6 py-2 rounded-full bg-amber-500/20 border border-amber-500/50 text-amber-400 text-sm md:text-base font-bold active:bg-amber-500/40 shadow-[0_0_15px_rgba(251,191,36,0.2)] transition-all tracking-widest"
                 >
                   예

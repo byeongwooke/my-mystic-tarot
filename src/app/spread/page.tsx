@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useMemo, useState } from "react";
+import React, { Suspense, useMemo, useState } from "react";
 
 function SpreadContent() {
   const router = useRouter();
@@ -10,6 +10,11 @@ function SpreadContent() {
   const rawCategory = searchParams.get('category');
   const category = rawCategory ? rawCategory.replace(/[^\w]/g, '') : null;
   const [showHomeModal, setShowHomeModal] = useState(false);
+
+  // ✅ 언마운트 시 모달 상태 초기화 (Prompt Cleanup)
+  React.useEffect(() => {
+    return () => setShowHomeModal(false);
+  }, []);
 
   const displayCategory = useMemo(() => {
     const categoryNameMap: Record<string, string> = {
