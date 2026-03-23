@@ -473,10 +473,10 @@ function SelectContent() {
                         onClick={() => handleCardClick(selectedCardData.id)}
                         className="absolute inset-0 cursor-pointer pointer-events-auto"
                         style={{ transformStyle: "preserve-3d" }}
-                        initial={{ rotateY: 180, boxShadow: "0px 30px 60px rgba(0,0,0,0.8)" }}
-                        animate={{ rotateY: 0, boxShadow: "0px 10px 20px rgba(0,0,0,0.4)" }}
+                        initial={{ opacity: 0.3, rotateY: 180, boxShadow: "0px 30px 60px rgba(0,0,0,0.8)" }}
+                        animate={{ opacity: 1, rotateY: 0, boxShadow: "0px 10px 20px rgba(0,0,0,0.4)" }}
                         whileHover={{ scale: 1.05, rotateY: 5, rotateX: 5, boxShadow: "10px 20px 40px rgba(0,0,0,0.6)" }}
-                        transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+                        transition={{ type: "spring", stiffness: 300, damping: 30, opacity: { duration: 0.8, ease: [0.4, 0, 0.2, 1] } }}
                       >
                         <div
                           className="w-full h-full rounded-xl overflow-hidden flex items-center justify-center"
