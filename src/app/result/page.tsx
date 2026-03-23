@@ -403,19 +403,25 @@ function ResultContent() {
         </div>
 
         {spread === 'celtic' ? (
-          <div className="w-full flex flex-col items-center">
-            {/* 배열 영역 토글 버튼 */}
+          <div className="w-full flex flex-col items-center pb-20 px-4 md:px-0">
+            {/* 1. 최종 결론 */}
+            {cardsInfo[9] && (
+              <div className="w-full max-w-4xl mx-auto conclusion-box mb-8 p-6 md:p-10 bg-emerald-900/20 rounded-2xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)] backdrop-blur-sm">
+                <h3 className="text-emerald-400 text-sm md:text-base mb-4 font-bold tracking-widest text-center uppercase">최종 운명의 결론</h3>
+                <p className="text-white text-lg md:text-2xl text-center leading-relaxed font-serif break-keep">
+                  "{getCelticInterpretation(cardsInfo[9].cardData, 9)}"
+                </p>
+              </div>
+            )}
+
+            {/* 2. 배열도 토글 및 펼치기 */}
             <button 
               onClick={() => setIsGridFolded(!isGridFolded)}
-              className="flex items-center justify-center gap-2 mb-2 px-6 py-2 rounded-full border border-amber-500/30 text-amber-500/80 hover:text-amber-400 hover:bg-amber-500/10 active:bg-amber-500/20 transition-all font-semibold tracking-widest text-xs md:text-sm"
+              className="w-full py-4 text-xs md:text-sm text-gray-500 hover:text-emerald-400 underline underline-offset-4 mb-4 transition-colors tracking-widest text-center"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className={`w-4 h-4 transition-transform duration-300 ${isGridFolded ? 'rotate-180' : ''}`}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
-              </svg>
-              {isGridFolded ? "배열 다시 보기" : "배열 숨기기"}
+              {isGridFolded ? "배열도 펼쳐보기" : "배열도 접기"}
             </button>
 
-            {/* 셀틱 크로스 10카드 절대좌표 그리드 */}
             <motion.div 
               initial={false}
               animate={{ 
@@ -429,10 +435,8 @@ function ResultContent() {
               style={{ pointerEvents: isGridFolded ? 'none' : 'auto' }}
             >
               {cardsInfo.map((item, idx) => {
-                const isActive = idx === activeCardIdx;
-                const cardW = isMobile ? 64 : 110;
-                const cardH = isMobile ? 100 : 171;
-                const gapX = isMobile ? 74 : 140; // slightly larger for result card sizes
+                const isActive = false;
+                const gapX = isMobile ? 74 : 140; 
                 const gapY = isMobile ? 104 : 190;
                 
                 const crossCx = `calc(50% - ${gapX}px)`;
@@ -442,14 +446,14 @@ function ResultContent() {
                 let left = '50%';
                 let top = '50%';
                 let transform = 'translate(-50%, -50%)';
-                let zIndex = isActive ? 60 : 10;
+                let zIndex = 10;
                 
                 if (idx === 0) {
-                  left = crossCx; top = crossCy; zIndex = isActive ? 60 : 10;
+                  left = crossCx; top = crossCy; zIndex = 10;
                 } else if (idx === 1) {
                   left = crossCx; top = crossCy; 
                   transform = 'translate(-50%, -50%) rotate(90deg)';
-                  zIndex = isActive ? 60 : 11;
+                  zIndex = 11;
                 } else if (idx === 2) {
                   left = crossCx; top = `calc(50% + ${gapY}px)`; 
                 } else if (idx === 3) {
@@ -476,7 +480,6 @@ function ResultContent() {
                       isLarge={false}
                       isCeltic={true}
                       isActive={isActive}
-                      onClick={() => setActiveCardIdx(idx)}
                       idx={idx}
                     />
                   </div>
@@ -484,163 +487,46 @@ function ResultContent() {
               })}
             </motion.div>
 
-            {/* 활성 카드 상세 해석 (모달 대체 인라인 표시, 스와이프 기능 적용) */}
-            <div className="w-full max-w-3xl overflow-hidden relative">
-              <AnimatePresence mode="wait" custom={swipeDir}>
-                {cardsInfo[activeCardIdx] && (
-                  <motion.div
-                    key={"celtic-detail-" + activeCardIdx}
-                    custom={swipeDir}
-                    initial={{ opacity: 0, x: swipeDir === 1 ? 50 : -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: swipeDir === 1 ? -50 : 50 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.2}
-                    onDragEnd={(e, { offset, velocity }) => {
-                      const swipe = swipeDir;
-                      if (offset.x < -50 && activeCardIdx < 9) {
-                        setSwipeDir(1);
-                        setActiveCardIdx(prev => prev + 1);
-                        if (!isGridFolded) setIsGridFolded(true);
-                      } else if (offset.x > 50 && activeCardIdx > 0) {
-                        setSwipeDir(-1);
-                        setActiveCardIdx(prev => prev - 1);
-                        if (!isGridFolded) setIsGridFolded(true);
-                      }
-                    }}
-                    className="w-full bg-slate-800/80 backdrop-blur-md rounded-3xl p-6 md:p-10 border border-amber-500/30 shadow-[0_0_50px_rgba(0,0,0,0.8)] flex flex-col relative"
-                  >
-                    <div className="absolute top-0 right-0 p-8 text-8xl text-white/[0.03] font-black italic pointer-events-none">
-                      {activeCardIdx + 1}
+            {/* 3. 카드 기술 정보 목록 */}
+            <div className="w-full max-w-4xl space-y-4 md:space-y-6 mt-12 mb-16">
+              <h3 className="text-xl md:text-2xl text-amber-500 font-bold mb-6 tracking-widest border-b border-amber-500/30 pb-4">상세 기술 정보</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                {cardsInfo.map((card, idx) => (
+                  <div key={idx} className="card-info-item bg-black/40 p-5 rounded-2xl border border-white/5">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-gray-500 font-bold text-xs bg-white/5 px-2 py-0.5 rounded">[{idx + 1}]</span>
+                      <span className="text-gray-300 text-xs tracking-widest uppercase">{CELTIC_LAYOUT_INFO[idx]?.labelKr}</span>
                     </div>
-                    
-                    <div className="flex flex-col items-center mb-8 border-b border-amber-500/20 pb-6">
-                      <span className="text-amber-500 mb-2 font-bold tracking-widest text-sm md:text-base border border-amber-500/50 px-3 py-1 rounded-full text-center">
-                        {renderRoleWithStyles(cardsInfo[activeCardIdx].role)}
-                      </span>
-                      {spread === 'celtic' && CELTIC_LAYOUT_INFO[activeCardIdx] && (
-                        <p className="text-gray-400 text-xs md:text-[13px] opacity-90 leading-relaxed break-keep mt-1.5 text-center px-4">
-                          {CELTIC_LAYOUT_INFO[activeCardIdx].desc}
-                        </p>
-                      )}
-                      <h2 className="text-2xl md:text-4xl font-bold text-amber-300 tracking-widest text-center mt-6 flex items-center justify-center gap-3">
-                        {cardsInfo[activeCardIdx].cardData.nameKr}
-                      </h2>
-                      <p className="text-amber-200/60 mt-2 text-sm md:text-md tracking-widest uppercase text-center">{cardsInfo[activeCardIdx].cardData.name}</p>
-                      <p className="text-amber-100/80 mt-4 tracking-wide text-sm md:text-base text-center break-keep">
-                        "{cardsInfo[activeCardIdx].cardData.keywords.join(' · ')}"
-                      </p>
+                    <div className="text-white font-bold text-base md:text-lg tracking-wider mb-2">
+                      {card.cardData.nameKr} <span className="text-gray-400 text-sm font-normal">({card.cardData.name})</span> {card.isReversed ? <span className="text-rose-400 text-sm ml-1">(역방향)</span> : <span className="text-emerald-400 text-sm ml-1">(정방향)</span>}
                     </div>
-
-                    <div className="space-y-4 md:space-y-6">
-
-                      <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5">
-                        <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-300 rounded-full tracking-widest">이 위치에서의 해석</span>
-                        <p className="text-amber-50 text-sm md:text-base leading-loose break-keep mt-2">
-                          {getCelticInterpretation(cardsInfo[activeCardIdx].cardData, activeCardIdx)}
-                        </p>
-                      </div>
+                    <div className="text-emerald-400/80 text-sm md:text-sm leading-relaxed break-keep font-serif">
+                      {card.cardData.keywords.join(', ')}
                     </div>
-
-                    {/* 내비게이션 하단 영역 */}
-                    <div className={`mt-10 flex w-full ${activeCardIdx === 0 ? 'justify-end' : 'justify-between'}`}>
-                      {activeCardIdx > 0 && (
-                        <button 
-                          onClick={() => {
-                            setSwipeDir(-1);
-                            setActiveCardIdx(p => p - 1);
-                          }}
-                          className="px-6 py-3 rounded-full border border-amber-600/40 text-amber-500/80 active:bg-amber-500/10 font-bold tracking-widest transition-all text-sm md:text-base"
-                        >
-                          이전 해석 보기
-                        </button>
-                      )}
-                      {activeCardIdx < 9 ? (
-                        <button 
-                          onClick={() => {
-                            setSwipeDir(1);
-                            setActiveCardIdx(p => p + 1);
-                            if (!isGridFolded) setIsGridFolded(true);
-                          }}
-                          className="px-6 py-3 rounded-full bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-[0_0_15px_rgba(251,191,36,0.3)] active:scale-95 font-bold tracking-widest transition-all text-sm md:text-base"
-                        >
-                          다음 해석 보기
-                        </button>
-                      ) : (
-                        <button 
-                          onClick={() => setShowSummary(true)}
-                          className="px-6 py-3 rounded-full bg-gradient-to-r from-amber-500 to-yellow-400 text-slate-900 shadow-[0_0_20px_rgba(251,191,36,0.6)] active:scale-95 font-black tracking-widest transition-all text-sm md:text-base"
-                        >
-                          전체 해석 보기
-                        </button>
-                      )}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            
-            {/* 전체 해석 리포트 모달 */}
-            <AnimatePresence>
-              {showSummary && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 100 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 100 }}
-                  className="fixed inset-0 z-[100] bg-slate-900 overflow-y-auto px-4 py-8 md:p-12 flex flex-col items-center"
-                >
-                  <button 
-                    onClick={() => setShowSummary(false)}
-                    className="absolute top-6 right-6 md:top-10 md:right-10 text-gray-400 hover:text-white"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                  <h1 className="text-3xl md:text-5xl font-extrabold text-amber-400 mb-4 tracking-widest drop-shadow-[0_0_15px_rgba(251,191,36,0.5)]">
-                    운명의 전체 흐름
-                  </h1>
-                  <p className="text-amber-200/60 mb-12 tracking-widest font-serif italic text-lg text-center">
-                    당신의 과거, 현재, 그리고 다가올 미래
-                  </p>
-                  
-                  <div className="w-full max-w-4xl space-y-4 md:space-y-6">
-                    {cardsInfo.map((item, idx) => (
-                      <div key={'summary-'+idx} className="bg-slate-800/50 border border-amber-500/20 p-4 md:p-6 rounded-2xl flex flex-col md:flex-row gap-4 md:gap-8 items-start md:items-center">
-                        <div className="flex-shrink-0 flex items-center justify-center w-8 h-8 md:w-12 md:h-12 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 font-bold italic text-lg md:text-2xl">
-                          {idx + 1}
-                        </div>
-                        <div className="flex-grow">
-                          <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3 mb-1">
-                            <span className="text-amber-400 text-xs md:text-sm font-bold tracking-widest border border-amber-500/20 px-2 py-0.5 rounded-full inline-block w-fit">
-                              {renderRoleWithStyles(item.role)}
-                            </span>
-                            <span className="text-gray-200 text-lg md:text-xl font-bold tracking-widest">
-                              {item.cardData.nameKr}
-                            </span>
-                          </div>
-                          <p className="text-gray-400 text-sm tracking-wide mt-2 break-keep">
-                            {item.cardData.keywords.join(' · ')}
-                          </p>
-                        </div>
-                        <div className="flex-shrink-0 text-amber-100/60 font-serif text-sm md:text-base max-w-xs break-keep leading-relaxed line-clamp-3 md:line-clamp-2">
-                          {getCelticInterpretation(item.cardData, idx)}
-                        </div>
-                      </div>
-                    ))}
                   </div>
-                  
-                  <button
-                    onClick={() => router.push('/select')}
-                    className="mt-16 px-10 py-4 bg-slate-800 border border-emerald-500/50 text-emerald-500 font-bold rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:bg-slate-700 active:scale-95 transition-all tracking-widest text-lg"
-                  >
-                    다른 운명 점치기
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                ))}
+              </div>
+            </div>
+
+            {/* 4. 종합 해석 (소설형) */}
+            <div className="comprehensive-story w-full max-w-4xl mt-10 p-8 md:p-14 bg-[#111] rounded-3xl border-[0.5px] border-amber-900/30 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
+              {/* 양피지 텍스처나 은은한 백그라운드 효과 */}
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
+              
+              <h2 className="text-3xl md:text-4xl font-serif text-amber-400/80 mb-12 text-center italic tracking-widest border-b border-amber-900/30 pb-6 inset-x-0 relative z-10 drop-shadow-md">종합해석</h2>
+              <div className="space-y-6 md:space-y-8 text-amber-50/90 leading-loose text-justify break-keep text-[15px] md:text-lg font-serif relative z-10">
+                {cardsInfo.map((card, idx) => (
+                  <p key={idx}>{getCelticInterpretation(card.cardData, idx)}</p>
+                ))}
+              </div>
+            </div>
+
+            <button
+              onClick={() => router.push('/select')}
+              className="mt-16 px-10 py-4 bg-slate-800 border border-emerald-500/50 text-emerald-500 font-bold rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:bg-slate-700 active:scale-95 transition-all tracking-widest text-lg"
+            >
+              다른 운명 점치기
+            </button>
           </div>
         ) : (
           <>
