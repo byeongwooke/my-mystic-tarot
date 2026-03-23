@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, Suspense, useMemo, memo } from "react";
 import { TAROT_BASE, TarotBase } from "@/data/tarot/base";
+import { TAROT_CELTIC } from "@/data/tarot/celtic";
+import { CELTIC_LAYOUT_INFO } from "@/constants/tarot";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
@@ -96,6 +98,8 @@ function SelectContent() {
   const [isMobile, setIsMobile] = useState(false);
   const [cards, setCards] = useState<TarotBase[]>([]);
   const [showHomeModal, setShowHomeModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalStep, setModalStep] = useState(0);
 
   const spreadData = useMemo(() => {
     if (spreadParam === 'today') {
@@ -144,6 +148,7 @@ function SelectContent() {
 
     const isAlreadySelected = selectedCards.some(c => c.id === cardId);
     if (isAlreadySelected) {
+      if (spreadParam === 'celtic') return; // 캘틱크로스는 취소 불가
       setSelectedCards(prev => {
         const remaining = prev.filter(c => c.id !== cardId);
         return remaining.map((c, i) => ({ ...c, role: roles[i] }));
@@ -156,7 +161,14 @@ function SelectContent() {
       return;
     }
 
-    setSelectedCards(prev => [...prev, { id: cardId, role: roles[prev.length], isReversed: Math.random() < 0.5 }]);
+    const newSelection = { id: cardId, role: roles[selectedCards.length], isReversed: Math.random() < 0.5 };
+    const newSelected = [...selectedCards, newSelection];
+    setSelectedCards(newSelected);
+    
+    if (spreadParam === 'celtic') {
+      setModalStep(newSelected.length - 1);
+      setIsModalOpen(true);
+    }
   };
 
   const handleCheckDestiny = async () => {
@@ -499,6 +511,88 @@ function SelectContent() {
             </button>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {isModalOpen && spreadParam === 'celtic' && selectedCards[modalStep] && (() => {
+          const cardId = selectedCards[modalStep].id;
+          const cardBase = cards.find(c => c.id === cardId) || TAROT_BASE[cardId];
+          const isReversed = selectedCards[modalStep].isReversed;
+          
+          let targetCat = cleanCategory;
+          if (targetCat === 'today' || targetCat === 'worry') targetCat = 'love';
+          
+          let catCelticData: any = null;
+          if (TAROT_CELTIC[cardId]) {
+             catCelticData = TAROT_CELTIC[cardId][(targetCat + (isReversed ? 'Reversed' : '')) as keyof typeof TAROT_CELTIC[0]] || TAROT_CELTIC[cardId][targetCat as 'love' | 'money' | 'work'] || TAROT_CELTIC[cardId]['love'];
+          }
+
+          const key = CELTIC_LAYOUT_INFO[modalStep]?.key as string;
+          let text = catCelticData && key ? catCelticData[key] : "운명의 메시지를 준비 중입니다";
+          if (typeof text === 'string') {
+              text = text.replace(/\s*\((core|obstacle|goal|foundation|past|nearFuture|self|influence|hopes|destiny)\)/g, "");
+          }
+
+          return (
+            <motion.div
+              className="fixed inset-0 z-[1000] flex items-center justify-center bg-slate-900/80 backdrop-blur-md p-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <motion.div
+                className="w-full max-w-lg bg-slate-800 rounded-2xl border border-amber-500/30 p-6 flex flex-col relative overflow-hidden"
+                initial={{ scale: 0.9, y: 20 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 20 }}
+              >
+                <div className="absolute top-0 right-0 p-8 text-8xl text-white/[0.03] font-black italic pointer-events-none">
+                  {modalStep + 1}
+                </div>
+                
+                <div className="flex flex-col items-center mb-6 border-b border-amber-500/20 pb-4 relative z-10">
+                  <span className="text-amber-500 mb-2 font-bold tracking-widest text-sm border border-amber-500/50 px-3 py-1 rounded-full text-center">
+                    {roles[modalStep]}
+                  </span>
+                  <p className="text-gray-400 text-xs mt-1 text-center">
+                    {CELTIC_LAYOUT_INFO[modalStep]?.desc}
+                  </p>
+                  <h2 className="text-xl md:text-2xl font-bold text-amber-300 tracking-widest text-center mt-4">
+                    {cardBase.nameKr} <span className="text-sm font-medium text-amber-300/60">({isReversed ? '역방향' : '정방향'})</span>
+                  </h2>
+                </div>
+
+                <div className="bg-black/30 p-4 md:p-5 rounded-xl border border-white/5 relative mb-4 flex-grow overflow-y-auto max-h-[40vh] z-10">
+                  <p className="text-amber-50 text-sm md:text-base leading-loose break-keep font-serif">
+                    {text}
+                  </p>
+                </div>
+
+                <div className="flex gap-2 w-full mt-2 relative z-10">
+                  {modalStep > 0 && (
+                    <button onClick={() => setModalStep(prev => prev - 1)} className="flex-1 py-3 bg-white/10 text-white rounded-xl text-sm font-bold active:bg-white/20">
+                      이전 해석
+                    </button>
+                  )}
+                  
+                  {modalStep < selectedCards.length - 1 ? (
+                    <button onClick={() => setModalStep(prev => prev + 1)} className="flex-1 py-3 bg-amber-500/20 text-amber-400 rounded-xl text-sm font-bold border border-amber-500/30 active:bg-amber-500/30">
+                      다음 해석
+                    </button>
+                  ) : selectedCards.length < 10 ? (
+                    <button onClick={() => setIsModalOpen(false)} className="flex-1 py-3 bg-amber-500 text-slate-900 rounded-xl text-sm font-extrabold shadow-[0_0_15px_rgba(251,191,36,0.4)] active:scale-95 transition-all">
+                      다음 카드 뽑기 ({selectedCards.length}/10)
+                    </button>
+                  ) : (
+                    <button onClick={handleCheckDestiny} className="flex-1 py-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white rounded-xl text-sm font-extrabold shadow-[0_0_20px_rgba(16,185,129,0.4)] active:scale-95 transition-all">
+                      전체 결과 보기
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+            </motion.div>
+          );
+        })()}
       </AnimatePresence>
 
     </motion.main>
