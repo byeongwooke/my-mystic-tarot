@@ -79,38 +79,48 @@ const ResultCardItem = memo(({
           {renderRoleWithStyles(role)}
         </span>
       )}
-      <div className={`${sizeClass} rounded-xl border-2 ${isActive ? 'border-amber-400' : 'border-amber-400/30'} shadow-[0_0_25px_rgba(251,191,36,0.2)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transition-transform group`}>
+      <div className={`${sizeClass} rounded-xl border-2 ${isActive ? 'border-amber-400' : 'border-[#D4AF37]/50'} shadow-[0_4px_15px_rgba(0,0,0,0.6)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transition-transform group p-1.5 md:p-2.5`}>
+        {/* Parchment & Emerald Green Base Frame (Mimicking Card Back) */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a2320] via-[#10342e] to-[#0a2320]"></div>
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-20 mix-blend-overlay pointer-events-none z-0"></div>
+        <div className="absolute inset-1.5 border border-[#D4AF37]/40 rounded-lg pointer-events-none z-0"></div>
+
         {isCeltic && (
           <span className="absolute -top-1 left-2 text-white/50 text-[20px] md:text-[32px] font-black italic opacity-20 pointer-events-none z-0">
             {romanNumerals[idx || 0]}
           </span>
         )}
-        <div className="absolute inset-0 w-full h-full" style={filterStyle}>
-          {cardData.id <= 21 ? (
-            <>
-              <img
-                src={`/images/cards/${cardData.id}.webp`}
-                alt={cardData.nameKr}
-                loading="lazy"
-                className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isReversed ? 'rotate-180' : ''}`}
-              />
-              <div className={`absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent ${isCeltic ? 'pt-6 pb-1' : 'pt-8 pb-2'} px-1`}>
-                <div className={`${isCeltic ? 'text-[8px] md:text-[10px]' : 'text-[9px] md:text-sm'} font-bold text-amber-400 text-center drop-shadow-md tracking-tighter`}>
-                  {cardData.nameKr}
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="absolute inset-1 border border-amber-500/20 rounded-lg"></div>
-              <div className="flex flex-col h-full w-full justify-center">
-                <div className={`${isCeltic ? 'text-[9px] md:text-sm' : 'text-[11px] md:text-lg'} font-bold text-amber-200 text-center px-1 md:px-4 leading-relaxed break-keep z-10`}>{cardData.nameKr}</div>
-                <div className={`${isCeltic ? 'hidden md:block text-[8px]' : 'text-[9px] md:text-xs'} font-bold text-amber-400/60 mt-2 z-10 text-center px-1 tracking-widest uppercase`}>{cardData.name}</div>
-              </div>
-            </>
-          )}
-        </div>
         
+        <div className="relative w-full h-full flex flex-col border border-[#D4AF37]/30 bg-black/60 rounded overflow-hidden z-10" style={filterStyle}>
+          {/* Header Typography (Number & English Name) */}
+          <div className="bg-[#050505] border-b border-[#D4AF37]/30 py-0.5 md:py-1.5 flex flex-col items-center justify-center relative shrink-0">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#D4AF37]/10 to-transparent"></div>
+            <span className={`${isCeltic ? 'text-[7px] md:text-[8px]' : 'text-[8px] md:text-[10px]'} font-serif text-[#D4AF37]/80 tracking-widest uppercase`}>
+              {cardData.id === 0 ? '0' : cardData.id} • {cardData.name}
+            </span>
+          </div>
+
+          {/* Central Image (Rider Waite WebP) */}
+          <div className="flex-1 relative bg-[#0a0a0a] overflow-hidden">
+            <img
+              src={`/images/cards/${cardData.id}.webp`}
+              alt={cardData.nameKr}
+              loading="lazy"
+              className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isReversed ? 'rotate-180' : ''}`}
+              onError={(e) => {
+                // Fallback display if missing (though the script downloads all 78)
+                (e.target as HTMLImageElement).style.opacity = '0.3';
+              }}
+            />
+          </div>
+
+          {/* Footer Typography (Korean Name) */}
+          <div className="bg-[#050505] border-t border-[#D4AF37]/30 py-1 md:py-2 flex items-center justify-center shrink-0 shadow-[0_-5px_15px_rgba(0,0,0,0.8)]">
+            <span className={`${isCeltic ? 'text-[9px] md:text-sm' : 'text-[11px] md:text-lg'} font-bold text-amber-400 drop-shadow-md tracking-tighter filter saturate-150`}>
+              {cardData.nameKr}
+            </span>
+          </div>
+        </div>
       </div>
     </motion.div>
   );
