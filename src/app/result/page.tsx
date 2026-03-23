@@ -487,9 +487,22 @@ function ResultContent() {
               })}
             </motion.div>
 
-            {/* 3. 카드 기술 정보 목록 */}
-            <div className="w-full max-w-4xl space-y-4 md:space-y-6 mt-12 mb-16">
-              <h3 className="text-xl md:text-2xl text-amber-500 font-bold mb-6 tracking-widest border-b border-amber-500/30 pb-4">상세 기술 정보</h3>
+            {/* 3. 종합 해석 (소설형) */}
+            <div className="comprehensive-story w-full max-w-4xl mt-12 mb-6 p-8 md:p-14 bg-[#111] rounded-3xl border-[0.5px] border-amber-900/30 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
+              {/* 양피지 텍스처나 은은한 백그라운드 효과 */}
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
+              
+              <h2 className="text-3xl md:text-4xl font-serif text-amber-400/80 mb-12 text-center italic tracking-widest border-b border-amber-900/30 pb-6 inset-x-0 relative z-10 drop-shadow-md">종합해석</h2>
+              <div className="space-y-6 md:space-y-8 text-amber-50/90 leading-loose text-justify break-keep text-[15px] md:text-lg font-serif relative z-10">
+                {cardsInfo.map((card, idx) => (
+                  <p key={idx}>{getCelticInterpretation(card.cardData, idx)}</p>
+                ))}
+              </div>
+            </div>
+
+            {/* 4. 운명의 근거 (상세 기술 정보 목록) */}
+            <div className="w-full max-w-4xl space-y-4 md:space-y-6 mt-16 mb-16">
+              <h3 className="text-xl md:text-2xl text-amber-500 font-bold mb-6 tracking-widest border-b border-amber-500/30 pb-4">운명의 근거 (상세 정보)</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 {cardsInfo.map((card, idx) => (
                   <div key={idx} className="card-info-item bg-black/40 p-5 rounded-2xl border border-white/5">
@@ -504,19 +517,6 @@ function ResultContent() {
                       {card.cardData.keywords.join(', ')}
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 4. 종합 해석 (소설형) */}
-            <div className="comprehensive-story w-full max-w-4xl mt-10 p-8 md:p-14 bg-[#111] rounded-3xl border-[0.5px] border-amber-900/30 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
-              {/* 양피지 텍스처나 은은한 백그라운드 효과 */}
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
-              
-              <h2 className="text-3xl md:text-4xl font-serif text-amber-400/80 mb-12 text-center italic tracking-widest border-b border-amber-900/30 pb-6 inset-x-0 relative z-10 drop-shadow-md">종합해석</h2>
-              <div className="space-y-6 md:space-y-8 text-amber-50/90 leading-loose text-justify break-keep text-[15px] md:text-lg font-serif relative z-10">
-                {cardsInfo.map((card, idx) => (
-                  <p key={idx}>{getCelticInterpretation(card.cardData, idx)}</p>
                 ))}
               </div>
             </div>
