@@ -517,24 +517,24 @@ function ResultContent() {
                     </div>
                     
                     <div className="flex flex-col items-center mb-8 border-b border-amber-500/20 pb-6">
-                      <span className="text-amber-500 mb-2 font-bold tracking-widest text-sm md:text-base border border-amber-500/50 px-3 py-1 rounded-full">{renderRoleWithStyles(cardsInfo[activeCardIdx].role)}</span>
-                      <h2 className="text-2xl md:text-4xl font-bold text-amber-300 tracking-widest text-center mt-2 flex items-center justify-center gap-3">
+                      <span className="text-amber-500 mb-2 font-bold tracking-widest text-sm md:text-base border border-amber-500/50 px-3 py-1 rounded-full text-center">
+                        {renderRoleWithStyles(cardsInfo[activeCardIdx].role)}
+                      </span>
+                      {spread === 'celtic' && CELTIC_LAYOUT_INFO[activeCardIdx] && (
+                        <p className="text-gray-400 text-xs md:text-[13px] opacity-90 leading-relaxed break-keep mt-1.5 text-center px-4">
+                          {CELTIC_LAYOUT_INFO[activeCardIdx].desc}
+                        </p>
+                      )}
+                      <h2 className="text-2xl md:text-4xl font-bold text-amber-300 tracking-widest text-center mt-6 flex items-center justify-center gap-3">
                         {cardsInfo[activeCardIdx].cardData.nameKr}
                       </h2>
-                      <p className="text-amber-200/60 mt-2 text-sm md:text-md tracking-widest uppercase">{cardsInfo[activeCardIdx].cardData.name}</p>
+                      <p className="text-amber-200/60 mt-2 text-sm md:text-md tracking-widest uppercase text-center">{cardsInfo[activeCardIdx].cardData.name}</p>
                       <p className="text-amber-100/80 mt-4 tracking-wide text-sm md:text-base text-center break-keep">
                         "{cardsInfo[activeCardIdx].cardData.keywords.join(' · ')}"
                       </p>
                     </div>
 
                     <div className="space-y-4 md:space-y-6">
-                      {spread === 'celtic' && CELTIC_LAYOUT_INFO[activeCardIdx] && (
-                        <div className="bg-black/20 p-3 md:p-4 rounded-lg border border-white/5">
-                           <p className="text-gray-400 text-xs md:text-[13px] leading-relaxed break-keep">
-                             {CELTIC_LAYOUT_INFO[activeCardIdx].desc}
-                           </p>
-                        </div>
-                      )}
 
                       <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5">
                         <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-300 rounded-full tracking-widest">이 위치에서의 해석</span>
