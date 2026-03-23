@@ -251,7 +251,11 @@ function ResultContent() {
     if (!catCelticData) return "운명의 메시지를 준비 중입니다";
 
     const key = CELTIC_LAYOUT_INFO[idx]?.key as keyof typeof catCelticData;
-    return key && catCelticData[key] ? catCelticData[key] : "운명의 메시지를 준비 중입니다";
+    let text = key && catCelticData[key] ? catCelticData[key] : "운명의 메시지를 준비 중입니다";
+    if (typeof text === 'string') {
+        text = text.replace(/\s*\((core|obstacle|goal|foundation|past|nearFuture|self|influence|hopes|destiny)\)/g, "");
+    }
+    return text;
   };
 
   const overallAdvice = useMemo(() => {
@@ -525,23 +529,12 @@ function ResultContent() {
 
                     <div className="space-y-4 md:space-y-6">
                       {spread === 'celtic' && CELTIC_LAYOUT_INFO[activeCardIdx] && (
-                        <div className="bg-amber-900/10 border-l-4 border-amber-500/50 p-4 md:p-5 rounded-r-xl">
-                           <div className="flex items-center gap-3 mb-2">
-                             <span className="text-amber-500/90 font-bold text-xs md:text-sm tracking-widest bg-amber-500/10 px-2 py-0.5 rounded">{CELTIC_LAYOUT_INFO[activeCardIdx].labelEn.toUpperCase()}</span>
-                             <span className="text-gray-200 font-bold tracking-widest text-sm md:text-base">{CELTIC_LAYOUT_INFO[activeCardIdx].labelKr}</span>
-                           </div>
-                           <p className="text-amber-100/70 text-sm md:text-[15px] leading-relaxed break-keep">
+                        <div className="bg-black/20 p-3 md:p-4 rounded-lg border border-white/5">
+                           <p className="text-gray-400 text-xs md:text-[13px] leading-relaxed break-keep">
                              {CELTIC_LAYOUT_INFO[activeCardIdx].desc}
                            </p>
                         </div>
                       )}
-
-                      <div className="bg-gradient-to-br from-indigo-900/30 to-black/40 border border-indigo-500/30 p-5 md:p-6 rounded-2xl relative">
-                        <span className="absolute -top-3 left-4 bg-indigo-900 border border-indigo-500/50 px-3 py-1 text-xs text-indigo-200 rounded-full tracking-widest">일반적인 카드의 해석</span>
-                        <p className="text-indigo-100/90 text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif">
-                          {getInterpretationText(cardsInfo[activeCardIdx])}
-                        </p>
-                      </div>
 
                       <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5">
                         <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-300 rounded-full tracking-widest">이 위치에서의 해석</span>
