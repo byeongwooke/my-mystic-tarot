@@ -201,7 +201,7 @@ function ResultContent() {
 
     // 오늘의 운세 전용 조언 우선
     if (spread === 'today' || category === 'today') {
-      return isReversed ? (cardData?.todayWarningAdvice || cardData?.warning || cardData?.todayAdvice || "운명의 메시지를 준비 중입니다") : (cardData?.todayAdvice || "운명의 메시지를 준비 중입니다");
+      return isReversed ? (cardData?.todayWarningAdvice || cardData?.todayAdvice || "운명의 메시지를 준비 중입니다") : (cardData?.todayAdvice || "운명의 메시지를 준비 중입니다");
     }
 
     const timeMap: Record<string, "past" | "present" | "future"> = {
@@ -228,7 +228,7 @@ function ResultContent() {
     const { cardData, isReversed } = item;
     if (!cardData || !category) return "";
     if (spread === 'today' || category === 'today') {
-      return isReversed ? (cardData?.todayWarningAdvice || cardData?.warning || cardData?.todayAdvice || "운명의 메시지를 준비 중입니다") : (cardData?.todayAdvice || "운명의 메시지를 준비 중입니다");
+      return isReversed ? (cardData?.todayWarningAdvice || cardData?.todayAdvice || "운명의 메시지를 준비 중입니다") : (cardData?.todayAdvice || "운명의 메시지를 준비 중입니다");
     }
 
     if (isReversed && cardData.interpretations?.reversed) {
