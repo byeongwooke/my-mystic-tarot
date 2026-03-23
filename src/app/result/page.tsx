@@ -121,6 +121,7 @@ function ResultContent() {
   const [isGridFolded, setIsGridFolded] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
   const [swipeDir, setSwipeDir] = useState(1);
+  const [popupCardId, setPopupCardId] = useState<number | null>(null);
 
   const isSavedRef = React.useRef(false);
 
@@ -480,6 +481,8 @@ function ResultContent() {
                       isCeltic={true}
                       isActive={isActive}
                       idx={idx}
+                      isReversed={item.isReversed}
+                      onClick={() => setPopupCardId(item.cardData.id)}
                     />
                   </div>
                 );
@@ -537,6 +540,7 @@ function ResultContent() {
                   role={item.role} 
                   isLarge={spread === 'today'} 
                   isReversed={item.isReversed}
+                  onClick={() => setPopupCardId(item.cardData.id)}
                 />
               ))}
             </div>
@@ -651,6 +655,41 @@ function ResultContent() {
           </button>
         </motion.div>
       </div>
+
+      {/* Layer Popup for Pure View */}
+      <AnimatePresence>
+        {popupCardId !== null && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+            onClick={() => setPopupCardId(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              className="relative flex flex-col items-center justify-center w-full max-h-[90vh] cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img 
+                src={`/images/cards/${popupCardId}.webp`} 
+                alt="상세 카드"
+                className="max-h-[75vh] w-auto object-contain drop-shadow-[0_0_50px_rgba(0,0,0,0.8)] rounded-2xl"
+              />
+              <button
+                onClick={() => setPopupCardId(null)}
+                className="mt-8 px-10 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-white/90 tracking-widest text-sm transition-colors backdrop-blur-md"
+              >
+                닫기
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }
