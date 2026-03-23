@@ -79,30 +79,26 @@ const ResultCardItem = memo(({
           {renderRoleWithStyles(role)}
         </span>
       )}
-      <div className={`${sizeClass} rounded-xl border-2 ${isActive ? 'border-amber-400' : 'border-[#D4AF37]/50'} shadow-[0_4px_15px_rgba(0,0,0,0.6)] bg-indigo-950 flex flex-col items-center justify-center relative overflow-hidden transition-transform group p-1.5 md:p-2.5`}>
-        {/* Parchment & Emerald Green Base Frame (Mimicking Card Back) */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a2320] via-[#10342e] to-[#0a2320]"></div>
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-20 mix-blend-overlay pointer-events-none z-0"></div>
-        <div className="absolute inset-1.5 border border-[#D4AF37]/40 rounded-lg pointer-events-none z-0"></div>
+      <div className={`${sizeClass} rounded-xl border-[0.5px] ${isActive ? 'border-amber-400 shadow-[0_0_25px_rgba(251,191,36,0.6)]' : 'border-[#D4AF37]/60 shadow-[0_4px_15px_rgba(0,0,0,0.6)]'} bg-[#050505] flex items-center justify-center relative overflow-hidden transition-transform group`} style={filterStyle}>
+        {/* Visual Liberation: Pure Symbolism (Rider Waite WebP) */}
+        <img
+          src={`/images/cards/${cardData.id}.webp`}
+          alt={cardData.nameKr}
+          loading="lazy"
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${isReversed ? 'rotate-180' : ''}`}
+          onError={(e) => {
+            (e.target as HTMLImageElement).style.opacity = '0.3';
+          }}
+        />
 
+        {/* 미니멀 번호 레이블 (중앙 투명 오버레이) */}
         {isCeltic && (
-          <span className="absolute -top-1 left-2 text-white/50 text-[20px] md:text-[32px] font-black italic opacity-20 pointer-events-none z-0">
-            {romanNumerals[idx || 0]}
-          </span>
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10 mix-blend-overlay">
+            <span className="text-white/60 text-[32px] md:text-[48px] font-serif font-black italic drop-shadow-[0_0_5px_rgba(0,0,0,0.8)]">
+              {romanNumerals[idx || 0]}
+            </span>
+          </div>
         )}
-        
-        <div className="relative w-full h-full flex flex-col border border-[#D4AF37]/30 bg-[#0a0a0a] rounded overflow-hidden z-10" style={filterStyle}>
-          {/* Visual Liberation: Pure Symbolism (Rider Waite WebP) */}
-          <img
-            src={`/images/cards/${cardData.id}.webp`}
-            alt={cardData.nameKr}
-            loading="lazy"
-            className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${isReversed ? 'rotate-180' : ''}`}
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.opacity = '0.3';
-            }}
-          />
-        </div>
       </div>
     </motion.div>
   );
