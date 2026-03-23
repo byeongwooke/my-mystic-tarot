@@ -91,35 +91,17 @@ const ResultCardItem = memo(({
           </span>
         )}
         
-        <div className="relative w-full h-full flex flex-col border border-[#D4AF37]/30 bg-black/60 rounded overflow-hidden z-10" style={filterStyle}>
-          {/* Header Typography (Number & English Name) */}
-          <div className="bg-[#050505] border-b border-[#D4AF37]/30 py-0.5 md:py-1.5 flex flex-col items-center justify-center relative shrink-0">
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#D4AF37]/10 to-transparent"></div>
-            <span className={`${isCeltic ? 'text-[7px] md:text-[8px]' : 'text-[8px] md:text-[10px]'} font-serif text-[#D4AF37]/80 tracking-widest uppercase`}>
-              {cardData.id === 0 ? '0' : cardData.id} • {cardData.name}
-            </span>
-          </div>
-
-          {/* Central Image (Rider Waite WebP) */}
-          <div className="flex-1 relative bg-[#0a0a0a] overflow-hidden">
-            <img
-              src={`/images/cards/${cardData.id}.webp`}
-              alt={cardData.nameKr}
-              loading="lazy"
-              className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isReversed ? 'rotate-180' : ''}`}
-              onError={(e) => {
-                // Fallback display if missing (though the script downloads all 78)
-                (e.target as HTMLImageElement).style.opacity = '0.3';
-              }}
-            />
-          </div>
-
-          {/* Footer Typography (Korean Name) */}
-          <div className="bg-[#050505] border-t border-[#D4AF37]/30 py-1 md:py-2 flex items-center justify-center shrink-0 shadow-[0_-5px_15px_rgba(0,0,0,0.8)]">
-            <span className={`${isCeltic ? 'text-[9px] md:text-sm' : 'text-[11px] md:text-lg'} font-bold text-amber-400 drop-shadow-md tracking-tighter filter saturate-150`}>
-              {cardData.nameKr}
-            </span>
-          </div>
+        <div className="relative w-full h-full flex flex-col border border-[#D4AF37]/30 bg-[#0a0a0a] rounded overflow-hidden z-10" style={filterStyle}>
+          {/* Visual Liberation: Pure Symbolism (Rider Waite WebP) */}
+          <img
+            src={`/images/cards/${cardData.id}.webp`}
+            alt={cardData.nameKr}
+            loading="lazy"
+            className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${isReversed ? 'rotate-180' : ''}`}
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.opacity = '0.3';
+            }}
+          />
         </div>
       </div>
     </motion.div>
