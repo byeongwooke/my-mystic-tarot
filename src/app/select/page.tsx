@@ -23,7 +23,7 @@ const TarotCardItem = memo(({
 }) => {
   const condition = getDailyCardCondition(card.id);
   const filterStyle = {
-    filter: `sepia(${condition.level * 5}%) saturate(${100 - (condition.level * 3)}%) brightness(${100 - (condition.level * 2)}%) contrast(${100 + (condition.level * 1)}%)`
+    filter: `saturate(${120 - (condition.level * 10)}%) contrast(${95 + (condition.level * 5)}%)`
   };
 
   return (
@@ -77,11 +77,6 @@ const TarotCardItem = memo(({
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 shadow-[inset_0_0_10px_rgba(255,255,255,0.1)] rounded-xl pointer-events-none border border-white/10 mix-blend-overlay"></div>
-            {/* Dynamic Condition Overlays */}
-            <div className="absolute inset-0 bg-black mix-blend-overlay pointer-events-none" style={{ opacity: condition.level * 0.05 }}></div>
-            {condition.hasStain && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stucco.png')] mix-blend-overlay opacity-50 pointer-events-none z-20"></div>}
-            {condition.hasScratch && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')] mix-blend-overlay opacity-40 pointer-events-none z-20"></div>}
-            {condition.hasGlint && <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-amber-300/40 to-transparent mix-blend-overlay animate-[shimmer_3s_infinite] pointer-events-none z-20"></div>}
           </div>
         </motion.div>
       )}
@@ -470,7 +465,7 @@ function SelectContent() {
                   {isFilled && selectedCardData && (() => {
                     const condition = getDailyCardCondition(selectedCardData.id);
                     const filterStyle = {
-                      filter: `sepia(${condition.level * 5}%) saturate(${100 - (condition.level * 3)}%) brightness(${100 - (condition.level * 2)}%) contrast(${100 + (condition.level * 1)}%)`
+                      filter: `saturate(${120 - (condition.level * 10)}%) contrast(${95 + (condition.level * 5)}%)`
                     };
                     return (
                       <motion.div
@@ -493,11 +488,6 @@ function SelectContent() {
                             className="w-full h-full object-cover"
                           />
                           <div className="absolute inset-0 shadow-[inset_0_0_10px_rgba(255,255,255,0.1)] rounded-xl pointer-events-none border border-white/10 mix-blend-overlay"></div>
-                          {/* Dynamic Condition Overlays */}
-                          <div className="absolute inset-0 bg-black mix-blend-overlay pointer-events-none" style={{ opacity: condition.level * 0.05 }}></div>
-                          {condition.hasStain && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stucco.png')] mix-blend-overlay opacity-50 pointer-events-none z-20"></div>}
-                          {condition.hasScratch && <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')] mix-blend-overlay opacity-40 pointer-events-none z-20"></div>}
-                          {condition.hasGlint && <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-amber-300/40 to-transparent mix-blend-overlay animate-[shimmer_3s_infinite] pointer-events-none z-20"></div>}
                         </div>
                       </motion.div>
                     );

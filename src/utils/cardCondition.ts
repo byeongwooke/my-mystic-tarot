@@ -1,8 +1,5 @@
 export interface CardCondition {
   level: number;
-  hasStain: boolean;
-  hasScratch: boolean;
-  hasGlint: boolean;
 }
 
 export function getDailyCardCondition(cardId: number): CardCondition {
@@ -12,12 +9,9 @@ export function getDailyCardCondition(cardId: number): CardCondition {
   
   const hash = seed.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
   
-  const level = (hash % 10) + 1; // 1~10 levels
+  const level = (hash % 5) + 1; // 1~5 levels
   
   return {
-    level,
-    hasStain: hash % 17 === 0,
-    hasScratch: hash % 19 === 0,
-    hasGlint: hash % 23 === 0
+    level
   };
 }
