@@ -355,13 +355,29 @@ function ResultContent() {
            {/* 배경: 에메랄드 그린 톤이 가미된 깊은 블랙 */}
            <div className="absolute inset-0 bg-gradient-to-b from-[#02100A]/80 to-[#0A1A12]/90 pointer-events-none" />
 
-           <div className="relative flex flex-col items-center justify-center mb-12 w-full animate-pulse">
-              <div className="absolute inset-0 bg-emerald-700/20 blur-[60px] rounded-full w-[250px] h-[250px] md:w-[400px] md:h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
-              <img 
-                src="/images/image_10.png" 
-                alt="Mandala" 
-                className="w-[180px] md:w-[280px] object-contain animate-spin-slow drop-shadow-[0_0_50px_rgba(16,185,129,0.5)] relative z-10" 
-              />
+           <div 
+             className="relative flex flex-col items-center justify-center mb-12 w-full"
+             style={{ perspective: 1000 }}
+           >
+              {/* 뒷 배경 빛 번짐 효과 */}
+              <div className="absolute inset-0 bg-emerald-700/20 blur-[60px] rounded-full w-[250px] h-[250px] md:w-[400px] md:h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+              
+              <motion.div
+                animate={{ rotateY: 360 }}
+                transition={{ 
+                  duration: 2.5, 
+                  repeat: Infinity, 
+                  ease: "linear" 
+                }}
+                style={{ transformStyle: "preserve-3d" }}
+                className="relative z-10 w-[45vw] max-w-[200px] md:max-w-[280px]"
+              >
+                <img 
+                  src="/images/cards/card_back.webp" 
+                  alt="Tarot Card Back" 
+                  className="w-full h-auto object-contain rounded-2xl md:rounded-3xl drop-shadow-[0_20px_40px_rgba(16,185,129,0.4)] md:drop-shadow-[0_30px_50px_rgba(16,185,129,0.6)]" 
+                />
+              </motion.div>
            </div>
            
            <p className="text-xl md:text-2xl font-serif tracking-[0.2em] text-emerald-300/90 text-center break-keep px-6 relative z-10 animate-pulse drop-shadow-[0_0_20px_rgba(16,185,129,0.6)] leading-relaxed">
