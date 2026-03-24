@@ -137,10 +137,15 @@ function ResultContent() {
   useEffect(() => {
     if (!category || !spread) return;
     
-    let delay = 5000;
-    if (spread === 'celtic') delay = 9000;
-    else if (spread === 'today' || category === 'today') delay = 3500;
-    else if (category === 'worry') delay = 4500;
+    let delay = 6000; // 기본 3배열 (Love/Money/Work: 6.0초)
+    if (spread === 'celtic') {
+      // url param 등 구분자가 있다면 확장, 기본 종합해석은 9000ms
+      delay = 9000;
+    } else if (spread === 'today' || category === 'today') {
+      delay = 3500; // 오늘의 운세: 3.5초
+    } else if (category === 'worry') {
+      delay = 4500; // 고민뽑기: 4.5초
+    }
     
     // [운명 확인하기] 진입 시 타이머 작동
     const timer = setTimeout(() => {
@@ -345,19 +350,22 @@ function ResultContent() {
            initial={{ opacity: 0 }}
            animate={{ opacity: 1 }}
            exit={{ opacity: 0, transition: { duration: 1.5, ease: "easeInOut" } }}
-           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-slate-950/95 backdrop-blur-xl overflow-hidden"
+           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050B08] backdrop-blur-xl overflow-hidden"
         >
-           <div className="relative flex flex-col items-center justify-center mb-12 w-full">
-              <div className="absolute inset-0 bg-emerald-500/20 blur-[60px] rounded-full w-[250px] h-[250px] md:w-[400px] md:h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+           {/* 배경: 에메랄드 그린 톤이 가미된 깊은 블랙 */}
+           <div className="absolute inset-0 bg-gradient-to-b from-[#02100A]/80 to-[#0A1A12]/90 pointer-events-none" />
+
+           <div className="relative flex flex-col items-center justify-center mb-12 w-full animate-pulse">
+              <div className="absolute inset-0 bg-emerald-700/20 blur-[60px] rounded-full w-[250px] h-[250px] md:w-[400px] md:h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
               <img 
                 src="/images/cards/card_back.webp" 
                 alt="Mandala" 
-                className="w-[180px] md:w-[280px] animate-spin-slow drop-shadow-[0_0_40px_rgba(16,185,129,0.4)] relative z-10" 
+                className="w-[180px] md:w-[280px] animate-spin-slow drop-shadow-[0_0_50px_rgba(16,185,129,0.5)] relative z-10" 
               />
            </div>
            
-           <p className="text-xl md:text-2xl font-serif tracking-[0.2em] text-emerald-300/90 text-center break-keep px-6 relative z-10 animate-pulse drop-shadow-[0_0_15px_rgba(16,185,129,0.5)] leading-relaxed">
-              {user?.displayName ? `${user.displayName} 님의 운명을\n확인하는 중입니다...` : '운명을 확인하는 중입니다...'}
+           <p className="text-xl md:text-2xl font-serif tracking-[0.2em] text-emerald-300/90 text-center break-keep px-6 relative z-10 animate-pulse drop-shadow-[0_0_20px_rgba(16,185,129,0.6)] leading-relaxed">
+              {user?.displayName ? `${user.displayName} 님의 운명을 확인하는 중입니다.` : '운명을 확인하는 중입니다.'}
            </p>
         </motion.div>
       ) : (
