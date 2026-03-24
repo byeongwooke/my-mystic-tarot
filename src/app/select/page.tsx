@@ -188,7 +188,7 @@ function SelectContent() {
       return;
     }
 
-    const newSelection = { id: cardId, role: roles[selectedCards.length], isReversed: Math.random() < 0.5 };
+    const newSelection = { id: cardId, role: roles[selectedCards.length], isReversed: Math.random() < 0.3 };
     const newSelected = [...selectedCards, newSelection];
     setSelectedCards(newSelected);
     

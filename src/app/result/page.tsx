@@ -272,12 +272,17 @@ function ResultContent() {
     return cardData.interpretations?.[key] || "운명의 메시지를 준비 중입니다";
   };
 
-  const getCelticInterpretation = (cardData: any, idx: number) => {
+  const getCelticInterpretation = (cardData: any, idx: number, isReversed: boolean = false) => {
     if (!cardData || !cardData.celtic || !category) return "운명의 메시지를 준비 중입니다";
     
     // 만약 오늘의 운세 카테고리인데 캘틱을 시도할 경우 에러 방지 (기본값 love)
     let targetCat = CATEGORY_MAP[category] || category;
     if (targetCat === 'today') targetCat = 'love';
+
+    // 역방향 전용 데이터 시도 (혹시 데이터에 reversed 가 있다면 우선 사용)
+    if (isReversed && cardData.interpretations?.reversed) {
+      return `[역방향] ${cardData.interpretations.reversed} 하지만 이 시기를 지혜롭게 넘긴다면 충분히 극복할 수 있는 흐름입니다.`;
+    }
     
     const catCelticData = cardData.celtic[targetCat];
     if (!catCelticData) return "운명의 메시지를 준비 중입니다";
@@ -287,6 +292,18 @@ function ResultContent() {
     if (typeof text === 'string') {
         text = text.replace(/\s*\((core|obstacle|goal|foundation|past|nearFuture|self|influence|hopes|destiny)\)/g, "");
     }
+    
+    if (isReversed) {
+      // 긍정적 조언 가이드 문구 추가 (Softening Logic)
+      const softening = [
+        "하지만 이 흐름은 당신의 의지로 충분히 극복할 수 있습니다.",
+        "오히려 이 시기를 지혜롭게 넘기기 위한 조언으로 받아들여 보세요.",
+        "잠시 쉬어가며 내면을 단단히 다지는 계기로 삼으시길 바랍니다."
+      ];
+      const randomSoft = softening[Math.floor(Math.random() * softening.length)];
+      text = `[역방향] ${text} ${randomSoft}`;
+    }
+
     return text;
   };
 
@@ -491,7 +508,7 @@ function ResultContent() {
               <div className="w-full max-w-4xl mx-auto conclusion-box mb-8 p-6 md:p-10 bg-emerald-900/20 rounded-2xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)] backdrop-blur-sm">
                 <h3 className="text-emerald-400 text-sm md:text-base mb-4 font-bold tracking-widest text-center uppercase">최종 운명의 결론</h3>
                 <p className="text-white text-lg md:text-2xl text-center leading-relaxed font-serif break-keep">
-                  "{getCelticInterpretation(cardsInfo[9].cardData, 9)}"
+                  "{getCelticInterpretation(cardsInfo[9].cardData, 9, cardsInfo[9].isReversed)}"
                 </p>
               </div>
             )}
@@ -563,7 +580,7 @@ function ResultContent() {
               <h2 className="text-3xl md:text-4xl font-serif text-amber-400/80 mb-12 text-center italic tracking-widest border-b border-amber-900/30 pb-6 inset-x-0 relative z-10 drop-shadow-md">종합해석</h2>
               <div className="space-y-6 md:space-y-8 text-amber-50/90 leading-loose text-justify break-keep text-[15px] md:text-lg font-serif relative z-10">
                 {cardsInfo.map((card, idx) => (
-                  <p key={idx}>{getCelticInterpretation(card.cardData, idx)}</p>
+                  <p key={idx}>{getCelticInterpretation(card.cardData, idx, card.isReversed)}</p>
                 ))}
               </div>
             </div>
@@ -579,7 +596,7 @@ function ResultContent() {
                       <span className="text-gray-300 text-xs tracking-widest uppercase">{CELTIC_LAYOUT_INFO[idx]?.labelKr}</span>
                     </div>
                     <div className="text-white font-bold text-base md:text-lg tracking-wider mb-2">
-                      {card.cardData.nameKr} <span className="text-gray-400 text-sm font-normal">({card.cardData.name})</span> {card.isReversed ? <span className="text-rose-400 text-sm ml-1">(역방향)</span> : <span className="text-emerald-400 text-sm ml-1">(정방향)</span>}
+                      {card.cardData.nameKr} <span className="text-gray-400 text-sm font-normal">({card.cardData.name})</span> {card.isReversed ? <span className="text-amber-500/80 text-sm ml-1">(역방향)</span> : <span className="text-emerald-400 text-sm ml-1">(정방향)</span>}
                     </div>
                     <div className="text-emerald-400/80 text-sm md:text-sm leading-relaxed break-keep font-serif">
                       {card.cardData.keywords.join(', ')}
