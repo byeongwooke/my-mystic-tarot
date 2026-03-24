@@ -390,64 +390,31 @@ function SelectContent() {
         </div>
 
         {/* 슬롯 영역 */}
-        <div className={`relative w-full max-w-5xl mx-auto flex justify-center ${
+        <div className={`relative w-full max-w-4xl mx-auto gap-2 md:gap-6 lg:gap-10 ${
           spreadParam === 'celtic' 
-            ? 'h-[440px] md:h-[650px] mt-4 overflow-visible' 
+            ? 'grid grid-cols-4 lg:grid-cols-5 grid-rows-4 mt-4 overflow-visible place-items-center' 
             : spreadParam === 'today' 
-              ? 'items-center h-[220px] md:h-[380px] min-h-[220px]' 
-              : 'h-[220px] md:h-[380px] min-h-[220px]'
+              ? 'flex items-center justify-center h-[220px] md:h-[380px] min-h-[220px]' 
+              : 'flex items-center justify-center gap-4 md:gap-12 lg:gap-20 h-[220px] md:h-[380px] min-h-[220px]'
         }`}>
           {roles.map((role, idx) => {
             const isCeltic = spreadParam === 'celtic';
             const isToday = spreadParam === 'today';
             
-            let posClass = "flex flex-col items-center justify-center";
-            let posStyle: React.CSSProperties = {};
+            let posClass = "flex flex-col items-center justify-center transition-all duration-700";
+            let posStyle: React.CSSProperties = { zIndex: 10 };
             
-            if (!isCeltic) {
-              posClass += " absolute bottom-0 -translate-x-1/2";
-              if (isToday) {
-                posStyle = { left: "50%" };
-              } else {
-                const offset = isMobile ? 120 : 250;
-                posStyle = { left: idx === 0 ? `calc(50% - ${offset}px)` : idx === 1 ? "50%" : `calc(50% + ${offset}px)` };
-              }
-            } else {
-              posClass += " absolute";
-              const cardW = isMobile ? 50 : 86;
-              const cardH = isMobile ? 80 : 135;
-              const gapX = isMobile ? 68 : 120;
-              const gapY = isMobile ? 85 : 150;
-              
-              const crossCx = `calc(50% - ${gapX}px)`;
-              const crossCy = `50%`;
-              const pillarX = `calc(50% + ${gapX * 1.5}px)`;
-              
-              let left = '50%';
-              let top = '50%';
-              let transform = 'translate(-50%, -50%)';
-              let zIndex = 10;
-              
-              if (idx === 0) {
-                left = crossCx; top = crossCy; zIndex = 10;
-              } else if (idx === 1) {
-                left = crossCx; top = crossCy; 
-                transform = 'translate(-50%, -50%) rotate(90deg)';
-                zIndex = 11;
-              } else if (idx === 2) {
-                left = crossCx; top = `calc(50% + ${gapY}px)`; 
-              } else if (idx === 3) {
-                left = `calc(${crossCx} - ${gapX}px)`; top = crossCy;
-              } else if (idx === 4) {
-                left = crossCx; top = `calc(50% - ${gapY}px)`;
-              } else if (idx === 5) {
-                left = `calc(${crossCx} + ${gapX}px)`; top = crossCy;
-              } else {
-                left = pillarX;
-                const multiplier = 1.5 - (idx - 6);
-                top = `calc(50% + ${gapY * multiplier}px)`;
-              }
-              posStyle = { left, top, transform, zIndex };
+            if (isCeltic) {
+              if (idx === 0) { posClass += " col-start-2 row-start-2"; }
+              else if (idx === 1) { posClass += " col-start-2 row-start-2"; posStyle.transform = "rotate(90deg) scale(0.95)"; posStyle.zIndex = 11; }
+              else if (idx === 2) { posClass += " col-start-2 row-start-3"; }
+              else if (idx === 3) { posClass += " col-start-1 row-start-2"; }
+              else if (idx === 4) { posClass += " col-start-2 row-start-1"; }
+              else if (idx === 5) { posClass += " col-start-3 row-start-2"; }
+              else if (idx === 6) { posClass += " col-start-4 lg:col-start-5 row-start-4"; }
+              else if (idx === 7) { posClass += " col-start-4 lg:col-start-5 row-start-3"; }
+              else if (idx === 8) { posClass += " col-start-4 lg:col-start-5 row-start-2"; }
+              else if (idx === 9) { posClass += " col-start-4 lg:col-start-5 row-start-1"; }
             }
             
             const slotWidthClass = isCeltic ? "w-[50px] h-[80px] md:w-[86px] md:h-[135px]" : "w-[96px] h-[150px] md:w-[165px] md:h-[270px]";

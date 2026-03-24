@@ -132,6 +132,13 @@ function ResultContent() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // ✅ 진입/변경 시 특정 상태(Popup, GridFold) 초기화
+  useEffect(() => {
+    setIsGridFolded(false);
+    setPopupCardId(null);
+    setShowSummary(false); // 요약 창도 리셋
+  }, [searchParams]);
+
   useEffect(() => {
     const cat = searchParams.get('category');
     const cardsParam = searchParams.get('cards');
@@ -425,54 +432,38 @@ function ResultContent() {
             <motion.div 
               initial={false}
               animate={{ 
-                height: isGridFolded ? 0 : (isMobile ? 440 : 650),
+                height: isGridFolded ? 0 : 'auto',
                 opacity: isGridFolded ? 0 : 1,
                 marginBottom: isGridFolded ? 0 : (isMobile ? 32 : 48),
                 marginTop: isGridFolded ? 0 : 16
               }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="relative w-full max-w-5xl mx-auto flex justify-center overflow-visible"
+              className="relative w-full max-w-4xl mx-auto grid grid-cols-4 lg:grid-cols-5 grid-rows-4 gap-2 md:gap-6 lg:gap-10 place-items-center overflow-visible"
               style={{ pointerEvents: isGridFolded ? 'none' : 'auto' }}
             >
               {cardsInfo.map((item, idx) => {
                 const isActive = false;
-                const gapX = isMobile ? 74 : 140; 
-                const gapY = isMobile ? 104 : 190;
                 
-                const crossCx = `calc(50% - ${gapX}px)`;
-                const crossCy = `50%`;
-                const pillarX = `calc(50% + ${gapX * 1.5}px)`;
-                
-                let left = '50%';
-                let top = '50%';
-                let transform = 'translate(-50%, -50%)';
+                let gridPos = "";
+                let transform = "";
                 let zIndex = 10;
                 
-                if (idx === 0) {
-                  left = crossCx; top = crossCy; zIndex = 10;
-                } else if (idx === 1) {
-                  left = crossCx; top = crossCy; 
-                  transform = 'translate(-50%, -50%) rotate(90deg)';
-                  zIndex = 11;
-                } else if (idx === 2) {
-                  left = crossCx; top = `calc(50% + ${gapY}px)`; 
-                } else if (idx === 3) {
-                  left = `calc(${crossCx} - ${gapX}px)`; top = crossCy;
-                } else if (idx === 4) {
-                  left = crossCx; top = `calc(50% - ${gapY}px)`;
-                } else if (idx === 5) {
-                  left = `calc(${crossCx} + ${gapX}px)`; top = crossCy;
-                } else {
-                  left = pillarX;
-                  const multiplier = 1.5 - (idx - 6);
-                  top = `calc(50% + ${gapY * multiplier}px)`;
-                }
+                if (idx === 0) { gridPos = "col-start-2 row-start-2"; }
+                else if (idx === 1) { gridPos = "col-start-2 row-start-2"; transform = "rotate(90deg) scale(0.95)"; zIndex = 11; }
+                else if (idx === 2) { gridPos = "col-start-2 row-start-3"; }
+                else if (idx === 3) { gridPos = "col-start-1 row-start-2"; }
+                else if (idx === 4) { gridPos = "col-start-2 row-start-1"; }
+                else if (idx === 5) { gridPos = "col-start-3 row-start-2"; }
+                else if (idx === 6) { gridPos = "col-start-4 lg:col-start-5 row-start-4"; }
+                else if (idx === 7) { gridPos = "col-start-4 lg:col-start-5 row-start-3"; }
+                else if (idx === 8) { gridPos = "col-start-4 lg:col-start-5 row-start-2"; }
+                else if (idx === 9) { gridPos = "col-start-4 lg:col-start-5 row-start-1"; }
 
                 return (
                   <div 
                     key={item.role + '-' + idx} 
-                    className="absolute transition-all duration-700 pointer-events-auto"
-                    style={{ left, top, transform, zIndex }}
+                    className={`transition-all duration-700 pointer-events-auto flex items-center justify-center ${gridPos}`}
+                    style={{ transform, zIndex }}
                   >
                     <ResultCardItem 
                       cardData={item.cardData} 
