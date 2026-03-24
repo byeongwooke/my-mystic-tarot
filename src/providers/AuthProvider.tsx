@@ -1,10 +1,8 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState } from 'react';
-import { onAuthStateChanged, signInAnonymously, User, updateProfile } from 'firebase/auth';
-import { auth, db } from '@/lib/firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { generateDestinyKey } from '@/utils/mysticName';
+import { onAuthStateChanged, signInAnonymously, User } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 const AuthContext = createContext<{ user: User | null; loading: boolean }>({
   user: null,
@@ -27,21 +25,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const userCredential = await signInAnonymously(auth);
           const newUser = userCredential.user;
           
-          // 신비로운 기본 이름 생성
-          const defaultName = generateDestinyKey();
+          // 유령 문서 찌꺼기 생성 로직 전면 삭제 (웰컴 페이지에서만 생성)
           
-          // Auth 프로필에 임시 각인
-          await updateProfile(newUser, { displayName: defaultName });
-          
-          // DB에 영혼 기록 생성
-          await setDoc(doc(db, "users", newUser.uid), {
-            uid: newUser.uid,
-            displayName: defaultName,
-            isInitial: true, // 아직 본인 이름을 입력하지 않은 상태
-            createdAt: new Date().toISOString(),
-          });
-          
-          setUser({ ...newUser, displayName: defaultName });
+          setUser(newUser);
         } catch (error) {
           console.error("영혼 소환 실패:", error);
         } finally {

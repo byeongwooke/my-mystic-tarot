@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { updateProfile } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
-import { doc, setDoc, getDocs, updateDoc, collection, query, where } from 'firebase/firestore';
+import { doc, setDoc, getDocs, updateDoc, collection, query, where, deleteDoc } from 'firebase/firestore';
 import { useAuth } from '@/providers/AuthProvider';
 
 export default function WelcomePage() {
@@ -58,6 +58,13 @@ export default function WelcomePage() {
     try {
       if (!user) throw new Error("No user");
 
+      // 1. UID가 문서 ID인 유령 데이터(과거 잔재)가 있다면 즉시 삭제
+      try {
+        await deleteDoc(doc(db, "users", user.uid));
+      } catch (e) {
+        // 무시 (문서가 없을 수 있음)
+      }
+
       const oldQuery = query(collection(db, "users"), where("uid", "==", user.uid));
       const oldSnap = await getDocs(oldQuery);
 
@@ -74,13 +81,21 @@ export default function WelcomePage() {
           return;
         }
 
+        // 다른 모든 내 연결을 null로 초기화 (1인 1계정 고수)
         for (const d of oldSnap.docs) {
           if (d.id !== existingDoc.id) {
             await updateDoc(doc(db, "users", d.id), { uid: null });
           }
         }
-        await updateDoc(doc(db, "users", existingDoc.id), { uid: user.uid, updatedAt: new Date().toISOString() });
+        
+        // 현재 닉네임 문서에 내 UID 바인딩 및 무결성 필드 보강
+        await updateDoc(doc(db, "users", existingDoc.id), { 
+          uid: user.uid, 
+          isInitial: false,
+          updatedAt: new Date().toISOString() 
+        });
       } else {
+        // 새 문서 생성 전 모든 기존 연결 해제
         for (const d of oldSnap.docs) {
           await updateDoc(doc(db, "users", d.id), { uid: null });
         }
