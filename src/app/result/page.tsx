@@ -112,6 +112,7 @@ function ResultContent() {
   const { user } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isCalculating, setIsCalculating] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [cardsInfo, setCardsInfo] = useState<{ cardData: any, role: string, isReversed: boolean }[]>([]);
   const [category, setCategory] = useState<string | null>(null);
@@ -132,11 +133,30 @@ function ResultContent() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // ✅ 카테고리/배열법 기반 로딩 타이머 (3.5s ~ 9.0s)
+  useEffect(() => {
+    if (!category || !spread) return;
+    
+    let delay = 5000;
+    if (spread === 'celtic') delay = 9000;
+    else if (spread === 'today' || category === 'today') delay = 3500;
+    else if (category === 'worry') delay = 4500;
+    
+    // [운명 확인하기] 진입 시 타이머 작동
+    const timer = setTimeout(() => {
+      setIsCalculating(false);
+    }, delay);
+    
+    return () => clearTimeout(timer);
+  }, [category, spread]);
+
   // ✅ 진입/변경 시 특정 상태(Popup, GridFold) 초기화
   useEffect(() => {
     setIsGridFolded(false);
     setPopupCardId(null);
     setShowSummary(false); // 요약 창도 리셋
+    // isCalculating 도 재진입 시 다시 켤 경우를 대비하지만, 
+    // 통상 page mount 시 true 가 됩니다.
   }, [searchParams]);
 
   useEffect(() => {
@@ -296,13 +316,8 @@ function ResultContent() {
     }
   }, [cardsInfo, user, isLoading, hasError, overallAdvice]);
 
-  if (isLoading) {
-    return (
-      <div className="w-full min-h-screen flex items-center justify-center bg-slate-900">
-        <div className="w-16 h-16 border-4 border-amber-500/30 border-t-amber-400 rounded-full animate-spin"></div>
-      </div>
-    );
-  }
+  // isLoading 스피너 로직은 아래 AnimatePresence 에서 통합 관리
+
 
   if (hasError) {
     return (
@@ -323,21 +338,48 @@ function ResultContent() {
   }
 
   return (
-    <main
-      className="w-full min-h-screen flex flex-col items-center bg-slate-900 bg-fixed overflow-y-auto select-none pt-[env(safe-area-inset-top)]"
-      style={{
-        paddingTop: 'calc(env(safe-area-inset-top) + 0.5rem)',
-        paddingBottom: '2rem'
-      }}
-    >
-      <div className="w-full max-w-4xl px-4 md:px-8 mt-6 md:mt-12 flex flex-col items-center">
-        <motion.h1
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-2xl md:text-5xl font-extrabold text-amber-400 mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] text-center break-keep leading-relaxed"
+    <AnimatePresence mode="wait">
+      {isCalculating || isLoading ? (
+        <motion.div
+           key="destiny-waiting-room"
+           initial={{ opacity: 0 }}
+           animate={{ opacity: 1 }}
+           exit={{ opacity: 0, transition: { duration: 1.5, ease: "easeInOut" } }}
+           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-slate-950/95 backdrop-blur-xl overflow-hidden"
         >
-          {user ? (user.displayName || "운명의 인도자") : "운명을 읽는 중..."} 님의 운명의 결과
-        </motion.h1>
+           <div className="relative flex flex-col items-center justify-center mb-12 w-full">
+              <div className="absolute inset-0 bg-emerald-500/20 blur-[60px] rounded-full w-[250px] h-[250px] md:w-[400px] md:h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+              <img 
+                src="/images/cards/card_back.webp" 
+                alt="Mandala" 
+                className="w-[180px] md:w-[280px] animate-spin-slow drop-shadow-[0_0_40px_rgba(16,185,129,0.4)] relative z-10" 
+              />
+           </div>
+           
+           <p className="text-xl md:text-2xl font-serif tracking-[0.2em] text-emerald-300/90 text-center break-keep px-6 relative z-10 animate-pulse drop-shadow-[0_0_15px_rgba(16,185,129,0.5)] leading-relaxed">
+              {user?.displayName ? `${user.displayName} 님의 운명을\n확인하는 중입니다...` : '운명을 확인하는 중입니다...'}
+           </p>
+        </motion.div>
+      ) : (
+        <motion.main
+          key="destiny-result"
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="w-full min-h-screen flex flex-col items-center bg-slate-900 bg-fixed overflow-y-auto select-none pt-[env(safe-area-inset-top)] relative z-10"
+          style={{
+            paddingTop: 'calc(env(safe-area-inset-top) + 0.5rem)',
+            paddingBottom: '2rem'
+          }}
+        >
+          <div className="w-full max-w-4xl px-4 md:px-8 mt-6 md:mt-12 flex flex-col items-center">
+            <motion.h1
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-2xl md:text-5xl font-extrabold text-amber-400 mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] text-center break-keep leading-relaxed"
+            >
+              {user ? (user.displayName || "운명의 인도자") : "운명을 읽는 중..."} 님의 운명의 결과
+            </motion.h1>
 
 
         <div className="mb-12 md:mb-20 mt-4 min-h-[80px] md:min-h-[120px] flex items-center justify-center w-full max-w-4xl px-2">
@@ -681,7 +723,9 @@ function ResultContent() {
           </motion.div>
         )}
       </AnimatePresence>
-    </main>
+    </motion.main>
+      )}
+    </AnimatePresence>
   );
 }
 
