@@ -370,12 +370,21 @@ function ResultContent() {
                   ease: "linear" 
                 }}
                 style={{ transformStyle: "preserve-3d" }}
-                className="relative z-10 w-[45vw] max-w-[200px] md:max-w-[280px]"
+                className="relative z-10 w-[45vw] max-w-[200px] md:max-w-[280px] aspect-[18/31]"
               >
+                {/* Front Side */}
                 <img 
-                  src="/images/cards/card_back.webp" 
-                  alt="Tarot Card Back" 
-                  className="w-full h-auto object-contain rounded-2xl md:rounded-3xl drop-shadow-[0_20px_40px_rgba(16,185,129,0.4)] md:drop-shadow-[0_30px_50px_rgba(16,185,129,0.6)]" 
+                  src="/images/card_back.webp" 
+                  alt="Tarot Card Back Front" 
+                  className="absolute inset-0 w-full h-full object-contain rounded-2xl md:rounded-3xl drop-shadow-[0_20px_40px_rgba(16,185,129,0.4)] md:drop-shadow-[0_30px_50px_rgba(16,185,129,0.6)]" 
+                  style={{ backfaceVisibility: "hidden" }}
+                />
+                {/* Back Side */}
+                <img 
+                  src="/images/card_back.webp" 
+                  alt="Tarot Card Back Reversed" 
+                  className="absolute inset-0 w-full h-full object-contain rounded-2xl md:rounded-3xl drop-shadow-[0_20px_40px_rgba(16,185,129,0.4)] md:drop-shadow-[0_30px_50px_rgba(16,185,129,0.6)]" 
+                  style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                 />
               </motion.div>
            </div>
