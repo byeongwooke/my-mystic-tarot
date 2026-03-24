@@ -206,15 +206,19 @@ function SelectContent() {
       const fieldName = complexCategories.includes(cleanCategory) ? `${cleanCategory}_${spreadParam}` : cleanCategory;
       
       try {
-        const userQuery = query(collection(db, "users"), where("displayName", "==", user.displayName));
-        const snap = await getDocs(userQuery);
-        if (!snap.empty) {
-          await updateDoc(doc(db, "users", snap.docs[0].id), {
-            [`counts.${fieldName}`]: increment(1)
-          });
-        }
+        const userDocRef = doc(db, "users", user.displayName);
+        
+        // 비동기로 DB 업데이트 (router.push 브로킹 방지 및 컴포넌트 언마운트 후에도 Firebase JS SDK가 백그라운드 처리)
+        updateDoc(userDocRef, {
+          [`counts.${fieldName}`]: increment(1),
+          lastReadingAt: new Date().toISOString() // 1. 활동 디버그 및 이탈 원인 분석용
+        }).then(() => {
+          console.log(`[Firebase DebugView] Successfully updated counts for UID: ${user.uid} (${user.displayName}) | Field: ${fieldName}`);
+        }).catch((err) => {
+          console.error(`[Firebase DebugView Error] Failed to update counts for UID: ${user.uid}`, err);
+        });
       } catch (err) {
-        console.error(err);
+        console.error("[Firebase Setup Error]", err);
       }
     }
 
