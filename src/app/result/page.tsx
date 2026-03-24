@@ -358,7 +358,7 @@ function ResultContent() {
            <div className="relative flex flex-col items-center justify-center mb-12 w-full animate-pulse">
               <div className="absolute inset-0 bg-emerald-700/20 blur-[60px] rounded-full w-[250px] h-[250px] md:w-[400px] md:h-[400px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
               <img 
-                src="/images/cards/card_back.webp" 
+                src="/images/mandara.webp" 
                 alt="Mandala" 
                 className="w-[180px] md:w-[280px] animate-spin-slow drop-shadow-[0_0_50px_rgba(16,185,129,0.5)] relative z-10" 
               />
