@@ -282,12 +282,11 @@ function ResultContent() {
       return isReversed ? (cardData?.todayWarningAdvice || cardData?.todayAdvice || "운명의 메시지를 준비 중입니다") : (cardData?.todayAdvice || "운명의 메시지를 준비 중입니다");
     }
 
-    if (isReversed && cardData.interpretations?.reversed) {
-      return cardData.interpretations.reversed;
-    }
-
     const key = CATEGORY_MAP[category] || category;
-    return cardData.interpretations?.[key] || "운명의 메시지를 준비 중입니다";
+    const targetKey = isReversed ? `${key}Reversed` : key;
+    
+    // 3배열 (확장된 interpretations 로직)
+    return cardData.interpretations?.[targetKey] || cardData.interpretations?.[key] || "운명의 메시지를 준비 중입니다";
   };
 
   const getCelticInterpretation = (cardData: any, idx: number, isReversed: boolean = false) => {
