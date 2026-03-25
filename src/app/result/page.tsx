@@ -262,17 +262,26 @@ function ResultContent() {
       '현재': 'present',
       '미래': 'future'
     };
-    const mappedTime = timeMap[role] || 'future';
+    
+    // 역할 이름에서 베이스 키워드(과거/현재/미래)만 추출하여 매핑 (예: "과거 (정방향)" -> "past")
+    const baseRoleMatch = role.match(/^(과거|현재|미래)/);
+    const mappedTime = baseRoleMatch ? timeMap[baseRoleMatch[1]] : 'future';
 
     // 3배열 (기본 advice 객체 매핑 로직)
     const baseKey = CATEGORY_MAP[category] || category;
     const targetKey = isReversed ? `${baseKey}Reversed` : baseKey;
     
-    // 역방향 전용 데이터가 있으면 가져오고, 없으면 정방향(baseKey)로 폴백
     const catAdvice = cardData.advice?.[targetKey] || cardData.advice?.[baseKey];
 
-    if (typeof catAdvice === 'string') return catAdvice;
-    return catAdvice?.[mappedTime] || "운명의 메시지를 준비 중입니다";
+    let text = "";
+    if (typeof catAdvice === 'string') {
+      text = catAdvice;
+    } else {
+      text = catAdvice?.[mappedTime] || "운명의 메시지를 준비 중입니다";
+    }
+
+    // 괄호 마커 삭제 (past, present, future 및 켈틱용 마커들)
+    return text.replace(/\s*\((past|present|future|core|obstacle|goal|foundation|nearFuture|self|influence|hopes|destiny)\)/g, "");
   };
 
   const getInterpretationText = (item: any) => {
@@ -285,7 +294,7 @@ function ResultContent() {
     const key = CATEGORY_MAP[category] || category;
     const targetKey = isReversed ? `${key}Reversed` : key;
     
-    // 3배열 (확장된 interpretations 로직)
+    // 3배열 (TAROT_SPREAD3에서만 가져오도록 키 매핑 고정)
     return cardData.interpretations?.[targetKey] || cardData.interpretations?.[key] || "운명의 메시지를 준비 중입니다";
   };
 
@@ -332,11 +341,12 @@ function ResultContent() {
     if (spread === 'today') {
       return `"${getAdviceText(cardsInfo[0])}"`;
     }
-    if (spread === 'celtic') {
+    if (spread === 'celtic' && activeCardIdx !== -1) {
       const activeData = cardsInfo[activeCardIdx]?.cardData;
       return `"${getCelticInterpretation(activeData, activeCardIdx)}"`;
     }
-    const futureItem = cardsInfo.find(c => c.role === "미래");
+    // 3배열(basic)일 경우 미래 카드의 advice 서사를 메인으로 노출
+    const futureItem = cardsInfo.find(c => c.role.startsWith("미래"));
     return futureItem ? `"${getAdviceText(futureItem)}"` : "운명은 당신의 선택에 달려 있습니다.";
   }, [cardsInfo, spread, category, activeCardIdx]);
 
