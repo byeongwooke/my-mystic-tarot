@@ -301,35 +301,22 @@ function ResultContent() {
   const getCelticInterpretation = (cardData: any, idx: number, isReversed: boolean = false) => {
     if (!cardData || !cardData.celtic || !category) return "운명의 메시지를 준비 중입니다";
     
-    // 만약 오늘의 운세 카테고리인데 캘틱을 시도할 경우 에러 방지 (기본값 love)
-    let targetCat = CATEGORY_MAP[category] || category;
-    if (targetCat === 'today') targetCat = 'love';
+    let baseCat = CATEGORY_MAP[category] || category;
+    if (baseCat === 'today' || baseCat === 'worry') baseCat = 'love';
 
-    // 역방향 전용 데이터 시도 (혹시 데이터에 reversed 가 있다면 우선 사용)
-    if (isReversed && cardData.interpretations?.reversed) {
-      return `[역방향] ${cardData.interpretations.reversed} 하지만 이 시기를 지혜롭게 넘긴다면 충분히 극복할 수 있는 흐름입니다.`;
-    }
+    const targetKey = isReversed ? `${baseCat}Reversed` : baseCat;
+    const catCelticData = cardData.celtic[targetKey] || cardData.celtic[baseCat];
     
-    const catCelticData = cardData.celtic[targetCat];
     if (!catCelticData) return "운명의 메시지를 준비 중입니다";
 
     const key = CELTIC_LAYOUT_INFO[idx]?.key as keyof typeof catCelticData;
     let text = key && catCelticData[key] ? catCelticData[key] : "운명의 메시지를 준비 중입니다";
+    
     if (typeof text === 'string') {
+        // Clean up any remaining markers just in case
         text = text.replace(/\s*\((core|obstacle|goal|foundation|past|nearFuture|self|influence|hopes|destiny)\)/g, "");
     }
     
-    if (isReversed) {
-      // 긍정적 조언 가이드 문구 추가 (Softening Logic)
-      const softening = [
-        "하지만 이 흐름은 당신의 의지로 충분히 극복할 수 있습니다.",
-        "오히려 이 시기를 지혜롭게 넘기기 위한 조언으로 받아들여 보세요.",
-        "잠시 쉬어가며 내면을 단단히 다지는 계기로 삼으시길 바랍니다."
-      ];
-      const randomSoft = softening[Math.floor(Math.random() * softening.length)];
-      text = `[역방향] ${text} ${randomSoft}`;
-    }
-
     return text;
   };
 
