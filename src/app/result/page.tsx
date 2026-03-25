@@ -592,7 +592,7 @@ function ResultContent() {
                 {cardsInfo.map((card, idx) => (
                   <div key={idx} className="card-info-item bg-black/40 p-5 rounded-2xl border border-white/5">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="text-gray-500 font-bold text-xs bg-white/5 px-2 py-0.5 rounded">[{idx + 1}]</span>
+                      <span className="text-gray-300 font-bold text-xs bg-white/5 px-2 py-0.5 rounded">[{idx + 1}]</span>
                       <span className="text-gray-300 text-xs tracking-widest uppercase">{CELTIC_LAYOUT_INFO[idx]?.labelKr}</span>
                     </div>
                     <div className="text-white font-bold text-base md:text-lg tracking-wider mb-2">
@@ -727,7 +727,7 @@ function ResultContent() {
           viewport={{ once: true }}
           className="mt-24 mb-10 flex flex-col items-center w-full"
         >
-          <p className="text-gray-400 opacity-60 text-xs md:text-sm font-light tracking-wide mb-8 text-center max-w-sm">
+          <p className="text-gray-300 opacity-80 text-xs md:text-sm font-light tracking-wide mb-8 text-center max-w-sm">
             본 결과는 삶의 방향을 잡기 위한 참고용이며, 진정한 운명은 스스로 개척하는 것입니다.
           </p>
           <button
