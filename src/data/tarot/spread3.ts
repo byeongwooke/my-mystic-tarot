@@ -13,8 +13,11 @@ export interface Spread3Card {
     };
     advice: {
         love: TimelineAdvice;
+        loveReversed?: TimelineAdvice;
         money: TimelineAdvice;
+        moneyReversed?: TimelineAdvice;
         work: TimelineAdvice;
+        workReversed?: TimelineAdvice;
     };
 }
 
@@ -107,15 +110,30 @@ export const TAROT_SPREAD3: Record<number, Spread3Card> = {
                 "present": "지금의 평온함을 소중히 가꾸세요.",
                 "future": "관계가 더 깊고 풍성해질 것입니다."
             },
+            "loveReversed": {
+                "past": "진정성 없는 말장난과 파편화된 감정으로 기만을 일삼았던 지난날이,",
+                "present": "상대의 긍정적 에너지를 갉아먹는 흡혈귀 같은 종속 관계로 변질되어 숨막히는 현실입니다.",
+                "future": "조만간 소모적이고 감정 낭비적인 막장 드라마가 극에 달해 법적인 문제로까지 비화될 살얼음판입니다."
+            },
             "money": {
                 "past": "금전적으로 여유로웠던 시기를 보냈었네요.",
                 "present": "풍요를 즐기며 내실을 다질 때입니다.",
                 "future": "재물이 안정적으로 쌓이는 시기가 옵니다."
             },
+            "moneyReversed": {
+                "past": "잘못된 정보와 타인의 헛소문을 맹목적으로 추종했던 게으름의 업보가 스멀스멀 올라와,",
+                "present": "완벽하게 속거나 계산 착오에 빠져 자신의 피 같은 자산을 스스로 적진에 밀어 넣는 최악의 전황이군요.",
+                "future": "곧 누적된 리스크의 댐이 터지면서 돌려막기의 고리가 부서지고 경제적 질식 상태로 응급실에 실려갈 급박한 미래네요."
+            },
             "work": {
                 "past": "뿌린 씨앗이 싹을 틔웠던 순간이 있었군요.",
                 "present": "팀워크와 소통에 힘쓰면 성과가 배가됩니다.",
                 "future": "진행 중인 일이 풍성한 결실을 맺을 거예요."
+            },
+            "workReversed": {
+                "past": "실무는 내팽개치고 윗사람에게 아부하며 사내 정치판의 광대로 치부됐던 기만적인 카르마가,",
+                "present": "회사에서는 쫓아내기 전의 유령 취급, 사업가라면 고객이 이미 외면하기 시작한 썩어가는 사과가 된 처지네요.",
+                "future": "며칠 안으로 당신을 등에 업던 팀원들이 쿠데타를 일으켜 완전한 직장 내 왕따로 전락하는 쓰라린 치명상을 입게 됩니다."
             }
         }
     },

@@ -264,14 +264,12 @@ function ResultContent() {
     };
     const mappedTime = timeMap[role] || 'future';
 
-    if (isReversed && cardData.interpretations?.reversed) {
-      return cardData.interpretations.reversed;
-    }
-
-    if (typeof cardData.advice === 'string') return cardData.advice;
-
-    const key = CATEGORY_MAP[category] || category;
-    const catAdvice = cardData.advice?.[key];
+    // 3배열 (기본 advice 객체 매핑 로직)
+    const baseKey = CATEGORY_MAP[category] || category;
+    const targetKey = isReversed ? `${baseKey}Reversed` : baseKey;
+    
+    // 역방향 전용 데이터가 있으면 가져오고, 없으면 정방향(baseKey)로 폴백
+    const catAdvice = cardData.advice?.[targetKey] || cardData.advice?.[baseKey];
 
     if (typeof catAdvice === 'string') return catAdvice;
     return catAdvice?.[mappedTime] || "운명의 메시지를 준비 중입니다";
@@ -725,23 +723,29 @@ function ResultContent() {
 
                     {(() => {
                       const isNegative = (item.isReversed ? item.cardData?.reversePolarity : item.cardData?.polarity) === 'negative';
+                      const isWarning = item.isReversed || (category === 'worry' && isNegative);
+
                       return (
-                        <div className={`p-5 md:p-6 rounded-2xl relative border ${
-                          category === 'worry' 
-                            ? (isNegative ? 'bg-gradient-to-br from-rose-900/30 to-black/40 border-rose-500/30 shadow-[0_0_30px_rgba(225,29,72,0.15)]' : 'bg-gradient-to-br from-emerald-900/30 to-black/40 border-emerald-500/30 shadow-[0_0_30px_rgba(52,211,153,0.15)]')
-                            : 'bg-gradient-to-br from-amber-900/30 to-black/40 border-amber-500/30'
+                        <div className={`p-5 md:p-6 rounded-2xl relative border transition-all duration-500 ${
+                          isWarning
+                            ? 'bg-gradient-to-br from-rose-950/40 to-black/60 border-rose-500/40 shadow-[0_0_20px_rgba(225,29,72,0.2)]'
+                            : (category === 'worry'
+                                ? 'bg-gradient-to-br from-emerald-900/30 to-black/40 border-emerald-500/30 shadow-[0_0_30px_rgba(52,211,153,0.15)]'
+                                : 'bg-gradient-to-br from-amber-900/30 to-black/40 border-amber-500/30')
                         }`}>
-                          <span className={`absolute -top-3 left-4 px-3 py-1 text-xs rounded-full tracking-widest border ${
-                            category === 'worry'
-                              ? (isNegative ? 'bg-rose-900 border-rose-500/50 text-rose-200' : 'bg-emerald-900 border-emerald-500/50 text-emerald-200')
-                              : 'bg-amber-900 border-amber-500/50 text-amber-200'
+                          <span className={`absolute -top-3 left-4 px-3 py-1 text-xs rounded-full tracking-widest border transition-colors ${
+                            isWarning
+                              ? 'bg-rose-950 border-rose-500/60 text-rose-200 shadow-[0_0_10px_rgba(225,29,72,0.3)]'
+                              : (category === 'worry'
+                                  ? 'bg-emerald-900 border-emerald-500/50 text-emerald-200'
+                                  : 'bg-amber-900 border-amber-500/50 text-amber-200')
                           }`}>
                             타로 마스터의 한마디
                           </span>
                           <p className={`text-[15px] md:text-xl leading-loose tracking-wide break-keep mt-2 font-serif italic ${
-                            category === 'worry'
-                              ? (isNegative ? 'text-rose-50/90' : 'text-emerald-50/90')
-                              : 'text-amber-50/90'
+                            isWarning
+                              ? 'text-rose-100/90'
+                              : (category === 'worry' ? 'text-emerald-50/90' : 'text-amber-50/90')
                           }`}>
                             "{category === 'worry' ? (item.isReversed ? item.cardData?.todayWarningAdvice : item.cardData?.todayAdvice) : getAdviceText(item)}"
                           </p>
