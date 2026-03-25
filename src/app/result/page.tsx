@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useMemo, memo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import { TAROT_BASE } from "@/data/tarot/base";
 import { TAROT_FORTUNE } from "@/data/tarot/today";
 import { TAROT_SPREAD3 } from "@/data/tarot/spread3";
@@ -390,17 +391,23 @@ function ResultContent() {
                 className="relative z-10 w-[45vw] max-w-[200px] md:max-w-[280px] aspect-[18/31]"
               >
                 {/* Front Side */}
-                <img 
+                <Image 
                   src="/images/card_back.webp" 
                   alt="Tarot Card Back Front" 
-                  className="absolute inset-0 w-full h-full object-contain rounded-2xl md:rounded-3xl drop-shadow-[0_20px_40px_rgba(16,185,129,0.4)] md:drop-shadow-[0_30px_50px_rgba(16,185,129,0.6)]" 
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 50vw, 30vw"
+                  className="object-contain rounded-2xl md:rounded-3xl drop-shadow-[0_20px_40px_rgba(16,185,129,0.4)] md:drop-shadow-[0_30px_50px_rgba(16,185,129,0.6)]" 
                   style={{ backfaceVisibility: "hidden" }}
                 />
                 {/* Back Side */}
-                <img 
+                <Image 
                   src="/images/card_back.webp" 
                   alt="Tarot Card Back Reversed" 
-                  className="absolute inset-0 w-full h-full object-contain rounded-2xl md:rounded-3xl drop-shadow-[0_20px_40px_rgba(16,185,129,0.4)] md:drop-shadow-[0_30px_50px_rgba(16,185,129,0.6)]" 
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 50vw, 30vw"
+                  className="object-contain rounded-2xl md:rounded-3xl drop-shadow-[0_20px_40px_rgba(16,185,129,0.4)] md:drop-shadow-[0_30px_50px_rgba(16,185,129,0.6)]" 
                   style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                 />
               </motion.div>
@@ -758,9 +765,12 @@ function ResultContent() {
               className="relative flex flex-col items-center justify-center w-full max-h-[90vh] cursor-default"
               onClick={(e) => e.stopPropagation()}
             >
-              <img 
+              <Image 
                 src={`/images/cards/${popupCardId}.webp`} 
                 alt="상세 카드"
+                width={800}
+                height={1370}
+                quality={90}
                 className="max-h-[75vh] w-auto object-contain drop-shadow-[0_0_50px_rgba(0,0,0,0.8)] rounded-2xl"
               />
               <button

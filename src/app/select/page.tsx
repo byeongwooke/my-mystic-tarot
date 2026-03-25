@@ -6,6 +6,7 @@ import { TAROT_CELTIC } from "@/data/tarot/celtic";
 import { CELTIC_LAYOUT_INFO } from "@/constants/tarot";
 import { getDailyCardCondition } from "@/utils/cardCondition";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useAuth } from "@/providers/AuthProvider";
 import { doc, updateDoc, increment, getDocs, query, collection, where } from "firebase/firestore";
@@ -472,9 +473,11 @@ function SelectContent() {
                           className="w-full h-full rounded-xl overflow-hidden flex items-center justify-center"
                           style={{ backfaceVisibility: "hidden", ...filterStyle }}
                         >
-                          <img 
+                          <Image 
                             src="/images/card_back.webp" 
                             alt="카드 뒷면" 
+                            fill
+                            sizes="(max-width: 768px) 50vw, 30vw"
                             className="w-full h-full object-cover"
                           />
                           <div className="absolute inset-0 shadow-[inset_0_0_10px_rgba(255,255,255,0.1)] rounded-xl pointer-events-none border border-white/10 mix-blend-overlay"></div>
