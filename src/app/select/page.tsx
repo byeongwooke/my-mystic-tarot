@@ -258,6 +258,9 @@ function SelectContent() {
           transition={{ duration: 1, type: "spring", stiffness: 100 }}
           className="z-10 text-center mb-12 flex flex-col items-center"
         >
+          <div className="mb-6">
+            <h2 className="text-3xl md:text-4xl font-black text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)] tracking-[0.2em]">혹시타로</h2>
+          </div>
           <span className="text-emerald-500/80 tracking-[0.2em] text-sm md:text-base mb-2 uppercase font-medium">진정한 운명은 당신의 손끝에서 시작됩니다</span>
           <h1 className="text-3xl md:text-5xl font-extrabold tracking-widest text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
             <span className="text-emerald-400 drop-shadow-[0_0_20px_rgba(16,185,129,0.6)]">{user?.displayName || "운명의 인도자"}</span> 님의 선택

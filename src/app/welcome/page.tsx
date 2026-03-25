@@ -131,7 +131,10 @@ export default function WelcomePage() {
     <main className="flex min-h-screen flex-col items-center justify-center bg-slate-950 px-6">
       <div className="w-full max-w-md space-y-12 text-center">
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold text-white tracking-tighter">성명 각인</h1>
+          <div className="mb-6">
+            <h1 className="text-4xl md:text-5xl font-black text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.6)] tracking-[0.2em]">혹시타로</h1>
+          </div>
+          <h2 className="text-3xl font-bold text-white tracking-tighter mt-4">성명 각인</h2>
           <p className="text-slate-400">이 세계에서 당신은 무엇이라 불리길 원하십니까?</p>
         </div>
 

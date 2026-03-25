@@ -127,8 +127,27 @@ function ResultContent() {
 
   const isSavedRef = React.useRef(false);
 
+  const checkMobile = () => setIsMobile(window.innerWidth < 768);
+
+  const handleShare = async () => {
+    const shareData = {
+      title: '혹시타로',
+      text: "혹시 내 운명은? '혹시타로'에서 확인해보세요!",
+      url: window.location.origin
+    };
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        console.error('Error sharing', err);
+      }
+    } else {
+      navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+      alert('링크가 클립보드에 복사되었습니다. 친구에게 공유해보세요!');
+    }
+  };
+
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
@@ -613,12 +632,20 @@ function ResultContent() {
               </div>
             </div>
 
-            <button
-              onClick={() => router.push('/select')}
-              className="mt-16 px-10 py-4 bg-slate-800 border border-emerald-500/50 text-emerald-500 font-bold rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:bg-slate-700 active:scale-95 transition-all tracking-widest text-lg"
-            >
-              다른 운명 점치기
-            </button>
+            <div className="mt-16 flex flex-col items-center gap-4 w-full px-4">
+              <button
+                onClick={handleShare}
+                className="w-full max-w-[280px] md:max-w-[320px] py-4 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:to-emerald-400 text-slate-950 font-extrabold text-lg rounded-full shadow-[0_0_20px_rgba(16,185,129,0.5)] active:scale-95 transition-all tracking-widest"
+              >
+                운명 공유하기 🔗
+              </button>
+              <button
+                onClick={() => router.push('/select')}
+                className="w-full max-w-[280px] md:max-w-[320px] py-4 bg-slate-800 border border-emerald-500/50 text-emerald-500 font-bold rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:bg-slate-700 active:scale-95 transition-all tracking-widest text-lg"
+              >
+                다른 운명 점치기
+              </button>
+            </div>
           </div>
         ) : (
           <>
@@ -737,12 +764,20 @@ function ResultContent() {
           <p className="text-gray-300 opacity-80 text-xs md:text-sm font-light tracking-wide mb-8 text-center max-w-sm">
             본 결과는 삶의 방향을 잡기 위한 참고용이며, 진정한 운명은 스스로 개척하는 것입니다.
           </p>
-          <button
-            onClick={() => router.push('/select')}
-            className="w-full max-w-sm py-4 md:py-6 bg-slate-800 text-emerald-500 font-bold text-xl rounded-full shadow-[0_0_30px_rgba(16,185,129,0.3)] hover:shadow-[0_0_50px_rgba(16,185,129,0.5)] hover:bg-slate-700 hover:scale-105 active:scale-95 transition-all tracking-widest border border-emerald-500/50"
-          >
-            다른 운명 점치기
-          </button>
+          <div className="w-full flex flex-col items-center gap-4 px-4">
+            <button
+              onClick={handleShare}
+              className="w-full max-w-sm py-4 md:py-6 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:to-emerald-400 text-slate-950 font-extrabold text-xl rounded-full shadow-[0_0_30px_rgba(16,185,129,0.5)] hover:shadow-[0_0_50px_rgba(16,185,129,0.7)] active:scale-95 transition-all tracking-widest"
+            >
+              운명 공유하기 🔗
+            </button>
+            <button
+              onClick={() => router.push('/select')}
+              className="w-full max-w-sm py-4 md:py-6 bg-slate-800 text-emerald-500 font-bold text-xl rounded-full shadow-[0_0_30px_rgba(16,185,129,0.3)] hover:shadow-[0_0_50px_rgba(16,185,129,0.5)] hover:bg-slate-700 active:scale-95 transition-all tracking-widest border border-emerald-500/50"
+            >
+              다른 운명 점치기
+            </button>
+          </div>
         </motion.div>
       </div>
 
