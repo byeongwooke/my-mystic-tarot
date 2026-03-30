@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { AuthProvider } from "@/providers/AuthProvider";
+import { OnboardingGuard } from "@/components/OnboardingGuard";
 
 export const metadata: Metadata = {
   title: "혹시타로 | 당신의 운명을 읽는 신비로운 가이드",
@@ -46,7 +47,9 @@ export default function RootLayout({
     <html lang="ko" className="dark">
       <body className="bg-slate-950 antialiased overflow-x-hidden">
         <AuthProvider>
-          {children}
+          <OnboardingGuard>
+            {children}
+          </OnboardingGuard>
         </AuthProvider>
       </body>
     </html>

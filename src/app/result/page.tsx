@@ -3,10 +3,7 @@
 import React, { useEffect, useState, useMemo, memo, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Image from "next/image";
-import { TAROT_BASE } from "@/data/tarot/base";
-import { TAROT_FORTUNE } from "@/data/tarot/today";
-import { TAROT_SPREAD3_SPICY } from "@/data/tarot/spicy_spread3";
-import { TAROT_CELTIC } from "@/data/tarot/spicy_celtic";
+import { CARDS } from "@/data/tarot/cards";
 import { CELTIC_LAYOUT_INFO } from "@/constants/tarot";
 import { getDailyCardCondition } from "@/utils/cardCondition";
 import { motion, AnimatePresence } from "framer-motion";
@@ -210,16 +207,9 @@ function ResultContent() {
 
     const cardSelections = cardsParam.split(',').map(val => ({ id: parseInt(val, 10), isReversed: val.endsWith('r') }));
     const loadedCards = cardSelections.map(({ id, isReversed }, index) => {
-      const base = TAROT_BASE[id];
-      if (!base) return null;
-      let cardData: any = { ...base };
-      if (spreadParam === 'today') {
-        cardData = { ...cardData, ...TAROT_FORTUNE[id] };
-      } else if (spreadParam === 'celtic') {
-        cardData = { ...cardData, celtic: TAROT_CELTIC[id] };
-      } else {
-        cardData = { ...cardData, ...TAROT_SPREAD3_SPICY[id] };
-      }
+      const cardData = CARDS[id];
+      if (!cardData) return null;
+      
       const baseRole = roles[index] || "오늘의 카드";
       const appendedRole = `${baseRole} (${isReversed ? '역방향' : '정방향'})`;
       return { cardData, role: appendedRole, isReversed };
@@ -251,8 +241,8 @@ function ResultContent() {
 
     if (category === 'worry') {
       const polarity = isReversed ? cardData.reversePolarity : cardData.polarity;
-      if (polarity === 'negative') return TAROT_FORTUNE[cardData.id]?.warningWorry || "운명의 경고를 준비 중입니다";
-      return TAROT_FORTUNE[cardData.id]?.worry || "운명의 메시지를 준비 중입니다";
+      if (polarity === 'negative') return cardData.warningWorry || "운명의 경고를 준비 중입니다";
+      return cardData.worry || "운명의 메시지를 준비 중입니다";
     }
 
     // 오늘의 운세 전용 조언 우선

@@ -1,17 +1,69 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUserSettings } from '@/hooks/useUserSettings';
-import { motion } from 'framer-motion';
+import { useAuth } from '@/providers/AuthProvider';
+import { motion, AnimatePresence } from 'framer-motion';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import { TarotMode } from '@/types/settings';
 
 export default function SettingsPage() {
   const router = useRouter();
+  const { user, hasConfiguredSettings } = useAuth();
   const { settings, updateSettings } = useUserSettings();
 
-  const handleSave = () => {
-    updateSettings({ isFirstVisit: false });
-    router.push('/select');
+  // 온보딩 모드인 경우 초기값을 null로 설정하여 선택을 강제함
+  const [localMode, setLocalMode] = useState<TarotMode | null>(
+    hasConfiguredSettings ? settings.mode : null
+  );
+  const [localIncludeMinor, setLocalIncludeMinor] = useState<boolean | null>(
+    hasConfiguredSettings ? settings.includeMinor : null
+  );
+  const [localUseReversals, setLocalUseReversals] = useState<boolean | null>(
+    hasConfiguredSettings ? settings.useReversals : null
+  );
+
+  const [isSaving, setIsSaving] = useState(false);
+
+  // 모든 항목이 선택되었는지 확인
+  const isValid = localMode !== null && localIncludeMinor !== null && localUseReversals !== null;
+
+  const handleSave = async () => {
+    if (!isValid || !user) return;
+    
+    setIsSaving(true);
+    try {
+      // 1. 로컬 설정 업데이트
+      updateSettings({
+        mode: localMode,
+        includeMinor: localIncludeMinor,
+        useReversals: localUseReversals,
+        isFirstVisit: false
+      });
+
+      // 2. Firebase 유저 설정 완료 상태 업데이트
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, {
+        hasConfiguredSettings: true,
+        updatedAt: new Date().toISOString(),
+        // 필요 시 선호도 수치도 DB에 기록 가능
+        preferences: {
+            mode: localMode,
+            includeMinor: localIncludeMinor,
+            useReversals: localUseReversals
+        }
+      });
+
+      // 3. 이동
+      router.push('/select');
+    } catch (error) {
+      console.error("설정 저장 실패:", error);
+      alert("설정 저장 중 오류가 발생했습니다. 다시 시도해 주세요.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const ToggleSection = ({ 
@@ -28,7 +80,18 @@ export default function SettingsPage() {
     onChange: (val: any) => void 
   }) => (
     <div className="mb-10 w-full">
-      <h3 className="text-emerald-400 font-black tracking-widest text-lg mb-2 uppercase">{title}</h3>
+      <div className="flex items-center gap-2 mb-2">
+        <h3 className="text-emerald-400 font-black tracking-widest text-lg uppercase">{title}</h3>
+        {currentValue === null && (
+            <motion.span 
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-[10px] bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded-full border border-rose-500/30 font-bold"
+            >
+                필수 선택
+            </motion.span>
+        )}
+      </div>
       <p className="text-gray-400 text-sm mb-6 font-light">{description}</p>
       <div className="grid grid-cols-2 gap-4">
         {options.map((opt) => (
@@ -38,7 +101,7 @@ export default function SettingsPage() {
             className={`py-4 px-2 rounded-2xl border-2 transition-all duration-300 font-bold tracking-widest ${
               currentValue === opt.value
                 ? 'bg-emerald-500/20 border-emerald-400 text-emerald-400 shadow-[0_0_20px_rgba(52,211,153,0.3)]'
-                : 'bg-slate-900/50 border-slate-800 text-gray-500 hover:border-slate-700'
+                : 'bg-slate-900/50 border-slate-800 text-gray-400 hover:border-slate-700'
             }`}
           >
             {opt.label}
@@ -61,23 +124,35 @@ export default function SettingsPage() {
       </div>
 
       <div className="z-10 w-full max-w-md flex flex-col items-center">
-        <header className="mb-12 text-center">
+        <header className="mb-10 text-center">
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="mb-4"
+          >
+            <span className="text-amber-500/60 text-xs tracking-[0.5em] uppercase font-bold">Registration</span>
+          </motion.div>
           <motion.h1 
             initial={{ y: -20 }}
             animate={{ y: 0 }}
             className="text-3xl md:text-4xl font-black text-amber-500 tracking-[0.3em] mb-2 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)] uppercase"
           >
-            My Page
+            {hasConfiguredSettings ? 'My Page' : 'Onboarding'}
           </motion.h1>
           <div className="h-1 w-20 bg-amber-500/50 mx-auto rounded-full" />
+          {!hasConfiguredSettings && (
+              <p className="mt-4 text-gray-400 text-xs tracking-widest break-keep">
+                당신의 운명을 읽기 전, 세 가지 취향을 먼저 알려주세요.
+              </p>
+          )}
         </header>
 
-        <div className="w-full bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+        <div className="w-full bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
           <ToggleSection
             title="해석 모드"
             description="타로가 전하는 진심의 농도를 결정합니다."
-            currentValue={settings.mode}
-            onChange={(val) => updateSettings({ mode: val })}
+            currentValue={localMode}
+            onChange={(val) => setLocalMode(val)}
             options={[
               { label: '매운맛 (Spicy)', value: 'spicy' },
               { label: '순한맛 (Gentle)', value: 'gentle' }
@@ -87,8 +162,8 @@ export default function SettingsPage() {
           <ToggleSection
             title="카드 범위"
             description="덱의 구성 범위를 선택합니다."
-            currentValue={settings.includeMinor}
-            onChange={(val) => updateSettings({ includeMinor: val })}
+            currentValue={localIncludeMinor}
+            onChange={(val) => setLocalIncludeMinor(val)}
             options={[
               { label: '메이저 카드만', value: false },
               { label: '전체 카드 포함', value: true }
@@ -98,8 +173,8 @@ export default function SettingsPage() {
           <ToggleSection
             title="역방향"
             description="카드의 방향에 따른 해석 차이를 적용합니다."
-            currentValue={settings.useReversals}
-            onChange={(val) => updateSettings({ useReversals: val })}
+            currentValue={localUseReversals}
+            onChange={(val) => setLocalUseReversals(val)}
             options={[
               { label: '사용함 (7:3)', value: true },
               { label: '사용 안 함', value: false }
@@ -107,17 +182,29 @@ export default function SettingsPage() {
           />
 
           <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={isValid && !isSaving ? { scale: 1.02 } : {}}
+            whileTap={isValid && !isSaving ? { scale: 0.98 } : {}}
+            disabled={!isValid || isSaving}
             onClick={handleSave}
-            className="w-full py-5 bg-gradient-to-r from-amber-600 to-amber-500 hover:to-amber-400 text-white font-black text-xl rounded-2xl shadow-[0_10px_30px_rgba(245,158,11,0.3)] transition-all tracking-[0.2em] mt-4"
+            className={`w-full py-5 font-black text-xl rounded-2xl transition-all tracking-[0.2em] mt-4 flex items-center justify-center ${
+              isValid && !isSaving
+                ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-[0_10px_30px_rgba(245,158,11,0.3)]'
+                : 'bg-slate-800 text-gray-500 border border-white/5 cursor-not-allowed opacity-50'
+            }`}
           >
-            저장하고 돌아가기
+            {isSaving ? '신비로운 설정 저장 중...' : '저장하고 시작하기'}
           </motion.button>
+          
+          {!isValid && (
+            <p className="text-center text-[10px] text-rose-400/60 mt-4 tracking-tighter uppercase font-bold">
+                * 모든 항목을 선택해야 운명의 문이 열립니다.
+            </p>
+          )}
         </div>
 
-        <footer className="mt-12 text-gray-600 text-xs tracking-widest font-light uppercase">
-          Your Destiny, Your Choice
+        <footer className="mt-12 text-gray-600 text-[10px] tracking-widest font-light uppercase text-center space-y-1">
+          <div>Your Destiny, Your Choice</div>
+          <div className="opacity-40">Spirit of Hocis Tarot</div>
         </footer>
       </div>
     </motion.main>

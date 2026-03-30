@@ -17,12 +17,16 @@ export const getCardPool = (includeMinor: boolean): number[] => {
 };
 
 /**
- * Randomly draws a card and determines if it is reversed.
+ * Randomly draws a card (or uses a forced ID) and determines if it is reversed.
  * Reversal logic: 7:3 (30% chance of being reversed) if enabled in settings.
  */
-export const drawCard = (settings: UserSettings): { id: number; isReversed: boolean } => {
-  const pool = getCardPool(settings.includeMinor);
-  const id = pool[Math.floor(Math.random() * pool.length)];
+export const drawCard = (settings: UserSettings, forcedId?: number): { id: number; isReversed: boolean } => {
+  let id = forcedId;
+  
+  if (id === undefined) {
+    const pool = getCardPool(settings.includeMinor);
+    id = pool[Math.floor(Math.random() * pool.length)];
+  }
   
   let isReversed = false;
   if (settings.useReversals) {
