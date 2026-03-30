@@ -268,7 +268,9 @@ function SelectContent() {
           </div>
           <span className="text-emerald-500/80 tracking-[0.2em] text-sm md:text-base mb-2 uppercase font-medium">진정한 운명은 당신의 손끝에서 시작됩니다</span>
           <h1 className="text-3xl md:text-5xl font-extrabold tracking-widest text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-            <span className="text-emerald-400 drop-shadow-[0_0_20px_rgba(16,185,129,0.6)]">{user?.displayName || "운명의 인도자"}</span> 님의 선택
+            <span className="text-emerald-400 font-bold drop-shadow-[0_0_20px_rgba(16,185,129,0.6)]">
+              {identifiedProfile?.displayName || user?.displayName || "운명"}
+            </span> 님의 선택
           </h1>
         </motion.div>
 

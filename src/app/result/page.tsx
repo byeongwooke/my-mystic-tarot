@@ -336,7 +336,7 @@ function ResultContent() {
         <div className="w-20 h-20 mb-6 text-amber-500/50 flex items-center justify-center border-2 border-amber-500/30 rounded-full text-4xl">⚠️</div>
         <h1 className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 tracking-widest">운명의 흐름이 끊겼습니다</h1>
         <p className="text-gray-300 mb-10 tracking-wide text-sm md:text-base leading-relaxed break-keep max-w-sm">
-          정상적인 {user ? (user.displayName || "운명의 인도자") : "운명을 읽는 중..."} 님의 운명의 결과를 불러올 수 없습니다. 카드를 다시 선택해 주세요.
+          정상적인 <span className="text-emerald-400 font-bold">{identifiedProfile?.displayName || user?.displayName || "운명"}</span> 님의 결과를 불러올 수 없습니다. 카드를 다시 선택해 주세요.
         </p>
         <button
           onClick={() => router.push('/select/')}
@@ -402,7 +402,7 @@ function ResultContent() {
           </div>
 
           <p className="text-xl md:text-2xl font-serif tracking-[0.2em] text-emerald-300/90 text-center break-keep px-6 relative z-10 animate-pulse drop-shadow-[0_0_20px_rgba(16,185,129,0.6)] leading-relaxed">
-            {user?.displayName ? `${user.displayName} 님의 운명을 확인하는 중입니다.` : '운명을 확인하는 중입니다.'}
+            <span className="text-emerald-400 font-bold">{identifiedProfile?.displayName || user?.displayName || "운명"}</span> 님의 {categoryName || "운명"}을 확인하는 중입니다.
           </p>
         </motion.div>
       ) : (
@@ -423,7 +423,7 @@ function ResultContent() {
               animate={{ opacity: 1, y: 0 }}
               className="text-2xl md:text-5xl font-extrabold text-amber-400 mb-4 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] text-center break-keep leading-relaxed"
             >
-              {user ? (user.displayName || "운명의 인도자") : "운명을 읽는 중..."} 님의 운명의 결과
+              <span className="text-emerald-400 font-bold">{identifiedProfile?.displayName || user?.displayName || "운명"}</span>님의 {categoryName || "운명"} 결과
             </motion.h1>
 
 
@@ -442,9 +442,9 @@ function ResultContent() {
                         transition={{ duration: 0.4, ease: "easeOut" }}
                         className="flex flex-col items-center justify-center gap-4 text-center w-full"
                       >
-                        {user?.displayName && (
+                        {(identifiedProfile?.displayName || user?.displayName) && (
                           <div className="text-amber-200/80 font-serif text-base md:text-xl tracking-widest mb-1">
-                            {user.displayName} 님의 운명의 결과
+                            <span className="text-emerald-400 font-bold">{identifiedProfile?.displayName || user?.displayName}</span> 님의 {categoryName || "운명"} 결과
                           </div>
                         )}
                         <div className={`text-4xl md:text-6xl font-black tracking-widest uppercase drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] ${!isStop ? 'text-emerald-400 drop-shadow-[0_0_25px_rgba(52,211,153,0.5)]' : 'text-rose-600 drop-shadow-[0_0_35px_rgba(225,29,72,1)]'

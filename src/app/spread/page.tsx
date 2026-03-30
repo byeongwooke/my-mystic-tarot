@@ -3,10 +3,12 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useMemo, useState } from "react";
+import { useAuth } from "@/providers/AuthProvider";
 
 function SpreadContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user, identifiedProfile } = useAuth();
   const rawCategory = searchParams.get('category');
   const category = rawCategory ? rawCategory.replace(/[^\w]/g, '') : null;
   const [showHomeModal, setShowHomeModal] = useState(false);
@@ -63,7 +65,7 @@ function SpreadContent() {
                 transition={{ duration: 0.3 }}
                 className="text-xl md:text-3xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep w-full"
               >
-                배열법 선택
+                <span className="text-emerald-400 font-bold">{identifiedProfile?.displayName || user?.displayName || "운명"}</span>님의 배열법 선택
               </motion.h1>
             ) : (
               <motion.h1 
