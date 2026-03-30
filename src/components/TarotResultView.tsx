@@ -163,7 +163,7 @@ export default function TarotResultView({
                     마스터의 한마디
                   </div>
                   <p className="text-amber-100/90 tracking-widest text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose px-2 md:px-8 mt-2">
-                    "{cardsInfo[0]?.advice}"
+                    "{cardsInfo?.[0]?.advice}"
                   </p>
                 </motion.div>
               </AnimatePresence>
@@ -205,7 +205,7 @@ export default function TarotResultView({
             <div className="w-full max-w-4xl mx-auto mb-8 p-6 md:p-10 bg-emerald-900/20 rounded-2xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)] backdrop-blur-sm">
               <h3 className="text-emerald-400 text-sm md:text-base mb-4 font-bold tracking-widest text-center uppercase">최종 운명의 결론</h3>
               <p className="text-white text-lg md:text-2xl text-center leading-relaxed font-serif break-keep">
-                "{cardsInfo[9]?.interpretation}"
+                "{cardsInfo?.[9]?.interpretation}"
               </p>
             </div>
           )}
@@ -227,7 +227,7 @@ export default function TarotResultView({
             }}
             className="relative w-full max-w-4xl mx-auto grid grid-cols-4 lg:grid-cols-5 grid-rows-4 gap-2 md:gap-6 lg:gap-10 place-items-center overflow-visible"
           >
-            {cardsInfo.map((item, idx) => {
+            {cardsInfo?.map((item, idx) => {
               let gridPos = "";
               let transform = "";
               let zIndex = 10;
@@ -263,7 +263,7 @@ export default function TarotResultView({
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
             <h2 className="text-3xl md:text-4xl font-serif text-amber-400/80 mb-12 text-center italic tracking-widest border-b border-amber-900/30 pb-6 relative z-10 drop-shadow-md">종합해석</h2>
             <div className="space-y-6 md:space-y-10 text-amber-50/90 leading-loose text-justify break-keep text-[15px] md:text-lg font-serif relative z-10">
-              {cardsInfo.map((card, idx) => (
+              {cardsInfo?.map((card, idx) => (
                 <p key={idx} className="flex flex-col md:flex-row gap-2">
                    <span className="text-emerald-400 font-bold shrink-0 md:min-w-[140px]">[{idx + 1}. {CELTIC_LAYOUT_INFO[idx]?.labelKr}]</span>
                    <span>{card.interpretation}</span>
@@ -276,7 +276,7 @@ export default function TarotResultView({
           <div className="w-full max-w-4xl space-y-4 md:space-y-6 mt-16 mb-16">
             <h3 className="text-xl md:text-2xl text-amber-500 font-bold mb-6 tracking-widest border-b border-amber-500/30 pb-4">운명의 근거 (상세 정보)</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-              {cardsInfo.map((card, idx) => (
+              {cardsInfo?.map((card, idx) => (
                 <div key={idx} className="bg-black/40 p-5 rounded-2xl border border-white/5">
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-gray-300 font-bold text-xs bg-white/5 px-2 py-0.5 rounded">[{idx + 1}]</span>
@@ -296,7 +296,7 @@ export default function TarotResultView({
       ) : (
         <>
           <div className="w-full flex justify-center gap-4 md:gap-12 lg:gap-20 mb-16 md:mb-24 px-2">
-            {cardsInfo.map((item, idx) => (
+            {cardsInfo?.map((item, idx) => (
               <ResultCardItem
                 key={idx}
                 cardId={item.cardId}
@@ -310,7 +310,7 @@ export default function TarotResultView({
           </div>
 
           <div className="w-full max-w-3xl flex flex-col gap-10 md:gap-16">
-            {cardsInfo.map((item, idx) => {
+            {cardsInfo?.map((item, idx) => {
               const isWarning = item.isReversed || (item.polarity === 'negative' && category === 'worry');
               return (
                 <motion.div
@@ -334,14 +334,16 @@ export default function TarotResultView({
                     <p className="text-amber-200/80 tracking-wide text-sm md:text-base">{item.keywords.join(' · ')}</p>
                   </div>
 
-                  <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5 mt-4">
-                    <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">
-                       카드의 해석
-                    </span>
-                    <p className="text-gray-200 text-[15px] md:text-xl leading-loose break-keep mt-2 font-serif italic">
-                       "{item.interpretation}"
-                    </p>
-                  </div>
+                  {category !== 'worry' && (
+                    <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5 mt-4">
+                      <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">
+                         카드의 해석
+                      </span>
+                      <p className="text-gray-200 text-[15px] md:text-xl leading-loose break-keep mt-2 font-serif italic">
+                         "{item?.interpretation}"
+                      </p>
+                    </div>
+                  )}
 
                   {category !== 'today' && (
                     <div className={`mt-6 p-5 md:p-6 rounded-2xl relative border ${isWarning ? 'bg-rose-950/20 border-rose-500/30' : 'bg-emerald-900/20 border-emerald-500/30'}`}>

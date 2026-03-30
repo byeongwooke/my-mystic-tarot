@@ -38,9 +38,21 @@ function ResultContent() {
   const isSavedRef = useRef(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsCalculating(false), 2000);
+    const categoryParam = searchParams.get('category');
+    const spreadParam = searchParams.get('spread') || 'basic';
+    const categorySlug = CATEGORY_MAP[categoryParam || ''] || categoryParam;
+
+    const getLoadingTime = (spread: string, cat: string | null) => {
+      if (cat === 'today') return 2500;
+      if (cat === 'worry') return 3000;
+      if (spread === 'celtic') return 6000;
+      return 4500; // Default for spread3/others
+    };
+
+    const duration = getLoadingTime(spreadParam, categorySlug);
+    const timer = setTimeout(() => setIsCalculating(false), duration);
     return () => clearTimeout(timer);
-  }, []);
+  }, [searchParams]);
 
   const showToast = (message: string) => {
     setToast({ show: true, message });
@@ -89,13 +101,18 @@ function ResultContent() {
       let cardInterpretation = "";
       let cardAdvice = "";
 
-      if (spreadType === 'spread3' && typeof content === 'object' && content !== null) {
-        cardInterpretation = content.interpretation || "";
-        const adviceObj = content.advice;
+      if ((categorySlug === 'today' || categorySlug === 'worry') && cardData) {
+        const rootContent = (cardData as any)[categorySlug];
+        const direction = isReversed ? 'reversed' : 'normal';
+        cardInterpretation = rootContent?.[direction] || "운명의 메시지를 준비 중입니다.";
+        cardAdvice = rootContent?.[direction] || "운명의 조언을 준비 중입니다.";
+      } else if (spreadType === 'spread3' && typeof content === 'object' && content !== null) {
+        cardInterpretation = content?.interpretation || "";
+        const adviceObj = content?.advice;
         if (adviceObj) {
-          if (index === 0) cardAdvice = adviceObj.past || "";
-          else if (index === 1) cardAdvice = adviceObj.present || "";
-          else if (index === 2) cardAdvice = adviceObj.future || "";
+          if (index === 0) cardAdvice = adviceObj?.past || "";
+          else if (index === 1) cardAdvice = adviceObj?.present || "";
+          else if (index === 2) cardAdvice = adviceObj?.future || "";
         }
       } else {
         cardInterpretation = typeof content === 'string' ? content : (content?.interpretation || "");
@@ -116,7 +133,7 @@ function ResultContent() {
       };
     }).filter(item => item !== null) as TarotCardInfo[];
 
-    const requiredCount = spreadParam === 'today' ? 1 : spreadParam === 'celtic' ? 10 : 3;
+    const requiredCount = (spreadParam === 'today' || categorySlug === 'worry') ? 1 : spreadParam === 'celtic' ? 10 : 3;
     if (loadedCards.length !== requiredCount) {
       setHasError(true);
     } else {
@@ -284,12 +301,15 @@ function ResultContent() {
              >
                {isSharing ? "운명을 갈무리하는 중..." : "운명 공유하기 🔗"}
              </button>
-             <button
-               onClick={() => router.push('/select/')}
-               className="w-full py-5 bg-slate-900 border border-emerald-500/30 text-emerald-400 font-bold text-xl rounded-full tracking-widest hover:bg-slate-800 active:scale-95 transition-all"
-             >
-               다른 운명 점치기
-             </button>
+              <button
+                onClick={() => {
+                  isSavedRef.current = false;
+                  router.push('/');
+                }}
+                className="w-full py-5 bg-slate-900 border border-emerald-500/30 text-emerald-400 font-bold text-xl rounded-full tracking-widest hover:bg-slate-800 active:scale-95 transition-all"
+              >
+                다른 운명 점치기
+              </button>
            </div>
 
            <AnimatePresence>
