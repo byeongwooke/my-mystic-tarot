@@ -443,11 +443,6 @@ function ResultContent() {
                         transition={{ duration: 0.4, ease: "easeOut" }}
                         className="flex flex-col items-center justify-center gap-4 text-center w-full"
                       >
-                        {(identifiedProfile?.displayName || user?.displayName) && (
-                          <div className="text-amber-200/80 font-serif text-base md:text-xl tracking-widest mb-1">
-                            <span className="text-emerald-400 font-bold">{identifiedProfile?.displayName || user?.displayName}</span> 님의 {categoryName || "운명"} 결과
-                          </div>
-                        )}
                         <div className={`text-4xl md:text-6xl font-black tracking-widest uppercase drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] ${!isStop ? 'text-emerald-400 drop-shadow-[0_0_25px_rgba(52,211,153,0.5)]' : 'text-rose-600 drop-shadow-[0_0_35px_rgba(225,29,72,1)]'
                           }`}>
                           {!isStop ? 'YES / GO!' : 'NO / STOP'}
@@ -667,29 +662,22 @@ function ResultContent() {
                       </div>
 
                       <div className="space-y-6 md:space-y-8">
-                        <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative">
-                          <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">카드의 해석</span>
-                          {spread === 'today' && (item.cardData?.summary || item.cardData?.warningSummary) ? (
-                            <div className="flex flex-col gap-6 mt-4">
-                              <div className="flex flex-col gap-1">
-                                <span className="text-pink-400/80 font-bold text-xs md:text-sm tracking-widest uppercase">Love</span>
-                                <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.isReversed ? item.cardData?.warningSummary?.love : item.cardData?.summary?.love}</p>
-                              </div>
-                              <div className="flex flex-col gap-1">
-                                <span className="text-amber-400/80 font-bold text-xs md:text-sm tracking-widest uppercase">Money</span>
-                                <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.isReversed ? item.cardData?.warningSummary?.money : item.cardData?.summary?.money}</p>
-                              </div>
-                              <div className="flex flex-col gap-1">
-                                <span className="text-blue-400/80 font-bold text-xs md:text-sm tracking-widest uppercase">Work</span>
-                                <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep">{item.isReversed ? item.cardData?.warningSummary?.work : item.cardData?.summary?.work}</p>
-                              </div>
-                            </div>
-                          ) : (
-                            <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep mt-2">
-                              {getInterpretationText(item)}
-                            </p>
-                          )}
-                        </div>
+                        {category !== 'worry' && (
+                          <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative">
+                            <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">
+                              {category === 'today' ? '타로마스터의 조언' : '카드의 해석'}
+                            </span>
+                            {category === 'today' ? (
+                              <p className="text-gray-200 text-[15px] md:text-xl leading-loose break-keep mt-2 font-serif italic">
+                                "{getAdviceText(item)}"
+                              </p>
+                            ) : (
+                              <p className="text-gray-200 text-sm md:text-lg leading-loose break-keep mt-2">
+                                {getInterpretationText(item)}
+                              </p>
+                            )}
+                          </div>
+                        )}
 
                         {category !== 'today' && (() => {
                           const isNegative = (item.isReversed ? item.cardData?.reversePolarity : item.cardData?.polarity) === 'negative';
