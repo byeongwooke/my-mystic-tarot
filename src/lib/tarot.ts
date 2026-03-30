@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { collection, addDoc, getDoc, doc, serverTimestamp } from 'firebase/firestore';
 
 export const saveTarotResult = async (profileId: string, userName: string, cards: any[], resultText: string) => {
   try {
@@ -13,6 +13,38 @@ export const saveTarotResult = async (profileId: string, userName: string, cards
     return docRef.id;
   } catch (error) {
     console.error("Error saving tarot history: ", error);
+    throw error;
+  }
+};
+
+export const saveSharedResult = async (data: {
+  displayName: string;
+  category: string;
+  cardsSnapshot: any[];
+  fullInterpretation: string;
+}) => {
+  try {
+    const docRef = await addDoc(collection(db, 'shared_results'), {
+      ...data,
+      createdAt: serverTimestamp()
+    });
+    return docRef.id;
+  } catch (error) {
+    console.error("Error saving shared result: ", error);
+    throw error;
+  }
+};
+
+export const getSharedResult = async (id: string) => {
+  try {
+    const docRef = doc(db, 'shared_results', id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() } as any;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error getting shared result: ", error);
     throw error;
   }
 };

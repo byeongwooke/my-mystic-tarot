@@ -10,7 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/providers/AuthProvider";
 import { useUserSettings } from "@/hooks/useUserSettings";
 import { resolveTarotContent } from "@/utils/tarotEngine";
-import { saveTarotResult } from "@/lib/tarot";
+import { saveTarotResult, saveSharedResult } from "@/lib/tarot";
 
 const CATEGORY_MAP: Record<string, string> = {
   '애정운': 'love', 'love': 'love',
@@ -127,23 +127,50 @@ function ResultContent() {
 
   const isSavedRef = React.useRef(false);
 
+  const [toast, setToast] = useState<{ show: boolean, message: string }>({ show: false, message: '' });
+
+  const showToast = (message: string) => {
+    setToast({ show: true, message });
+    setTimeout(() => setToast({ show: false, message: '' }), 3000);
+  };
+
   const checkMobile = () => setIsMobile(window.innerWidth < 768);
 
   const handleShare = async () => {
-    const shareData = {
-      title: '혹시타로',
-      text: "혹시 내 운명은? '혹시타로'에서 확인해보세요!",
-      url: window.location.origin
-    };
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-      } catch (err) {
-        console.error('Error sharing', err);
+    try {
+      const shareId = await saveSharedResult({
+        displayName: identifiedProfile?.displayName || user?.displayName || "운명",
+        category: categoryName || "종합 운세",
+        cardsSnapshot: cardsInfo.map(c => ({
+          id: c.cardData.id,
+          nameKr: c.cardData.nameKr,
+          role: c.role,
+          isReversed: c.isReversed
+        })),
+        fullInterpretation: overallAdvice
+      });
+
+      const shareUrl = `${window.location.origin}/share/${shareId}`;
+      
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(shareUrl);
+        showToast("이 링크는 24시간 뒤 시공간 너머로 사라집니다.");
+      } else {
+        // Fallback for older browsers
+        const shareData = {
+          title: '혹시타로 - 운명의 기록',
+          text: "당신에게만 공유된 24시간 시한부 타로 결과입니다.",
+          url: shareUrl
+        };
+        if (navigator.share) {
+          await navigator.share(shareData);
+        } else {
+          alert(`공유 링크: ${shareUrl}`);
+        }
       }
-    } else {
-      navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
-      alert('링크가 클립보드에 복사되었습니다. 친구에게 공유해보세요!');
+    } catch (err) {
+      console.error('Error sharing', err);
+      alert('운명을 갈무리하는 중 오류가 발생했습니다.');
     }
   };
 
@@ -791,6 +818,19 @@ function ResultContent() {
                     닫기
                   </button>
                 </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          {/* Toast Notification */}
+          <AnimatePresence>
+            {toast.show && (
+              <motion.div
+                initial={{ opacity: 0, y: 50, x: "-50%" }}
+                animate={{ opacity: 1, y: 0, x: "-50%" }}
+                exit={{ opacity: 0, scale: 0.9, x: "-50%" }}
+                className="fixed bottom-10 left-1/2 z-[100] px-6 py-3 bg-emerald-600/90 backdrop-blur-md text-white rounded-full shadow-[0_0_20px_rgba(16,185,129,0.5)] font-bold tracking-tight whitespace-nowrap border border-emerald-400/30 text-sm md:text-base cursor-default"
+              >
+                🔮 {toast.message}
               </motion.div>
             )}
           </AnimatePresence>
