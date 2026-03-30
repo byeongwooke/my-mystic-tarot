@@ -1,9 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useAuth } from '@/providers/AuthProvider';
 import { UserSettings, TarotMode } from '../types/settings';
-
-const STORAGE_KEY = 'tarot_user_settings';
 
 const DEFAULT_SETTINGS: UserSettings = {
   mode: 'gentle',
@@ -13,45 +11,21 @@ const DEFAULT_SETTINGS: UserSettings = {
 };
 
 export const useUserSettings = () => {
-  const [settings, setSettings] = useState<UserSettings>(DEFAULT_SETTINGS);
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  // Load settings from localStorage on mount
-  useEffect(() => {
-    const savedSettings = localStorage.getItem(STORAGE_KEY);
-    if (savedSettings) {
-      try {
-        setSettings(JSON.parse(savedSettings));
-      } catch (error) {
-        console.error("Failed to parse user settings from localStorage:", error);
-      }
-    }
-    setIsLoaded(true);
-  }, []);
-
-  // Update localStorage when settings change
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
-    }
-  }, [settings, isLoaded]);
-
-  const updateSettings = (newSettings: Partial<UserSettings>) => {
-    setSettings((prev) => ({ ...prev, ...newSettings }));
-  };
-
-  const setMode = (mode: TarotMode) => updateSettings({ mode });
-  const setIncludeMinor = (includeMinor: boolean) => updateSettings({ includeMinor });
-  const setUseReversals = (useReversals: boolean) => updateSettings({ useReversals });
-  const setFirstVisit = (isFirstVisit: boolean) => updateSettings({ isFirstVisit });
+  const { identifiedProfile, loading } = useAuth();
+  
+  // profile이 있으면 profile의 설정을, 없으면 기본값을 반환
+  const settings: UserSettings = identifiedProfile ? {
+    mode: identifiedProfile.mode,
+    includeMinor: identifiedProfile.includeMinor,
+    useReversals: identifiedProfile.useReversals,
+    isFirstVisit: identifiedProfile.isFirstVisit,
+  } : DEFAULT_SETTINGS;
 
   return {
     settings,
-    isLoaded,
-    updateSettings,
-    setMode,
-    setIncludeMinor,
-    setUseReversals,
-    setFirstVisit,
+    isLoaded: !loading,
+    // 업데이트는 이제 개별 페이지에서 Firestore를 직접 통해 수행하거나, 
+    // AuthProvider에 updateProfile 메소드를 추가할 수 있음.
+    // 여기서는 일단 읽기 전용 상태로 변환.
   };
 };

@@ -1,10 +1,10 @@
 import { db } from './firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-export const saveTarotResult = async (userId: string, userName: string, cards: any[], resultText: string) => {
+export const saveTarotResult = async (profileId: string, userName: string, cards: any[], resultText: string) => {
   try {
     const docRef = await addDoc(collection(db, 'tarot_history'), {
-      userId,
+      profileId,
       userName,
       cards,
       resultText,

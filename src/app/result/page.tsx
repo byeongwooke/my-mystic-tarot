@@ -109,7 +109,7 @@ ResultCardItem.displayName = "ResultCardItem";
 function ResultContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, identifiedProfile } = useAuth();
   const { settings } = useUserSettings();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -250,14 +250,7 @@ function ResultContent() {
       return isReversed ? (cardData?.todayWarningAdvice || cardData?.todayAdvice || "운명의 메시지를 준비 중입니다") : (cardData?.todayAdvice || "운명의 메시지를 준비 중입니다");
     }
 
-    // 3배열 (기본 advice 객체 매핑 로직)
-    const { interpretation: _, positions: adviceObj } = resolveTarotContent(cardData.id, settings, category as any, isReversed);
-    
-    // CelticPositions for Spread3 uses TimelineAdvice (past, present, future)
-    // Actually, in Spread3, the engine resolveTarotContent will return Spread3Category's Content 
-    // BUT our engine resolveTarotContent is typed for Celtic.
-    // Let's refine the engine or handle it here.
-    // Since I refactored ALL cards to have celtic structure, I can use it.
+    const content = resolveTarotContent(cardData.id, settings, category as any, isReversed);
     
     const timeMap: Record<string, "past" | "present" | "future"> = {
         '과거': 'past',
@@ -267,11 +260,6 @@ function ResultContent() {
     const baseRoleMatch = role.match(/^(과거|현재|미래)/);
     const mappedTime = baseRoleMatch ? timeMap[baseRoleMatch[1]] : 'future';
 
-    // For non-celtic spreads, we can still use the celtic data if available, 
-    // or use the spread3 specific logic if preferred. 
-    // Given the task, let's use the engine's resolveTarotContent.
-    
-    const content = resolveTarotContent(cardData.id, settings, category as any, isReversed);
     const text = (content.positions as any)[mappedTime] || "운명의 메시지를 준비 중입니다";
 
     // 괄호 마커 삭제 (past, present, future 및 켈틱용 마커들)
@@ -324,11 +312,12 @@ function ResultContent() {
   }, [cardsInfo, spread, category, activeCardIdx]);
 
   useEffect(() => {
-    if (cardsInfo.length > 0 && user && !isLoading && !hasError && !isSavedRef.current) {
+    if (cardsInfo.length > 0 && identifiedProfile && !isLoading && !hasError && !isSavedRef.current) {
       isSavedRef.current = true;
+      const profileId = `${identifiedProfile.displayName}_${identifiedProfile.pin}`;
       saveTarotResult(
-        user.uid,
-        user.displayName || 'Unknown',
+        profileId,
+        identifiedProfile.displayName,
         cardsInfo.map(c => ({ id: c.cardData?.id, role: c.role, isReversed: c.isReversed, name: c.cardData?.nameKr })),
         overallAdvice
       ).catch(err => {
@@ -336,7 +325,7 @@ function ResultContent() {
         isSavedRef.current = false;
       });
     }
-  }, [cardsInfo, user, isLoading, hasError, overallAdvice]);
+  }, [cardsInfo, identifiedProfile, isLoading, hasError, overallAdvice]);
 
   // isLoading 스피너 로직은 아래 AnimatePresence 에서 통합 관리
 
@@ -350,7 +339,7 @@ function ResultContent() {
           정상적인 {user ? (user.displayName || "운명의 인도자") : "운명을 읽는 중..."} 님의 운명의 결과를 불러올 수 없습니다. 카드를 다시 선택해 주세요.
         </p>
         <button
-          onClick={() => router.push('/select')}
+          onClick={() => router.push('/select/')}
           className="px-8 py-3 bg-slate-800 text-emerald-500 font-bold rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:scale-105 active:scale-95 transition-all tracking-widest border border-emerald-500/30"
         >
           다른 운명 점치기
@@ -619,7 +608,7 @@ function ResultContent() {
                     운명 공유하기 🔗
                   </button>
                   <button
-                    onClick={() => router.push('/select')}
+                    onClick={() => router.push('/select/')}
                     className="w-full max-w-[280px] md:max-w-[320px] py-4 bg-slate-800 border border-emerald-500/50 text-emerald-500 font-bold rounded-full shadow-[0_0_20px_rgba(16,185,129,0.3)] hover:bg-slate-700 active:scale-95 transition-all tracking-widest text-lg"
                   >
                     다른 운명 점치기
@@ -753,7 +742,7 @@ function ResultContent() {
                   운명 공유하기 🔗
                 </button>
                 <button
-                  onClick={() => router.push('/select')}
+                  onClick={() => router.push('/select/')}
                   className="w-full max-w-sm py-4 md:py-6 bg-slate-800 text-emerald-500 font-bold text-xl rounded-full shadow-[0_0_30px_rgba(16,185,129,0.3)] hover:shadow-[0_0_50px_rgba(16,185,129,0.5)] hover:bg-slate-700 active:scale-95 transition-all tracking-widest border border-emerald-500/50"
                 >
                   다른 운명 점치기

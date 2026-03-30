@@ -95,23 +95,21 @@ function SelectContent() {
   const searchParams = useSearchParams();
   const rawCategory = searchParams.get('category');
   const spreadParam = searchParams.get('spread') || 'basic';
-  const { user, loading } = useAuth();
+  const { user, identifiedProfile, loading } = useAuth();
   const { settings } = useUserSettings();
 
   useEffect(() => {
-    if (loading) return; // Loading 방어
+    if (loading) return; 
 
-    // 이름 판정 로직 통일
-    const hasValidName = user?.displayName && !user.displayName.includes('호');
-
-    if (!hasValidName) {
-      if (pathname !== '/welcome') { // 중복 이동 방지
-        router.replace('/welcome');
+    // 프로필 식별 여부 확인
+    if (!identifiedProfile) {
+      if (pathname !== '/') {
+        router.replace('/');
       }
       return;
     }
 
-  }, [rawCategory, router, pathname, user, loading]);
+  }, [router, pathname, identifiedProfile, loading]);
 
   const cleanCategory = rawCategory ? rawCategory.replace(/[^\w]/g, '') : '';
 
@@ -198,21 +196,22 @@ function SelectContent() {
   const handleCheckDestiny = async () => {
     if (selectedCards.length !== maxCards) return;
 
-    if (user?.displayName && cleanCategory) {
+    if (identifiedProfile && cleanCategory) {
       const complexCategories = ['love', 'money', 'work'];
       const fieldName = complexCategories.includes(cleanCategory) ? `${cleanCategory}_${spreadParam}` : cleanCategory;
 
       try {
-        const userDocRef = doc(db, "users", user.displayName);
+        const profileId = `${identifiedProfile.displayName}_${identifiedProfile.pin}`;
+        const profileRef = doc(db, "profiles", profileId);
 
-        // 비동기로 DB 업데이트 (router.push 브로킹 방지 및 컴포넌트 언마운트 후에도 Firebase JS SDK가 백그라운드 처리)
-        updateDoc(userDocRef, {
+        // 비동기로 DB 업데이트
+        updateDoc(profileRef, {
           [`counts.${fieldName}`]: increment(1),
-          lastReadingAt: new Date().toISOString() // 1. 활동 디버그 및 이탈 원인 분석용
+          lastReadingAt: new Date().toISOString()
         }).then(() => {
-          console.log(`[Firebase DebugView] Successfully updated counts for UID: ${user.uid} (${user.displayName}) | Field: ${fieldName}`);
+          console.log(`[Firebase DebugView] Syncing counts for: ${profileId}`);
         }).catch((err) => {
-          console.error(`[Firebase DebugView Error] Failed to update counts for UID: ${user.uid}`, err);
+          console.error(`[Firebase DebugView Error] Failed to update: ${profileId}`, err);
         });
       } catch (err) {
         console.error("[Firebase Setup Error]", err);
@@ -249,7 +248,7 @@ function SelectContent() {
         </div>
 
         <button
-          onClick={() => router.push('/settings')}
+          onClick={() => router.push('/settings/')}
           className="fixed top-[calc(env(safe-area-inset-top)+0.85rem)] right-2 md:right-6 text-emerald-400/50 active:text-emerald-400 transition-colors z-[50] p-2"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 md:w-8 md:h-8">
@@ -330,7 +329,7 @@ function SelectContent() {
         </button>
 
         <button
-          onClick={() => router.push('/settings')}
+          onClick={() => router.push('/settings/')}
           className="fixed top-[calc(env(safe-area-inset-top)+0.85rem)] right-2 md:right-6 text-emerald-400/50 active:text-emerald-400 transition-colors z-[50] p-2"
         >
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6 md:w-8 md:h-8">

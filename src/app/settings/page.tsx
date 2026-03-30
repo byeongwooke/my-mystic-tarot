@@ -11,8 +11,8 @@ import { TarotMode } from '@/types/settings';
 
 export default function SettingsPage() {
   const router = useRouter();
-  const { user, hasConfiguredSettings } = useAuth();
-  const { settings, updateSettings } = useUserSettings();
+  const { user, identifiedProfile, hasConfiguredSettings, setHasConfiguredSettings } = useAuth();
+  const { settings } = useUserSettings();
 
   // 온보딩 모드인 경우 초기값을 null로 설정하여 선택을 강제함
   const [localMode, setLocalMode] = useState<TarotMode | null>(
@@ -31,33 +31,30 @@ export default function SettingsPage() {
   const isValid = localMode !== null && localIncludeMinor !== null && localUseReversals !== null;
 
   const handleSave = async () => {
-    if (!isValid || !user) return;
+    if (!isValid || !identifiedProfile) return;
     
     setIsSaving(true);
     try {
-      // 1. 로컬 설정 업데이트
-      updateSettings({
+      // 1. Firebase 유저 설정 완료 상태 업데이트 (profiles 컬렉션 사용)
+      const profileId = `${identifiedProfile.displayName}_${identifiedProfile.pin}`;
+      const profileRef = doc(db, 'profiles', profileId);
+      
+      await updateDoc(profileRef, {
+        hasConfiguredSettings: true,
         mode: localMode,
         includeMinor: localIncludeMinor,
         useReversals: localUseReversals,
-        isFirstVisit: false
-      });
-
-      // 2. Firebase 유저 설정 완료 상태 업데이트
-      const userRef = doc(db, 'users', user.uid);
-      await updateDoc(userRef, {
-        hasConfiguredSettings: true,
+        isFirstVisit: false,
         updatedAt: new Date().toISOString(),
-        // 필요 시 선호도 수치도 DB에 기록 가능
-        preferences: {
-            mode: localMode,
-            includeMinor: localIncludeMinor,
-            useReversals: localUseReversals
-        }
       });
 
-      // 3. 이동
-      router.push('/select');
+      // 2. 전역 상태 업데이트 (OnboardingGuard 동기화)
+      // onSnapshot이 실시간으로 상태를 잡아주므로 명시적인 setter 호출은 
+      // 보조적인 역할(즉각 응답)을 수행함
+      setHasConfiguredSettings(true);
+
+      // 3. 이동 (trailingSlash: true 기반)
+      router.push('/select/');
     } catch (error) {
       console.error("설정 저장 실패:", error);
       alert("설정 저장 중 오류가 발생했습니다. 다시 시도해 주세요.");
