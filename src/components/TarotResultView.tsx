@@ -14,7 +14,7 @@ export interface TarotCardInfo {
   interpretation: string;
   keywords: string[];
   // Metadata for score display
-  polarity?: string;
+  polarity?: "positive" | "negative";
   score?: number;
   warningScore?: number;
 }
@@ -334,12 +334,12 @@ export default function TarotResultView({
                     <p className="text-amber-200/80 tracking-wide text-sm md:text-base">{item.keywords.join(' · ')}</p>
                   </div>
 
-                  <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5">
+                  <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5 mt-4">
                     <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">
-                       {category === 'today' ? '타로마스터의 조언' : '카드의 해석'}
+                       카드의 해석
                     </span>
                     <p className="text-gray-200 text-[15px] md:text-xl leading-loose break-keep mt-2 font-serif italic">
-                       "{item.advice}"
+                       "{item.interpretation}"
                     </p>
                   </div>
 

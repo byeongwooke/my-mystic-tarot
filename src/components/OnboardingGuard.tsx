@@ -13,8 +13,9 @@ export function OnboardingGuard({ children }: { children: React.ReactNode }) {
     if (loading) return;
 
     // 1. 프로필 식별 자체가 안 된 경우 -> 무조건 루트(/)로 유도
+    // 단, /share/ 경로는 공유를 위해 전면 비로그인(Public) 허용
     if (!identifiedProfile) {
-      const isExcluded = pathname === '/' || pathname === '/login/';
+      const isExcluded = pathname === '/' || pathname === '/login/' || pathname.startsWith('/share/');
       if (!isExcluded) {
         router.replace('/');
       }
