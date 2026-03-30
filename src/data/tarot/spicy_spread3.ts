@@ -23,7 +23,7 @@ export interface Spread3Card {
     };
 }
 
-export const TAROT_SPREAD3: Record<number, Spread3Card> = {
+export const TAROT_SPREAD3_SPICY: Record<number, Spread3Card> = {
     "0": {
         "interpretations": {
             "love": "예측 불허의 떨림, 사회적 통념을 깨는 만남, 자유연애",
