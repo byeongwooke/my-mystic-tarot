@@ -239,15 +239,7 @@ function ResultContent() {
     const { cardData, role, isReversed } = item;
     if (!cardData || !category) return "";
 
-    if (category === 'worry') {
-      const polarity = isReversed ? cardData.reversePolarity : cardData.polarity;
-      if (polarity === 'negative') return cardData.warningWorry || "운명의 경고를 준비 중입니다";
-      return cardData.worry || "운명의 메시지를 준비 중입니다";
-    }
-
-    const content = resolveTarotContent(cardData.id, settings, category as any, isReversed);
-    
-    // 오늘의 운세 및 고민뽑기: 전용 필드 및 키워드 기반 매핑 (v1.0.7)
+    // 오늘의 운세 및 고민뽑기: v1.0.7 전용 데이터 계층 구조 (CardContent) 직접 참조 (today/worry)
     if (category === 'today') {
       return (isReversed ? cardData?.today?.reversed : cardData?.today?.normal) || "운명의 메시지를 준비 중입니다";
     }
@@ -255,6 +247,9 @@ function ResultContent() {
       return (isReversed ? cardData?.worry?.reversed : cardData?.worry?.normal) || "운명의 메시지를 준비 중입니다";
     }
 
+    // 기존 Love/Money/Work 등 공통 로직 (resolveTarotContent 활용)
+    const content = resolveTarotContent(cardData?.id, settings, category as any, isReversed);
+    
     const timeMap: Record<string, "past" | "present" | "future"> = {
         '과거': 'past',
         '현재': 'present',
