@@ -10,3 +10,4 @@ build
 .LSOverride
 Icon
 ._*
+.vercel
