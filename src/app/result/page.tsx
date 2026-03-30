@@ -235,20 +235,26 @@ function ResultContent() {
     return category ? (map[category] || '') : '';
   }, [category]);
 
+  const getFallbackText = (cardData: any) => {
+    const keywords = cardData?.keywords || [];
+    return `카드가 가진 ${keywords.join(', ')}의 기운이 현재 운명에 강하게 작용하고 있습니다.`;
+  };
+
   const getAdviceText = (item: any) => {
     const { cardData, role, isReversed } = item;
     if (!cardData || !category) return "";
 
     // 오늘의 운세 및 고민뽑기: v1.0.7 전용 데이터 계층 구조 (CardContent) 직접 참조 (today/worry)
     if (category === 'today') {
-      return (isReversed ? cardData?.today?.reversed : cardData?.today?.normal) || "운명의 메시지를 준비 중입니다";
+      return (isReversed ? cardData?.today?.reversed : cardData?.today?.normal) || getFallbackText(cardData);
     }
     if (category === 'worry') {
-      return (isReversed ? cardData?.worry?.reversed : cardData?.worry?.normal) || "운명의 메시지를 준비 중입니다";
+      return (isReversed ? cardData?.worry?.reversed : cardData?.worry?.normal) || getFallbackText(cardData);
     }
 
     // 기존 Love/Money/Work 등 공통 로직 (resolveTarotContent 활용)
-    const content = resolveTarotContent(cardData?.id, settings, category as any, isReversed);
+    const spreadType = spread === 'celtic' ? 'celtic' : 'spread3';
+    const content = resolveTarotContent(cardData?.id, settings, category as any, spreadType, isReversed);
     
     const timeMap: Record<string, "past" | "present" | "future"> = {
         '과거': 'past',
@@ -258,7 +264,7 @@ function ResultContent() {
     const baseRoleMatch = role?.match(/^(과거|현재|미래)/);
     const mappedTime = baseRoleMatch ? timeMap[baseRoleMatch[1]] : 'future';
 
-    const text = (content?.positions as any)?.[mappedTime] || "운명의 메시지를 준비 중입니다";
+    const text = (content?.advice as any)?.[mappedTime] || getFallbackText(cardData);
 
     // 괄호 마커 삭제 (past, present, future 및 켈틱용 마커들)
     return text?.replace(/\s*\((past|present|future|core|obstacle|goal|foundation|nearFuture|self|influence|hopes|destiny)\)/g, "");
@@ -271,22 +277,23 @@ function ResultContent() {
     // v1.0.7: 'today' 및 'worry' 카테고리는 키워드 기반 해석 강제 매핑
     if (category === 'today' || category === 'worry') {
       const keywords = isReversed ? cardData?.keywordsReversed : cardData?.keywords;
-      return keywords?.join(' · ') || "키워드 준비 중";
+      return keywords?.join(' · ') || "키워드 분석 중";
     }
 
-    const content = resolveTarotContent(cardData?.id, settings, category as any, isReversed);
-    return content?.interpretation || "운명의 메시지를 준비 중입니다";
+    const spreadType = spread === 'celtic' ? 'celtic' : 'spread3';
+    const content = resolveTarotContent(cardData?.id, settings, category as any, spreadType, isReversed);
+    return content?.interpretation || getFallbackText(cardData);
   };
 
   const getCelticInterpretation = (cardData: any, idx: number, isReversed: boolean = false) => {
-    if (!cardData || !category) return "운명의 메시지를 준비 중입니다";
+    if (!cardData || !category) return "운명의 흐름을 읽는 중입니다";
 
-    let baseCat = CATEGORY_MAP[category] || category;
-    if (baseCat === 'today' || baseCat === 'worry') baseCat = 'love';
+    let baseCat = (spread === 'celtic' && (category === 'love' || category === 'money' || category === 'work')) ? category : 'love';
 
-    const { interpretation: _, positions } = resolveTarotContent(cardData.id, settings, baseCat as any, isReversed);
+    const content = resolveTarotContent(cardData.id, settings, baseCat as any, 'celtic', isReversed);
+    const positions = content?.positions;
     const key = CELTIC_LAYOUT_INFO[idx]?.key as keyof typeof positions;
-    let text = key && positions[key] ? positions[key] : "운명의 메시지를 준비 중입니다";
+    let text = key && positions?.[key] ? positions[key] : getFallbackText(cardData);
 
     if (typeof text === 'string') {
       text = text.replace(/\s*\((core|obstacle|goal|foundation|past|nearFuture|self|influence|hopes|destiny)\)/g, "");
@@ -568,10 +575,20 @@ function ResultContent() {
                   <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
 
                   <h2 className="text-3xl md:text-4xl font-serif text-amber-400/80 mb-12 text-center italic tracking-widest border-b border-amber-900/30 pb-6 inset-x-0 relative z-10 drop-shadow-md">종합해석</h2>
-                  <div className="space-y-6 md:space-y-8 text-amber-50/90 leading-loose text-justify break-keep text-[15px] md:text-lg font-serif relative z-10">
-                    {cardsInfo.map((card, idx) => (
-                      <p key={idx}>{getCelticInterpretation(card.cardData, idx, card.isReversed)}</p>
-                    ))}
+                  <div className="space-y-6 md:space-y-10 text-amber-50/90 leading-loose text-justify break-keep text-[15px] md:text-lg font-serif relative z-10">
+                    {cardsInfo.map((card, idx) => {
+                        const labels = [
+                          "현재 상황", "장애와 과제", "의식과 목표", "무의식의 뿌리", "지나온 과거", 
+                          "가까운 미래", "본인의 태도", "외부의 영향", "희망과 공포", "최종결과"
+                        ];
+                        const labelPrefix = `${idx + 1}. ${labels[idx]}`;
+                        return (
+                          <p key={idx} className="flex flex-col md:flex-row gap-2">
+                             <span className="text-emerald-400 font-bold shrink-0 md:min-w-[140px]">[{labelPrefix}]</span>
+                             <span>{getCelticInterpretation(card.cardData, idx, card.isReversed)}</span>
+                          </p>
+                        );
+                    })}
                   </div>
                 </div>
 

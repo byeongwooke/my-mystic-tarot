@@ -44,15 +44,20 @@ export const resolveTarotContent = (
   cardId: number,
   settings: UserSettings,
   category: 'love' | 'money' | 'work',
+  spreadType: 'spread3' | 'celtic',
   isReversed: boolean
-): { interpretation: string; positions: CelticPositions } => {
+): any => {
   const cardData = CARDS[cardId];
-  if (!cardData) {
-    throw new Error(`Card with ID ${cardId} not found.`);
-  }
+  if (!cardData) return null;
 
+  const flavor = settings.mode as 'spicy' | 'gentle';
   const direction = isReversed ? 'reversed' : 'normal';
-  const mode = settings.mode;
 
-  return cardData.celtic[mode][category][direction];
+  // v1.0.9: [spreadType] -> [flavor] -> [category] -> [direction] 경로 정밀 매핑
+  const spreadData = (cardData as any)[spreadType];
+  const flavorData = spreadData?.[flavor];
+  const categoryData = flavorData?.[category];
+  const content = categoryData?.[direction];
+
+  return content;
 };
