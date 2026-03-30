@@ -245,36 +245,42 @@ function ResultContent() {
       return cardData.worry || "운명의 메시지를 준비 중입니다";
     }
 
-    // 오늘의 운세 전용 조언 우선
-    if (spread === 'today' || category === 'today') {
-      return isReversed ? (cardData?.todayWarningAdvice || cardData?.todayAdvice || "운명의 메시지를 준비 중입니다") : (cardData?.todayAdvice || "운명의 메시지를 준비 중입니다");
-    }
-
     const content = resolveTarotContent(cardData.id, settings, category as any, isReversed);
     
+    // 오늘의 운세 및 고민뽑기: 전용 필드 및 키워드 기반 매핑 (v1.0.7)
+    if (category === 'today') {
+      return (isReversed ? cardData?.today?.reversed : cardData?.today?.normal) || "운명의 메시지를 준비 중입니다";
+    }
+    if (category === 'worry') {
+      return (isReversed ? cardData?.worry?.reversed : cardData?.worry?.normal) || "운명의 메시지를 준비 중입니다";
+    }
+
     const timeMap: Record<string, "past" | "present" | "future"> = {
         '과거': 'past',
         '현재': 'present',
         '미래': 'future'
     };
-    const baseRoleMatch = role.match(/^(과거|현재|미래)/);
+    const baseRoleMatch = role?.match(/^(과거|현재|미래)/);
     const mappedTime = baseRoleMatch ? timeMap[baseRoleMatch[1]] : 'future';
 
-    const text = (content.positions as any)[mappedTime] || "운명의 메시지를 준비 중입니다";
+    const text = (content?.positions as any)?.[mappedTime] || "운명의 메시지를 준비 중입니다";
 
     // 괄호 마커 삭제 (past, present, future 및 켈틱용 마커들)
-    return text.replace(/\s*\((past|present|future|core|obstacle|goal|foundation|nearFuture|self|influence|hopes|destiny)\)/g, "");
+    return text?.replace(/\s*\((past|present|future|core|obstacle|goal|foundation|nearFuture|self|influence|hopes|destiny)\)/g, "");
   };
 
   const getInterpretationText = (item: any) => {
     const { cardData, isReversed } = item;
     if (!cardData || !category) return "";
-    if (spread === 'today' || category === 'today') {
-      return isReversed ? (cardData?.todayWarningAdvice || cardData?.todayAdvice || "운명의 메시지를 준비 중입니다") : (cardData?.todayAdvice || "운명의 메시지를 준비 중입니다");
+
+    // v1.0.7: 'today' 및 'worry' 카테고리는 키워드 기반 해석 강제 매핑
+    if (category === 'today' || category === 'worry') {
+      const keywords = isReversed ? cardData?.keywordsReversed : cardData?.keywords;
+      return keywords?.join(' · ') || "키워드 준비 중";
     }
 
-    const { interpretation } = resolveTarotContent(cardData.id, settings, category as any, isReversed);
-    return interpretation || "운명의 메시지를 준비 중입니다";
+    const content = resolveTarotContent(cardData?.id, settings, category as any, isReversed);
+    return content?.interpretation || "운명의 메시지를 준비 중입니다";
   };
 
   const getCelticInterpretation = (cardData: any, idx: number, isReversed: boolean = false) => {
@@ -428,14 +434,14 @@ function ResultContent() {
 
 
             <div className="mb-12 md:mb-20 mt-4 min-h-[80px] md:min-h-[120px] flex items-center justify-center w-full max-w-4xl px-2">
-              {category === 'worry' && cardsInfo[0] ? (
+              {category === 'worry' && cardsInfo?.[0] ? (
                 (() => {
-                  const polarity = cardsInfo[0].isReversed ? cardsInfo[0].cardData?.reversePolarity : cardsInfo[0].cardData?.polarity;
+                  const polarity = cardsInfo[0]?.isReversed ? cardsInfo[0]?.cardData?.reversePolarity : cardsInfo[0]?.cardData?.polarity;
                   const isStop = polarity === 'negative';
                   return (
                     <AnimatePresence mode="wait">
                       <motion.div
-                        key={cardsInfo[0].cardData?.id || 'worry-score'}
+                        key={cardsInfo?.[0]?.cardData?.id || 'worry-score'}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
@@ -461,10 +467,10 @@ function ResultContent() {
                     </AnimatePresence>
                   );
                 })()
-              ) : spread === 'today' && cardsInfo[0] ? (
+              ) : spread === 'today' && cardsInfo?.[0] ? (
                 <AnimatePresence mode="wait">
                   <motion.div
-                    key={cardsInfo[0].cardData?.id || 'today-score'}
+                    key={cardsInfo?.[0]?.cardData?.id || 'today-score'}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
@@ -472,7 +478,7 @@ function ResultContent() {
                     className="flex flex-col items-center justify-center gap-6 text-center w-full"
                   >
                     <div className="text-3xl md:text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-amber-200 to-amber-600 drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]">
-                      오늘의 운세 점수: {cardsInfo[0].isReversed ? cardsInfo[0].cardData?.warningScore?.toFixed(1) : cardsInfo[0].cardData?.score?.toFixed(1)}점
+                      오늘의 운세 점수: {cardsInfo[0]?.isReversed ? cardsInfo[0]?.cardData?.warningScore?.toFixed(1) : cardsInfo[0]?.cardData?.score?.toFixed(1)}점
                     </div>
                     <p className="text-amber-100/90 tracking-widest text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose px-2 md:px-8">
                       "{getAdviceText(cardsInfo[0])}"
@@ -502,7 +508,7 @@ function ResultContent() {
                   <div className="w-full max-w-4xl mx-auto conclusion-box mb-8 p-6 md:p-10 bg-emerald-900/20 rounded-2xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)] backdrop-blur-sm">
                     <h3 className="text-emerald-400 text-sm md:text-base mb-4 font-bold tracking-widest text-center uppercase">최종 운명의 결론</h3>
                     <p className="text-white text-lg md:text-2xl text-center leading-relaxed font-serif break-keep">
-                      "{getCelticInterpretation(cardsInfo[9].cardData, 9, cardsInfo[9].isReversed)}"
+                      "{getCelticInterpretation(cardsInfo[9]?.cardData, 9, cardsInfo[9]?.isReversed)}"
                     </p>
                   </div>
                 )}
@@ -558,8 +564,8 @@ function ResultContent() {
                           isCeltic={true}
                           isActive={isActive}
                           idx={idx}
-                          isReversed={item.isReversed}
-                          onClick={() => setPopupCardId(item.cardData.id)}
+                          isReversed={item?.isReversed}
+                          onClick={() => setPopupCardId(item?.cardData?.id)}
                         />
                       </div>
                     );
@@ -590,10 +596,10 @@ function ResultContent() {
                           <span className="text-gray-300 text-xs tracking-widest uppercase">{CELTIC_LAYOUT_INFO[idx]?.labelKr}</span>
                         </div>
                         <div className="text-white font-bold text-base md:text-lg tracking-wider mb-2">
-                          {card.cardData.nameKr} <span className="text-gray-400 text-sm font-normal">({card.cardData.name})</span> {card.isReversed ? <span className="text-amber-500/80 text-sm ml-1">(역방향)</span> : <span className="text-emerald-400 text-sm ml-1">(정방향)</span>}
+                          {card?.cardData?.nameKr} <span className="text-gray-400 text-sm font-normal">({card?.cardData?.name})</span> {card?.isReversed ? <span className="text-amber-500/80 text-sm ml-1">(역방향)</span> : <span className="text-emerald-400 text-sm ml-1">(정방향)</span>}
                         </div>
                         <div className="text-emerald-400/80 text-sm md:text-sm leading-relaxed break-keep font-serif">
-                          {card.cardData.keywords.join(', ')}
+                          {card?.cardData?.keywords?.join(', ')}
                         </div>
                       </div>
                     ))}
@@ -658,10 +664,10 @@ function ResultContent() {
 
                       <div className="flex flex-col gap-2 mb-6">
                         <h3 className="text-2xl text-white font-bold flex items-center gap-3">
-                          {item.cardData.nameKr}
+                          {item?.cardData?.nameKr}
                         </h3>
                         <p className="text-amber-200/80 tracking-wide text-sm md:text-base">
-                          {item.cardData.keywords.join(' · ')}
+                          {item?.cardData?.keywords?.join(' · ')}
                         </p>
                       </div>
 
@@ -690,7 +696,7 @@ function ResultContent() {
                           )}
                         </div>
 
-                        {(() => {
+                        {category !== 'today' && (() => {
                           const isNegative = (item.isReversed ? item.cardData?.reversePolarity : item.cardData?.polarity) === 'negative';
                           const isWarning = item.isReversed || (category === 'worry' && isNegative);
 
@@ -713,7 +719,7 @@ function ResultContent() {
                                 ? 'text-rose-100/90'
                                 : (category === 'worry' ? 'text-emerald-50/90' : 'text-amber-50/90')
                                 }`}>
-                                "{category === 'worry' ? (item.isReversed ? item.cardData?.todayWarningAdvice : item.cardData?.todayAdvice) : getAdviceText(item)}"
+                                "{getAdviceText(item)}"
                               </p>
                             </div>
                           );
