@@ -10,16 +10,17 @@ export function OnboardingGuard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    // 로딩 중이 아니고 세션이 있으며, 설정을 완료하지 않은 경우
-    if (!loading && user && !hasConfiguredSettings) {
-      // 현재 경로가 /settings가 아니고 / 가 아닐 때 (메인 웰컴은 허용하거나 아예 막거나 선택)
-      // 사장님의 지시는 "/settings 외의 페이지 접근 시 강제" 이므로 적극적으로 막음
+    // 1. 유저가 없거나 로딩 중이면 온보딩 체크를 하지 않음 (로그인 전 화면 허용)
+    if (loading || !user) return;
+
+    // 2. 로그인 상태인데 설정이 안 된 경우에만 /settings로 강제
+    if (!hasConfiguredSettings) {
       if (pathname !== '/settings' && pathname !== '/login') {
         router.push('/settings');
       }
     }
   }, [user, loading, hasConfiguredSettings, pathname, router]);
 
-  // 로딩 중이거나 가드 조건에 걸려 리다이렉트 중일 때의 UI 처리 (필요 시)
+  // 로딩 중이거나 세션이 없어도 일단 렌더링은 허용 (로그인/웰컴 페이지 접근)
   return <>{children}</>;
 }

@@ -172,11 +172,11 @@ export default function SettingsPage() {
 
           <ToggleSection
             title="역방향"
-            description="카드의 방향에 따른 해석 차이를 적용합니다."
+            description="운명의 이면을 읽어내는 신비로운 흐름을 무작위로 적용합니다."
             currentValue={localUseReversals}
             onChange={(val) => setLocalUseReversals(val)}
             options={[
-              { label: '사용함 (7:3)', value: true },
+              { label: '운명의 이면 활성화', value: true },
               { label: '사용 안 함', value: false }
             ]}
           />

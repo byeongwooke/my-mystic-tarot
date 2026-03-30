@@ -18,7 +18,7 @@ export const getCardPool = (includeMinor: boolean): number[] => {
 
 /**
  * Randomly draws a card (or uses a forced ID) and determines if it is reversed.
- * Reversal logic: 7:3 (30% chance of being reversed) if enabled in settings.
+ * Reversal logic: Applying mystical probability flow if enabled in settings.
  */
 export const drawCard = (settings: UserSettings, forcedId?: number): { id: number; isReversed: boolean } => {
   let id = forcedId;
@@ -30,7 +30,7 @@ export const drawCard = (settings: UserSettings, forcedId?: number): { id: numbe
   
   let isReversed = false;
   if (settings.useReversals) {
-    // 7:3 probability (30% reversed)
+    // Apply mystical probability flow for reversals
     isReversed = Math.random() < 0.3;
   }
 
