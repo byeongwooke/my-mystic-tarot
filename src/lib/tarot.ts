@@ -17,15 +17,22 @@ export const saveTarotResult = async (profileId: string, userName: string, cards
   }
 };
 
+const toPlainObject = (obj: any) => {
+  return JSON.parse(JSON.stringify(obj, (key, value) => 
+    value === undefined ? null : value
+  ));
+};
+
 export const saveSharedResult = async (data: {
   displayName: string;
   category: string;
-  cardsSnapshot: any[];
-  fullInterpretation: string;
+  cardsInfo: any[];
+  overallAdvice: string;
 }) => {
   try {
+    const sanitizedData = toPlainObject(data);
     const docRef = await addDoc(collection(db, 'shared_results'), {
-      ...data,
+      ...sanitizedData,
       createdAt: serverTimestamp()
     });
     return docRef.id;
