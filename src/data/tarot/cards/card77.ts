@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card77: CardContent = {
     today: {
-        normal: '경제적 성취와 강력한 권위가 따릅니다. 당신의 능력을 믿고 대담하게 결단을 내리세요.',
-        reversed: '물질적 성공이 눈을 가리고 있습니다. 숫자에만 집착하다 사람의 마음을 잃지 마세요.'
+        normal: { interpretation: '재력', advice: '경제적 성취와 강력한 권위가 따릅니다. 당신의 능력을 믿고 대담하게 결단을 내리세요.' },
+        reversed: { interpretation: '권위의 유연함', advice: '물질적 성공이 눈을 가리고 있습니다. 숫자에만 집착하다 사람의 마음을 잃지 마세요.' }
     },
     worry: {
-        normal: '당신은 이미 이 바닥의 지배자입니다. 당신의 비즈니스적 감각을 믿고 과감하게 투자하세요.',
-        reversed: '돈으로 모든 것을 해결하려 하지 마세요. 당신의 탐욕이 공들여 쌓은 탑을 흔들고 있습니다.'
+        normal: { interpretation: '재력', advice: '당신은 이미 이 바닥의 지배자입니다. 당신의 비즈니스적 감각을 믿고 과감하게 투자하세요.' },
+        reversed: { interpretation: '권위의 유연함', advice: '돈으로 모든 것을 해결하려 하지 마세요. 당신의 탐욕이 공들여 쌓은 탑을 흔들고 있습니다.' }
     },
     spread3: {
         spicy: {

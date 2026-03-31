@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card57: CardContent = {
     today: {
-        normal: '당신을 묶은 붕대와 칼은 환상입니다. 공포를 떨치고 제자리에서 한 발자국만 떼어보세요.',
-        reversed: '스스로를 가둔 감옥 문이 열렸습니다. 눈을 감고 떨고만 있을 것인가요? 이제 밖으로 나오세요.'
+        normal: { interpretation: '속박', advice: '당신을 묶은 붕대와 칼은 환상입니다. 공포를 떨치고 제자리에서 한 발자국만 떼어보세요.' },
+        reversed: { interpretation: '해방의 시작', advice: '스스로를 가둔 감옥 문이 열렸습니다. 눈을 감고 떨고만 있을 것인가요? 이제 밖으로 나오세요.' }
     },
     worry: {
-        normal: '불가능하다고 생각하는 것은 당신의 마음일 뿐입니다. 밧줄은 느슨하니 용기 내어 떨쳐내십시오.',
-        reversed: '환경 탓만 하며 아무것도 하지 않고 있습니다. 당신을 가둔 것은 상황이 아니라 당신의 공포입니다.'
+        normal: { interpretation: '속박', advice: '불가능하다고 생각하는 것은 당신의 마음일 뿐입니다. 밧줄은 느슨하니 용기 내어 떨쳐내십시오.' },
+        reversed: { interpretation: '해방의 시작', advice: '환경 탓만 하며 아무것도 하지 않고 있습니다. 당신을 가둔 것은 상황이 아니라 당신의 공포입니다.' }
     },
     spread3: {
         spicy: {

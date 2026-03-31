@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card70: CardContent = {
     today: {
-        normal: '결실을 맺기 직전의 구간입니다. 조급함에 설익은 열매를 따지 말고 조금 더 인내하세요.',
-        reversed: '애쓴 보람이 없어 보여 허탈하겠지만, 여기서 포기하면 지금까지의 공든 탑이 무너집니다.'
+        normal: { interpretation: '인내', advice: '결실을 맺기 직전의 구간입니다. 조급함에 설익은 열매를 따지 말고 조금 더 인내하세요.' },
+        reversed: { interpretation: '조급함 내려놓기', advice: '애쓴 보람이 없어 보여 허탈하겠지만, 여기서 포기하면 지금까지의 공든 탑이 무너집니다.' }
     },
     worry: {
-        normal: '잠시 멈춰 서서 지금의 방향이 맞는지 점검하세요. 묵묵히 마지막 거름을 줄 때입니다.',
-        reversed: '남의 떡이 더 커 보입니다. 자신의 노력을 비하하며 엉뚱한 곳에 눈독을 들이고 있습니다.'
+        normal: { interpretation: '인내', advice: '잠시 멈춰 서서 지금의 방향이 맞는지 점검하세요. 묵묵히 마지막 거름을 줄 때입니다.' },
+        reversed: { interpretation: '조급함 내려놓기', advice: '남의 떡이 더 커 보입니다. 자신의 노력을 비하하며 엉뚱한 곳에 눈독을 들이고 있습니다.' }
     },
     spread3: {
         spicy: {

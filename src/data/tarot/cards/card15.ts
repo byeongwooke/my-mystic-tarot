@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card15: CardContent = {
     today: {
-        normal: '당신을 묶고 있는 사슬의 열쇠는 당신 손에 있습니다. 달콤한 유혹 뒤의 진실을 보세요.',
-        reversed: '속박이 편안하게 느껴지는 순간 자유는 영영 사라집니다. 집착이 당신을 병들게 하고 있습니다.'
+        normal: { interpretation: '유혹', advice: '당신을 묶고 있는 사슬의 열쇠는 당신 손에 있습니다. 달콤한 유혹 뒤의 진실을 보세요.' },
+        reversed: { interpretation: '각성', advice: '속박이 편안하게 느껴지는 순간 자유는 영영 사라집니다. 집착이 당신을 병들게 하고 있습니다.' }
     },
     worry: {
-        normal: '자신을 억압하는 습관이나 인연을 끊어내야 합니다. 지금의 고통은 당신이 만든 감옥입니다.',
-        reversed: '본능적인 욕구에 휘둘려 이성을 잃고 있습니다. 한순간의 쾌락이 평생의 후회가 될 수 있습니다.'
+        normal: { interpretation: '유혹', advice: '자신을 억압하는 습관이나 인연을 끊어내야 합니다. 지금의 고통은 당신이 만든 감옥입니다.' },
+        reversed: { interpretation: '각성', advice: '본능적인 욕구에 휘둘려 이성을 잃고 있습니다. 한순간의 쾌락이 평생의 후회가 될 수 있습니다.' }
     },
     spread3: {
         spicy: {

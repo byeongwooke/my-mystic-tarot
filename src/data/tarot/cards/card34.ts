@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card34: CardContent = {
     today: {
-        normal: '당당한 카리스마로 주인공이 되세요. 당신의 자신감이 주변을 밝게 비추는 날입니다.',
-        reversed: '자신감이 오만이 되는 지점을 경계하세요. 히스테리적인 태도가 신뢰를 갉아먹습니다.'
+        normal: { interpretation: '자신감', advice: '당당한 카리스마로 주인공이 되세요. 당신의 자신감이 주변을 밝게 비추는 날입니다.' },
+        reversed: { interpretation: '감정기복', advice: '자신감이 오만이 되는 지점을 경계하세요. 히스테리적인 태도가 신뢰를 갉아먹습니다.' }
     },
     worry: {
-        normal: '당신은 충분히 매력적이고 유능합니다. 당당하게 당신의 의견을 관철시키세요.',
-        reversed: '주변의 관심을 독차지하려다 무리수를 둡니다. 당신의 강함이 타인을 억누르고 있습니다.'
+        normal: { interpretation: '자신감', advice: '당신은 충분히 매력적이고 유능합니다. 당당하게 당신의 의견을 관철시키세요.' },
+        reversed: { interpretation: '감정기복', advice: '주변의 관심을 독차지하려다 무리수를 둡니다. 당신의 강함이 타인을 억누르고 있습니다.' }
     },
     spread3: {
         spicy: {

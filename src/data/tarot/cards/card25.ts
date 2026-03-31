@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card25: CardContent = {
     today: {
-        normal: '안정적인 기반 위에 축제가 벌어집니다. 평화와 화합을 즐기며 주변과 온기를 나누세요.',
-        reversed: '겉모습만 화려한 평화일 수 있습니다. 내부의 토대가 흔들리고 있지는 않은지 살피세요.'
+        normal: { interpretation: '안정', advice: '안정적인 기반 위에 축제가 벌어집니다. 평화와 화합을 즐기며 주변과 온기를 나누세요.' },
+        reversed: { interpretation: '형식주의', advice: '겉모습만 화려한 평화일 수 있습니다. 내부의 토대가 흔들리고 있지는 않은지 살피세요.' }
     },
     worry: {
-        normal: '지금은 안식의 시간입니다. 당신이 이룬 성과를 축하하며 에너지를 충전하십시오.',
-        reversed: '즐거움에 취해 긴장을 풀면 위험합니다. 아직 해결되지 않은 갈등이 잠재해 있습니다.'
+        normal: { interpretation: '안정', advice: '지금은 안식의 시간입니다. 당신이 이룬 성과를 축하하며 에너지를 충전하십시오.' },
+        reversed: { interpretation: '형식주의', advice: '즐거움에 취해 긴장을 풀면 위험합니다. 아직 해결되지 않은 갈등이 잠재해 있습니다.' }
     },
     spread3: {
         spicy: {

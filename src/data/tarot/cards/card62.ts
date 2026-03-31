@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card62: CardContent = {
     today: {
-        normal: '냉철한 판단력이 돋보이는 날입니다. 감정에 휘둘리지 말고 공과 사를 명확히 구분하세요.',
-        reversed: '차가움이 비정함으로 흐르고 있습니다. 온기 없는 진실은 상대를 밀어내기만 할 뿐입니다.'
+        normal: { interpretation: '독립', advice: '냉철한 판단력이 돋보이는 날입니다. 감정에 휘둘리지 말고 공과 사를 명확히 구분하세요.' },
+        reversed: { interpretation: '부드러운 통찰', advice: '차가움이 비정함으로 흐르고 있습니다. 온기 없는 진실은 상대를 밀어내기만 할 뿐입니다.' }
     },
     worry: {
-        normal: '당신을 괴롭히는 감정의 찌꺼기를 단호하게 잘라내세요. 냉정한 독립이 당신을 살리는 길입니다.',
-        reversed: '너무 완벽하려다 주변에 아무도 남지 않았습니다. 당신의 논리가 타인을 죽이고 있습니다.'
+        normal: { interpretation: '독립', advice: '당신을 괴롭히는 감정의 찌꺼기를 단호하게 잘라내세요. 냉정한 독립이 당신을 살리는 길입니다.' },
+        reversed: { interpretation: '부드러운 통찰', advice: '너무 완벽하려다 주변에 아무도 남지 않았습니다. 당신의 논리가 타인을 죽이고 있습니다.' }
     },
     spread3: {
         spicy: {

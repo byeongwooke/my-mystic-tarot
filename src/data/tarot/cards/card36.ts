@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card36: CardContent = {
     today: {
-        normal: '감정의 샘물이 솟아납니다. 마음을 열고 새로운 사랑이나 영감을 기꺼이 받아들이세요.',
-        reversed: '넘쳐흐르는 감정이 이성을 마비시킵니다. 실체 없는 기대감에 젖어 현실을 놓치지 마세요.'
+        normal: { interpretation: '시작', advice: '감정의 샘물이 솟아납니다. 마음을 열고 새로운 사랑이나 영감을 기꺼이 받아들이세요.' },
+        reversed: { interpretation: '감정적소모', advice: '넘쳐흐르는 감정이 이성을 마비시킵니다. 실체 없는 기대감에 젖어 현실을 놓치지 마세요.' }
     },
     worry: {
-        normal: '지금은 마음이 시키는 대로 움직여도 좋습니다. 순수한 감정이 당신의 길을 안내할 것입니다.',
-        reversed: '감정의 소용돌이에 빠져 허우적대고 있습니다. 실체 없는 환상에서 깨어나야 합니다.'
+        normal: { interpretation: '시작', advice: '지금은 마음이 시키는 대로 움직여도 좋습니다. 순수한 감정이 당신의 길을 안내할 것입니다.' },
+        reversed: { interpretation: '감정적소모', advice: '감정의 소용돌이에 빠져 허우적대고 있습니다. 실체 없는 환상에서 깨어나야 합니다.' }
     },
     spread3: {
         spicy: {

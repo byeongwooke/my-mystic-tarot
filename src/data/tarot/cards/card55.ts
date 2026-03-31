@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card55: CardContent = {
     today: {
-        normal: '아픈 기억을 싣고 강을 건너는 중입니다. 저 멀리 보이는 수평선에는 당신을 위한 평온이 있습니다.',
-        reversed: '배가 제자리에서 맴돕니다. 과거의 무게를 덜어내지 못하면 당신의 여정은 끝나지 않습니다.'
+        normal: { interpretation: '이동', advice: '아픈 기억을 싣고 강을 건너는 중입니다. 저 멀리 보이는 수평선에는 당신을 위한 평온이 있습니다.' },
+        reversed: { interpretation: '정체 극복', advice: '배가 제자리에서 맴돕니다. 과거의 무게를 덜어내지 못하면 당신의 여정은 끝나지 않습니다.' }
     },
     worry: {
-        normal: '지금은 완벽한 해결보다는 안전한 이동이 우선입니다. 조금씩 상황을 개선해 나가는 데 집중하세요.',
-        reversed: '몸은 떠났지만 마음은 여전히 과거에 머물러 있습니다. 미련을 버리지 못하면 또다시 제자리입니다.'
+        normal: { interpretation: '이동', advice: '지금은 완벽한 해결보다는 안전한 이동이 우선입니다. 조금씩 상황을 개선해 나가는 데 집중하세요.' },
+        reversed: { interpretation: '정체 극복', advice: '몸은 떠났지만 마음은 여전히 과거에 머물러 있습니다. 미련을 버리지 못하면 또다시 제자리입니다.' }
     },
     spread3: {
         spicy: {

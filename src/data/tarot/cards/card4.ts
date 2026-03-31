@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card4: CardContent = {
     today: {
-        normal: '질서와 체계가 강조되는 날입니다. 감정보다 이성을 앞세워 책임감 있게 행동하세요.',
-        reversed: '과도한 통제가 주변과의 갈등을 유발할 수 있습니다. 경직된 태도가 기회를 가로막기도 합니다.'
+        normal: { interpretation: '질서', advice: '질서와 체계가 강조되는 날입니다. 감정보다 이성을 앞세워 책임감 있게 행동하세요.' },
+        reversed: { interpretation: '독단', advice: '과도한 통제가 주변과의 갈등을 유발할 수 있습니다. 경직된 태도가 기회를 가로막기도 합니다.' }
     },
     worry: {
-        normal: '지금은 흔들리지 않는 원칙이 필요합니다. 당신의 권위를 믿고 뚝심 있게 밀어붙이세요.',
-        reversed: '권위적인 태도가 해결의 실마리를 꼬이게 합니다. 유연함을 갖추지 못하면 고립될 수 있습니다.'
+        normal: { interpretation: '질서', advice: '지금은 흔들리지 않는 원칙이 필요합니다. 당신의 권위를 믿고 뚝심 있게 밀어붙이세요.' },
+        reversed: { interpretation: '독단', advice: '권위적인 태도가 해결의 실마리를 꼬이게 합니다. 유연함을 갖추지 못하면 고립될 수 있습니다.' }
     },
     spread3: {
         spicy: {

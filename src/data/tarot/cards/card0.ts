@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card0: CardContent = {
     today: {
-        normal: '정해진 규칙이 없는 날입니다. 발길 닿는 대로 움직일 때 의외의 소득이 있습니다.',
-        reversed: '무계획이 용기가 아닌 위태로움이 될 수 있습니다. 발밑의 낭떠러지를 확인하세요.'
+        normal: { interpretation: '시작과 도전', advice: '정해진 규칙이 없는 날입니다. 발길 닿는 대로 움직일 때 의외의 소득이 있습니다.' },
+        reversed: { interpretation: '무모함 경계', advice: '무계획이 용기가 아닌 위태로움이 될 수 있습니다. 발밑의 낭떠러지를 확인하세요.' }
     },
     worry: {
-        normal: '지금은 정답을 찾기보다 경험이 중요한 때입니다. 실패를 두려워 말고 가볍게 시작하세요.',
-        reversed: '아직은 때가 아닙니다. 자유와 방종을 착각하고 있지는 않은지 스스로를 점검하십시오.'
+        normal: { interpretation: '경험의 가치', advice: '지금은 정답을 찾기보다 경험이 중요한 때입니다. 실패를 두려워 말고 가볍게 시작하세요.' },
+        reversed: { interpretation: '타이밍 조율', advice: '아직은 때가 아닙니다. 자유와 방종을 착각하고 있지는 않은지 스스로를 점검하십시오.' }
     },
     spread3: {
         spicy: {

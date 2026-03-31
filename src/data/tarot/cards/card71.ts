@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card71: CardContent = {
     today: {
-        normal: '한 가지에 집중하세요. 당신의 성실한 반복이 결국 완벽한 기술을 완성합니다.',
-        reversed: '과정에만 집착하다 큰 흐름을 놓치고 있습니다. 기술적인 완벽함이 전부는 아닙니다.'
+        normal: { interpretation: '성실', advice: '한 가지에 집중하세요. 당신의 성실한 반복이 결국 완벽한 기술을 완성합니다.' },
+        reversed: { interpretation: '숙련도 보완', advice: '과정에만 집착하다 큰 흐름을 놓치고 있습니다. 기술적인 완벽함이 전부는 아닙니다.' }
     },
     worry: {
-        normal: '지금의 노력이 헛되지 않을까 불안하겠지만, 당신의 실력은 이미 계단식으로 성장하고 있습니다.',
-        reversed: '디테일에 너무 매몰되어 마감 기한을 넘길 위험이 있습니다. 적절한 타협도 필요합니다.'
+        normal: { interpretation: '성실', advice: '지금의 노력이 헛되지 않을까 불안하겠지만, 당신의 실력은 이미 계단식으로 성장하고 있습니다.' },
+        reversed: { interpretation: '숙련도 보완', advice: '디테일에 너무 매몰되어 마감 기한을 넘길 위험이 있습니다. 적절한 타협도 필요합니다.' }
     },
     spread3: {
         spicy: {

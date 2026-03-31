@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card67: CardContent = {
     today: {
-        normal: '가진 것을 지키려는 마음이 강해집니다. 지나친 인색함이 새로운 기회를 막고 있습니다.',
-        reversed: '움켜쥔 손 안의 모래는 빠져나갑니다. 소유에 대한 공포가 당신을 고립시키고 있습니다.'
+        normal: { interpretation: '소유', advice: '가진 것을 지키려는 마음이 강해집니다. 지나친 인색함이 새로운 기회를 막고 있습니다.' },
+        reversed: { interpretation: '경계 완화', advice: '움켜쥔 손 안의 모래는 빠져나갑니다. 소유에 대한 공포가 당신을 고립시키고 있습니다.' }
     },
     worry: {
-        normal: '지금은 지키는 것이 우선이지만, 마음까지 닫지는 마세요. 여유를 가져야 운이 순환합니다.',
-        reversed: '돈에 영혼을 팔고 있지는 않나요? 당신의 인색함이 소중한 사람들을 떠나게 합니다.'
+        normal: { interpretation: '소유', advice: '지금은 지키는 것이 우선이지만, 마음까지 닫지는 마세요. 여유를 가져야 운이 순환합니다.' },
+        reversed: { interpretation: '경계 완화', advice: '돈에 영혼을 팔고 있지는 않나요? 당신의 인색함이 소중한 사람들을 떠나게 합니다.' }
     },
     spread3: {
         spicy: {

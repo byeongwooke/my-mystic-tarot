@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card18: CardContent = {
     today: {
-        normal: '안개 자욱한 밤길입니다. 눈앞의 현상보다 본능적인 직관의 지도를 따라 조심스럽게 움직이세요.',
-        reversed: '불안이라는 유령이 당신을 지배하고 있습니다. 존재하지 않는 공포에 떨며 시간을 낭비하지 마세요.'
+        normal: { interpretation: '불안', advice: '안개 자욱한 밤길입니다. 눈앞의 현상보다 본능적인 직관의 지도를 따라 조심스럽게 움직이세요.' },
+        reversed: { interpretation: '진실드러남', advice: '불안이라는 유령이 당신을 지배하고 있습니다. 존재하지 않는 공포에 떨며 시간을 낭비하지 마세요.' }
     },
     worry: {
-        normal: '지금은 결론을 내릴 때가 아닙니다. 안개가 걷힐 때까지 마음의 소리를 들으며 기다려야 합니다.',
-        reversed: '과거의 트라우마가 현재의 판단을 흐리고 있습니다. 당신의 공포는 실체가 없는 환상입니다.'
+        normal: { interpretation: '불안', advice: '지금은 결론을 내릴 때가 아닙니다. 안개가 걷힐 때까지 마음의 소리를 들으며 기다려야 합니다.' },
+        reversed: { interpretation: '진실드러남', advice: '과거의 트라우마가 현재의 판단을 흐리고 있습니다. 당신의 공포는 실체가 없는 환상입니다.' }
     },
     spread3: {
         spicy: {

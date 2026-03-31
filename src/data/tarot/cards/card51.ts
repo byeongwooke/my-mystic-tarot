@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card51: CardContent = {
     today: {
-        normal: '눈을 감고 잠시 침묵을 지키세요. 팽팽한 균형 속에서 평정을 유지하는 것이 유리한 날입니다.',
-        reversed: '회피를 평화로 착각하지 마세요. 당신이 등 돌린 진실이 뒤에서 당신을 노리고 있습니다.'
+        normal: { interpretation: '교착', advice: '눈을 감고 잠시 침묵을 지키세요. 팽팽한 균형 속에서 평정을 유지하는 것이 유리한 날입니다.' },
+        reversed: { interpretation: '망설임 끝', advice: '회피를 평화로 착각하지 마세요. 당신이 등 돌린 진실이 뒤에서 당신을 노리고 있습니다.' }
     },
     worry: {
-        normal: '지금은 결정을 유보하는 것이 지혜입니다. 충분한 정보를 얻을 때까지 눈을 감고 기다리십시오.',
-        reversed: '진실을 마주할 용기가 없어 현실을 부정하고 있습니다. 눈가림은 해결책이 아닙니다.'
+        normal: { interpretation: '교착', advice: '지금은 결정을 유보하는 것이 지혜입니다. 충분한 정보를 얻을 때까지 눈을 감고 기다리십시오.' },
+        reversed: { interpretation: '망설임 끝', advice: '진실을 마주할 용기가 없어 현실을 부정하고 있습니다. 눈가림은 해결책이 아닙니다.' }
     },
     spread3: {
         spicy: {

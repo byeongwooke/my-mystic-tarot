@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card19: CardContent = {
     today: {
-        normal: '축하합니다! 구름이 걷히고 태양이 떴습니다. 당신의 활력을 세상에 마음껏 발산하는 날입니다.',
-        reversed: '빛이 밝을수록 그림자도 짙은 법입니다. 지나친 자신감이 자만이 되어 타인을 가리지 않게 하세요.'
+        normal: { interpretation: '성공', advice: '축하합니다! 구름이 걷히고 태양이 떴습니다. 당신의 활력을 세상에 마음껏 발산하는 날입니다.' },
+        reversed: { interpretation: '일시적위축', advice: '빛이 밝을수록 그림자도 짙은 법입니다. 지나친 자신감이 자만이 되어 타인을 가리지 않게 하세요.' }
     },
     worry: {
-        normal: '당신은 이미 성공의 가도에 있습니다. 밝은 기운을 유지하며 주변 사람들과 기쁨을 나누십시오.',
-        reversed: '너무 밝은 곳만 보느라 그늘진 곳의 문제를 간과하고 있습니다. 세세한 점검이 필요합니다.'
+        normal: { interpretation: '성공', advice: '당신은 이미 성공의 가도에 있습니다. 밝은 기운을 유지하며 주변 사람들과 기쁨을 나누십시오.' },
+        reversed: { interpretation: '일시적위축', advice: '너무 밝은 곳만 보느라 그늘진 곳의 문제를 간과하고 있습니다. 세세한 점검이 필요합니다.' }
     },
     spread3: {
         spicy: {

@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card29: CardContent = {
     today: {
-        normal: '화살처럼 빠른 변화가 시작되었습니다. 기회가 왔을 때 망설이지 말고 채 가세요.',
-        reversed: '속도가 통제를 벗어났습니다. 섣부른 움직임은 목적지가 아닌 낭떠러지로 인도합니다.'
+        normal: { interpretation: '속도', advice: '화살처럼 빠른 변화가 시작되었습니다. 기회가 왔을 때 망설이지 말고 채 가세요.' },
+        reversed: { interpretation: '혼선', advice: '속도가 통제를 벗어났습니다. 섣부른 움직임은 목적지가 아닌 낭떠러지로 인도합니다.' }
     },
     worry: {
-        normal: '망설임은 기회를 죽입니다. 직관이 이끄는 대로 빠르게 실행에 옮기십시오.',
-        reversed: '너무 서두르다 발이 꼬이고 있습니다. 지금은 속도보다 방향을 다시 점검할 때입니다.'
+        normal: { interpretation: '속도', advice: '망설임은 기회를 죽입니다. 직관이 이끄는 대로 빠르게 실행에 옮기십시오.' },
+        reversed: { interpretation: '혼선', advice: '너무 서두르다 발이 꼬이고 있습니다. 지금은 속도보다 방향을 다시 점검할 때입니다.' }
     },
     spread3: {
         spicy: {

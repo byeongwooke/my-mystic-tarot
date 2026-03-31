@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card54: CardContent = {
     today: {
-        normal: '승리했지만 상처뿐인 영광이네요. 축하해 줄 이 없는 독주는 당신을 더 고립시킬 뿐입니다.',
-        reversed: '비겁한 방법으로 얻은 결과는 반드시 대가를 치릅니다. 명예를 잃은 승리는 패배보다 못합니다.'
+        normal: { interpretation: '이기주의', advice: '승리했지만 상처뿐인 영광이네요. 축하해 줄 이 없는 독주는 당신을 더 고립시킬 뿐입니다.' },
+        reversed: { interpretation: '갈등 종결', advice: '비겁한 방법으로 얻은 결과는 반드시 대가를 치릅니다. 명예를 잃은 승리는 패배보다 못합니다.' }
     },
     worry: {
-        normal: '상대를 이기려 들수록 당신의 인격은 깎여나갑니다. 지는 것이 이기는 길일 수도 있음을 기억하세요.',
-        reversed: '주변 사람들을 적으로 돌리면서까지 얻으려 하는 것이 무엇입니까? 당신의 고집이 화를 부릅니다.'
+        normal: { interpretation: '이기주의', advice: '상대를 이기려 들수록 당신의 인격은 깎여나갑니다. 지는 것이 이기는 길일 수도 있음을 기억하세요.' },
+        reversed: { interpretation: '갈등 종결', advice: '주변 사람들을 적으로 돌리면서까지 얻으려 하는 것이 무엇입니까? 당신의 고집이 화를 부릅니다.' }
     },
     spread3: {
         spicy: {

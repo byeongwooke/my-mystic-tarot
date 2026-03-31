@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card52: CardContent = {
     today: {
-        normal: '심장을 찌르는 고통조차 성장의 과정입니다. 아픈 진실을 담담하게 받아들이고 직면하세요.',
-        reversed: '상처를 후벼파는 것은 치유가 아닙니다. 아픔에 매몰되어 본모습을 잃지 않도록 주의하세요.'
+        normal: { interpretation: '상처', advice: '심장을 찌르는 고통조차 성장의 과정입니다. 아픈 진실을 담담하게 받아들이고 직면하세요.' },
+        reversed: { interpretation: '치유의 과정', advice: '상처를 후벼파는 것은 치유가 아닙니다. 아픔에 매몰되어 본모습을 잃지 않도록 주의하세요.' }
     },
     worry: {
-        normal: '슬픔을 충분히 느끼되 그 자리에 주저앉지 마세요. 이 고통은 당신을 더 단단하게 만들 것입니다.',
-        reversed: '남의 시선에 상처받아 스스로를 비하하고 있습니다. 아픔을 정면으로 마주할 용기를 내세요.'
+        normal: { interpretation: '상처', advice: '슬픔을 충분히 느끼되 그 자리에 주저앉지 마세요. 이 고통은 당신을 더 단단하게 만들 것입니다.' },
+        reversed: { interpretation: '치유의 과정', advice: '남의 시선에 상처받아 스스로를 비하하고 있습니다. 아픔을 정면으로 마주할 용기를 내세요.' }
     },
     spread3: {
         spicy: {

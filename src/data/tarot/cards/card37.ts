@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card37: CardContent = {
     today: {
-        normal: '영혼의 단짝을 만나는 날입니다. 조화로운 소통과 깊은 유대감이 당신을 채워줄 것입니다.',
-        reversed: '완벽해 보이던 조화에 균열이 시작됩니다. 서로의 다름을 인정하지 못하면 갈등이 됩니다.'
+        normal: { interpretation: '화합', advice: '영혼의 단짝을 만나는 날입니다. 조화로운 소통과 깊은 유대감이 당신을 채워줄 것입니다.' },
+        reversed: { interpretation: '오해', advice: '완벽해 보이던 조화에 균열이 시작됩니다. 서로의 다름을 인정하지 못하면 갈등이 됩니다.' }
     },
     worry: {
-        normal: '당신을 돕는 귀인이 곁에 있습니다. 마음을 열고 협력할 때 상상 이상의 시너지가 날 것입니다.',
-        reversed: '상대에게 너무 많은 것을 바라고 있지는 않나요? 균형이 깨진 관계는 유지될 수 없습니다.'
+        normal: { interpretation: '화합', advice: '당신을 돕는 귀인이 곁에 있습니다. 마음을 열고 협력할 때 상상 이상의 시너지가 날 것입니다.' },
+        reversed: { interpretation: '오해', advice: '상대에게 너무 많은 것을 바라고 있지는 않나요? 균형이 깨진 관계는 유지될 수 없습니다.' }
     },
     spread3: {
         spicy: {

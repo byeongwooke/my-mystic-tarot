@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card16: CardContent = {
     today: {
-        normal: '갑작스러운 붕괴는 더 견고한 집을 짓기 위한 과정입니다. 거짓된 평화가 깨지는 것을 환영하세요.',
-        reversed: '재난을 피하려 하지 마십시오. 이미 무너진 기반 위에 다시 성을 쌓으려는 헛된 수고를 멈추세요.'
+        normal: { interpretation: '격변', advice: '갑작스러운 붕괴는 더 견고한 집을 짓기 위한 과정입니다. 거짓된 평화가 깨지는 것을 환영하세요.' },
+        reversed: { interpretation: '혼란지속', advice: '재난을 피하려 하지 마십시오. 이미 무너진 기반 위에 다시 성을 쌓으려는 헛된 수고를 멈추세요.' }
     },
     worry: {
-        normal: '더 이상 도망칠 곳은 없습니다. 무너진 폐허 속에서 당신의 진짜 기반이 무엇인지 찾아내십시오.',
-        reversed: '위기를 모면하는 데 급급해 근본적인 문제를 외면하고 있습니다. 더 큰 붕괴가 기다리고 있습니다.'
+        normal: { interpretation: '격변', advice: '더 이상 도망칠 곳은 없습니다. 무너진 폐허 속에서 당신의 진짜 기반이 무엇인지 찾아내십시오.' },
+        reversed: { interpretation: '혼란지속', advice: '위기를 모면하는 데 급급해 근본적인 문제를 외면하고 있습니다. 더 큰 붕괴가 기다리고 있습니다.' }
     },
     spread3: {
         spicy: {

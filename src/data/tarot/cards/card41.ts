@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card41: CardContent = {
     today: {
-        normal: '가장 순수했던 시절의 꿈을 기억하세요. 과거의 인연이나 추억이 오늘 당신에게 힘을 줍니다.',
-        reversed: '추억이라는 이름의 족쇄에 묶여 있습니다. 과거에 안주하는 것은 성장을 가로막는 지름길입니다.'
+        normal: { interpretation: '추억', advice: '가장 순수했던 시절의 꿈을 기억하세요. 과거의 인연이나 추억이 오늘 당신에게 힘을 줍니다.' },
+        reversed: { interpretation: '현실 자각', advice: '추억이라는 이름의 족쇄에 묶여 있습니다. 과거에 안주하는 것은 성장을 가로막는 지름길입니다.' }
     },
     worry: {
-        normal: '어린아이 같은 순수함으로 문제를 바라보세요. 의외로 해답은 가장 단순한 곳에 있습니다.',
-        reversed: '지나간 영광에 집착하고 있지는 않나요? 어제의 방식으로는 오늘을 이길 수 없습니다.'
+        normal: { interpretation: '추억', advice: '어린아이 같은 순수함으로 문제를 바라보세요. 의외로 해답은 가장 단순한 곳에 있습니다.' },
+        reversed: { interpretation: '현실 자각', advice: '지나간 영광에 집착하고 있지는 않나요? 어제의 방식으로는 오늘을 이길 수 없습니다.' }
     },
     spread3: {
         spicy: {

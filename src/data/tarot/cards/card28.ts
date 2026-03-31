@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card28: CardContent = {
     today: {
-        normal: '공격보다 수비가 중요한 날입니다. 당신의 입지를 굳건히 지키고 방패를 높이 드세요.',
-        reversed: '고집스럽게 버티는 것이 능사는 아닙니다. 무의미한 방어에 당신의 진을 빼고 있습니다.'
+        normal: { interpretation: '수호', advice: '공격보다 수비가 중요한 날입니다. 당신의 입지를 굳건히 지키고 방패를 높이 드세요.' },
+        reversed: { interpretation: '방어적태도', advice: '고집스럽게 버티는 것이 능사는 아닙니다. 무의미한 방어에 당신의 진을 빼고 있습니다.' }
     },
     worry: {
-        normal: '위협이 많지만 당신은 충분히 이겨낼 수 있습니다. 유리한 고지를 절대 포기하지 마세요.',
-        reversed: '혼자서 너무 많은 짐을 지려 합니다. 이제는 타협점을 찾거나 도움을 청해야 합니다.'
+        normal: { interpretation: '수호', advice: '위협이 많지만 당신은 충분히 이겨낼 수 있습니다. 유리한 고지를 절대 포기하지 마세요.' },
+        reversed: { interpretation: '방어적태도', advice: '혼자서 너무 많은 짐을 지려 합니다. 이제는 타협점을 찾거나 도움을 청해야 합니다.' }
     },
     spread3: {
         spicy: {

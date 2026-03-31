@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card68: CardContent = {
     today: {
-        normal: '힘든 시기지만 당신을 도울 손길이 곁에 있습니다. 고집을 버리고 도움을 수용하세요.',
-        reversed: '눈앞의 도움조차 보지 못하고 있습니다. 자존심 때문에 굶주림을 자처하고 있지는 않나요?'
+        normal: { interpretation: '고립', advice: '힘든 시기지만 당신을 도울 손길이 곁에 있습니다. 고집을 버리고 도움을 수용하세요.' },
+        reversed: { interpretation: '회복의 기미', advice: '눈앞의 도움조차 보지 못하고 있습니다. 자존심 때문에 굶주림을 자처하고 있지는 않나요?' }
     },
     worry: {
-        normal: '터널의 끝은 멀지 않았습니다. 혼자 끙끙대지 말고 믿을 만한 이에게 솔직하게 털어놓으세요.',
-        reversed: '영적인 공허함을 물질로 채우려 합니다. 당신의 가난은 마음에서 시작되었습니다.'
+        normal: { interpretation: '고립', advice: '터널의 끝은 멀지 않았습니다. 혼자 끙끙대지 말고 믿을 만한 이에게 솔직하게 털어놓으세요.' },
+        reversed: { interpretation: '회복의 기미', advice: '영적인 공허함을 물질로 채우려 합니다. 당신의 가난은 마음에서 시작되었습니다.' }
     },
     spread3: {
         spicy: {

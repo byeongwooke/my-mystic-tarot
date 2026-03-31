@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card5: CardContent = {
     today: {
-        normal: '검증된 가르침과 전통이 해답을 주는 날입니다. 조력자의 조언을 귀하게 여기세요.',
-        reversed: '낡은 규칙에 얽매여 새로운 기회를 놓치고 있습니다. 형식보다는 본질을 먼저 보십시오.'
+        normal: { interpretation: '전통', advice: '검증된 가르침과 전통이 해답을 주는 날입니다. 조력자의 조언을 귀하게 여기세요.' },
+        reversed: { interpretation: '편협', advice: '낡은 규칙에 얽매여 새로운 기회를 놓치고 있습니다. 형식보다는 본질을 먼저 보십시오.' }
     },
     worry: {
-        normal: '혼자 고민하지 마세요. 당신보다 앞서간 이들의 지혜를 빌린다면 의외로 쉽게 해결될 일입니다.',
-        reversed: '누군가에게 보여주기 위한 형식에 치중하고 있지는 않나요? 당신의 신념이 흔들리고 있습니다.'
+        normal: { interpretation: '전통', advice: '혼자 고민하지 마세요. 당신보다 앞서간 이들의 지혜를 빌린다면 의외로 쉽게 해결될 일입니다.' },
+        reversed: { interpretation: '편협', advice: '누군가에게 보여주기 위한 형식에 치중하고 있지는 않나요? 당신의 신념이 흔들리고 있습니다.' }
     },
     spread3: {
         spicy: {

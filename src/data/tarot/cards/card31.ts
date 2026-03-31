@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card31: CardContent = {
     today: {
-        normal: '책임감이 당신의 어깨를 짓누릅니다. 모든 짐을 혼자 지려다 목적지 앞에서 쓰러질 수 있습니다.',
-        reversed: '이제는 짐을 내려놓을 용기가 필요합니다. 당신의 헌신이 타인의 나태를 만들고 있습니다.'
+        normal: { interpretation: '과부하', advice: '책임감이 당신의 어깨를 짓누릅니다. 모든 짐을 혼자 지려다 목적지 앞에서 쓰러질 수 있습니다.' },
+        reversed: { interpretation: '책임회피', advice: '이제는 짐을 내려놓을 용기가 필요합니다. 당신의 헌신이 타인의 나태를 만들고 있습니다.' }
     },
     worry: {
-        normal: '당신이 감당할 수 있는 한계를 넘었습니다. 소중한 것만 남기고 나머지는 기꺼이 놓아주세요.',
-        reversed: '책임감이라는 감옥에 갇혀 있습니다. 당신이 없어도 세상은 돌아가니 자신을 먼저 돌보세요.'
+        normal: { interpretation: '과부하', advice: '당신이 감당할 수 있는 한계를 넘었습니다. 소중한 것만 남기고 나머지는 기꺼이 놓아주세요.' },
+        reversed: { interpretation: '책임회피', advice: '책임감이라는 감옥에 갇혀 있습니다. 당신이 없어도 세상은 돌아가니 자신을 먼저 돌보세요.' }
     },
     spread3: {
         spicy: {

@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card39: CardContent = {
     today: {
-        normal: '눈앞의 제안이 성에 차지 않네요. 밖이 아닌 당신의 안을 들여다보며 재충전하세요.',
-        reversed: '권태에 빠져 내밀어진 구원의 손길조차 무시하고 있습니다. 이제는 침묵을 깨야 합니다.'
+        normal: { interpretation: '정체', advice: '눈앞의 제안이 성에 차지 않네요. 밖이 아닌 당신의 안을 들여다보며 재충전하세요.' },
+        reversed: { interpretation: '각성', advice: '권태에 빠져 내밀어진 구원의 손길조차 무시하고 있습니다. 이제는 침묵을 깨야 합니다.' }
     },
     worry: {
-        normal: '지금은 아무것도 하지 않아도 괜찮습니다. 당신의 내면이 무엇을 원하는지 먼저 살피세요.',
-        reversed: '고민만 하느라 황금 같은 기회를 날려버리고 있습니다. 이제는 고개를 들어야 합니다.'
+        normal: { interpretation: '정체', advice: '지금은 아무것도 하지 않아도 괜찮습니다. 당신의 내면이 무엇을 원하는지 먼저 살피세요.' },
+        reversed: { interpretation: '각성', advice: '고민만 하느라 황금 같은 기회를 날려버리고 있습니다. 이제는 고개를 들어야 합니다.' }
     },
     spread3: {
         spicy: {

@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card56: CardContent = {
     today: {
-        normal: '요행을 바라는 당신의 발걸음이 위태롭습니다. 꼼수는 언젠가 탄로나기 마련임을 잊지 마세요.',
-        reversed: '훔친 성과는 당신의 진짜 실력이 아닙니다. 정공법만이 당신의 명예를 지켜줄 유일한 길입니다.'
+        normal: { interpretation: '기만', advice: '요행을 바라는 당신의 발걸음이 위태롭습니다. 꼼수는 언젠가 탄로나기 마련임을 잊지 마세요.' },
+        reversed: { interpretation: '정직한 대면', advice: '훔친 성과는 당신의 진짜 실력이 아닙니다. 정공법만이 당신의 명예를 지켜줄 유일한 길입니다.' }
     },
     worry: {
-        normal: '잔머리를 굴려 상황을 모면하려 하지 마세요. 정직하게 마주할 때 비로소 진정한 해결 가능합니다.',
-        reversed: '소중한 것을 챙기려다 더 큰 것을 잃고 있습니다. 당신의 은밀한 행동이 화근이 됩니다.'
+        normal: { interpretation: '기만', advice: '잔머리를 굴려 상황을 모면하려 하지 마세요. 정직하게 마주할 때 비로소 진정한 해결 가능합니다.' },
+        reversed: { interpretation: '정직한 대면', advice: '소중한 것을 챙기려다 더 큰 것을 잃고 있습니다. 당신의 은밀한 행동이 화근이 됩니다.' }
     },
     spread3: {
         spicy: {

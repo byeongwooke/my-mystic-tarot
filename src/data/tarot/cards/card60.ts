@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card60: CardContent = {
     today: {
-        normal: '주변을 예리하게 관찰하고 정보를 수집하세요. 경계심을 늦추지 말고 다가올 소식을 기다리세요.',
-        reversed: '당신의 분석이 비수가 되어 돌아옵니다. 정보의 수집보다 입단속이 우선인 날입니다.'
+        normal: { interpretation: '경계', advice: '주변을 예리하게 관찰하고 정보를 수집하세요. 경계심을 늦추지 말고 다가올 소식을 기다리세요.' },
+        reversed: { interpretation: '신중한 탐색', advice: '당신의 분석이 비수가 되어 돌아옵니다. 정보의 수집보다 입단속이 우선인 날입니다.' }
     },
     worry: {
-        normal: '아직은 실력이 부족함을 인정하세요. 더 많이 배우고 더 날카롭게 상황을 꿰뚫어 봐야 합니다.',
-        reversed: '아는 척하다 큰 코 다칩니다. 당신의 미숙함이 결정적인 순간에 발목을 잡을 것입니다.'
+        normal: { interpretation: '경계', advice: '아직은 실력이 부족함을 인정하세요. 더 많이 배우고 더 날카롭게 상황을 꿰뚫어 봐야 합니다.' },
+        reversed: { interpretation: '신중한 탐색', advice: '아는 척하다 큰 코 다칩니다. 당신의 미숙함이 결정적인 순간에 발목을 잡을 것입니다.' }
     },
     spread3: {
         spicy: {

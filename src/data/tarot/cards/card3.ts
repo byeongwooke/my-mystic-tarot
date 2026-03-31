@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card3: CardContent = {
     today: {
-        normal: '풍요로운 결실이 예견되는 날입니다. 주변에 온기를 나누고 스스로를 아끼는 시간을 가지세요.',
-        reversed: '풍요를 탐닉하다 정작 중요한 내실을 잃을 수 있습니다. 지나친 소유욕은 독이 됩니다.'
+        normal: { interpretation: '풍요', advice: '풍요로운 결실이 예견되는 날입니다. 주변에 온기를 나누고 스스로를 아끼는 시간을 가지세요.' },
+        reversed: { interpretation: '정체', advice: '풍요를 탐닉하다 정작 중요한 내실을 잃을 수 있습니다. 지나친 소유욕은 독이 됩니다.' }
     },
     worry: {
-        normal: '당신의 포용력이 문제를 해결할 열쇠입니다. 주변을 따뜻하게 안아줄 때 성취는 절로 따라옵니다.',
-        reversed: '너무 많은 것을 가지려다 오히려 소중한 것을 잃고 있습니다. 집착을 내려놓는 연습이 필요합니다.'
+        normal: { interpretation: '풍요', advice: '당신의 포용력이 문제를 해결할 열쇠입니다. 주변을 따뜻하게 안아줄 때 성취는 절로 따라옵니다.' },
+        reversed: { interpretation: '정체', advice: '너무 많은 것을 가지려다 오히려 소중한 것을 잃고 있습니다. 집착을 내려놓는 연습이 필요합니다.' }
     },
     spread3: {
         spicy: {

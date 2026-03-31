@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card20: CardContent = {
     today: {
-        normal: '당신의 진심 어린 행동이 부활의 소식을 가져옵니다. 과거를 정산하고 새로운 장을 여세요.',
-        reversed: '성적표를 받아들 용기가 없나요? 외면했던 책임이 다시 돌아와 당신의 발목을 잡을 것입니다.'
+        normal: { interpretation: '부활', advice: '당신의 진심 어린 행동이 부활의 소식을 가져옵니다. 과거를 정산하고 새로운 장을 여세요.' },
+        reversed: { interpretation: '과거회귀', advice: '성적표를 받아들 용기가 없나요? 외면했던 책임이 다시 돌아와 당신의 발목을 잡을 것입니다.' }
     },
     worry: {
-        normal: '과거의 잘못을 바로잡을 마지막 기회입니다. 용기를 내어 결단할 때 당신의 삶이 부활합니다.',
-        reversed: '뒤늦은 후회는 아무런 도움이 되지 않습니다. 결과에 승복하고 새로운 길을 모색하세요.'
+        normal: { interpretation: '부활', advice: '과거의 잘못을 바로잡을 마지막 기회입니다. 용기를 내어 결단할 때 당신의 삶이 부활합니다.' },
+        reversed: { interpretation: '과거회귀', advice: '뒤늦은 후회는 아무런 도움이 되지 않습니다. 결과에 승복하고 새로운 길을 모색하세요.' }
     },
     spread3: {
         spicy: {

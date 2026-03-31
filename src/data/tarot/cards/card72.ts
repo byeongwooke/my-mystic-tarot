@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card72: CardContent = {
     today: {
-        normal: '당신을 위한 우아한 보상이 기다리고 있습니다. 스스로 일궈낸 풍요를 마음껏 누리세요.',
-        reversed: '겉모습만 꾸미느라 내실이 비어 있습니다. 허영심이 당신의 자유를 옥죄고 있지는 않나요?'
+        normal: { interpretation: '자립', advice: '당신을 위한 우아한 보상이 기다리고 있습니다. 스스로 일궈낸 풍요를 마음껏 누리세요.' },
+        reversed: { interpretation: '겸손한 감사', advice: '겉모습만 꾸미느라 내실이 비어 있습니다. 허영심이 당신의 자유를 옥죄고 있지는 않나요?' }
     },
     worry: {
-        normal: '누군가에게 의지하지 않아도 충분히 잘 해낼 수 있습니다. 당신의 자립심을 믿으세요.',
-        reversed: '혼자만의 성에 갇혀 고립되고 있습니다. 주변과의 소통이 단절된 풍요는 공허할 뿐입니다.'
+        normal: { interpretation: '자립', advice: '누군가에게 의지하지 않아도 충분히 잘 해낼 수 있습니다. 당신의 자립심을 믿으세요.' },
+        reversed: { interpretation: '겸손한 감사', advice: '혼자만의 성에 갇혀 고립되고 있습니다. 주변과의 소통이 단절된 풍요는 공허할 뿐입니다.' }
     },
     spread3: {
         spicy: {

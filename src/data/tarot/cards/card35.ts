@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card35: CardContent = {
     today: {
-        normal: '큰 그림을 그리고 대담하게 지시하세요. 지도자의 위치에서 성취를 거머쥐는 날입니다.',
-        reversed: '독불장군식 운영은 내부 붕괴를 초래합니다. 현장의 목소리를 무시하지 마십시오.'
+        normal: { interpretation: '비전', advice: '큰 그림을 그리고 대담하게 지시하세요. 지도자의 위치에서 성취를 거머쥐는 날입니다.' },
+        reversed: { interpretation: '독단', advice: '독불장군식 운영은 내부 붕괴를 초래합니다. 현장의 목소리를 무시하지 마십시오.' }
     },
     worry: {
-        normal: '이미 충분한 힘을 가졌습니다. 이제는 직관을 믿고 결정적인 한 수를 던져야 할 때입니다.',
-        reversed: '권위에 취해 실질적인 위험을 간과하고 있습니다. 당신의 판단이 아집으로 변질되었습니다.'
+        normal: { interpretation: '비전', advice: '이미 충분한 힘을 가졌습니다. 이제는 직관을 믿고 결정적인 한 수를 던져야 할 때입니다.' },
+        reversed: { interpretation: '독단', advice: '권위에 취해 실질적인 위험을 간과하고 있습니다. 당신의 판단이 아집으로 변질되었습니다.' }
     },
     spread3: {
         spicy: {

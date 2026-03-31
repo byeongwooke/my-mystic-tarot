@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card50: CardContent = {
     today: {
-        normal: '안개를 뚫고 지나가는 날카로운 통찰이 빛나는 날입니다. 명확한 결단으로 돌파구를 찾으세요.',
-        reversed: '당신의 진실이 타인에게 상처가 되고 있습니다. 날카로운 칼날은 관계를 끊어낼 수도 있습니다.'
+        normal: { interpretation: '결단', advice: '안개를 뚫고 지나가는 날카로운 통찰이 빛나는 날입니다. 명확한 결단으로 돌파구를 찾으세요.' },
+        reversed: { interpretation: '신중한 결단', advice: '당신의 진실이 타인에게 상처가 되고 있습니다. 날카로운 칼날은 관계를 끊어낼 수도 있습니다.' }
     },
     worry: {
-        normal: '지금은 인정에 이끌릴 때가 아닙니다. 논리적이고 객관적인 시각으로 문제를 단칼에 베어버리세요.',
-        reversed: '지나치게 공격적인 태도가 화를 부릅니다. 당신의 정의가 독선은 아닌지 돌아보세요.'
+        normal: { interpretation: '결단', advice: '지금은 인정에 이끌릴 때가 아닙니다. 논리적이고 객관적인 시각으로 문제를 단칼에 베어버리세요.' },
+        reversed: { interpretation: '신중한 결단', advice: '지나치게 공격적인 태도가 화를 부릅니다. 당신의 정의가 독선은 아닌지 돌아보세요.' }
     },
     spread3: {
         spicy: {

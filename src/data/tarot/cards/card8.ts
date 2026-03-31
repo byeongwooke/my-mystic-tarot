@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card8: CardContent = {
     today: {
-        normal: '부드러운 카리스마가 빛을 발하는 날입니다. 감정을 다스리고 인내할 때 진정한 승자가 됩니다.',
-        reversed: '자신감이 떨어지거나 욱하는 성미 때문에 상황을 그르칠 수 있습니다. 내면의 용기를 다잡으세요.'
+        normal: { interpretation: '인내', advice: '부드러운 카리스마가 빛을 발하는 날입니다. 감정을 다스리고 인내할 때 진정한 승자가 됩니다.' },
+        reversed: { interpretation: '자기검열', advice: '자신감이 떨어지거나 욱하는 성미 때문에 상황을 그르칠 수 있습니다. 내면의 용기를 다잡으세요.' }
     },
     worry: {
-        normal: '힘으로 밀어붙이기보다 유연한 설득이 필요한 때입니다. 상대를 품을 수 있는 여유를 가지세요.',
-        reversed: '본능적인 욕구에 휘둘려 후회할 선택을 하고 있지는 않나요? 스스로를 통제하는 힘이 필요합니다.'
+        normal: { interpretation: '인내', advice: '힘으로 밀어붙이기보다 유연한 설득이 필요한 때입니다. 상대를 품을 수 있는 여유를 가지세요.' },
+        reversed: { interpretation: '자기검열', advice: '본능적인 욕구에 휘둘려 후회할 선택을 하고 있지는 않나요? 스스로를 통제하는 힘이 필요합니다.' }
     },
     spread3: {
         spicy: {

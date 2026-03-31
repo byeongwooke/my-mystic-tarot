@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card48: CardContent = {
     today: {
-        normal: '당신의 마음은 고요하고 자애롭습니다. 타인의 아픔을 어루만져 줄 때 당신의 가치도 상승합니다.',
-        reversed: '과도한 공감으로 당신의 영혼이 피폐해지고 있습니다. 남의 짐을 대신 지느라 당신은 지쳐갑니다.'
+        normal: { interpretation: '공감', advice: '당신의 마음은 고요하고 자애롭습니다. 타인의 아픔을 어루만져 줄 때 당신의 가치도 상승합니다.' },
+        reversed: { interpretation: '감정적 평온', advice: '과도한 공감으로 당신의 영혼이 피폐해지고 있습니다. 남의 짐을 대신 지느라 당신은 지쳐갑니다.' }
     },
     worry: {
-        normal: '당신의 직관이 가리키는 방향이 옳습니다. 주변의 감정을 다독이며 천천히 당신의 길을 가세요.',
-        reversed: '자신의 감정도 추스르지 못한 채 남을 도우려 합니다. 지금은 자신을 먼저 보살필 때입니다.'
+        normal: { interpretation: '공감', advice: '당신의 직관이 가리키는 방향이 옳습니다. 주변의 감정을 다독이며 천천히 당신의 길을 가세요.' },
+        reversed: { interpretation: '감정적 평온', advice: '자신의 감정도 추스르지 못한 채 남을 도우려 합니다. 지금은 자신을 먼저 보살필 때입니다.' }
     },
     spread3: {
         spicy: {

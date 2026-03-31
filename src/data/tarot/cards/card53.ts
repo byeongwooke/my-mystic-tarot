@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card53: CardContent = {
     today: {
-        normal: '세상과 잠시 연결을 끊고 휴식하세요. 침묵 속에 머물 때 당신의 무기는 다시 예리해집니다.',
-        reversed: '휴식이 도피가 되고 있지는 않나요? 이제 침대에서 일어나 현실의 전장으로 복귀할 시간입니다.'
+        normal: { interpretation: '휴식', advice: '세상과 잠시 연결을 끊고 휴식하세요. 침묵 속에 머물 때 당신의 무기는 다시 예리해집니다.' },
+        reversed: { interpretation: '활동 재개', advice: '휴식이 도피가 되고 있지는 않나요? 이제 침대에서 일어나 현실의 전장으로 복귀할 시간입니다.' }
     },
     worry: {
-        normal: '지금은 전쟁을 치를 때가 아닙니다. 기력을 회복하고 전략을 다시 짤 수 있는 시간을 확보하세요.',
-        reversed: '문제를 외면한 채 잠만 자고 있습니다. 휴식과 나태함의 경계에서 길을 잃지 마십시오.'
+        normal: { interpretation: '휴식', advice: '지금은 전쟁을 치를 때가 아닙니다. 기력을 회복하고 전략을 다시 짤 수 있는 시간을 확보하세요.' },
+        reversed: { interpretation: '활동 재개', advice: '문제를 외면한 채 잠만 자고 있습니다. 휴식과 나태함의 경계에서 길을 잃지 마십시오.' }
     },
     spread3: {
         spicy: {

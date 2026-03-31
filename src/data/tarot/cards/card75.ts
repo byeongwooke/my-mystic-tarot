@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card75: CardContent = {
     today: {
-        normal: '느리지만 확실한 길을 가세요. 당신의 우직함이 결국 최후의 성취를 가져옵니다.',
-        reversed: '완고함이 정체를 만듭니다. 변화하는 세상을 무시한 채 낡은 방식만 고수하고 있습니다.'
+        normal: { interpretation: '우직함', advice: '느리지만 확실한 길을 가세요. 당신의 우직함이 결국 최후의 성취를 가져옵니다.' },
+        reversed: { interpretation: '유연한 실천', advice: '완고함이 정체를 만듭니다. 변화하는 세상을 무시한 채 낡은 방식만 고수하고 있습니다.' }
     },
     worry: {
-        normal: '성급하게 결과를 보려 하지 마세요. 묵묵히 당신의 할 일을 할 때 기회는 절로 찾아옵니다.',
-        reversed: '융통성 없는 고집이 주변 사람들을 지치게 합니다. 지금은 고집 부릴 때가 아닙니다.'
+        normal: { interpretation: '우직함', advice: '성급하게 결과를 보려 하지 마세요. 묵묵히 당신의 할 일을 할 때 기회는 절로 찾아옵니다.' },
+        reversed: { interpretation: '유연한 실천', advice: '융통성 없는 고집이 주변 사람들을 지치게 합니다. 지금은 고집 부릴 때가 아닙니다.' }
     },
     spread3: {
         spicy: {

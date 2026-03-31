@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card24: CardContent = {
     today: {
-        normal: '멀리 보낸 배들이 결실을 싣고 돌아오는 날입니다. 협력의 가치를 믿고 기다리세요.',
-        reversed: '자신만만했던 계획이 변수를 만납니다. 소식이 늦어지더라도 조급해하지 마십시오.'
+        normal: { interpretation: '확장', advice: '멀리 보낸 배들이 결실을 싣고 돌아오는 날입니다. 협력의 가치를 믿고 기다리세요.' },
+        reversed: { interpretation: '지연', advice: '자신만만했던 계획이 변수를 만납니다. 소식이 늦어지더라도 조급해하지 마십시오.' }
     },
     worry: {
-        normal: '당신의 비전은 틀리지 않았습니다. 지금은 조력자들과 힘을 합쳐 결과물을 기다릴 때입니다.',
-        reversed: '너무 멀리만 보느라 발밑의 장애물을 놓치고 있습니다. 현실적인 점검이 필요합니다.'
+        normal: { interpretation: '확장', advice: '당신의 비전은 틀리지 않았습니다. 지금은 조력자들과 힘을 합쳐 결과물을 기다릴 때입니다.' },
+        reversed: { interpretation: '지연', advice: '너무 멀리만 보느라 발밑의 장애물을 놓치고 있습니다. 현실적인 점검이 필요합니다.' }
     },
     spread3: {
         spicy: {

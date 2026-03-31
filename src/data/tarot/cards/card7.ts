@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card7: CardContent = {
     today: {
-        normal: '강한 추진력과 의지로 목표를 향해 돌진하는 날입니다. 승리가 눈앞에 있으니 멈추지 마세요.',
-        reversed: '의욕만 앞서 방향을 잃거나 브레이크 없는 질주로 실수를 할 수 있습니다. 속도 조절이 필요합니다.'
+        normal: { interpretation: '승리', advice: '강한 추진력과 의지로 목표를 향해 돌진하는 날입니다. 승리가 눈앞에 있으니 멈추지 마세요.' },
+        reversed: { interpretation: '폭주', advice: '의욕만 앞서 방향을 잃거나 브레이크 없는 질주로 실수를 할 수 있습니다. 속도 조절이 필요합니다.' }
     },
     worry: {
-        normal: '지금은 고민보다 행동이 필요한 때입니다. 당신의 능력을 믿고 거침없이 밀어붙이세요.',
-        reversed: '상황이 통제 불능이라고 느껴지나요? 감정을 가라앉히고 운전대를 다시 잡아야 합니다.'
+        normal: { interpretation: '승리', advice: '지금은 고민보다 행동이 필요한 때입니다. 당신의 능력을 믿고 거침없이 밀어붙이세요.' },
+        reversed: { interpretation: '폭주', advice: '상황이 통제 불능이라고 느껴지나요? 감정을 가라앉히고 운전대를 다시 잡아야 합니다.' }
     },
     spread3: {
         spicy: {

@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card63: CardContent = {
     today: {
-        normal: '전략적 사고가 지배하는 날입니다. 객관적인 사실로 당당하게 사람들을 리드하세요.',
-        reversed: '권위는 타인을 굴복시키는 칼이 아닙니다. 판단이 아집이 되는 순간 왕국은 무너집니다.'
+        normal: { interpretation: '지성', advice: '전략적 사고가 지배하는 날입니다. 객관적인 사실로 당당하게 사람들을 리드하세요.' },
+        reversed: { interpretation: '독단 경계', advice: '권위는 타인을 굴복시키는 칼이 아닙니다. 판단이 아집이 되는 순간 왕국은 무너집니다.' }
     },
     worry: {
-        normal: '감정을 배제하고 원칙대로 처리하세요. 당신의 이성적인 카리스마가 혼란을 정리해 줄 것입니다.',
-        reversed: '자신의 지성을 과신하여 타인을 얕잡아보고 있습니다. 음모는 반드시 부메랑이 됩니다.'
+        normal: { interpretation: '지성', advice: '감정을 배제하고 원칙대로 처리하세요. 당신의 이성적인 카리스마가 혼란을 정리해 줄 것입니다.' },
+        reversed: { interpretation: '독단 경계', advice: '자신의 지성을 과신하여 타인을 얕잡아보고 있습니다. 음모는 반드시 부메랑이 됩니다.' }
     },
     spread3: {
         spicy: {

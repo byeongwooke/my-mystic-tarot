@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card74: CardContent = {
     today: {
-        normal: '새로운 재테크나 실무 공부에 최적의 날입니다. 작은 시작이 큰 부를 만듭니다.',
-        reversed: '공부만 하고 실행하지 않는 것은 지적 허영입니다. 이제는 실전 감각을 익혀야 합니다.'
+        normal: { interpretation: '학구열', advice: '새로운 재테크나 실무 공부에 최적의 날입니다. 작은 시작이 큰 부를 만듭니다.' },
+        reversed: { interpretation: '실천의 시작', advice: '공부만 하고 실행하지 않는 것은 지적 허영입니다. 이제는 실전 감각을 익혀야 합니다.' }
     },
     worry: {
-        normal: '배움에 돈과 시간을 아끼지 마세요. 지금 쌓는 지식이 나중에는 거대한 자산이 됩니다.',
-        reversed: '현실성 없는 꿈에 돈을 낭비하고 있습니다. 당신의 계획은 너무나도 미숙합니다.'
+        normal: { interpretation: '학구열', advice: '배움에 돈과 시간을 아끼지 마세요. 지금 쌓는 지식이 나중에는 거대한 자산이 됩니다.' },
+        reversed: { interpretation: '실천의 시작', advice: '현실성 없는 꿈에 돈을 낭비하고 있습니다. 당신의 계획은 너무나도 미숙합니다.' }
     },
     spread3: {
         spicy: {

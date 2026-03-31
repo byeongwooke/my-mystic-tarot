@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card33: CardContent = {
     today: {
-        normal: '뜨거운 열정으로 무장하고 전진하세요. 당신의 모험심이 닫힌 문을 여는 열쇠입니다.',
-        reversed: '말만 앞선 추진력은 허세를 낳습니다. 당신의 불꽃이 주변을 태워버리지 않게 조심하세요.'
+        normal: { interpretation: '행동', advice: '뜨거운 열정으로 무장하고 전진하세요. 당신의 모험심이 닫힌 문을 여는 열쇠입니다.' },
+        reversed: { interpretation: '조급함', advice: '말만 앞선 추진력은 허세를 낳습니다. 당신의 불꽃이 주변을 태워버리지 않게 조심하세요.' }
     },
     worry: {
-        normal: '생각보다 행동이 필요한 때입니다. 앞뒤 재지 말고 당신의 에너지를 한곳에 쏟아부으세요.',
-        reversed: '방향 없는 에너지는 재앙입니다. 열정은 넘치지만 실질적인 대안이 전혀 없습니다.'
+        normal: { interpretation: '행동', advice: '생각보다 행동이 필요한 때입니다. 앞뒤 재지 말고 당신의 에너지를 한곳에 쏟아부으세요.' },
+        reversed: { interpretation: '조급함', advice: '방향 없는 에너지는 재앙입니다. 열정은 넘치지만 실질적인 대안이 전혀 없습니다.' }
     },
     spread3: {
         spicy: {

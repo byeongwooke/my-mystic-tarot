@@ -55,26 +55,23 @@ export const resolveTarotContent = (
   const flavor = (settings?.mode || 'gentle') as 'spicy' | 'gentle';
 
   try {
-    // [Case A] 단일 카드 카테고리 (today, worry)
-    if (spreadType === 'today' || spreadType === 'worry') {
-      const data = (cardData as any)[spreadType];
-      if (!data) return null;
-      // 데이터가 없으면 정방향(normal)으로 자동 Fallback
-      return data[direction] || data['normal'];
-    }
-
-    // [Case B] 복합 스프레드 카테고리 (spread3, celtic)
+    // v1.1.10: 데이터 구조 표준화로 매핑 로직 단일화
     const spreadData = (cardData as any)[spreadType];
     if (!spreadData) return null;
 
-    const flavorData = spreadData[flavor] || spreadData['gentle'];
-    const categoryData = flavorData?.[category] || flavorData?.['love'];
-    if (!categoryData) return null;
+    // today, worry는 flavor가 없는 1단계 구조, others는 flavor 포함한 3단계 구조
+    let targetData = spreadData;
+    if (spreadType !== 'today' && spreadType !== 'worry') {
+      const flavorData = spreadData[flavor] || spreadData['gentle'];
+      targetData = flavorData?.[category] || flavorData?.['love'];
+    }
+
+    if (!targetData) return null;
 
     // 역방향 요청 시 데이터가 없으면 정방향으로 매핑
-    const content = categoryData[direction] || categoryData['normal'];
+    const content = targetData[direction] || targetData['normal'];
 
-    // v1.1.7: spread3 구조적 완결성 검증 보강
+    // v1.1.7: spread3 구조적 완결성 검증 보강 (interpretation 필드 보장)
     if (spreadType === 'spread3' && content && typeof content === 'object') {
       if (!content.interpretation) {
         content.interpretation = "운명의 파동이 새로운 해석을 기다리고 있습니다.";

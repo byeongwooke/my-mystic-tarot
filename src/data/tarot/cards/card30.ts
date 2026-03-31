@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card30: CardContent = {
     today: {
-        normal: '마지막 고비가 찾아왔습니다. 조금만 더 인내하며 끝까지 방심하지 마세요.',
-        reversed: '상처 입은 맹수가 되고 있습니다. 경계심이 지나쳐 소중한 인연까지 밀어내고 있습니다.'
+        normal: { interpretation: '인내', advice: '마지막 고비가 찾아왔습니다. 조금만 더 인내하며 끝까지 방심하지 마세요.' },
+        reversed: { interpretation: '피로', advice: '상처 입은 맹수가 되고 있습니다. 경계심이 지나쳐 소중한 인연까지 밀어내고 있습니다.' }
     },
     worry: {
-        normal: '거의 다 왔습니다. 과거의 상처가 당신을 주저앉히게 두지 마세요. 끝까지 버티십시오.',
-        reversed: '이미 지칠 대로 지쳤습니다. 무리한 고집은 당신을 부러뜨립니다. 잠시 쉬어가세요.'
+        normal: { interpretation: '인내', advice: '거의 다 왔습니다. 과거의 상처가 당신을 주저앉히게 두지 마세요. 끝까지 버티십시오.' },
+        reversed: { interpretation: '피로', advice: '이미 지칠 대로 지쳤습니다. 무리한 고집은 당신을 부러뜨립니다. 잠시 쉬어가세요.' }
     },
     spread3: {
         spicy: {

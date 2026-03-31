@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card47: CardContent = {
     today: {
-        normal: '품격 있는 제안이 당신을 찾아옵니다. 다가오는 인연이나 기회를 우아하게 맞아주세요.',
-        reversed: '달콤한 감언이설 뒤에 숨은 의도를 파악하세요. 매력적인 모습에 속아 실속을 잃을 수 있습니다.'
+        normal: { interpretation: '제안', advice: '품격 있는 제안이 당신을 찾아옵니다. 다가오는 인연이나 기회를 우아하게 맞아주세요.' },
+        reversed: { interpretation: '신중한 제안', advice: '달콤한 감언이설 뒤에 숨은 의도를 파악하세요. 매력적인 모습에 속아 실속을 잃을 수 있습니다.' }
     },
     worry: {
-        normal: '부드럽고 신사적인 태도가 당신의 무기입니다. 상대의 마음을 움직여 당신의 뜻을 이루세요.',
-        reversed: '당신의 매력을 이용해 타인을 조종하려 하지 마세요. 거짓은 언젠가 탄로나게 마련입니다.'
+        normal: { interpretation: '제안', advice: '부드럽고 신사적인 태도가 당신의 무기입니다. 상대의 마음을 움직여 당신의 뜻을 이루세요.' },
+        reversed: { interpretation: '신중한 제안', advice: '당신의 매력을 이용해 타인을 조종하려 하지 마세요. 거짓은 언젠가 탄로나게 마련입니다.' }
     },
     spread3: {
         spicy: {

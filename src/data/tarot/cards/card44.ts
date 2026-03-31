@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card44: CardContent = {
     today: {
-        normal: '당신이 꿈꾸던 것들이 이제 현실이 될 준비가 됐습니다. 충분히 만족스러운 하루를 누릴 자격이 있습니다.',
-        reversed: '외적인 풍요가 내면의 공허를 채우지 못하고 있습니다. 진정한 만족이 무엇인지 다시 돌아보세요.'
+        normal: { interpretation: '만족', advice: '당신이 꿈꾸던 것들이 이제 현실이 될 준비가 됐습니다. 충분히 만족스러운 하루를 누릴 자격이 있습니다.' },
+        reversed: { interpretation: '겸손한 감사', advice: '외적인 풍요가 내면의 공허를 채우지 못하고 있습니다. 진정한 만족이 무엇인지 다시 돌아보세요.' }
     },
     worry: {
-        normal: '지금 이 순간을 충분히 즐기세요. 당신은 원하는 것을 이루기 위해 충분히 노력했습니다.',
-        reversed: '허영심이 진짜 행복을 가리고 있지는 않나요? 진정한 만족은 화려함이 아닌 내면에서 옵니다.'
+        normal: { interpretation: '만족', advice: '지금 이 순간을 충분히 즐기세요. 당신은 원하는 것을 이루기 위해 충분히 노력했습니다.' },
+        reversed: { interpretation: '겸손한 감사', advice: '허영심이 진짜 행복을 가리고 있지는 않나요? 진정한 만족은 화려함이 아닌 내면에서 옵니다.' }
     },
     spread3: {
         spicy: {

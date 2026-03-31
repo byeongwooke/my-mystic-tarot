@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card43: CardContent = {
     today: {
-        normal: '더 이상 미련을 붙잡고 있을 필요가 없습니다. 용기 있게 떠나는 것이 더 나은 미래를 여는 열쇠입니다.',
-        reversed: '포기해야 할 것을 포기하지 못해 발목이 잡혀 있습니다. 지금 붙잡고 있는 것이 정말 가치 있는 것인지 물어보세요.'
+        normal: { interpretation: '이탈', advice: '더 이상 미련을 붙잡고 있을 필요가 없습니다. 용기 있게 떠나는 것이 더 나은 미래를 여는 열쇠입니다.' },
+        reversed: { interpretation: '복귀 준비', advice: '포기해야 할 것을 포기하지 못해 발목이 잡혀 있습니다. 지금 붙잡고 있는 것이 정말 가치 있는 것인지 물어보세요.' }
     },
     worry: {
-        normal: '익숙한 것을 버리는 것이 두렵더라도, 더 깊은 추구를 향해 발을 내딛는 용기가 지금의 고민을 해결합니다.',
-        reversed: '포기하지 못하는 집착이 당신을 제자리에 맴돌게 합니다. 손을 놓는 것이 더 큰 얻음의 시작입니다.'
+        normal: { interpretation: '이탈', advice: '익숙한 것을 버리는 것이 두렵더라도, 더 깊은 추구를 향해 발을 내딛는 용기가 지금의 고민을 해결합니다.' },
+        reversed: { interpretation: '복귀 준비', advice: '포기하지 못하는 집착이 당신을 제자리에 맴돌게 합니다. 손을 놓는 것이 더 큰 얻음의 시작입니다.' }
     },
     spread3: {
         spicy: {

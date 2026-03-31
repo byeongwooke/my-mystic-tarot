@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card6: CardContent = {
     today: {
-        normal: '마음이 설레는 만남이나 중요한 선택의 순간이 찾아오는 날입니다. 조화로운 소통이 중요합니다.',
-        reversed: '관계에서의 불협화음이나 잘못된 선택으로 인한 갈등이 생길 수 있습니다. 내면의 소리에 집중하세요.'
+        normal: { interpretation: '선택', advice: '마음이 설레는 만남이나 중요한 선택의 순간이 찾아오는 날입니다. 조화로운 소통이 중요합니다.' },
+        reversed: { interpretation: '갈등', advice: '관계에서의 불협화음이나 잘못된 선택으로 인한 갈등이 생길 수 있습니다. 내면의 소리에 집중하세요.' }
     },
     worry: {
-        normal: '두 가지 선택지 사이에서 고민 중인가요? 당신의 가치관과 일치하는 쪽을 선택하세요.',
-        reversed: '상대방과의 의견 차이가 좁혀지지 않아 답답할 수 있습니다. 감성적인 설득보다 냉정한 판단이 필요합니다.'
+        normal: { interpretation: '선택', advice: '두 가지 선택지 사이에서 고민 중인가요? 당신의 가치관과 일치하는 쪽을 선택하세요.' },
+        reversed: { interpretation: '갈등', advice: '상대방과의 의견 차이가 좁혀지지 않아 답답할 수 있습니다. 감성적인 설득보다 냉정한 판단이 필요합니다.' }
     },
     spread3: {
         spicy: {

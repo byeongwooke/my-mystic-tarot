@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card38: CardContent = {
     today: {
-        normal: '나눌수록 기쁨은 커집니다. 주변 사람들과 축배를 들며 온기를 공유하는 날입니다.',
-        reversed: '유흥에 취해 본질을 잊고 있습니다. 겉치레뿐인 관계 속에 진심이 메말라가고 있습니다.'
+        normal: { interpretation: '공유', advice: '나눌수록 기쁨은 커집니다. 주변 사람들과 축배를 들며 온기를 공유하는 날입니다.' },
+        reversed: { interpretation: '과시적친목', advice: '유흥에 취해 본질을 잊고 있습니다. 겉치레뿐인 관계 속에 진심이 메말라가고 있습니다.' }
     },
     worry: {
-        normal: '혼자 성과를 독식하려 하지 마세요. 기쁨을 나눌 때 당신의 가치는 더욱 빛나게 됩니다.',
-        reversed: '사람들 속에 있어도 외롭습니다. 공허함을 채우기 위해 무의미한 만남을 반복하고 있습니다.'
+        normal: { interpretation: '공유', advice: '혼자 성과를 독식하려 하지 마세요. 기쁨을 나눌 때 당신의 가치는 더욱 빛나게 됩니다.' },
+        reversed: { interpretation: '과시적친목', advice: '사람들 속에 있어도 외롭습니다. 공허함을 채우기 위해 무의미한 만남을 반복하고 있습니다.' }
     },
     spread3: {
         spicy: {

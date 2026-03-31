@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card64: CardContent = {
     today: {
-        normal: '손에 잡히는 기회가 눈앞에 있습니다. 새로운 가능성의 씨앗을 정성껏 심어보세요.',
-        reversed: '풍요의 기회가 썩어가고 있습니다. 게으름이나 지나친 의심이 결실을 방해합니다.'
+        normal: { interpretation: '기틀', advice: '손에 잡히는 기회가 눈앞에 있습니다. 새로운 가능성의 씨앗을 정성껏 심어보세요.' },
+        reversed: { interpretation: '내실 다지기', advice: '풍요의 기회가 썩어가고 있습니다. 게으름이나 지나친 의심이 결실을 방해합니다.' }
     },
     worry: {
-        normal: '당신에게 실질적인 도움을 줄 수 있는 운이 들어왔습니다. 작은 가능성도 놓치지 마세요.',
-        reversed: '공부만 하고 실행은 하지 않습니다. 이론만 가득한 머리로는 금전을 만질 수 없습니다.'
+        normal: { interpretation: '기틀', advice: '당신에게 실질적인 도움을 줄 수 있는 운이 들어왔습니다. 작은 가능성도 놓치지 마세요.' },
+        reversed: { interpretation: '내실 다지기', advice: '공부만 하고 실행은 하지 않습니다. 이론만 가득한 머리로는 금전을 만질 수 없습니다.' }
     },
     spread3: {
         spicy: {

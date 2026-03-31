@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card10: CardContent = {
     today: {
-        normal: '운명의 수레바퀴가 돌기 시작했습니다. 다가오는 변화의 파도에 기꺼이 올라타세요.',
-        reversed: '상승이 있으면 하강도 있는 법입니다. 거부할 수 없는 변화 앞에서 자만심을 버리십시오.'
+        normal: { interpretation: '변화', advice: '운명의 수레바퀴가 돌기 시작했습니다. 다가오는 변화의 파도에 기꺼이 올라타세요.' },
+        reversed: { interpretation: '지연', advice: '상승이 있으면 하강도 있는 법입니다. 거부할 수 없는 변화 앞에서 자만심을 버리십시오.' }
     },
     worry: {
-        normal: '인생의 큰 전환점이 다가왔습니다. 변화를 두려워 말고 운명의 흐름에 몸을 맡기세요.',
-        reversed: '모든 것이 당신의 뜻대로 되지는 않습니다. 지금의 하강 곡선을 겸허히 받아들이고 다음을 기약하세요.'
+        normal: { interpretation: '변화', advice: '인생의 큰 전환점이 다가왔습니다. 변화를 두려워 말고 운명의 흐름에 몸을 맡기세요.' },
+        reversed: { interpretation: '지연', advice: '모든 것이 당신의 뜻대로 되지는 않습니다. 지금의 하강 곡선을 겸허히 받아들이고 다음을 기약하세요.' }
     },
     spread3: {
         spicy: {

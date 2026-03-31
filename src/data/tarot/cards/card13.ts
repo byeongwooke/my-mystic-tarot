@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card13: CardContent = {
     today: {
-        normal: '낡은 껍질을 벗어야 새 살이 돋아납니다. 화려한 끝은 새로운 시작을 알리는 종소리입니다.',
-        reversed: '이미 죽은 미련을 붙들고 고통을 연장하고 있습니다. 과감히 잘라내야 당신이 삽니다.'
+        normal: { interpretation: '종결', advice: '낡은 껍질을 벗어야 새 살이 돋아납니다. 화려한 끝은 새로운 시작을 알리는 종소리입니다.' },
+        reversed: { interpretation: '지연됨', advice: '이미 죽은 미련을 붙들고 고통을 연장하고 있습니다. 과감히 잘라내야 당신이 삽니다.' }
     },
     worry: {
-        normal: '과거의 방식은 이제 통하지 않습니다. 모든 것을 내려놓고 제로 베이스에서 다시 시작하세요.',
-        reversed: '변화가 두려워 썩어가는 가지를 방치하고 있습니다. 지금 도려내지 않으면 전체가 위태롭습니다.'
+        normal: { interpretation: '종결', advice: '과거의 방식은 이제 통하지 않습니다. 모든 것을 내려놓고 제로 베이스에서 다시 시작하세요.' },
+        reversed: { interpretation: '지연됨', advice: '변화가 두려워 썩어가는 가지를 방치하고 있습니다. 지금 도려내지 않으면 전체가 위태롭습니다.' }
     },
     spread3: {
         spicy: {

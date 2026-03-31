@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card2: CardContent = {
     today: {
-        normal: '직관의 목소리에 귀를 기울이며 신비로운 통찰력을 얻는 날입니다. 침묵 속에 답이 있습니다.',
-        reversed: '표면적인 지식에 매몰되어 본질을 놓치고 있습니다. 비밀이 탄로나거나 구설수에 오를 수 있으니 주의하세요.'
+        normal: { interpretation: '통찰', advice: '직관의 목소리에 귀를 기울이며 신비로운 통찰력을 얻는 날입니다. 침묵 속에 답이 있습니다.' },
+        reversed: { interpretation: '혼란', advice: '표면적인 지식에 매몰되어 본질을 놓치고 있습니다. 비밀이 탄로나거나 구설수에 오를 수 있으니 주의하세요.' }
     },
     worry: {
-        normal: '지금은 행동보다 관찰이 필요한 때입니다. 내면의 목소리가 들릴 때까지 잠시 멈추고 기다리세요.',
-        reversed: '누군가 당신의 비밀을 훔쳐보고 있거나, 당신 자신이 지나치게 폐쇄적인 태도로 기회를 걷어차고 있습니다.'
+        normal: { interpretation: '통찰', advice: '지금은 행동보다 관찰이 필요한 때입니다. 내면의 목소리가 들릴 때까지 잠시 멈추고 기다리세요.' },
+        reversed: { interpretation: '혼란', advice: '누군가 당신의 비밀을 훔쳐보고 있거나, 당신 자신이 지나치게 폐쇄적인 태도로 기회를 걷어차고 있습니다.' }
     },
     spread3: {
         spicy: {

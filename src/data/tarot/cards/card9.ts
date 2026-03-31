@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card9: CardContent = {
     today: {
-        normal: '외부의 소음을 차단하고 자신을 돌아보세요. 고독 속에서 가장 밝은 진리를 발견하게 됩니다.',
-        reversed: '성찰이 고립이 되어서는 안 됩니다. 혼자만의 세계에 갇혀 주변의 손길을 거부하지 마세요.'
+        normal: { interpretation: '성찰', advice: '외부의 소음을 차단하고 자신을 돌아보세요. 고독 속에서 가장 밝은 진리를 발견하게 됩니다.' },
+        reversed: { interpretation: '고립', advice: '성찰이 고립이 되어서는 안 됩니다. 혼자만의 세계에 갇혀 주변의 손길을 거부하지 마세요.' }
     },
     worry: {
-        normal: '당분간은 혼자만의 시간을 가지며 생각을 정리하는 것이 좋습니다. 답은 이미 당신 안에 있습니다.',
-        reversed: '너무 오랫동안 동굴 속에 머물고 있습니다. 이제 당신의 등불을 밖으로 비추어 소통을 시작하세요.'
+        normal: { interpretation: '성찰', advice: '당분간은 혼자만의 시간을 가지며 생각을 정리하는 것이 좋습니다. 답은 이미 당신 안에 있습니다.' },
+        reversed: { interpretation: '고립', advice: '너무 오랫동안 동굴 속에 머물고 있습니다. 이제 당신의 등불을 밖으로 비추어 소통을 시작하세요.' }
     },
     spread3: {
         spicy: {

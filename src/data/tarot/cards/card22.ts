@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card22: CardContent = {
     today: {
-        normal: '새로운 불꽃이 튀었습니다. 아이디어를 현실로 옮길 에너지가 넘쳐나는 날입니다.',
-        reversed: '의욕만 앞서고 실천이 따르지 않습니다. 시작만 거창하고 마무리는 흐릿할 수 있습니다.'
+        normal: { interpretation: '시작', advice: '새로운 불꽃이 튀었습니다. 아이디어를 현실로 옮길 에너지가 넘쳐나는 날입니다.' },
+        reversed: { interpretation: '망설임', advice: '의욕만 앞서고 실천이 따르지 않습니다. 시작만 거창하고 마무리는 흐릿할 수 있습니다.' }
     },
     worry: {
-        normal: '생각만 하던 일을 지금 당장 시작하세요. 당신의 첫 발걸음이 위대한 역사가 될 것입니다.',
-        reversed: '불씨만 지피고 정작 장작은 넣지 않고 있습니다. 결과 없는 시도는 시간 낭비일 뿐입니다.'
+        normal: { interpretation: '시작', advice: '생각만 하던 일을 지금 당장 시작하세요. 당신의 첫 발걸음이 위대한 역사가 될 것입니다.' },
+        reversed: { interpretation: '망설임', advice: '불씨만 지피고 정작 장작은 넣지 않고 있습니다. 결과 없는 시도는 시간 낭비일 뿐입니다.' }
     },
     spread3: {
         spicy: {

@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card11: CardContent = {
     today: {
-        normal: '감정보다 이성이 빛을 발하는 날입니다. 공정하고 균형 잡힌 시각으로 세상을 보세요.',
-        reversed: '정의라는 이름으로 타인을 판단하고 있지는 않나요? 당신의 잣대가 냉혹함은 아닌지 돌아보세요.'
+        normal: { interpretation: '균형', advice: '감정보다 이성이 빛을 발하는 날입니다. 공정하고 균형 잡힌 시각으로 세상을 보세요.' },
+        reversed: { interpretation: '편견', advice: '정의라는 이름으로 타인을 판단하고 있지는 않나요? 당신의 잣대가 냉혹함은 아닌지 돌아보세요.' }
     },
     worry: {
-        normal: '감정에 치우치지 말고 사실 관계를 명확히 하세요. 냉정한 분석이 당신을 승리로 이끌 것입니다.',
-        reversed: '편파적인 태도가 당신의 눈을 가리고 있습니다. 결과에 대한 책임을 회피하려 하지 마십시오.'
+        normal: { interpretation: '균형', advice: '감정에 치우치지 말고 사실 관계를 명확히 하세요. 냉정한 분석이 당신을 승리로 이끌 것입니다.' },
+        reversed: { interpretation: '편견', advice: '편파적인 태도가 당신의 눈을 가리고 있습니다. 결과에 대한 책임을 회피하려 하지 마십시오.' }
     },
     spread3: {
         spicy: {

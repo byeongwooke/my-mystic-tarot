@@ -83,7 +83,9 @@ function ResultContent() {
         ? ["현재 상황", "장애와 과제", "의식과 목표", "무의식의 뿌리", "지나온 과거", "가까운 미래", "본인의 태도", "외부의 영향", "희망과 공포", "최종 결과"]
         : ["과거의 기반", "현재의 조언", "미래의 가능성"];
 
-      const spreadType = spreadParam === 'celtic' ? 'celtic' : 'spread3';
+      const spreadType = (categorySlug === 'today' || categorySlug === 'worry') 
+        ? categorySlug 
+        : (spreadParam === 'celtic' ? 'celtic' : 'spread3');
 
       const loadedCards = ids.map((id, index) => {
         const cardData = CARDS[id];
@@ -99,29 +101,26 @@ function ResultContent() {
           isReversed
         );
 
-        let cardInterpretation = "";
+        let cardInterpretation = content?.interpretation || "신비로운 해석을 준비 중입니다.";
         let cardAdvice = "";
 
-        // v1.1.6: Enhanced defensive mapping
-        if ((categorySlug === 'today' || categorySlug === 'worry')) {
-          cardInterpretation = content || "운명의 메시지를 준비 중입니다.";
-          cardAdvice = content || "운명의 조언을 준비 중입니다.";
-        } else if (spreadType === 'spread3' && content && typeof content === 'object') {
-          cardInterpretation = content?.interpretation || "";
+        if (spreadType === 'spread3') {
           const adviceObj = content?.advice;
-          if (adviceObj) {
+          if (typeof adviceObj === 'object') {
             if (index === 0) cardAdvice = adviceObj?.past || "";
             else if (index === 1) cardAdvice = adviceObj?.present || "";
             else if (index === 2) cardAdvice = adviceObj?.future || "";
+          } else {
+            cardAdvice = adviceObj || "";
           }
-        } 
-        
-        // Final fallback if still empty
-        if (!cardInterpretation) {
-          cardInterpretation = typeof content === 'string' ? content : (content?.interpretation || "신비로운 해석을 준비 중입니다.");
+        } else {
+          // today, worry
+          cardAdvice = content?.advice || "";
         }
+
+        // Final fallback if advice is still empty
         if (!cardAdvice) {
-          cardAdvice = (typeof content === 'object' ? content?.advice : "") || cardData.keywords.join(", ");
+          cardAdvice = "운명의 조언을 읽어내는 중입니다...";
         }
 
         return {
@@ -251,7 +250,7 @@ function ResultContent() {
               className="relative z-10 w-48 h-80 rounded-2xl border-2 border-emerald-500/30 overflow-hidden shadow-[0_0_50px_rgba(16,185,129,0.2)]"
             >
               <Image 
-                src="/images/card-back.webp" 
+                src="/images/card_back.webp" 
                 alt="Tarot Back" 
                 fill 
                 className="object-cover opacity-80"

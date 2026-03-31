@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card59: CardContent = {
     today: {
-        normal: '바닥을 치는 힘든 상황이 마무리됩니다. 이제 더 나빠질 곳은 없으니 다시 일어날 준비를 하세요.',
-        reversed: '고통의 끝에서 비로소 희망이 보입니다. 당신을 찌르던 칼들이 거둬지고 있으니 숨을 쉬세요.'
+        normal: { interpretation: '종결', advice: '바닥을 치는 힘든 상황이 마무리됩니다. 이제 더 나빠질 곳은 없으니 다시 일어날 준비를 하세요.' },
+        reversed: { interpretation: '바닥 딛고 재기', advice: '고통의 끝에서 비로소 희망이 보입니다. 당신을 찌르던 칼들이 거둬지고 있으니 숨을 쉬세요.' }
     },
     worry: {
-        normal: '끝은 새로운 시작의 다른 이름입니다. 비참한 기분이 들겠지만, 이제 올라갈 일만 남았습니다.',
-        reversed: '모든 것을 포기하고 싶은 유혹에 빠져 있습니다. 마지막 한 칼이 당신을 찌르기 전에 일어나세요.'
+        normal: { interpretation: '종결', advice: '끝은 새로운 시작의 다른 이름입니다. 비참한 기분이 들겠지만, 이제 올라갈 일만 남았습니다.' },
+        reversed: { interpretation: '바닥 딛고 재기', advice: '모든 것을 포기하고 싶은 유혹에 빠져 있습니다. 마지막 한 칼이 당신을 찌르기 전에 일어나세요.' }
     },
     spread3: {
         spicy: {

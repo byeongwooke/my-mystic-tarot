@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card21: CardContent = {
     today: {
-        normal: '마침내 마침표를 찍었습니다. 완벽한 성공과 통합을 즐기며 새로운 여정을 꿈꾸세요.',
-        reversed: '완성이 코앞인데 마무리가 허술합니다. 끝날 때까지는 끝난 것이 아니니 끝까지 긴장하세요.'
+        normal: { interpretation: '완성', advice: '마침내 마침표를 찍었습니다. 완벽한 성공과 통합을 즐기며 새로운 여정을 꿈꾸세요.' },
+        reversed: { interpretation: '미완성', advice: '완성이 코앞인데 마무리가 허술합니다. 끝날 때까지는 끝난 것이 아니니 끝까지 긴장하세요.' }
     },
     worry: {
-        normal: '당신의 세계는 이미 완벽합니다. 이제 얻은 결실을 바탕으로 더 큰 세상을 향해 나아가세요.',
-        reversed: '작은 성취에 취해 더 큰 성장의 기회를 놓치고 있습니다. 완벽주의가 오히려 독이 됩니다.'
+        normal: { interpretation: '완성', advice: '당신의 세계는 이미 완벽합니다. 이제 얻은 결실을 바탕으로 더 큰 세상을 향해 나아가세요.' },
+        reversed: { interpretation: '미완성', advice: '작은 성취에 취해 더 큰 성장의 기회를 놓치고 있습니다. 완벽주의가 오히려 독이 됩니다.' }
     },
     spread3: {
         spicy: {

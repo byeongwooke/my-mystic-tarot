@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card66: CardContent = {
     today: {
-        normal: '동료들과 힘을 합쳐 결과물을 만드세요. 당신의 전문 지식을 아낌없이 공유하는 날입니다.',
-        reversed: '각자도생의 분위기입니다. 협력은 무너지고 서로의 공로를 시기하기 바쁩니다.'
+        normal: { interpretation: '협동', advice: '동료들과 힘을 합쳐 결과물을 만드세요. 당신의 전문 지식을 아낌없이 공유하는 날입니다.' },
+        reversed: { interpretation: '기초 보완', advice: '각자도생의 분위기입니다. 협력은 무너지고 서로의 공로를 시기하기 바쁩니다.' }
     },
     worry: {
-        normal: '당신의 실력을 인정받을 기회입니다. 작은 디테일까지 신경 써서 완벽한 결과물을 제출하세요.',
-        reversed: '기초가 부실한데 겉모양만 꾸미려 합니다. 전문가의 조언을 무시하다 큰 화를 당합니다.'
+        normal: { interpretation: '협동', advice: '당신의 실력을 인정받을 기회입니다. 작은 디테일까지 신경 써서 완벽한 결과물을 제출하세요.' },
+        reversed: { interpretation: '기초 보완', advice: '기초가 부실한데 겉모양만 꾸미려 합니다. 전문가의 조언을 무시하다 큰 화를 당합니다.' }
     },
     spread3: {
         spicy: {

@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card65: CardContent = {
     today: {
-        normal: '바쁜 하루지만 리듬감을 잃지 마세요. 유연한 조율이 성공적인 결과를 가져옵니다.',
-        reversed: '저글링 하던 공들이 떨어집니다. 욕심을 버리고 가장 중요한 것에만 집중하세요.'
+        normal: { interpretation: '조율', advice: '바쁜 하루지만 리듬감을 잃지 마세요. 유연한 조율이 성공적인 결과를 가져옵니다.' },
+        reversed: { interpretation: '집중력 회복', advice: '저글링 하던 공들이 떨어집니다. 욕심을 버리고 가장 중요한 것에만 집중하세요.' }
     },
     worry: {
-        normal: '상황은 계속 변하겠지만 당신은 충분히 대처할 수 있습니다. 유연하게 파도를 타십시오.',
-        reversed: '이쪽저쪽 눈치만 보다 아무것도 결정하지 못합니다. 당신의 변덕이 신뢰를 깎습니다.'
+        normal: { interpretation: '조율', advice: '상황은 계속 변하겠지만 당신은 충분히 대처할 수 있습니다. 유연하게 파도를 타십시오.' },
+        reversed: { interpretation: '집중력 회복', advice: '이쪽저쪽 눈치만 보다 아무것도 결정하지 못합니다. 당신의 변덕이 신뢰를 깎습니다.' }
     },
     spread3: {
         spicy: {

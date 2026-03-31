@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card76: CardContent = {
     today: {
-        normal: '따뜻한 배려와 풍요로움이 당신을 감쌉니다. 주변을 돌보는 넉넉한 마음을 가지세요.',
-        reversed: '돌봄이 구속이 되고 있습니다. 당신의 희생을 보상받으려 하지는 않는지 살피세요.'
+        normal: { interpretation: '실속', advice: '따뜻한 배려와 풍요로움이 당신을 감쌉니다. 주변을 돌보는 넉넉한 마음을 가지세요.' },
+        reversed: { interpretation: '자아 성찰', advice: '돌봄이 구속이 되고 있습니다. 당신의 희생을 보상받으려 하지는 않는지 살피세요.' }
     },
     worry: {
-        normal: '당신에게는 이미 풍요를 일굴 능력이 있습니다. 주변을 따뜻하게 대하며 실속을 챙기세요.',
-        reversed: '상대방의 모든 것을 통제하려 합니다. 당신의 의심이 행복한 가정을 망치고 있습니다.'
+        normal: { interpretation: '실속', advice: '당신에게는 이미 풍요를 일굴 능력이 있습니다. 주변을 따뜻하게 대하며 실속을 챙기세요.' },
+        reversed: { interpretation: '자아 성찰', advice: '상대방의 모든 것을 통제하려 합니다. 당신의 의심이 행복한 가정을 망치고 있습니다.' }
     },
     spread3: {
         spicy: {

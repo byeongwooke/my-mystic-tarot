@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card26: CardContent = {
     today: {
-        normal: '서로 다른 의견이 충돌하지만, 이는 성장을 위한 자극입니다. 중심을 잃지 마세요.',
-        reversed: '소모적인 논쟁에 힘을 빼고 있습니다. 승자 없는 싸움에서 당신만 지쳐가고 있습니다.'
+        normal: { interpretation: '경쟁', advice: '서로 다른 의견이 충돌하지만, 이는 성장을 위한 자극입니다. 중심을 잃지 마세요.' },
+        reversed: { interpretation: '회피', advice: '소모적인 논쟁에 힘을 빼고 있습니다. 승자 없는 싸움에서 당신만 지쳐가고 있습니다.' }
     },
     worry: {
-        normal: '혼란스러운 상황일수록 당신만의 원칙이 필요합니다. 다툼을 성장의 발판으로 삼으세요.',
-        reversed: '남의 시선에 신경 쓰느라 본질을 놓치고 있습니다. 지금은 싸울 때가 아닙니다.'
+        normal: { interpretation: '경쟁', advice: '혼란스러운 상황일수록 당신만의 원칙이 필요합니다. 다툼을 성장의 발판으로 삼으세요.' },
+        reversed: { interpretation: '회피', advice: '남의 시선에 신경 쓰느라 본질을 놓치고 있습니다. 지금은 싸울 때가 아닙니다.' }
     },
     spread3: {
         spicy: {

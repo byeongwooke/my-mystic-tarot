@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card49: CardContent = {
     today: {
-        normal: '감정의 파도를 다스리는 노련한 선장이 되세요. 고요한 지혜로 결단을 내릴 때입니다.',
-        reversed: '겉으로는 평온한 척하며 속으로 칼을 갈고 있지는 않나요? 감정 조종은 당신을 파멸시킵니다.'
+        normal: { interpretation: '평정', advice: '감정의 파도를 다스리는 노련한 선장이 되세요. 고요한 지혜로 결단을 내릴 때입니다.' },
+        reversed: { interpretation: '감정의 균형', advice: '겉으로는 평온한 척하며 속으로 칼을 갈고 있지는 않나요? 감정 조종은 당신을 파멸시킵니다.' }
     },
     worry: {
-        normal: '냉정함과 따뜻함을 동시에 유지하세요. 당신의 포용력 있는 결단이 모든 상황을 정리할 것입니다.',
-        reversed: '권력을 이용해 타인의 감정을 짓밟고 있습니다. 온기 없는 리더십은 금세 무너집니다.'
+        normal: { interpretation: '평정', advice: '냉정함과 따뜻함을 동시에 유지하세요. 당신의 포용력 있는 결단이 모든 상황을 정리할 것입니다.' },
+        reversed: { interpretation: '감정의 균형', advice: '권력을 이용해 타인의 감정을 짓밟고 있습니다. 온기 없는 리더십은 금세 무너집니다.' }
     },
     spread3: {
         spicy: {

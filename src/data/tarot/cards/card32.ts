@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card32: CardContent = {
     today: {
-        normal: '호기심 어린 소식이 들려옵니다. 새로운 시작을 향한 설레는 첫 걸음을 떼어보세요.',
-        reversed: '깊이 없는 흥미는 시간 낭비일 뿐입니다. 겉모습만 번지르르한 제안에 현혹되지 마세요.'
+        normal: { interpretation: '소식', advice: '호기심 어린 소식이 들려옵니다. 새로운 시작을 향한 설레는 첫 걸음을 떼어보세요.' },
+        reversed: { interpretation: '미숙함', advice: '깊이 없는 흥미는 시간 낭비일 뿐입니다. 겉모습만 번지르르한 제안에 현혹되지 마세요.' }
     },
     worry: {
-        normal: '당신의 잠재력을 믿고 도전하세요. 배우는 과정 자체가 당신에게 큰 자산이 될 것입니다.',
-        reversed: '금방 달아오르고 금방 식어버립니다. 끈기 없는 시도는 당신의 평판만 깎아먹습니다.'
+        normal: { interpretation: '소식', advice: '당신의 잠재력을 믿고 도전하세요. 배우는 과정 자체가 당신에게 큰 자산이 될 것입니다.' },
+        reversed: { interpretation: '미숙함', advice: '금방 달아오르고 금방 식어버립니다. 끈기 없는 시도는 당신의 평판만 깎아먹습니다.' }
     },
     spread3: {
         spicy: {

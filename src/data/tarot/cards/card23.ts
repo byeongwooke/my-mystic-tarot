@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card23: CardContent = {
     today: {
-        normal: '한 손에는 성취를, 한 손에는 미래를 쥐었습니다. 이제 더 넓은 세상으로 시선을 돌리세요.',
-        reversed: '성벽 안의 안락함에 안주하지 마세요. 고민만 길어지면 기회는 남의 손으로 넘어갑니다.'
+        normal: { interpretation: '계획', advice: '한 손에는 성취를, 한 손에는 미래를 쥐었습니다. 이제 더 넓은 세상으로 시선을 돌리세요.' },
+        reversed: { interpretation: '선택장애', advice: '성벽 안의 안락함에 안주하지 마세요. 고민만 길어지면 기회는 남의 손으로 넘어갑니다.' }
     },
     worry: {
-        normal: '이미 얻은 것에 만족하지 마세요. 당신의 잠재력은 저 넓은 바다 너머에 있습니다.',
-        reversed: '세상을 보고 싶어 하면서도 발은 성벽 안에 묶여 있습니다. 확신 없는 이동은 위험합니다.'
+        normal: { interpretation: '계획', advice: '이미 얻은 것에 만족하지 마세요. 당신의 잠재력은 저 넓은 바다 너머에 있습니다.' },
+        reversed: { interpretation: '선택장애', advice: '세상을 보고 싶어 하면서도 발은 성벽 안에 묶여 있습니다. 확신 없는 이동은 위험합니다.' }
     },
     spread3: {
         spicy: {

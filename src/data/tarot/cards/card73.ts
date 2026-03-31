@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card73: CardContent = {
     today: {
-        normal: '안정된 기반 위에서 소중한 이들과 풍요를 나누세요. 대물림되는 가치에 감사하는 날입니다.',
-        reversed: '전통과 규칙이 당신의 숨통을 조입니다. 안정이라는 이름의 지루함이 갈등을 만듭니다.'
+        normal: { interpretation: '유산', advice: '안정된 기반 위에서 소중한 이들과 풍요를 나누세요. 대물림되는 가치에 감사하는 날입니다.' },
+        reversed: { interpretation: '형식 탈피', advice: '전통과 규칙이 당신의 숨통을 조입니다. 안정이라는 이름의 지루함이 갈등을 만듭니다.' }
     },
     worry: {
-        normal: '당신을 지탱해 주는 가족이나 조직의 힘을 믿으세요. 보수적인 선택이 가장 안전합니다.',
-        reversed: '안정된 삶에 취해 새로운 자극을 찾아 일탈하려 합니다. 한순간의 실수로 공든 탑이 무너집니다.'
+        normal: { interpretation: '유산', advice: '당신을 지탱해 주는 가족이나 조직의 힘을 믿으세요. 보수적인 선택이 가장 안전합니다.' },
+        reversed: { interpretation: '형식 탈피', advice: '안정된 삶에 취해 새로운 자극을 찾아 일탈하려 합니다. 한순간의 실수로 공든 탑이 무너집니다.' }
     },
     spread3: {
         spicy: {

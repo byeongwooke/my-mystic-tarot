@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card14: CardContent = {
     today: {
-        normal: '서로 다른 가치를 적절히 섞어 최상의 조화를 찾아내세요. 중용의 미덕이 필요한 날입니다.',
-        reversed: '절제력을 잃고 한쪽 극단으로 치닫고 있습니다. 불협화음이 시작되는 징조이니 조심하세요.'
+        normal: { interpretation: '조화', advice: '서로 다른 가치를 적절히 섞어 최상의 조화를 찾아내세요. 중용의 미덕이 필요한 날입니다.' },
+        reversed: { interpretation: '불균형', advice: '절제력을 잃고 한쪽 극단으로 치닫고 있습니다. 불협화음이 시작되는 징조이니 조심하세요.' }
     },
     worry: {
-        normal: '조급함을 버리고 천천히 융합해 나가세요. 당신만의 황금 비율을 찾는 것이 성공의 열쇠입니다.',
-        reversed: '이것저것 섞기만 한다고 답이 나오지 않습니다. 본질을 잊은 채 형식적인 조화에만 급급합니다.'
+        normal: { interpretation: '조화', advice: '조급함을 버리고 천천히 융합해 나가세요. 당신만의 황금 비율을 찾는 것이 성공의 열쇠입니다.' },
+        reversed: { interpretation: '불균형', advice: '이것저것 섞기만 한다고 답이 나오지 않습니다. 본질을 잊은 채 형식적인 조화에만 급급합니다.' }
     },
     spread3: {
         spicy: {

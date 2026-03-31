@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card17: CardContent = {
     today: {
-        normal: '어둠 속에서 가장 밝은 별을 발견하는 날입니다. 희망의 등불을 따라 당신의 꿈을 설계하세요.',
-        reversed: '희망이라는 이름의 환상에 빠져 발밑의 현실을 잊고 있습니다. 뜬구름 잡는 소리는 그만두세요.'
+        normal: { interpretation: '희망', advice: '어둠 속에서 가장 밝은 별을 발견하는 날입니다. 희망의 등불을 따라 당신의 꿈을 설계하세요.' },
+        reversed: { interpretation: '현실자각', advice: '희망이라는 이름의 환상에 빠져 발밑의 현실을 잊고 있습니다. 뜬구름 잡는 소리는 그만두세요.' }
     },
     worry: {
-        normal: '지금의 고난은 영원하지 않습니다. 당신의 별이 가리키는 방향을 믿고 묵묵히 나아가세요.',
-        reversed: '기다림이 너무 길어지며 무력감에 빠져 있습니다. 희망 고문에 당신의 에너지를 소모하지 마세요.'
+        normal: { interpretation: '희망', advice: '지금의 고난은 영원하지 않습니다. 당신의 별이 가리키는 방향을 믿고 묵묵히 나아가세요.' },
+        reversed: { interpretation: '현실자각', advice: '기다림이 너무 길어지며 무력감에 빠져 있습니다. 희망 고문에 당신의 에너지를 소모하지 마세요.' }
     },
     spread3: {
         spicy: {

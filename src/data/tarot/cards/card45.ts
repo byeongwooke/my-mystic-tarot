@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card45: CardContent = {
     today: {
-        normal: '무지개 아래 모든 근심이 사라지는 날입니다. 가족과 소중한 이들과 완벽한 평화를 나누세요.',
-        reversed: '완벽해 보이는 평화 속에 불만족이 자라납니다. 형식적인 유대보다 실질적인 진심을 점검하세요.'
+        normal: { interpretation: '완성', advice: '무지개 아래 모든 근심이 사라지는 날입니다. 가족과 소중한 이들과 완벽한 평화를 나누세요.' },
+        reversed: { interpretation: '소통 재정비', advice: '완벽해 보이는 평화 속에 불만족이 자라납니다. 형식적인 유대보다 실질적인 진심을 점검하세요.' }
     },
     worry: {
-        normal: '가장 소중한 것은 당신 곁에 있는 사람들입니다. 관계의 조화가 당신의 모든 운을 열어줄 것입니다.',
-        reversed: '화목한 척 연극하고 있지는 않나요? 억눌린 불만이 언제 터질지 모르는 시한폭탄 같습니다.'
+        normal: { interpretation: '완성', advice: '가장 소중한 것은 당신 곁에 있는 사람들입니다. 관계의 조화가 당신의 모든 운을 열어줄 것입니다.' },
+        reversed: { interpretation: '소통 재정비', advice: '화목한 척 연극하고 있지는 않나요? 억눌린 불만이 언제 터질지 모르는 시한폭탄 같습니다.' }
     },
     spread3: {
         spicy: {

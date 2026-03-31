@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card27: CardContent = {
     today: {
-        normal: '승전보가 들려옵니다. 인정과 찬사가 쏟아지니 당당하게 주인공의 자리를 누리세요.',
-        reversed: '왕관의 무게가 오만이 되어서는 안 됩니다. 조력자들의 공로를 가로채지 마십시오.'
+        normal: { interpretation: '승리', advice: '승전보가 들려옵니다. 인정과 찬사가 쏟아지니 당당하게 주인공의 자리를 누리세요.' },
+        reversed: { interpretation: '과시', advice: '왕관의 무게가 오만이 되어서는 안 됩니다. 조력자들의 공로를 가로채지 마십시오.' }
     },
     worry: {
-        normal: '당신의 능력이 증명되었습니다. 이제 이 성과를 바탕으로 다음 단계의 비전을 그리세요.',
-        reversed: '박수갈채가 끝나면 허탈함이 찾아옵니다. 겉치레뿐인 명예에 너무 집착하고 있습니다.'
+        normal: { interpretation: '승리', advice: '당신의 능력이 증명되었습니다. 이제 이 성과를 바탕으로 다음 단계의 비전을 그리세요.' },
+        reversed: { interpretation: '과시', advice: '박수갈채가 끝나면 허탈함이 찾아옵니다. 겉치레뿐인 명예에 너무 집착하고 있습니다.' }
     },
     spread3: {
         spicy: {

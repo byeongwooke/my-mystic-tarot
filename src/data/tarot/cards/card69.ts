@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card69: CardContent = {
     today: {
-        normal: '베푸는 만큼 돌아오는 날입니다. 정당한 대가를 지불하거나 호의를 베풀어 보세요.',
-        reversed: '베풂이 권력이 되어서는 안 됩니다. 생색내기식 호의는 상대에게 상처만 줍니다.'
+        normal: { interpretation: '관용', advice: '베푸는 만큼 돌아오는 날입니다. 정당한 대가를 지불하거나 호의를 베풀어 보세요.' },
+        reversed: { interpretation: '재정적 자립', advice: '베풂이 권력이 되어서는 안 됩니다. 생색내기식 호의는 상대에게 상처만 줍니다.' }
     },
     worry: {
-        normal: '주변과 나누는 기쁨을 누리세요. 당신의 선의가 나중에는 거대한 행운으로 돌아올 것입니다.',
-        reversed: '주는 척하면서 뒤로는 챙길 것만 생각합니다. 당신의 계산적인 호의는 다 들통납니다.'
+        normal: { interpretation: '관용', advice: '주변과 나누는 기쁨을 누리세요. 당신의 선의가 나중에는 거대한 행운으로 돌아올 것입니다.' },
+        reversed: { interpretation: '재정적 자립', advice: '주는 척하면서 뒤로는 챙길 것만 생각합니다. 당신의 계산적인 호의는 다 들통납니다.' }
     },
     spread3: {
         spicy: {

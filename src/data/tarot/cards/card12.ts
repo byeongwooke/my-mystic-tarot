@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card12: CardContent = {
     today: {
-        normal: '잠시 멈춰 서서 세상을 거꾸로 보세요. 정지된 시간 속에서 새로운 영감이 솟아납니다.',
-        reversed: '의미 없는 희생을 자처하고 있지는 않나요? 조급함에 발버둥 칠수록 밧줄은 더 조여집니다.'
+        normal: { interpretation: '인내', advice: '잠시 멈춰 서서 세상을 거꾸로 보세요. 정지된 시간 속에서 새로운 영감이 솟아납니다.' },
+        reversed: { interpretation: '헛된희생', advice: '의미 없는 희생을 자처하고 있지는 않나요? 조급함에 발버둥 칠수록 밧줄은 더 조여집니다.' }
     },
     worry: {
-        normal: '지금 당장 움직이려 애쓰지 마세요. 가만히 멈춰 서서 상황을 지켜보는 것이 최고의 전략입니다.',
-        reversed: '막연한 기대감에 젖어 현실을 외면하고 있습니다. 당신의 희생이 정말 가치 있는 것인지 따져보세요.'
+        normal: { interpretation: '인내', advice: '지금 당장 움직이려 애쓰지 마세요. 가만히 멈춰 서서 상황을 지켜보는 것이 최고의 전략입니다.' },
+        reversed: { interpretation: '헛된희생', advice: '막연한 기대감에 젖어 현실을 외면하고 있습니다. 당신의 희생이 정말 가치 있는 것인지 따져보세요.' }
     },
     spread3: {
         spicy: {

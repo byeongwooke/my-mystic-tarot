@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card61: CardContent = {
     today: {
-        normal: '목표를 향해 거침없이 전진하세요. 당신의 날카로운 논리와 속도감이 승리를 가져옵니다.',
-        reversed: '속도에 취해 뒤를 돌아보지 못합니다. 당신의 전진이 소중한 사람들을 밟고 지나가고 있습니다.'
+        normal: { interpretation: '급박함', advice: '목표를 향해 거침없이 전진하세요. 당신의 날카로운 논리와 속도감이 승리를 가져옵니다.' },
+        reversed: { interpretation: '속도 조절', advice: '속도에 취해 뒤를 돌아보지 못합니다. 당신의 전진이 소중한 사람들을 밟고 지나가고 있습니다.' }
     },
     worry: {
-        normal: '지금은 복잡하게 생각할 때가 아닙니다. 번개처럼 빠르게 행동하여 기회를 선점하십시오.',
-        reversed: '말 한마디로 천 냥 빚을 지고 있습니다. 당신의 공격적인 언행이 적을 만들고 있습니다.'
+        normal: { interpretation: '급박함', advice: '지금은 복잡하게 생각할 때가 아닙니다. 번개처럼 빠르게 행동하여 기회를 선점하십시오.' },
+        reversed: { interpretation: '속도 조절', advice: '말 한마디로 천 냥 빚을 지고 있습니다. 당신의 공격적인 언행이 적을 만들고 있습니다.' }
     },
     spread3: {
         spicy: {

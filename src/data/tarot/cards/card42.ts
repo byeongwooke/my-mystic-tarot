@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card42: CardContent = {
     today: {
-        normal: '환상과 현실을 구분하세요. 수많은 선택지 앞에서 진짜 당신이 원하는 것을 직시해야 할 때입니다.',
-        reversed: '달콤한 환상에 취해 현실을 도외시하고 있습니다. 꿈에서 깨어나 발을 땅에 딛는 용기가 필요합니다.'
+        normal: { interpretation: '환상', advice: '환상과 현실을 구분하세요. 수많은 선택지 앞에서 진짜 당신이 원하는 것을 직시해야 할 때입니다.' },
+        reversed: { interpretation: '현실 파악', advice: '달콤한 환상에 취해 현실을 도외시하고 있습니다. 꿈에서 깨어나 발을 땅에 딛는 용기가 필요합니다.' }
     },
     worry: {
-        normal: '선택지가 너무 많아 오히려 아무것도 결정하지 못하고 있지는 않나요? 가장 중요한 한 가지에 집중하세요.',
-        reversed: '망상과 현실을 착각하고 있습니다. 지금 당신에게 필요한 것은 냉정한 현실 점검입니다.'
+        normal: { interpretation: '환상', advice: '선택지가 너무 많아 오히려 아무것도 결정하지 못하고 있지는 않나요? 가장 중요한 한 가지에 집중하세요.' },
+        reversed: { interpretation: '현실 파악', advice: '망상과 현실을 착각하고 있습니다. 지금 당신에게 필요한 것은 냉정한 현실 점검입니다.' }
     },
     spread3: {
         spicy: {

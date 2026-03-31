@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card40: CardContent = {
     today: {
-        normal: '엎질러진 물에 눈물 짓지 마세요. 뒤를 돌아보면 당신을 지지하는 잔이 여전히 남아있습니다.',
-        reversed: '슬픔에 매몰되어 새로운 시작을 거부하고 있습니다. 상처는 훈장이 되어야지 감옥이 되어선 안 됩니다.'
+        normal: { interpretation: '상실', advice: '엎질러진 물에 눈물 짓지 마세요. 뒤를 돌아보면 당신을 지지하는 잔이 여전히 남아있습니다.' },
+        reversed: { interpretation: '회복 시작', advice: '슬픔에 매몰되어 새로운 시작을 거부하고 있습니다. 상처는 훈장이 되어야지 감옥이 되어선 안 됩니다.' }
     },
     worry: {
-        normal: '잃어버린 것에 집중하지 마세요. 아직 당신 곁에 남은 소중한 가치를 지키는 것이 우선입니다.',
-        reversed: '이미 끝난 일에 에너지를 쏟으며 자신을 괴롭히고 있습니다. 미련의 다리를 끊으세요.'
+        normal: { interpretation: '상실', advice: '잃어버린 것에 집중하지 마세요. 아직 당신 곁에 남은 소중한 가치를 지키는 것이 우선입니다.' },
+        reversed: { interpretation: '회복 시작', advice: '이미 끝난 일에 에너지를 쏟으며 자신을 괴롭히고 있습니다. 미련의 다리를 끊으세요.' }
     },
     spread3: {
         spicy: {

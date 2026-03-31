@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card46: CardContent = {
     today: {
-        normal: '잔 속의 물고기가 말을 거는 날입니다. 엉뚱한 상상이라도 당신의 영감을 자극한다면 따르세요.',
-        reversed: '사소한 말에 상처받고 현실을 회피하려 합니다. 감성이 이성을 삼켜 판단이 흐려집니다.'
+        normal: { interpretation: '소식', advice: '잔 속의 물고기가 말을 거는 날입니다. 엉뚱한 상상이라도 당신의 영감을 자극한다면 따르세요.' },
+        reversed: { interpretation: '표현의 서투름', advice: '사소한 말에 상처받고 현실을 회피하려 합니다. 감성이 이성을 삼켜 판단이 흐려집니다.' }
     },
     worry: {
-        normal: '당신의 풍부한 감수성이 해결의 실마리입니다. 논리보다는 마음의 울림을 따라가 보십시오.',
-        reversed: '현실을 도피하기 위해 상상 속에만 머물고 있습니다. 실천 없는 공상은 독이 됩니다.'
+        normal: { interpretation: '소식', advice: '당신의 풍부한 감수성이 해결의 실마리입니다. 논리보다는 마음의 울림을 따라가 보십시오.' },
+        reversed: { interpretation: '표현의 서투름', advice: '현실을 도피하기 위해 상상 속에만 머물고 있습니다. 실천 없는 공상은 독이 됩니다.' }
     },
     spread3: {
         spicy: {

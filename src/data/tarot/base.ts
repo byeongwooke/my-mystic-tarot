@@ -11,13 +11,13 @@ export interface TarotBase {
 }
 
 export interface TodayData {
-    normal: string;
-    reversed: string;
+    normal: { interpretation: string; advice: string };
+    reversed: { interpretation: string; advice: string };
 }
 
 export interface WorryData {
-    normal: string;
-    reversed: string;
+    normal: { interpretation: string; advice: string };
+    reversed: { interpretation: string; advice: string };
 }
 
 export interface TimelineAdvice {

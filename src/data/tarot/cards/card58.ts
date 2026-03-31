@@ -2,12 +2,12 @@ import { CardContent } from '../base';
 
 export const card58: CardContent = {
     today: {
-        normal: '밤은 깊고 생각은 꼬리를 뭅니다. 하지만 아침이 오면 당신의 괴물들은 이슬처럼 사라질 것입니다.',
-        reversed: '최악의 시나리오는 당신의 상상 속에만 있습니다. 비명을 멈추고 현실의 빛을 켜세요.'
+        normal: { interpretation: '불면', advice: '밤은 깊고 생각은 꼬리를 뭅니다. 하지만 아침이 오면 당신의 괴물들은 이슬처럼 사라질 것입니다.' },
+        reversed: { interpretation: '악몽 탈피', advice: '최악의 시나리오는 당신의 상상 속에만 있습니다. 비명을 멈추고 현실의 빛을 켜세요.' }
     },
     worry: {
-        normal: '일어나지도 않은 일로 스스로를 괴롭히지 마세요. 당신의 걱정 90%는 현실이 되지 않습니다.',
-        reversed: '너무 예민해져서 주변의 모든 소리를 비난으로 듣고 있습니다. 이제 그만 잠에 드십시오.'
+        normal: { interpretation: '불면', advice: '일어나지도 않은 일로 스스로를 괴롭히지 마세요. 당신의 걱정 90%는 현실이 되지 않습니다.' },
+        reversed: { interpretation: '악몽 탈피', advice: '너무 예민해져서 주변의 모든 소리를 비난으로 듣고 있습니다. 이제 그만 잠에 드십시오.' }
     },
     spread3: {
         spicy: {
