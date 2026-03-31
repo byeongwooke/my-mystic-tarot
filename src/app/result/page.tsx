@@ -92,13 +92,14 @@ function ResultContent() {
         if (!cardData) return null;
         const isReversed = reversedArr[index];
         const baseRole = roles[index] || "오늘의 카드";
-        
+        const isReversedEffective = isReversed && settings.useReversals;
+
         const content = resolveTarotContent(
           id,
           settings,
           categorySlug as any,
           spreadType as any,
-          isReversed
+          isReversedEffective
         );
 
         let cardInterpretation = content?.interpretation || "신비로운 해석을 준비 중입니다.";
@@ -112,6 +113,13 @@ function ResultContent() {
             else if (index === 2) cardAdvice = adviceObj?.future || "";
           } else {
             cardAdvice = adviceObj || "";
+          }
+        } else if (spreadType === 'celtic') {
+          const pos = content?.positions;
+          if (pos) {
+            const posKeys = ["core", "obstacle", "goal", "foundation", "past", "nearFuture", "self", "influence", "hopes", "destiny"];
+            const key = posKeys[index];
+            cardAdvice = (pos as any)[key] || "";
           }
         } else {
           // today, worry
@@ -127,10 +135,10 @@ function ResultContent() {
           cardId: id,
           nameKr: cardData.nameKr,
           role: baseRole,
-          isReversed,
+          isReversed: isReversedEffective,
           interpretation: cardInterpretation,
           advice: cardAdvice,
-          keywords: isReversed ? cardData.keywordsReversed : cardData.keywords,
+          keywords: isReversedEffective ? cardData.keywordsReversed : cardData.keywords,
           polarity: (cardData.polarity as "positive" | "negative") || "negative",
           score: cardData.score,
           warningScore: cardData.warningScore,

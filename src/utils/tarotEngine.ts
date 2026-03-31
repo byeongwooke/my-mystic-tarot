@@ -51,7 +51,8 @@ export const resolveTarotContent = (
   const cardData = CARDS[cardId];
   if (!cardData) return null;
 
-  const direction = isReversed ? 'reversed' : 'normal';
+  // v1.1.11: 전역 설정(useReversals)이 꺼져 있으면 카드가 역방향이라도 정방향 데이터를 반환함
+  const direction = (isReversed && settings.useReversals) ? 'reversed' : 'normal';
   const flavor = (settings?.mode || 'gentle') as 'spicy' | 'gentle';
 
   try {
