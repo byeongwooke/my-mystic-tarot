@@ -99,45 +99,17 @@ function ResultContent() {
           settings,
           categorySlug as any,
           spreadType as any,
-          isReversedEffective
+          isReversedEffective,
+          index
         );
-
-        let cardInterpretation = content?.interpretation || "신비로운 해석을 준비 중입니다.";
-        let cardAdvice = "";
-
-        if (spreadType === 'spread3') {
-          const adviceObj = content?.advice;
-          if (typeof adviceObj === 'object') {
-            if (index === 0) cardAdvice = adviceObj?.past || "";
-            else if (index === 1) cardAdvice = adviceObj?.present || "";
-            else if (index === 2) cardAdvice = adviceObj?.future || "";
-          } else {
-            cardAdvice = adviceObj || "";
-          }
-        } else if (spreadType === 'celtic') {
-          const pos = content?.positions;
-          if (pos) {
-            const posKeys = ["core", "obstacle", "goal", "foundation", "past", "nearFuture", "self", "influence", "hopes", "destiny"];
-            const key = posKeys[index];
-            cardAdvice = (pos as any)[key] || "";
-          }
-        } else {
-          // today, worry
-          cardAdvice = content?.advice || "";
-        }
-
-        // Final fallback if advice is still empty
-        if (!cardAdvice) {
-          cardAdvice = "운명의 조언을 읽어내는 중입니다...";
-        }
 
         return {
           cardId: id,
           nameKr: cardData.nameKr,
           role: baseRole,
           isReversed: isReversedEffective,
-          interpretation: cardInterpretation,
-          advice: cardAdvice,
+          interpretation: content?.interpretation || "신비로운 해석을 준비 중입니다.",
+          advice: content?.advice || "운명의 조언을 읽어내는 중입니다...",
           keywords: isReversedEffective ? cardData.keywordsReversed : cardData.keywords,
           polarity: (cardData.polarity as "positive" | "negative") || "negative",
           score: cardData.score,

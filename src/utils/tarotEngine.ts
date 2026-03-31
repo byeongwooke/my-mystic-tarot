@@ -46,8 +46,9 @@ export const resolveTarotContent = (
   settings: UserSettings,
   category: 'today' | 'worry' | 'love' | 'money' | 'work' = 'love',
   spreadType: 'today' | 'worry' | 'spread3' | 'celtic' = 'spread3',
-  isReversed: boolean = false
-): any => {
+  isReversed: boolean = false,
+  positionIndex?: number
+): { interpretation: string; advice: string } | null => {
   const cardData = CARDS[cardId];
   if (!cardData) return null;
 
@@ -56,30 +57,47 @@ export const resolveTarotContent = (
   const flavor = (settings?.mode || 'gentle') as 'spicy' | 'gentle';
 
   try {
-    // v1.1.10: 데이터 구조 표준화로 매핑 로직 단일화
-    const spreadData = (cardData as any)[spreadType];
-    if (!spreadData) return null;
+    let targetData: any = null;
 
-    // today, worry는 flavor가 없는 1단계 구조, others는 flavor 포함한 3단계 구조
-    let targetData = spreadData;
-    if (spreadType !== 'today' && spreadType !== 'worry') {
+    if (spreadType === 'today' || spreadType === 'worry') {
+      targetData = (cardData as any)[spreadType];
+    } else {
+      const spreadData = (cardData as any)[spreadType];
+      if (!spreadData) return null;
+      
       const flavorData = spreadData[flavor] || spreadData['gentle'];
       targetData = flavorData?.[category] || flavorData?.['love'];
     }
 
     if (!targetData) return null;
 
-    // 역방향 요청 시 데이터가 없으면 정방향으로 매핑
+    // direction에 따른 기본 콘텐츠 (normal/reversed)
     const content = targetData[direction] || targetData['normal'];
+    if (!content) return null;
 
-    // v1.1.7: spread3 구조적 완결성 검증 보강 (interpretation 필드 보장)
-    if (spreadType === 'spread3' && content && typeof content === 'object') {
-      if (!content.interpretation) {
-        content.interpretation = "운명의 파동이 새로운 해석을 기다리고 있습니다.";
-      }
+    let interpretation = content.interpretation || "";
+    let advice = "";
+
+    // v1.1.12: 위치별 정밀 매핑 로직
+    if (spreadType === 'spread3' && typeof positionIndex === 'number') {
+      const adviceObj = content.advice;
+      if (positionIndex === 0) advice = adviceObj?.past || "";
+      else if (positionIndex === 1) advice = adviceObj?.present || "";
+      else if (positionIndex === 2) advice = adviceObj?.future || "";
+      else advice = typeof adviceObj === 'string' ? adviceObj : "";
+    } else if (spreadType === 'celtic' && typeof positionIndex === 'number') {
+      const posKeys = ["core", "obstacle", "goal", "foundation", "past", "nearFuture", "self", "influence", "hopes", "destiny"];
+      const key = posKeys[positionIndex];
+      advice = content.positions?.[key] || "";
+    } else {
+      // today, worry 또는 인덱스가 없는 경우
+      advice = content.advice || "";
     }
 
-    return content || null;
+    return {
+      interpretation,
+      advice: advice || "운명의 조언을 읽어내는 중입니다..."
+    };
   } catch (error) {
     console.error(`Mapping Error [Card ${cardId}]:`, error);
     return null;
