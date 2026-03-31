@@ -39,25 +39,40 @@ export const drawCard = (settings: UserSettings, forcedId?: number): { id: numbe
 
 /**
  * Resolves the specific content for a tarot card based on the current mode, category, and direction.
+ * v1.1.6: Enhanced with robust fallbacks and defensive logic to prevent null/undefined errors.
  */
 export const resolveTarotContent = (
   cardId: number,
   settings: UserSettings,
-  category: 'love' | 'money' | 'work',
-  spreadType: 'spread3' | 'celtic',
-  isReversed: boolean
+  category: 'love' | 'money' | 'work' = 'love',
+  spreadType: 'spread3' | 'celtic' = 'spread3',
+  isReversed: boolean = false
 ): any => {
   const cardData = CARDS[cardId];
   if (!cardData) return null;
 
-  const flavor = settings.mode as 'spicy' | 'gentle';
+  // Fallback state management
+  const flavor = (settings?.mode || 'gentle') as 'spicy' | 'gentle';
   const direction = isReversed ? 'reversed' : 'normal';
+  const safeCategory = category || 'love';
+  const safeSpread = spreadType || 'spread3';
 
-  // v1.0.9: [spreadType] -> [flavor] -> [category] -> [direction] 경로 정밀 매핑
-  const spreadData = (cardData as any)[spreadType];
-  const flavorData = spreadData?.[flavor];
-  const categoryData = flavorData?.[category];
-  const content = categoryData?.[direction];
+  try {
+    // [spreadType] -> [flavor] -> [category] -> [direction] 경로 정밀 매핑
+    const spreadData = (cardData as any)[safeSpread];
+    if (!spreadData) return null;
 
-  return content;
+    const flavorData = spreadData[flavor] || spreadData['gentle'] || spreadData['spicy'];
+    if (!flavorData) return null;
+
+    const categoryData = flavorData[safeCategory] || flavorData['love'];
+    if (!categoryData) return null;
+
+    const content = categoryData[direction] || categoryData['normal'];
+
+    return content || null;
+  } catch (error) {
+    console.error(`Tarot Engine Error [Card ${cardId}]:`, error);
+    return null;
+  }
 };

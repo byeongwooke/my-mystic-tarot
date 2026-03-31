@@ -335,23 +335,23 @@ export default function TarotResultView({
                   </div>
 
                   {category !== 'worry' && (
-                    <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5 mt-4">
+                    <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5 mt-4 min-h-[100px] flex flex-col justify-center">
                       <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">
                          카드의 해석
                       </span>
                       <p className="text-gray-200 text-[15px] md:text-xl leading-loose break-keep mt-2 font-serif italic">
-                         "{item?.interpretation}"
+                         "{item?.interpretation || "운명의 속삭임을 해석하는 중입니다..."}"
                       </p>
                     </div>
                   )}
 
                   {category !== 'today' && (
-                    <div className={`mt-6 p-5 md:p-6 rounded-2xl relative border ${isWarning ? 'bg-rose-950/20 border-rose-500/30' : 'bg-emerald-900/20 border-emerald-500/30'}`}>
+                    <div className={`mt-6 p-5 md:p-6 rounded-2xl relative border min-h-[100px] flex flex-col justify-center ${isWarning ? 'bg-rose-950/20 border-rose-500/30' : 'bg-emerald-900/20 border-emerald-500/30'}`}>
                       <span className={`absolute -top-3 left-4 px-3 py-1 text-xs rounded-full border ${isWarning ? 'bg-rose-900 border-rose-500 text-rose-100' : 'bg-emerald-900 border-emerald-500 text-emerald-100'}`}>
                          타로 마스터의 한마디
                       </span>
-                      <p className={`text-[15px] md:text-xl leading-loose font-serif italic ${isWarning ? 'text-rose-100/90' : 'text-emerald-50/90'}`}>
-                         "{item.advice}"
+                      <p className={`text-[15px] md:text-xl leading-loose font-serif italic break-keep ${isWarning ? 'text-rose-100/90' : 'text-emerald-50/90'}`}>
+                         "{item.advice || "진심 어린 조언을 담아내는 중입니다..."}"
                       </p>
                     </div>
                   )}

@@ -75,69 +75,80 @@ function ResultContent() {
     setCategory(categorySlug);
     setSpread(spreadParam);
 
-    const ids = cardIdsParam.split(',').map(Number);
-    const reversedArr = isReversedParam ? isReversedParam.split(',').map(v => v === '1') : ids.map(() => false);
+    try {
+      const ids = cardIdsParam.split(',').map(Number);
+      const reversedArr = isReversedParam ? isReversedParam.split(',').map(v => v === '1') : ids.map(() => false);
 
-    const roles = spreadParam === 'celtic' 
-      ? ["현재 상황", "장애와 과제", "의식과 목표", "무의식의 뿌리", "지나온 과거", "가까운 미래", "본인의 태도", "외부의 영향", "희망과 공포", "최종 결과"]
-      : ["과거의 기반", "현재의 조언", "미래의 가능성"];
+      const roles = spreadParam === 'celtic' 
+        ? ["현재 상황", "장애와 과제", "의식과 목표", "무의식의 뿌리", "지나온 과거", "가까운 미래", "본인의 태도", "외부의 영향", "희망과 공포", "최종 결과"]
+        : ["과거의 기반", "현재의 조언", "미래의 가능성"];
 
-    const spreadType = spreadParam === 'celtic' ? 'celtic' : 'spread3';
+      const spreadType = spreadParam === 'celtic' ? 'celtic' : 'spread3';
 
-    const loadedCards = ids.map((id, index) => {
-      const cardData = CARDS[id];
-      if (!cardData) return null;
-      const isReversed = reversedArr[index];
-      const baseRole = roles[index] || "오늘의 카드";
-      
-      const content = resolveTarotContent(
-        id,
-        settings,
-        categorySlug as any,
-        spreadType as any,
-        isReversed
-      );
+      const loadedCards = ids.map((id, index) => {
+        const cardData = CARDS[id];
+        if (!cardData) return null;
+        const isReversed = reversedArr[index];
+        const baseRole = roles[index] || "오늘의 카드";
+        
+        const content = resolveTarotContent(
+          id,
+          settings,
+          categorySlug as any,
+          spreadType as any,
+          isReversed
+        );
 
-      let cardInterpretation = "";
-      let cardAdvice = "";
+        let cardInterpretation = "";
+        let cardAdvice = "";
 
-      if ((categorySlug === 'today' || categorySlug === 'worry') && cardData) {
-        const rootContent = (cardData as any)[categorySlug];
-        const direction = isReversed ? 'reversed' : 'normal';
-        cardInterpretation = rootContent?.[direction] || "운명의 메시지를 준비 중입니다.";
-        cardAdvice = rootContent?.[direction] || "운명의 조언을 준비 중입니다.";
-      } else if (spreadType === 'spread3' && typeof content === 'object' && content !== null) {
-        cardInterpretation = content?.interpretation || "";
-        const adviceObj = content?.advice;
-        if (adviceObj) {
-          if (index === 0) cardAdvice = adviceObj?.past || "";
-          else if (index === 1) cardAdvice = adviceObj?.present || "";
-          else if (index === 2) cardAdvice = adviceObj?.future || "";
+        // v1.1.6: Enhanced defensive mapping
+        if ((categorySlug === 'today' || categorySlug === 'worry')) {
+          const rootContent = (cardData as any)[categorySlug];
+          const direction = isReversed ? 'reversed' : 'normal';
+          cardInterpretation = rootContent?.[direction] || "운명의 메시지를 준비 중입니다.";
+          cardAdvice = rootContent?.[direction] || "운명의 조언을 준비 중입니다.";
+        } else if (spreadType === 'spread3' && content && typeof content === 'object') {
+          cardInterpretation = content?.interpretation || "";
+          const adviceObj = content?.advice;
+          if (adviceObj) {
+            if (index === 0) cardAdvice = adviceObj?.past || "";
+            else if (index === 1) cardAdvice = adviceObj?.present || "";
+            else if (index === 2) cardAdvice = adviceObj?.future || "";
+          }
+        } 
+        
+        // Final fallback if still empty
+        if (!cardInterpretation) {
+          cardInterpretation = typeof content === 'string' ? content : (content?.interpretation || "신비로운 해석을 준비 중입니다.");
         }
+        if (!cardAdvice) {
+          cardAdvice = (typeof content === 'object' ? content?.advice : "") || cardData.keywords.join(", ");
+        }
+
+        return {
+          cardId: id,
+          nameKr: cardData.nameKr,
+          role: baseRole,
+          isReversed,
+          interpretation: cardInterpretation,
+          advice: cardAdvice,
+          keywords: isReversed ? cardData.keywordsReversed : cardData.keywords,
+          polarity: (cardData.polarity as "positive" | "negative") || "negative",
+          score: cardData.score,
+          warningScore: cardData.warningScore,
+        };
+      }).filter(item => item !== null) as TarotCardInfo[];
+
+      const requiredCount = (spreadParam === 'today' || categorySlug === 'worry') ? 1 : spreadParam === 'celtic' ? 10 : 3;
+      if (loadedCards.length < 1) {
+        setHasError(true);
       } else {
-        cardInterpretation = typeof content === 'string' ? content : (content?.interpretation || "");
-        cardAdvice = typeof content === 'string' ? "" : (content?.advice || "");
+        setCardsInfo(loadedCards);
       }
-
-      return {
-        cardId: id,
-        nameKr: cardData.nameKr,
-        role: baseRole,
-        isReversed,
-        interpretation: cardInterpretation || "운명의 메시지를 준비 중입니다.",
-        advice: cardAdvice || cardData.keywords.join(", "),
-        keywords: isReversed ? cardData.keywordsReversed : cardData.keywords,
-        polarity: (cardData.polarity as "positive" | "negative") || "negative",
-        score: cardData.score,
-        warningScore: cardData.warningScore,
-      };
-    }).filter(item => item !== null) as TarotCardInfo[];
-
-    const requiredCount = (spreadParam === 'today' || categorySlug === 'worry') ? 1 : spreadParam === 'celtic' ? 10 : 3;
-    if (loadedCards.length !== requiredCount) {
+    } catch (err) {
+      console.error("Mapping error:", err);
       setHasError(true);
-    } else {
-      setCardsInfo(loadedCards);
     }
     setIsLoading(false);
   }, [searchParams, settings]);
@@ -304,6 +315,7 @@ function ResultContent() {
               <button
                 onClick={() => {
                   isSavedRef.current = false;
+                  window.scrollTo(0,0);
                   router.push('/');
                 }}
                 className="w-full py-5 bg-slate-900 border border-emerald-500/30 text-emerald-400 font-bold text-xl rounded-full tracking-widest hover:bg-slate-800 active:scale-95 transition-all"
