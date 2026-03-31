@@ -71,8 +71,14 @@ export const resolveTarotContent = (
 
     if (!targetData) return null;
 
-    // direction에 따른 기본 콘텐츠 (normal/reversed)
-    const content = targetData[direction] || targetData['normal'];
+    // direction에 따른 정밀 매핑 (reversed 명시적 처리)
+    let content = targetData[direction];
+    
+    // 역방향을 요청했으나 데이터가 없는 경우에만 정방향으로 폴백
+    if (direction === 'reversed' && !content) {
+      content = targetData['normal'];
+    }
+    
     if (!content) return null;
 
     let interpretation = content.interpretation || "";

@@ -219,10 +219,11 @@ function SelectContent() {
     }
 
     const sortedSelections = [...selectedCards].sort((a, b) => roles.indexOf(a.role) - roles.indexOf(b.role));
-    const sortedIds = sortedSelections.map(c => `${c.id}${c.isReversed ? 'r' : ''}`).join(',');
+    const sortedIds = sortedSelections.map(c => c.id).join(',');
+    const sortedReversed = sortedSelections.map(c => c.isReversed ? '1' : '0').join(',');
 
     // 즉시 이동 (결과 페이지에서 로딩 애니메이션 처리)
-    router.push(`/result?category=${cleanCategory}&spread=${spreadParam}&cards=${sortedIds}`);
+    router.push(`/result?category=${cleanCategory}&spread=${spreadParam}&cards=${sortedIds}&reversed=${sortedReversed}`);
   };
 
   if (!cleanCategory) {
