@@ -106,8 +106,9 @@ function ResultContent() {
         if ((categorySlug === 'today' || categorySlug === 'worry')) {
           const rootContent = (cardData as any)[categorySlug];
           const direction = isReversed ? 'reversed' : 'normal';
-          cardInterpretation = rootContent?.[direction] || "운명의 메시지를 준비 중입니다.";
-          cardAdvice = rootContent?.[direction] || "운명의 조언을 준비 중입니다.";
+          const directionContent = rootContent?.[direction] || rootContent?.['normal'];
+          cardInterpretation = directionContent || "운명의 메시지를 준비 중입니다.";
+          cardAdvice = directionContent || "운명의 조언을 준비 중입니다.";
         } else if (spreadType === 'spread3' && content && typeof content === 'object') {
           cardInterpretation = content?.interpretation || "";
           const adviceObj = content?.advice;
@@ -242,7 +243,7 @@ function ResultContent() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 1 } }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050B08]"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#050B08]"
         >
           {/* v1.1.7: Purified Layout - No gradients or grids */}
           <div className="absolute w-[300px] h-[300px] bg-emerald-500/5 rounded-full blur-[120px] animate-pulse" />
@@ -313,9 +314,10 @@ function ResultContent() {
              </button>
               <button
                 onClick={() => {
+                  setPopupCardId(null);
                   isSavedRef.current = false;
-                  window.scrollTo(0,0);
-                  router.push('/');
+                  window.scrollTo(0, 0);
+                  router.push('/select');
                 }}
                 className="w-full py-5 bg-slate-900 border border-emerald-500/30 text-emerald-400 font-bold text-xl rounded-full tracking-widest hover:bg-slate-800 active:scale-95 transition-all"
               >

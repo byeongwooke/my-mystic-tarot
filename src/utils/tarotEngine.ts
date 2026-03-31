@@ -70,6 +70,9 @@ export const resolveTarotContent = (
 
     const content = categoryData[direction] || categoryData['normal'];
 
+    // v1.1.8: 역방향 데이터 부재 시 정방향 데이터로 강제 Fallback (화면 멈춤 방지)
+    const finalContent = content || categoryData['normal'];
+
     // v1.1.7: spread3 구조적 완결성 검증 보강
     if (safeSpread === 'spread3' && content && typeof content === 'object') {
       if (!content.interpretation) {
@@ -77,7 +80,7 @@ export const resolveTarotContent = (
       }
     }
 
-    return content || null;
+    return finalContent || null;
   } catch (error) {
     console.error(`Tarot Engine Error [Card ${cardId}]:`, error);
     return null;
