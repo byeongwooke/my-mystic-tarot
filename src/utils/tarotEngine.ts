@@ -70,6 +70,13 @@ export const resolveTarotContent = (
 
     const content = categoryData[direction] || categoryData['normal'];
 
+    // v1.1.7: spread3 구조적 완결성 검증 보강
+    if (safeSpread === 'spread3' && content && typeof content === 'object') {
+      if (!content.interpretation) {
+        content.interpretation = "운명의 파동이 새로운 해석을 기다리고 있습니다.";
+      }
+    }
+
     return content || null;
   } catch (error) {
     console.error(`Tarot Engine Error [Card ${cardId}]:`, error);

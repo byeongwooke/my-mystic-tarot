@@ -244,9 +244,8 @@ function ResultContent() {
           exit={{ opacity: 0, transition: { duration: 1 } }}
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#050B08]"
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-[#02100A]/80 to-[#0A1A12]/90" />
-          
-          <div className="absolute w-[300px] h-[300px] bg-emerald-500/20 rounded-full blur-[100px] animate-pulse" />
+          {/* v1.1.7: Purified Layout - No gradients or grids */}
+          <div className="absolute w-[300px] h-[300px] bg-emerald-500/5 rounded-full blur-[120px] animate-pulse" />
 
           <motion.div 
             animate={{ 
@@ -257,13 +256,13 @@ function ResultContent() {
               rotateY: { duration: 3, repeat: Infinity, ease: "linear" },
               scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
             }} 
-            className="relative z-10 w-[160px] md:w-[200px] aspect-[18/31] drop-shadow-[0_0_50px_rgba(52,211,153,0.6)]"
+            className="relative z-10 w-[160px] md:w-[200px] aspect-[18/31] drop-shadow-[0_0_80px_rgba(52,211,153,0.4)]"
           >
              <Image 
                src="/images/card_back.webp" 
                alt="Card Back" 
                fill 
-               className="object-contain rounded-xl border border-emerald-500/30" 
+               className="object-contain rounded-xl" 
                priority
              />
           </motion.div>

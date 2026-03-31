@@ -310,28 +310,41 @@ export default function TarotResultView({
           </div>
 
           <div className="w-full max-w-3xl flex flex-col gap-10 md:gap-16">
-            {cardsInfo?.map((item, idx) => {
-              const isWarning = item.isReversed || (item.polarity === 'negative' && category === 'worry');
+            {(spread === 'spread3' ? [0, 1, 2] : cardsInfo).map((_, idx) => {
+              const item = spread === 'spread3' ? cardsInfo[idx] : _ as TarotCardInfo;
+              
+              // Placeholder logic for missing cards in spread3
+              const isPlaceholder = spread === 'spread3' && !item;
+              const role = isPlaceholder 
+                ? (idx === 0 ? '과거의 기반' : idx === 1 ? '현재의 조언' : '미래의 가능성') 
+                : (item?.role || "");
+                
+              const isWarning = item ? (item.isReversed || (item.polarity === 'negative' && category === 'worry')) : false;
+
               return (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 + (idx * 0.2) }}
-                  className="w-full bg-white/5 rounded-3xl p-6 md:p-10 border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col relative overflow-hidden"
+                  className={`w-full rounded-3xl p-6 md:p-10 border shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col relative overflow-hidden transition-colors ${isPlaceholder ? 'bg-white/[0.02] border-white/5 opacity-50' : 'bg-white/5 border-white/10'}`}
                 >
                   <div className="absolute top-0 right-0 p-8 text-8xl text-white/[0.03] font-black italic pointer-events-none">{idx + 1}</div>
                   <div className="flex items-center gap-4 mb-6 border-b border-amber-500/20 pb-4">
-                    <div className={`w-4 h-4 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.8)] ${item.role.startsWith('과거') ? 'bg-amber-700 border-2 border-amber-500' : item.role.startsWith('현재') ? 'bg-amber-500 border-2 border-amber-300' : 'bg-yellow-400 border-2 border-yellow-200'}`}></div>
+                    <div className={`w-4 h-4 rounded-full shadow-[0_0_10px_rgba(251,191,36,0.8)] ${role.startsWith('과거') ? 'bg-amber-700 border-2 border-amber-500' : role.startsWith('현재') ? 'bg-amber-500 border-2 border-amber-300' : 'bg-yellow-400 border-2 border-yellow-200'}`}></div>
                     <h2 className="text-2xl md:text-3xl font-bold text-amber-400 tracking-widest flex items-center">
-                      {spread === 'today' ? '오늘의 종합 조언' : item.role.startsWith('과거') ? '과거의 기반' : item.role.startsWith('현재') ? '현재의 조언' : '미래의 가능성'}
-                      <span className="text-xl md:text-2xl text-amber-400/60 font-medium ml-3">({item.isReversed ? '역방향' : '정방향'})</span>
+                      {spread === 'today' ? '오늘의 종합 조언' : role}
+                      {!isPlaceholder && (
+                        <span className="text-xl md:text-2xl text-amber-400/60 font-medium ml-3">({item.isReversed ? '역방향' : '정방향'})</span>
+                      )}
                     </h2>
                   </div>
 
                   <div className="flex flex-col gap-2 mb-6">
-                    <h3 className="text-2xl text-white font-bold">{item.nameKr}</h3>
-                    <p className="text-amber-200/80 tracking-wide text-sm md:text-base">{item.keywords.join(' · ')}</p>
+                    <h3 className="text-2xl text-white font-bold">{item?.nameKr || "신비로운 카드"}</h3>
+                    <p className="text-amber-200/80 tracking-wide text-sm md:text-base">
+                      {item ? item.keywords.join(' · ') : "키워드를 불러오는 중..."}
+                    </p>
                   </div>
 
                   {category !== 'worry' && (
@@ -340,7 +353,7 @@ export default function TarotResultView({
                          카드의 해석
                       </span>
                       <p className="text-gray-200 text-[15px] md:text-xl leading-loose break-keep mt-2 font-serif italic">
-                         "{item?.interpretation || "운명의 속삭임을 해석하는 중입니다..."}"
+                         "{item?.interpretation || "운명이 갈무리되는 중입니다..."}"
                       </p>
                     </div>
                   )}
@@ -351,7 +364,7 @@ export default function TarotResultView({
                          타로 마스터의 한마디
                       </span>
                       <p className={`text-[15px] md:text-xl leading-loose font-serif italic break-keep ${isWarning ? 'text-rose-100/90' : 'text-emerald-50/90'}`}>
-                         "{item.advice || "진심 어린 조언을 담아내는 중입니다..."}"
+                         "{item?.advice || "운명의 조언을 준비 중입니다..."}"
                       </p>
                     </div>
                   )}
