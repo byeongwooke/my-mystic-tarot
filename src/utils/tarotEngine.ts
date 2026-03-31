@@ -44,45 +44,46 @@ export const drawCard = (settings: UserSettings, forcedId?: number): { id: numbe
 export const resolveTarotContent = (
   cardId: number,
   settings: UserSettings,
-  category: 'love' | 'money' | 'work' = 'love',
-  spreadType: 'spread3' | 'celtic' = 'spread3',
+  category: 'today' | 'worry' | 'love' | 'money' | 'work' = 'love',
+  spreadType: 'today' | 'worry' | 'spread3' | 'celtic' = 'spread3',
   isReversed: boolean = false
 ): any => {
   const cardData = CARDS[cardId];
   if (!cardData) return null;
 
-  // Fallback state management
-  const flavor = (settings?.mode || 'gentle') as 'spicy' | 'gentle';
   const direction = isReversed ? 'reversed' : 'normal';
-  const safeCategory = category || 'love';
-  const safeSpread = spreadType || 'spread3';
+  const flavor = (settings?.mode || 'gentle') as 'spicy' | 'gentle';
 
   try {
-    // [spreadType] -> [flavor] -> [category] -> [direction] 경로 정밀 매핑
-    const spreadData = (cardData as any)[safeSpread];
+    // [Case A] 단일 카드 카테고리 (today, worry)
+    if (spreadType === 'today' || spreadType === 'worry') {
+      const data = (cardData as any)[spreadType];
+      if (!data) return null;
+      // 데이터가 없으면 정방향(normal)으로 자동 Fallback
+      return data[direction] || data['normal'];
+    }
+
+    // [Case B] 복합 스프레드 카테고리 (spread3, celtic)
+    const spreadData = (cardData as any)[spreadType];
     if (!spreadData) return null;
 
-    const flavorData = spreadData[flavor] || spreadData['gentle'] || spreadData['spicy'];
-    if (!flavorData) return null;
-
-    const categoryData = flavorData[safeCategory] || flavorData['love'];
+    const flavorData = spreadData[flavor] || spreadData['gentle'];
+    const categoryData = flavorData?.[category] || flavorData?.['love'];
     if (!categoryData) return null;
 
+    // 역방향 요청 시 데이터가 없으면 정방향으로 매핑
     const content = categoryData[direction] || categoryData['normal'];
 
-    // v1.1.8: 역방향 데이터 부재 시 정방향 데이터로 강제 Fallback (화면 멈춤 방지)
-    const finalContent = content || categoryData['normal'];
-
     // v1.1.7: spread3 구조적 완결성 검증 보강
-    if (safeSpread === 'spread3' && content && typeof content === 'object') {
+    if (spreadType === 'spread3' && content && typeof content === 'object') {
       if (!content.interpretation) {
         content.interpretation = "운명의 파동이 새로운 해석을 기다리고 있습니다.";
       }
     }
 
-    return finalContent || null;
+    return content || null;
   } catch (error) {
-    console.error(`Tarot Engine Error [Card ${cardId}]:`, error);
+    console.error(`Mapping Error [Card ${cardId}]:`, error);
     return null;
   }
 };

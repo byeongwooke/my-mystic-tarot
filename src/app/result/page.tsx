@@ -104,11 +104,8 @@ function ResultContent() {
 
         // v1.1.6: Enhanced defensive mapping
         if ((categorySlug === 'today' || categorySlug === 'worry')) {
-          const rootContent = (cardData as any)[categorySlug];
-          const direction = isReversed ? 'reversed' : 'normal';
-          const directionContent = rootContent?.[direction] || rootContent?.['normal'];
-          cardInterpretation = directionContent || "운명의 메시지를 준비 중입니다.";
-          cardAdvice = directionContent || "운명의 조언을 준비 중입니다.";
+          cardInterpretation = content || "운명의 메시지를 준비 중입니다.";
+          cardAdvice = content || "운명의 조언을 준비 중입니다.";
         } else if (spreadType === 'spread3' && content && typeof content === 'object') {
           cardInterpretation = content?.interpretation || "";
           const adviceObj = content?.advice;
@@ -243,35 +240,29 @@ function ResultContent() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, transition: { duration: 1 } }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#050B08]"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-8 bg-[#050B08]"
         >
-          {/* v1.1.7: Purified Layout - No gradients or grids */}
-          <div className="absolute w-[300px] h-[300px] bg-emerald-500/5 rounded-full blur-[120px] animate-pulse" />
-
-          <motion.div 
-            animate={{ 
-              rotateY: 360,
-              scale: [1, 1.05, 1]
-            }} 
-            transition={{ 
-              rotateY: { duration: 3, repeat: Infinity, ease: "linear" },
-              scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-            }} 
-            className="relative z-10 w-[160px] md:w-[200px] aspect-[18/31] drop-shadow-[0_0_80px_rgba(52,211,153,0.4)]"
-          >
-             <Image 
-               src="/images/card_back.webp" 
-               alt="Card Back" 
-               fill 
-               className="object-contain rounded-xl" 
-               priority
-             />
-          </motion.div>
-
-          <div className="relative z-10 flex flex-col items-center mt-16 gap-4">
-            <h2 className="text-2xl md:text-4xl font-serif text-emerald-400 font-bold tracking-[0.3em] drop-shadow-[0_0_15px_rgba(52,211,153,0.8)] text-center">
+          {/* v1.1.9: Restored Vertical Layout - Card(top) + Text(bottom) */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-emerald-500/20 blur-3xl rounded-full animate-pulse" />
+            <motion.div
+              animate={{ rotateY: 360 }}
+              transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+              className="relative z-10 w-48 h-80 rounded-2xl border-2 border-emerald-500/30 overflow-hidden shadow-[0_0_50px_rgba(16,185,129,0.2)]"
+            >
+              <Image 
+                src="/images/card-back.webp" 
+                alt="Tarot Back" 
+                fill 
+                className="object-cover opacity-80"
+              />
+            </motion.div>
+          </div>
+          
+          <div className="text-center flex flex-col items-center gap-4">
+            <p className="text-emerald-400 text-lg font-medium tracking-[0.3em] animate-pulse">
               운명을 준비중입니다
-            </h2>
+            </p>
             <div className="flex gap-2">
               {[0, 1, 2].map((i) => (
                 <motion.div
@@ -282,7 +273,7 @@ function ResultContent() {
                 />
               ))}
             </div>
-            <p className="text-emerald-500/50 text-xs md:text-sm tracking-[0.4em] mt-6 font-light uppercase text-center break-keep">
+            <p className="text-emerald-500/50 text-xs md:text-sm tracking-[0.4em] mt-2 font-light uppercase text-center break-keep">
               {resultDisplayName}님의 파동을 갈무리하는 중...
             </p>
           </div>
@@ -315,6 +306,7 @@ function ResultContent() {
               <button
                 onClick={() => {
                   setPopupCardId(null);
+                  setCardsInfo([]);
                   isSavedRef.current = false;
                   window.scrollTo(0, 0);
                   router.push('/select');
