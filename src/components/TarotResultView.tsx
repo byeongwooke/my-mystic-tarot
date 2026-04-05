@@ -181,9 +181,28 @@ export default function TarotResultView({
               <div className="text-3xl md:text-5xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-b from-amber-200 to-amber-600 drop-shadow-[0_0_15px_rgba(251,191,36,0.4)]">
                 오늘의 운세 점수: {cardsInfo[0]?.isReversed ? cardsInfo[0]?.warningScore?.toFixed(1) : cardsInfo[0]?.score?.toFixed(1)}점
               </div>
-              <p className="text-amber-100/90 tracking-widest text-base md:text-2xl font-serif italic drop-shadow-md break-keep leading-loose px-2 md:px-8">
-                "{cardsInfo[0]?.advice}"
-              </p>
+              
+              <div className="flex flex-col gap-6 w-full max-w-2xl mx-auto mt-4 px-2">
+                {/* [카드의 해석] 블록 - 핵심 키워드 중심의 직관적 노출 */}
+                <div className="bg-amber-900/30 p-5 md:p-6 rounded-2xl border border-amber-500/30 relative shadow-md w-full text-center">
+                  <span className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-amber-800 border border-amber-400/50 px-4 py-1.5 text-[11px] md:text-xs text-amber-100 rounded-full tracking-widest whitespace-nowrap shadow-sm font-bold">
+                    [카드의 해석]
+                  </span>
+                  <p className="text-amber-400 font-extrabold tracking-widest text-2xl md:text-3xl drop-shadow-[0_0_8px_rgba(251,191,36,0.4)] break-keep mt-2">
+                    {cardsInfo[0]?.interpretation}
+                  </p>
+                </div>
+                
+                {/* [타로 마스터의 해석] 블록 - 풍부하고 부드러운 조언 노출 */}
+                <div className="bg-[#0a0a0a]/90 backdrop-blur-md p-6 md:p-9 rounded-2xl border border-amber-600/40 relative shadow-[0_0_30px_rgba(251,191,36,0.1)] w-full text-center">
+                  <span className="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-950 border border-amber-400/60 px-5 py-1.5 text-xs md:text-sm text-amber-200 rounded-full tracking-widest whitespace-nowrap shadow-lg font-bold">
+                    [타로 마스터의 해석]
+                  </span>
+                  <p className="text-amber-100/90 tracking-widest text-base md:text-[19px] font-serif italic drop-shadow-sm break-keep leading-loose mt-3 md:mt-4">
+                    "{cardsInfo[0]?.advice}"
+                  </p>
+                </div>
+              </div>
             </motion.div>
           </AnimatePresence>
         ) : (
@@ -349,8 +368,8 @@ export default function TarotResultView({
 
                   {category !== 'worry' && (
                     <div className="bg-black/30 p-5 md:p-6 rounded-2xl relative border border-white/5 mt-4 min-h-[100px] flex flex-col justify-center">
-                      <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest">
-                         카드의 해석
+                      <span className="absolute -top-3 left-4 bg-slate-800 border border-white/10 px-3 py-1 text-xs text-gray-400 rounded-full tracking-widest font-bold">
+                         핵심 키워드
                       </span>
                       <p className="text-gray-200 text-[15px] md:text-xl leading-loose break-keep mt-2 font-serif italic">
                          "{item?.interpretation || "운명이 갈무리되는 중입니다..."}"
@@ -358,16 +377,14 @@ export default function TarotResultView({
                     </div>
                   )}
 
-                  {category !== 'today' && (
-                    <div className={`mt-6 p-5 md:p-6 rounded-2xl relative border min-h-[100px] flex flex-col justify-center ${isWarning ? 'bg-rose-950/20 border-rose-500/30' : 'bg-emerald-900/20 border-emerald-500/30'}`}>
-                      <span className={`absolute -top-3 left-4 px-3 py-1 text-xs rounded-full border ${isWarning ? 'bg-rose-900 border-rose-500 text-rose-100' : 'bg-emerald-900 border-emerald-500 text-emerald-100'}`}>
-                         타로 마스터의 한마디
-                      </span>
-                      <p className={`text-[15px] md:text-xl leading-loose font-serif italic break-keep ${isWarning ? 'text-rose-100/90' : 'text-emerald-50/90'}`}>
-                         "{item?.advice || "운명의 조언을 준비 중입니다..."}"
-                      </p>
-                    </div>
-                  )}
+                  <div className={`mt-6 p-5 md:p-6 rounded-2xl relative border min-h-[100px] flex flex-col justify-center ${isWarning ? 'bg-rose-950/20 border-rose-500/30' : 'bg-emerald-900/20 border-emerald-500/30'}`}>
+                    <span className={`absolute -top-3.5 left-4 px-4 py-1.5 text-xs md:text-sm rounded-full border shadow-md tracking-widest font-bold ${isWarning ? 'bg-rose-900 border-rose-400 text-rose-100' : 'bg-emerald-900 border-emerald-400 text-emerald-100'}`}>
+                       [타로 마스터의 해석]
+                    </span>
+                    <p className={`text-[15px] md:text-xl leading-loose font-serif italic break-keep mt-2 ${isWarning ? 'text-rose-100/90' : 'text-emerald-50/90'}`}>
+                       "{item?.advice || "운명의 조언을 준비 중입니다..."}"
+                    </p>
+                  </div>
                 </motion.div>
               );
             })}
