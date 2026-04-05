@@ -47,12 +47,12 @@ export interface Spread3Data {
     gentle: Spread3Content;
 }
 
-export interface CelticPositions {
+export interface CelticAdvice {
     core: string;
     obstacle: string;
-    goal: string;
     foundation: string;
     past: string;
+    goal: string;
     nearFuture: string;
     self: string;
     influence: string;
@@ -60,25 +60,28 @@ export interface CelticPositions {
     destiny: string;
 }
 
-export interface CelticCategory {
-    normal: { interpretation: string; positions: CelticPositions };
-    reversed: { interpretation: string; positions: CelticPositions };
+export interface CelticPositionContent {
+    interpretation: string;
+    advice: CelticAdvice;
 }
 
-export interface CelticContent {
-    love: CelticCategory;
-    money: CelticCategory;
-    work: CelticCategory;
+export interface CelticPositionData {
+    normal: CelticPositionContent;
+    reversed: CelticPositionContent;
 }
 
-export interface CelticData {
-    spicy: CelticContent;
-    gentle: CelticContent;
+export interface CelticCategorySet {
+    love: CelticPositionData;
+    money: CelticPositionData;
+    work: CelticPositionData;
 }
 
 export interface CardContent {
     today: TodayData;
     worry: WorryData;
     spread3: Spread3Data;
-    celtic: CelticData;
+    celtic: {
+        spicy: CelticCategorySet;
+        gentle: CelticCategorySet;
+    };
 }
