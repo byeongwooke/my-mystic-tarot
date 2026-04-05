@@ -1,5 +1,5 @@
 import { UserSettings } from '../types/settings';
-import { CardContent, CelticPositions } from '../data/tarot/base';
+import { CardContent, CelticAdvice } from '../data/tarot/base';
 import { CARDS } from '../data/tarot/cards';
 
 /**
@@ -84,7 +84,7 @@ export const resolveTarotContent = (
     let interpretation = content.interpretation || "";
     let advice = "";
 
-    // v1.1.12: 위치별 정밀 매핑 로직
+    // 위치별 정밀 매핑 로직
     if (spreadType === 'spread3' && typeof positionIndex === 'number') {
       const adviceObj = content.advice;
       if (positionIndex === 0) advice = adviceObj?.past || "";
@@ -92,9 +92,13 @@ export const resolveTarotContent = (
       else if (positionIndex === 2) advice = adviceObj?.future || "";
       else advice = typeof adviceObj === 'string' ? adviceObj : "";
     } else if (spreadType === 'celtic' && typeof positionIndex === 'number') {
-      const posKeys = ["core", "obstacle", "goal", "foundation", "past", "nearFuture", "self", "influence", "hopes", "destiny"];
-      const key = posKeys[positionIndex];
-      advice = content.positions?.[key] || "";
+      const adviceObj = content.advice as unknown as CelticAdvice;
+      const celticKeys: (keyof CelticAdvice)[] = [
+        'core', 'obstacle', 'foundation', 'past', 'goal',
+        'nearFuture', 'self', 'influence', 'hopes', 'destiny'
+      ];
+      const key = celticKeys[positionIndex];
+      advice = adviceObj && key ? adviceObj[key] || "" : "";
     } else {
       // today, worry 또는 인덱스가 없는 경우
       advice = content.advice || "";
