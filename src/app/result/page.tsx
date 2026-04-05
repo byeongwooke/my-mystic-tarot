@@ -282,7 +282,9 @@ function ResultContent() {
              >
                {isSharing ? "운명을 갈무리하는 중..." : "운명 공유하기 🔗"}
              </button>
-              <button
+              <motion.button
+                whileHover={{ scale: 1.02, backgroundColor: "rgba(16, 185, 129, 0.05)" }}
+                whileTap={{ scale: 0.95 }}
                 onClick={() => {
                   setPopupCardId(null);
                   setCardsInfo([]);
@@ -290,10 +292,10 @@ function ResultContent() {
                   window.scrollTo(0, 0);
                   router.push('/select');
                 }}
-                className="w-full py-5 bg-slate-900 border border-emerald-500/30 text-emerald-400 font-bold text-xl rounded-full tracking-widest hover:bg-slate-800 active:scale-95 transition-all"
+                className="w-full py-5 bg-slate-900 border border-emerald-500/30 text-emerald-400 font-bold text-xl rounded-full tracking-widest transition-all shadow-[0_0_20px_rgba(16,185,129,0.05)]"
               >
                 다른 운명 점치기
-              </button>
+              </motion.button>
            </div>
 
            <AnimatePresence>
