@@ -290,7 +290,7 @@ function ResultContent() {
                   setCardsInfo([]);
                   isSavedRef.current = false;
                   window.scrollTo(0, 0);
-                  router.push('/select');
+                  router.push('/select/');
                 }}
                 className="w-full py-5 bg-slate-900 border border-emerald-500/30 text-emerald-400 font-bold text-xl rounded-full tracking-widest transition-all shadow-[0_0_20px_rgba(16,185,129,0.05)]"
               >
