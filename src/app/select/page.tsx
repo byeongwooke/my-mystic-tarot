@@ -98,18 +98,26 @@ function SelectContent() {
   const { user, identifiedProfile, loading } = useAuth();
   const { settings } = useUserSettings();
 
-  useEffect(() => {
-    if (loading) return; 
+  const [isGracePeriod, setIsGracePeriod] = useState(true);
 
-    // 프로필 식별 여부 확인
+  // 0.8s Grace Period to prevent flash-redirects during session sync
+  useEffect(() => {
+    const timer = setTimeout(() => setIsGracePeriod(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (loading || isGracePeriod) return; 
+
+    // 프로필 식별 여부 확인 (Safe Guard)
     if (!identifiedProfile) {
       if (pathname !== '/') {
+        console.log("[AuthGuard] No profile found after grace period, redirecting to home.");
         router.replace('/');
       }
       return;
     }
-
-  }, [router, pathname, identifiedProfile, loading]);
+  }, [router, pathname, identifiedProfile, loading, isGracePeriod]);
 
   const cleanCategory = rawCategory ? rawCategory.replace(/[^\w]/g, '') : '';
 
@@ -164,7 +172,12 @@ function SelectContent() {
     };
   }, [settings.includeMinor]);
 
-  // ✅ 질문/모드가 바뀌거나 진입할 때 무조건 카드 선택 내역 초기화 (Reset on Mount)
+  // ✅ 진입 시 무조건 선택 내역 초기화 (Reset on Mount)
+  useEffect(() => {
+    setSelectedCards([]);
+  }, []);
+
+  // ✅ 질문/모드가 바뀌면 선택 내역 초기화
   useEffect(() => {
     setSelectedCards([]);
   }, [cleanCategory, spreadParam]);
@@ -283,7 +296,7 @@ function SelectContent() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 + (idx * 0.1), duration: 0.6 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => router.push(cat.id === 'today' || cat.id === 'worry' ? `/select?category=${cat.id}&spread=today` : `/spread?category=${cat.id}`)}
+              onClick={() => router.push(cat.id === 'today' || cat.id === 'worry' ? `/select/?category=${cat.id}&spread=today` : `/spread/?category=${cat.id}`)}
               className="w-full relative flex flex-col items-center justify-center p-6 md:p-8 rounded-3xl border-[0.5px] border-emerald-900/40 bg-gradient-to-br from-slate-800/80 to-slate-900/90 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.3)] active:border-emerald-400/50 active:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-colors duration-300 group overflow-hidden"
             >
               <div className="absolute inset-0 bg-gradient-to-tr from-emerald-900/20 to-transparent opacity-0 active:opacity-100 transition-opacity duration-300"></div>
@@ -409,7 +422,7 @@ function SelectContent() {
                 <button
                   onClick={() => {
                     setShowHomeModal(false);
-                    router.push(`/spread?category=${cleanCategory}`);
+                    router.push(`/spread/?category=${cleanCategory}`);
                   }}
                   className="px-6 py-2 rounded-full bg-amber-500/20 border border-amber-500/50 text-amber-400 text-sm md:text-base font-bold active:bg-amber-500/40 shadow-[0_0_15px_rgba(251,191,36,0.2)] transition-all tracking-widest"
                 >
