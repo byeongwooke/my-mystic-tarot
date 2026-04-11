@@ -202,7 +202,7 @@ export default function TarotResultView({
             <div className="w-full max-w-4xl mx-auto mb-8 p-6 md:p-10 bg-emerald-900/20 rounded-2xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)] backdrop-blur-sm">
               <h3 className="text-emerald-400 text-sm md:text-base mb-4 font-bold tracking-widest text-center uppercase">최종 운명의 결론</h3>
               <p className="text-white text-lg md:text-2xl text-center leading-relaxed font-serif break-keep">
-                "{cardsInfo?.[9]?.interpretation}"
+                "{cardsInfo?.[9]?.advice}"
               </p>
             </div>
           )}
@@ -263,7 +263,7 @@ export default function TarotResultView({
               {cardsInfo?.map((card, idx) => (
                 <p key={idx} className="flex flex-col md:flex-row gap-2">
                    <span className="text-emerald-400 font-bold shrink-0 md:min-w-[140px]">[{idx + 1}. {CELTIC_LAYOUT_INFO[idx]?.labelKr}]</span>
-                   <span>{card.interpretation}</span>
+                   <span>{card.advice}</span>
                 </p>
               ))}
             </div>
@@ -282,8 +282,16 @@ export default function TarotResultView({
                   <div className="text-white font-bold text-base md:text-lg tracking-wider mb-2">
                     {card.nameKr} {card.isReversed ? <span className="text-amber-500/80 text-sm ml-1">(역방향)</span> : <span className="text-emerald-400 text-sm ml-1">(정방향)</span>}
                   </div>
-                  <div className="text-emerald-400/80 text-sm md:text-sm leading-relaxed break-keep font-serif italic">
+                  <div className="text-emerald-400/80 text-sm md:text-sm leading-relaxed break-keep font-serif italic mb-4">
                     {card.keywords.join(', ')}
+                  </div>
+                  <div className="bg-black/30 p-4 rounded-xl relative border border-white/5 mt-4 min-h-[60px] flex flex-col justify-center">
+                    <span className="absolute -top-3 left-4 bg-slate-800 border border-emerald-500/30 px-3 py-0.5 text-[10px] text-emerald-400 rounded-full tracking-widest font-bold">
+                       핵심 키워드
+                    </span>
+                    <p className="text-emerald-50/90 text-sm md:text-base leading-relaxed break-keep font-serif italic">
+                       "{card.interpretation}"
+                    </p>
                   </div>
                 </div>
               ))}
