@@ -291,12 +291,13 @@ function ResultContent() {
              <motion.button
                whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(16, 185, 129, 0.4)' }}
                whileTap={{ scale: 0.95 }}
-               onClick={() => {
+               onClick={(e) => {
+                 e.preventDefault();
+                 e.stopPropagation();
                  // Reset State & Navigate
                  setPopupCardId(null);
                  setCardsInfo([]);
-                 window.scrollTo(0, 0);
-                 router.push('/select/');
+                 window.location.href = '/select/';
                }}
                className='w-full py-5 bg-gradient-to-r from-slate-800 to-slate-900 border-2 border-emerald-500/40 text-emerald-400 font-black text-xl rounded-full tracking-[0.2em] shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all'
              >
