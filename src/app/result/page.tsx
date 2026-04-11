@@ -36,6 +36,7 @@ function ResultContent() {
   const [toast, setToast] = useState({ show: false, message: "" });
   
   const isSavedRef = useRef(false);
+  const isNavigating = useRef(false);
 
   useEffect(() => {
     const categoryParam = searchParams.get('category');
@@ -66,6 +67,7 @@ function ResultContent() {
     const isReversedParam = searchParams.get('reversed');
 
     if (!cardIdsParam || !categoryParam) {
+      if (isNavigating.current) return;
       setHasError(true);
       setIsLoading(false);
       return;
@@ -119,6 +121,7 @@ function ResultContent() {
 
       const requiredCount = (spreadParam === 'today' || categorySlug === 'worry') ? 1 : spreadParam === 'celtic' ? 10 : 3;
       if (loadedCards.length < 1) {
+        if (isNavigating.current) return;
         setHasError(true);
       } else {
         setCardsInfo(loadedCards);
@@ -275,7 +278,7 @@ function ResultContent() {
              onCardClick={(id) => setPopupCardId(id)}
            />
 
-           <div className="w-full max-w-sm px-6 flex flex-col gap-4 mt-12 mb-8">
+           <div className="w-full max-w-sm px-6 flex flex-col gap-6 mt-12 mb-8">
              <button
                onClick={handleShare}
                disabled={isSharing}
@@ -288,12 +291,15 @@ function ResultContent() {
                 whileHover={{ scale: 1.02, backgroundColor: 'rgba(16, 185, 129, 0.1)' }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => {
+                  // PRIORITY 1: Trigger navigation immediately to win over any state-change renders
+                  router.push('/select/');
+                  isNavigating.current = true;
+                  
+                  // PRIORITY 2: Cleanup local state
                   setPopupCardId(null);
                   setCardsInfo([]);
                   isSavedRef.current = false;
                   window.scrollTo(0, 0);
-                  // Ensure absolute path with / prefix to maintain routing integrity
-                  router.push('/select/');
                 }}
                 className='w-full py-5 bg-slate-900/50 backdrop-blur-sm border border-emerald-500/30 text-emerald-400 font-bold text-xl rounded-full tracking-widest transition-all shadow-[0_0_20px_rgba(0,0,0,0.3)]'
               >
