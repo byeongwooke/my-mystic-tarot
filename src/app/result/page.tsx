@@ -264,24 +264,6 @@ function ResultContent() {
           animate={{ opacity: 1 }}
           className="w-full min-h-screen flex flex-col items-center bg-slate-950 overflow-y-auto select-none pb-24 relative"
         >
-           {/* Fixed Home/Reset Button with Glassmorphism */}
-           <motion.button
-             initial={{ opacity: 0, x: -20 }}
-             animate={{ opacity: 1, x: 0 }}
-             whileHover={{ scale: 1.05, backgroundColor: "rgba(16, 185, 129, 0.15)" }}
-             whileTap={{ scale: 0.95 }}
-             onClick={() => {
-               setPopupCardId(null);
-               setCardsInfo([]);
-               isSavedRef.current = false;
-               window.scrollTo(0, 0);
-               router.push('/select/');
-             }}
-             className="fixed top-5 left-5 z-[80] flex items-center gap-2 px-5 py-2.5 bg-slate-900/80 backdrop-blur-md border border-emerald-500/40 text-emerald-400 font-bold rounded-full shadow-[0_0_20px_rgba(16,185,129,0.15)] transition-all"
-           >
-             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-             <span className="text-sm tracking-widest uppercase">다른 운명 점치기</span>
-           </motion.button>
 
            <TarotResultView 
              displayName={resultDisplayName}
@@ -293,7 +275,7 @@ function ResultContent() {
              onCardClick={(id) => setPopupCardId(id)}
            />
 
-           <div className="w-full max-w-sm px-6 flex flex-col gap-4 mt-12">
+           <div className="w-full max-w-sm px-6 flex flex-col gap-4 mt-12 mb-8">
              <button
                onClick={handleShare}
                disabled={isSharing}
@@ -301,6 +283,22 @@ function ResultContent() {
              >
                {isSharing ? "운명을 갈무리하는 중..." : "운명 공유하기 🔗"}
              </button>
+
+              <motion.button
+                whileHover={{ scale: 1.02, backgroundColor: 'rgba(16, 185, 129, 0.1)' }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  setPopupCardId(null);
+                  setCardsInfo([]);
+                  isSavedRef.current = false;
+                  window.scrollTo(0, 0);
+                  // Ensure absolute path with / prefix to maintain routing integrity
+                  router.push('/select/');
+                }}
+                className='w-full py-5 bg-slate-900/50 backdrop-blur-sm border border-emerald-500/30 text-emerald-400 font-bold text-xl rounded-full tracking-widest transition-all shadow-[0_0_20px_rgba(0,0,0,0.3)]'
+              >
+                다른 운명 점치기
+              </motion.button>
            </div>
 
            <AnimatePresence>
