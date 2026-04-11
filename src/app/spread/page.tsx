@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from 'next/link';
 import React, { Suspense, useMemo, useState } from "react";
 import { useAuth } from "@/providers/AuthProvider";
 
@@ -125,31 +126,33 @@ function SpreadContent() {
       </div>
 
       <div className="flex-1 w-full max-w-lg mx-auto flex flex-col justify-center gap-6 px-6 py-10">
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => router.push(`/select/?category=${category}&spread=basic`)}
-          className="w-full relative flex flex-col items-center justify-center p-8 md:p-10 rounded-3xl border-2 border-indigo-500/30 bg-indigo-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-indigo-900/60 active:border-amber-400/60 active:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all duration-300 group overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
-          <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 tracking-widest drop-shadow-md">베이직 배열 (3장)</h2>
-          <p className="text-indigo-200/80 text-sm md:text-base font-light break-keep text-center leading-relaxed">과거, 현재, 미래를 가볍게 짚어봅니다.</p>
-        </motion.button>
+        <Link href={`/select/?category=${category}&spread=basic`} className="w-full">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full relative flex flex-col items-center justify-center p-8 md:p-10 rounded-3xl border-2 border-indigo-500/30 bg-indigo-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-indigo-900/60 active:border-amber-400/60 active:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all duration-300 group overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
+            <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 tracking-widest drop-shadow-md">베이직 배열 (3장)</h2>
+            <p className="text-indigo-200/80 text-sm md:text-base font-light break-keep text-center leading-relaxed">과거, 현재, 미래를 가볍게 짚어봅니다.</p>
+          </motion.button>
+        </Link>
         
-        <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => router.push(`/select/?category=${category}&spread=celtic`)}
-          className="w-full relative flex flex-col items-center justify-center p-8 md:p-10 rounded-3xl border-2 border-purple-500/30 bg-purple-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-purple-900/60 active:border-amber-400/60 active:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all duration-300 group overflow-hidden"
-        >
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
-          <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 tracking-widest drop-shadow-md">캘틱 크로스 (10장)</h2>
-          <p className="text-purple-200/80 text-sm md:text-base font-light break-keep text-center leading-relaxed">문제의 원인부터 최종 결과까지 심층적으로 분석합니다.</p>
-        </motion.button>
+        <Link href={`/select/?category=${category}&spread=celtic`} className="w-full">
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            whileTap={{ scale: 0.95 }}
+            className="w-full relative flex flex-col items-center justify-center p-8 md:p-10 rounded-3xl border-2 border-purple-500/30 bg-purple-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-purple-900/60 active:border-amber-400/60 active:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all duration-300 group overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
+            <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 tracking-widest drop-shadow-md">캘틱 크로스 (10장)</h2>
+            <p className="text-purple-200/80 text-sm md:text-base font-light break-keep text-center leading-relaxed">문제의 원인부터 최종 결과까지 심층적으로 분석합니다.</p>
+          </motion.button>
+        </Link>
       </div>
     </motion.main>
   );

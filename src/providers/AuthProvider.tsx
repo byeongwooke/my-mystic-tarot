@@ -9,6 +9,7 @@ import { UserProfile } from '@/types/settings';
 interface AuthContextType {
   user: User | null;
   loading: boolean;
+  isAuthInitialized: boolean;
   identifiedProfile: UserProfile | null;
   identifyUser: (name: string, pin: string) => void;
   hasConfiguredSettings: boolean;
@@ -18,6 +19,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
+  isAuthInitialized: false,
   identifiedProfile: null,
   identifyUser: () => {},
   hasConfiguredSettings: false,
@@ -30,6 +32,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [identifiedProfile, setIdentifiedProfile] = useState<UserProfile | null>(null);
   const [hasConfiguredSettings, setHasConfiguredSettings] = useState(false);
   const [profileId, setProfileId] = useState<string | null>(null);
+  const [isAuthInitialized, setIsAuthInitialized] = useState(false);
 
   // 1. 초기 인증 (Anonymous)
   useEffect(() => {
@@ -49,6 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         } catch (error) {
           console.error("영혼 소환 실패:", error);
           setLoading(false);
+          setIsAuthInitialized(true);
         }
       }
     });
@@ -73,9 +77,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem('tarot_profile_id');
       }
       setLoading(false);
+      setIsAuthInitialized(true);
     }, (error) => {
       console.error("프로필 감시 실패:", error);
       setLoading(false);
+      setIsAuthInitialized(true);
     });
 
     return () => unsubscribe();
@@ -91,6 +97,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider value={{ 
       user, 
       loading, 
+      isAuthInitialized,
       identifiedProfile, 
       identifyUser,
       hasConfiguredSettings, 
