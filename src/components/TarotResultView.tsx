@@ -122,7 +122,7 @@ const ResultCardItem = memo(({
 
 ResultCardItem.displayName = "ResultCardItem";
 
-export default function TarotResultView({
+const TarotResultView = memo(({
   displayName,
   categoryName,
   category,
@@ -130,7 +130,7 @@ export default function TarotResultView({
   cardsInfo,
   overallAdvice,
   onCardClick
-}: TarotResultViewProps) {
+}: TarotResultViewProps) => {
   const [isGridFolded, setIsGridFolded] = useState(false);
 
   return (
@@ -199,7 +199,10 @@ export default function TarotResultView({
       {spread === 'celtic' ? (
         <div className="w-full flex flex-col items-center pb-20 px-4 md:px-0">
           {cardsInfo[9] && (
-            <div className="w-full max-w-4xl mx-auto mb-8 p-6 md:p-10 bg-emerald-900/20 rounded-2xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)] backdrop-blur-sm">
+            <div 
+              style={{ transform: 'translateZ(0)' }}
+              className="w-full max-w-4xl mx-auto mb-8 p-6 md:p-10 bg-emerald-900/20 rounded-2xl border border-emerald-500/30 shadow-[0_0_30px_rgba(16,185,129,0.15)] backdrop-blur-sm"
+            >
               <h3 className="text-emerald-400 text-sm md:text-base mb-4 font-bold tracking-widest text-center uppercase">최종 운명의 결론</h3>
               <p className="text-white text-lg md:text-2xl text-center leading-relaxed font-serif break-keep">
                 "{cardsInfo?.[9]?.advice}"
@@ -256,7 +259,10 @@ export default function TarotResultView({
           </motion.div>
 
           {/* 종합해석 섹션 */}
-          <div className="w-full max-w-4xl mt-12 mb-6 p-8 md:p-14 bg-[#111] rounded-3xl border-[0.5px] border-amber-900/30 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden">
+          <div 
+            style={{ transform: 'translateZ(0)' }}
+            className="w-full max-w-4xl mt-12 mb-6 p-8 md:p-14 bg-[#111] rounded-3xl border-[0.5px] border-amber-900/30 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden"
+          >
             <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/aged-paper.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
             <h2 className="text-3xl md:text-4xl font-serif text-amber-400/80 mb-12 text-center italic tracking-widest border-b border-amber-900/30 pb-6 relative z-10 drop-shadow-md">종합해석</h2>
             <div className="space-y-6 md:space-y-10 text-amber-50/90 leading-loose text-justify break-keep text-[15px] md:text-lg font-serif relative z-10">
@@ -382,5 +388,8 @@ export default function TarotResultView({
         </>
       )}
     </div>
-  );
-}
+    );
+});
+
+TarotResultView.displayName = "TarotResultView";
+export default TarotResultView;

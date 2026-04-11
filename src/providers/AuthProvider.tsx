@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { onAuthStateChanged, signInAnonymously, User } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { doc, getDoc, onSnapshot } from 'firebase/firestore';
@@ -87,22 +87,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => unsubscribe();
   }, [profileId]);
 
-  const identifyUser = (name: string, pin: string) => {
+  const identifyUser = useCallback((name: string, pin: string) => {
     const id = `${name}_${pin}`;
     setProfileId(id);
     localStorage.setItem('tarot_profile_id', id);
-  };
+  }, []);
+
+  const contextValue = useMemo(() => ({
+    user, 
+    loading, 
+    isAuthInitialized,
+    identifiedProfile, 
+    identifyUser,
+    hasConfiguredSettings, 
+    setHasConfiguredSettings 
+  }), [user, loading, isAuthInitialized, identifiedProfile, identifyUser, hasConfiguredSettings]);
 
   return (
-    <AuthContext.Provider value={{ 
-      user, 
-      loading, 
-      isAuthInitialized,
-      identifiedProfile, 
-      identifyUser,
-      hasConfiguredSettings, 
-      setHasConfiguredSettings 
-    }}>
+    <AuthContext.Provider value={contextValue}>
       {!loading && children}
     </AuthContext.Provider>
   );

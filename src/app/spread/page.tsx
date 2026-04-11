@@ -132,6 +132,7 @@ function SpreadContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             whileTap={{ scale: 0.95 }}
+            style={{ transform: 'translateZ(0)', willChange: 'backdrop-filter' }}
             className="w-full relative flex flex-col items-center justify-center p-8 md:p-10 rounded-3xl border-2 border-indigo-500/30 bg-indigo-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-indigo-900/60 active:border-amber-400/60 active:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all duration-300 group overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
@@ -146,6 +147,7 @@ function SpreadContent() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
             whileTap={{ scale: 0.95 }}
+            style={{ transform: 'translateZ(0)', willChange: 'backdrop-filter' }}
             className="w-full relative flex flex-col items-center justify-center p-8 md:p-10 rounded-3xl border-2 border-purple-500/30 bg-purple-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-purple-900/60 active:border-amber-400/60 active:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all duration-300 group overflow-hidden"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>

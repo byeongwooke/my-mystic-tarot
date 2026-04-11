@@ -282,6 +282,7 @@ function ResultContent() {
                whileTap={{ scale: 0.98 }}
                onClick={handleShare}
                disabled={isSharing}
+               style={{ transform: 'translateZ(0)', willChange: 'backdrop-filter' }}
                className={`w-full py-4 rounded-2xl font-bold text-lg tracking-widest transition-all border border-emerald-500/20 bg-emerald-500/5 text-emerald-400/80 backdrop-blur-md ${isSharing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-emerald-500/10'}`}
              >
                {isSharing ? "운명을 갈무리하는 중..." : "운명 결과 공유하기 🔗"}
@@ -307,7 +308,14 @@ function ResultContent() {
 
            <AnimatePresence>
              {popupCardId !== null && (
-               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1000] bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-6" onClick={() => setPopupCardId(null)}>
+               <motion.div 
+                 initial={{ opacity: 0 }} 
+                 animate={{ opacity: 1 }} 
+                 exit={{ opacity: 0 }} 
+                 style={{ transform: 'translateZ(0)', willChange: 'backdrop-filter' }}
+                 className="fixed inset-0 z-[1000] bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-6" 
+                 onClick={() => setPopupCardId(null)}
+               >
                  <Image src={`/images/cards/${popupCardId}.webp`} alt="Card Detail" width={800} height={1300} className="max-h-[80vh] w-auto object-contain rounded-3xl" />
                  <button className="mt-8 px-12 py-3 bg-white/10 rounded-full text-white font-bold">닫기</button>
                </motion.div>

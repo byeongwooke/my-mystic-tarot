@@ -144,7 +144,10 @@ export default function SettingsPage() {
           )}
         </header>
 
-        <div className="w-full bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+        <div 
+          style={{ transform: 'translateZ(0)', willChange: 'backdrop-filter' }}
+          className="w-full bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
+        >
           <ToggleSection
             title="해석 모드"
             description="타로가 전하는 진심의 농도를 결정합니다."

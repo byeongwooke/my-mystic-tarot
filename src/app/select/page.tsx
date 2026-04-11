@@ -294,6 +294,7 @@ function SelectContent() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + (idx * 0.1), duration: 0.6 }}
                 whileTap={{ scale: 0.95 }}
+                style={{ transform: 'translateZ(0)', willChange: 'backdrop-filter' }}
                 className="w-full relative flex flex-col items-center justify-center p-6 md:p-8 rounded-3xl border-[0.5px] border-emerald-900/40 bg-gradient-to-br from-slate-800/80 to-slate-900/90 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.3)] active:border-emerald-400/50 active:shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-colors duration-300 group overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-tr from-emerald-900/20 to-transparent opacity-0 active:opacity-100 transition-opacity duration-300"></div>
@@ -483,7 +484,9 @@ function SelectContent() {
                   <div className={`absolute inset-0 rounded-xl transition-all duration-700 ${isFilled
                     ? 'border-transparent bg-transparent shadow-[0_0_80px_rgba(251,191,36,0.3)]'
                     : 'border-[1px] border-amber-500/30 bg-black/40 shadow-inner backdrop-blur-sm'
-                    }`}></div>
+                    }`}
+                    style={{ transform: 'translateZ(0)', willChange: 'backdrop-filter' }}
+                  ></div>
                   {isCeltic && !isFilled && (
                     <span className="absolute text-amber-500/40 font-serif text-[10px] md:text-xs tracking-widest pointer-events-none z-10">
                       {romanNumerals[idx]}
