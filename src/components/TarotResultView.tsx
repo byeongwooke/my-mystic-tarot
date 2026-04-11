@@ -262,7 +262,9 @@ export default function TarotResultView({
             <div className="space-y-6 md:space-y-10 text-amber-50/90 leading-loose text-justify break-keep text-[15px] md:text-lg font-serif relative z-10">
               {cardsInfo?.map((card, idx) => (
                 <p key={idx} className="flex flex-col md:flex-row gap-2">
-                   <span className="text-emerald-400 font-bold shrink-0 md:min-w-[140px]">[{idx + 1}. {CELTIC_LAYOUT_INFO[idx]?.labelKr}]</span>
+                   <span className={`font-bold shrink-0 md:min-w-[140px] ${card.isReversed ? 'text-rose-400' : 'text-emerald-400'}`}>
+                     [{idx + 1}. {CELTIC_LAYOUT_INFO[idx]?.labelKr} - {card.isReversed ? '역방향' : '정방향'}]
+                   </span>
                    <span>{card.advice}</span>
                 </p>
               ))}
@@ -280,7 +282,7 @@ export default function TarotResultView({
                     <span className="text-gray-300 text-xs tracking-widest uppercase">{CELTIC_LAYOUT_INFO[idx]?.labelKr}</span>
                   </div>
                   <div className="text-white font-bold text-base md:text-lg tracking-wider mb-2">
-                    {card.nameKr} {card.isReversed ? <span className="text-amber-500/80 text-sm ml-1">(역방향)</span> : <span className="text-emerald-400 text-sm ml-1">(정방향)</span>}
+                    {card.nameKr} {card.isReversed ? <span className="text-rose-400 font-bold text-sm ml-1">(역방향)</span> : <span className="text-emerald-400 text-sm ml-1">(정방향)</span>}
                   </div>
                   <div className="text-emerald-400/80 text-sm md:text-sm leading-relaxed break-keep font-serif italic mb-4">
                     {card.keywords.join(', ')}
@@ -340,7 +342,9 @@ export default function TarotResultView({
                     <h2 className="text-2xl md:text-3xl font-bold text-amber-400 tracking-widest flex items-center">
                       {spread === 'today' ? '오늘의 종합 조언' : role}
                       {!isPlaceholder && (
-                        <span className="text-xl md:text-2xl text-amber-400/60 font-medium ml-3">({item.isReversed ? '역방향' : '정방향'})</span>
+                        <span className={`text-xl md:text-2xl font-medium ml-3 ${item.isReversed ? 'text-rose-400' : 'text-amber-400/60'}`}>
+                          ({item.isReversed ? '역방향' : '정방향'})
+                        </span>
                       )}
                     </h2>
                   </div>
