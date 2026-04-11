@@ -36,7 +36,6 @@ function ResultContent() {
   const [toast, setToast] = useState({ show: false, message: "" });
   
   const isSavedRef = useRef(false);
-  const isNavigating = useRef(false);
 
   useEffect(() => {
     const categoryParam = searchParams.get('category');
@@ -67,7 +66,6 @@ function ResultContent() {
     const isReversedParam = searchParams.get('reversed');
 
     if (!cardIdsParam || !categoryParam) {
-      if (isNavigating.current) return;
       setHasError(true);
       setIsLoading(false);
       return;
@@ -121,7 +119,6 @@ function ResultContent() {
 
       const requiredCount = (spreadParam === 'today' || categorySlug === 'worry') ? 1 : spreadParam === 'celtic' ? 10 : 3;
       if (loadedCards.length < 1) {
-        if (isNavigating.current) return;
         setHasError(true);
       } else {
         setCardsInfo(loadedCards);
@@ -278,33 +275,33 @@ function ResultContent() {
              onCardClick={(id) => setPopupCardId(id)}
            />
 
-           <div className="w-full max-w-sm px-6 flex flex-col gap-6 mt-12 mb-8">
-             <button
+           <div className="w-full max-w-sm px-6 flex flex-col gap-4 mt-12 mb-12">
+             {/* 1. 공유 버튼 (Secondary Action) */}
+             <motion.button
+               whileHover={{ scale: 1.01 }}
+               whileTap={{ scale: 0.98 }}
                onClick={handleShare}
                disabled={isSharing}
-               className={`w-full py-5 rounded-full font-black text-xl tracking-widest transition-all shadow-[0_0_30px_rgba(16,185,129,0.3)] ${isSharing ? 'bg-slate-800 text-emerald-800' : 'bg-gradient-to-r from-emerald-600 to-emerald-400 text-slate-950 hover:scale-105 active:scale-95'}`}
+               className={`w-full py-4 rounded-2xl font-bold text-lg tracking-widest transition-all border border-emerald-500/20 bg-emerald-500/5 text-emerald-400/80 backdrop-blur-md ${isSharing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-emerald-500/10'}`}
              >
-               {isSharing ? "운명을 갈무리하는 중..." : "운명 공유하기 🔗"}
-             </button>
+               {isSharing ? "운명을 갈무리하는 중..." : "운명 결과 공유하기 🔗"}
+             </motion.button>
 
-              <motion.button
-                whileHover={{ scale: 1.02, backgroundColor: 'rgba(16, 185, 129, 0.1)' }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => {
-                  // PRIORITY 1: Trigger navigation immediately to win over any state-change renders
-                  router.push('/select/');
-                  isNavigating.current = true;
-                  
-                  // PRIORITY 2: Cleanup local state
-                  setPopupCardId(null);
-                  setCardsInfo([]);
-                  isSavedRef.current = false;
-                  window.scrollTo(0, 0);
-                }}
-                className='w-full py-5 bg-slate-900/50 backdrop-blur-sm border border-emerald-500/30 text-emerald-400 font-bold text-xl rounded-full tracking-widest transition-all shadow-[0_0_20px_rgba(0,0,0,0.3)]'
-              >
-                다른 운명 점치기
-              </motion.button>
+             {/* 2. 홈으로 버튼 (Primary Action) - Emerald & Grey Pill UI */}
+             <motion.button
+               whileHover={{ scale: 1.02, boxShadow: '0 0 30px rgba(16, 185, 129, 0.4)' }}
+               whileTap={{ scale: 0.95 }}
+               onClick={() => {
+                 // Reset State & Navigate
+                 setPopupCardId(null);
+                 setCardsInfo([]);
+                 window.scrollTo(0, 0);
+                 router.push('/select/');
+               }}
+               className='w-full py-5 bg-gradient-to-r from-slate-800 to-slate-900 border-2 border-emerald-500/40 text-emerald-400 font-black text-xl rounded-full tracking-[0.2em] shadow-[0_10px_40px_rgba(0,0,0,0.5)] transition-all'
+             >
+               홈으로 되돌아가기
+             </motion.button>
            </div>
 
            <AnimatePresence>
