@@ -1,0 +1,17 @@
+{
+  "name": "Antigravity Tarot",
+  "short_name": "Tarot",
+  "theme_color": "#0a2320",
+  "background_color": "#050505",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/images/card_back.webp",
+      "sizes": "512x512",
+      "type": "image/webp"
+    }
+  ]
+}
