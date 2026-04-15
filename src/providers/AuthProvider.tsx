@@ -2,8 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, useMemo, useCallback } from 'react';
 import { onAuthStateChanged, signInAnonymously, User } from 'firebase/auth';
-import { auth, db } from '@/lib/firebase';
-import { doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { auth, db, doc, getDoc, onSnapshot } from '@/lib/firebase';
 import { UserProfile } from '@/types/settings';
 
 interface AuthContextType {

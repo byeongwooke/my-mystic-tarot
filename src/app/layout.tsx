@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "혹시타로",
     description: "당신의 운명을 읽어드리는 신비로운 공간",
-    url: "https://my-mystic-tarot.vercel.app",
+    url: "https://www.hocsitarot.com",
     siteName: "혹시타로",
     images: [
       {

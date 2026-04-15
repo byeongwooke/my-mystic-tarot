@@ -12,8 +12,7 @@ import Link from "next/link";
 import { useAuth } from "@/providers/AuthProvider";
 import { useUserSettings } from "@/hooks/useUserSettings";
 import { getCardPool, drawCard } from "@/utils/tarotEngine";
-import { doc, updateDoc, increment, getDocs, query, collection, where } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { db, doc, updateDoc, increment, getDocs, query, collection, where } from "@/lib/firebase";
 
 // 개별 카드 컴포넌트화하여 React.memo 적용 (불필요한 리렌더링 방지)
 const TarotCardItem = memo(({

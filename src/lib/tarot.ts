@@ -1,5 +1,4 @@
-import { db } from './firebase';
-import { collection, addDoc, getDoc, doc, serverTimestamp } from 'firebase/firestore';
+import { db, collection, addDoc, getDoc, doc, serverTimestamp } from './firebase';
 
 export const saveTarotResult = async (profileId: string, userName: string, cards: any[], resultText: string) => {
   try {
@@ -42,12 +41,29 @@ export const saveSharedResult = async (data: {
   }
 };
 
+/**
+ * [NEW] Records minimal usage data without saving card details.
+ */
+export const logSpreadUsage = async (profileId: string, userName: string, spread: string, category: string) => {
+  try {
+    await addDoc(collection(db, 'usage_analytics'), {
+      profileId,
+      userName,
+      spread,
+      category,
+      createdAt: serverTimestamp()
+    });
+  } catch (error) {
+    console.error("Error logging spread usage:", error);
+  }
+};
+
 export const getSharedResult = async (id: string) => {
   try {
     const docRef = doc(db, 'shared_results', id);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() } as any;
+      return { id: docSnap.id, ...(docSnap.data() as any) } as any;
     }
     return null;
   } catch (error) {

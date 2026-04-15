@@ -8,7 +8,7 @@ import { useAuth } from "@/providers/AuthProvider";
 import { useUserSettings } from "@/hooks/useUserSettings";
 import { CARDS } from "@/data/tarot/cards";
 import { resolveTarotContent } from "@/utils/tarotEngine";
-import { saveTarotResult, saveSharedResult } from "@/lib/tarot";
+import { logSpreadUsage, saveSharedResult } from "@/lib/tarot";
 import TarotResultView, { TarotCardInfo } from "@/components/TarotResultView";
 
 const CATEGORY_MAP: Record<string, string> = {
@@ -146,17 +146,15 @@ function ResultContent() {
 
   const cardsResult = cardsInfo;
 
-  // 자동 기록 저장 (Local History)
+  // 최소 사용 통계 기록 (Minimal Analytics)
   useEffect(() => {
     if (cardsInfo.length > 0 && identifiedProfile && !isLoading && !hasError && !isSavedRef.current) {
       isSavedRef.current = true;
       const profileId = `${identifiedProfile.displayName}_${identifiedProfile.pin}`;
-      saveTarotResult(profileId, identifiedProfile.displayName, 
-        cardsInfo.map(c => ({ id: c.cardId, role: c.role, isReversed: c.isReversed, name: c.nameKr })),
-        overallAdvice
-      ).catch(err => console.error("Save error:", err));
+      logSpreadUsage(profileId, identifiedProfile.displayName, spread || "unknown", category || "unknown")
+        .catch(err => console.error("Log error:", err));
     }
-  }, [cardsInfo, identifiedProfile, isLoading, hasError, overallAdvice]);
+  }, [cardsInfo, identifiedProfile, isLoading, hasError, spread, category]);
 
   const handleShare = async () => {
     if (isSharing) return;
@@ -171,43 +169,25 @@ function ResultContent() {
       
       const serializedData = JSON.parse(JSON.stringify(shareSnapshot));
       const shareId = await saveSharedResult(serializedData);
-      const shareUrl = `https://hocsi-tarot.web.app/share?id=${shareId}`;
+      const shareUrl = `https://www.hocsitarot.com/share?id=${shareId}`;
 
-      try {
-        const { Share } = await import('@capacitor/share');
-        const canShare = await Share.canShare();
-        
-        if (canShare.value) {
-          await Share.share({
+      if (navigator.share) {
+        try {
+          await navigator.share({
             title: '혹시타로 - 운명의 기록',
             text: `"${displayName}"님의 운명이 담긴 신비로운 기록입니다. (24시간 뒤 소멸)`,
-            url: shareUrl,
-            dialogTitle: '운명 공유하기',
+            url: shareUrl
           });
           showToast("운명이 성공적으로 공유되었습니다.");
-        } else {
-          throw new Error('Native share not available');
-        }
-      } catch (nativeErr) {
-        // Fallback to Web Share API or Clipboard
-        if (navigator.share) {
-          try {
-            await navigator.share({
-              title: '혹시타로 - 운명의 기록',
-              text: `"${displayName}"님의 운명이 담긴 신비로운 기록입니다. (24시간 뒤 소멸)`,
-              url: shareUrl
-            });
-            showToast("운명이 성공적으로 공유되었습니다.");
-          } catch (sErr) {
-            if (navigator.clipboard) {
-              await navigator.clipboard.writeText(shareUrl);
-              showToast("링크가 클립보드로 복사되었습니다.");
-            }
+        } catch (sErr) {
+          if (navigator.clipboard) {
+            await navigator.clipboard.writeText(shareUrl);
+            showToast("링크가 클립보드로 복사되었습니다.");
           }
-        } else if (navigator.clipboard) {
-          await navigator.clipboard.writeText(shareUrl);
-          showToast("링크가 클립보드로 복사되었습니다.");
         }
+      } else if (navigator.clipboard) {
+        await navigator.clipboard.writeText(shareUrl);
+        showToast("링크가 클립보드로 복사되었습니다.");
       }
     } catch (err) {
       console.error("Critical Share Error:", err);
@@ -222,7 +202,7 @@ function ResultContent() {
       <main className="w-full min-h-screen flex flex-col items-center justify-center bg-slate-950 px-6 text-center">
         <h1 className="text-2xl font-bold text-amber-500 mb-4">운명의 파동이 불안정합니다</h1>
         <p className="text-gray-400 mb-8">결과 정보를 불러오는 데 실패했습니다. 다시 시도해주세요.</p>
-        <button onClick={() => router.push('/')} className="px-8 py-3 bg-amber-600 text-white rounded-full font-bold">처음으로 돌아가기</button>
+        <button onClick={() => router.push('/select/')} className="px-8 py-3 bg-amber-600 text-white rounded-full font-bold">처음으로 돌아가기</button>
       </main>
     );
   }

@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useUserSettings } from '@/hooks/useUserSettings';
 import { useAuth } from '@/providers/AuthProvider';
 import { motion, AnimatePresence } from 'framer-motion';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { db, doc, updateDoc } from '@/lib/firebase';
 import { TarotMode } from '@/types/settings';
 
 export default function SettingsPage() {

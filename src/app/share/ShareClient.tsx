@@ -7,8 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { getSharedResult } from "@/lib/tarot";
 import TarotResultView from "@/components/TarotResultView";
 
-const APP_STORE_URL = "https://apps.apple.com/app/id-mystic-tarot"; // Placeholder URL
-const CUSTOM_SCHEME = "hocsi://";
+const URL_WEB_HOME = "https://www.hocsitarot.com";
 
 export default function ShareClient() {
   const searchParams = useSearchParams();
@@ -52,17 +51,7 @@ export default function ShareClient() {
   }, [id]);
 
   const handleAppRedirect = () => {
-    // 1. Try to open the app via custom scheme
-    window.location.href = CUSTOM_SCHEME;
-
-    // 2. If the app is not installed, the page will stay active.
-    // Redirect to the App Store after a delay.
-    setTimeout(() => {
-      // Check if the user is still on this page (simple check)
-      if (!document.hidden) {
-        window.location.href = APP_STORE_URL;
-      }
-    }, 2500);
+    window.location.href = URL_WEB_HOME;
   };
 
   if (isLoading) {

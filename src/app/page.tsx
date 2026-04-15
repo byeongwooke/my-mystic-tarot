@@ -1,10 +1,10 @@
 'use client';
+console.log('DEBUG: Page.tsx File Loading');
 
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { updateProfile } from 'firebase/auth';
-import { auth, db } from '@/lib/firebase';
-import { doc, setDoc, getDocs, getDoc, updateDoc, collection, query, where, deleteDoc } from 'firebase/firestore';
+import { auth, db, doc, setDoc, getDocs, getDoc, updateDoc, collection, query, where, deleteDoc } from '@/lib/firebase';
 import { useAuth } from '@/providers/AuthProvider';
 
 export default function Home() {
@@ -16,26 +16,33 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [isReady, setIsReady] = useState(false);
+  const [gateForced, setGateForced] = useState(false);
+
+  // 0. Fail-safe Watchdog (3초 후 강제 해제)
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isReady) {
+        console.warn("[Watchdog] Gate forced open due to timeout.");
+        setIsReady(true);
+        setGateForced(true);
+      }
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [isReady]);
 
   useEffect(() => {
-    const handleInitialGate = async () => {
-      if (loading) return;
-
-      // 1. 프로필이 확인된 유저 처리 (자동 재접속 포함)
-      if (identifiedProfile) {
-        if (identifiedProfile.hasConfiguredSettings) {
-          router.replace('/select/');
-        } else {
-          router.replace('/settings/');
-        }
-        return;
-      }
-      
-      // 2. 미식별 유저는 웰컴 UI 유지
+    // 서버가 뭐라든 0.1초 뒤에 무조건 입구 가림막 치우기
+    const timer = setTimeout(() => {
       setIsReady(true);
-    };
+    }, 100);
 
-    handleInitialGate();
+    // 로그인 정보가 확인되면 그때 자연스럽게 이동
+    if (!loading && identifiedProfile) {
+      const targetPath = identifiedProfile.hasConfiguredSettings ? '/select/' : '/settings/';
+      router.replace(targetPath);
+    }
+
+    return () => clearTimeout(timer);
   }, [loading, identifiedProfile, router]);
 
   const handleStart = async (e: React.FormEvent) => {
@@ -59,11 +66,11 @@ export default function Home() {
 
       if (profileSnap.exists()) {
         // 이미 존재하는 프로필 -> 식별 처리 (로그인)
-        const profileData = profileSnap.data();
+        const profileData = profileSnap.data() as any;
         identifyUser(typedName, pin);
-        
+
         // 이동은 useEffect 기반으로 자동 처리되지만, 즉시성을 위해 명시적 처리
-        if (profileData.hasConfiguredSettings) {
+        if (profileData && profileData.hasConfiguredSettings) {
           router.replace('/select/');
         } else {
           router.replace('/settings/');
