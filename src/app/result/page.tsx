@@ -83,8 +83,9 @@ function ResultContent() {
         ? ["현재 상황", "장애와 과제", "의식과 목표", "무의식의 뿌리", "지나온 과거", "가까운 미래", "본인의 태도", "외부의 영향", "희망과 공포", "최종 결과"]
         : ["과거의 기반", "현재의 조언", "미래의 가능성"];
 
-      const spreadType = (categorySlug === 'today' || categorySlug === 'worry') 
-        ? categorySlug 
+      const spreadType = (categorySlug === 'today' || spreadParam === 'today') 
+        ? 'today' 
+        : (categorySlug === 'worry' || spreadParam === 'worry') ? 'worry'
         : (spreadParam === 'celtic' ? 'celtic' : 'spread3');
 
       const loadedCards = ids.map((id, index) => {
@@ -117,8 +118,8 @@ function ResultContent() {
         };
       }).filter(item => item !== null) as TarotCardInfo[];
 
-      const requiredCount = (spreadParam === 'today' || categorySlug === 'worry') ? 1 : spreadParam === 'celtic' ? 10 : 3;
-      if (loadedCards.length < 1) {
+      const requiredCount = (spreadParam === 'today' || spreadParam === 'worry' || categorySlug === 'worry') ? 1 : spreadParam === 'celtic' ? 10 : 3;
+      if (loadedCards.length < requiredCount) {
         setHasError(true);
       } else {
         setCardsInfo(loadedCards);

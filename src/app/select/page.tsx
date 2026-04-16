@@ -120,7 +120,7 @@ function SelectContent() {
   const [showHomeModal, setShowHomeModal] = useState(false);
 
   const spreadData = useMemo(() => {
-    if (spreadParam === 'today') {
+    if (spreadParam === 'today' || spreadParam === 'worry') {
       return { limit: 1, roles: ["운명의 카드"] };
     } else if (spreadParam === 'celtic') {
       return {
@@ -285,7 +285,7 @@ function SelectContent() {
           {categories.map((cat, idx) => (
             <Link
               key={cat.id}
-              href={cat.id === 'today' || cat.id === 'worry' ? `/select/?category=${cat.id}&spread=today` : `/spread/?category=${cat.id}`}
+              href={cat.id === 'today' ? `/select/?category=${cat.id}&spread=today` : `/spread/?category=${cat.id}`}
               className="w-full"
             >
               <motion.button

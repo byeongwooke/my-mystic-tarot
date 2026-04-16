@@ -66,7 +66,7 @@ function SpreadContent() {
                 transition={{ duration: 0.3 }}
                 className="text-xl md:text-3xl font-extrabold tracking-widest text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,0.5)] text-center break-keep w-full"
               >
-                <span className="text-emerald-400 font-bold">{identifiedProfile?.displayName || user?.displayName || "운명"}</span>님의 배열법 선택
+                <span className="text-emerald-400 font-bold">{identifiedProfile?.displayName || user?.displayName || "운명"}</span>님의 {category === 'worry' ? '고민 분야 선택' : '배열법 선택'}
               </motion.h1>
             ) : (
               <motion.h1 
@@ -95,7 +95,9 @@ function SpreadContent() {
                 className="flex justify-center w-full"
               >
                 <p className="text-sm md:text-base text-gray-300 font-light opacity-80 tracking-widest text-center line-clamp-2 leading-relaxed">
-                  <span className="text-white">{displayCategory.replace(/[☀️❤️💰💼]/g, '')}</span>에 적합한 타로 배열을 선택하세요.
+                  {category === 'worry' 
+                    ? <><span className="text-white">어떤 고민</span>인지 카테고리를 선택하세요.</>
+                    : <><span className="text-white">{displayCategory.replace(/[☀️❤️💰💼]/g, '')}</span>에 적합한 타로 배열을 선택하세요.</>}
                 </p>
               </motion.div>
             ) : (
@@ -126,35 +128,67 @@ function SpreadContent() {
       </div>
 
       <div className="flex-1 w-full max-w-lg mx-auto flex flex-col justify-center gap-6 px-6 py-10">
-        <Link href={`/select/?category=${category}&spread=basic`} className="w-full">
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            whileTap={{ scale: 0.95 }}
-            style={{ transform: 'translateZ(0)', willChange: 'backdrop-filter' }}
-            className="w-full relative flex flex-col items-center justify-center p-8 md:p-10 rounded-3xl border-2 border-indigo-500/30 bg-indigo-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-indigo-900/60 active:border-amber-400/60 active:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all duration-300 group overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
-            <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 tracking-widest drop-shadow-md">베이직 배열 (3장)</h2>
-            <p className="text-indigo-200/80 text-sm md:text-base font-light break-keep text-center leading-relaxed">과거, 현재, 미래를 가볍게 짚어봅니다.</p>
-          </motion.button>
-        </Link>
-        
-        <Link href={`/select/?category=${category}&spread=celtic`} className="w-full">
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            whileTap={{ scale: 0.95 }}
-            style={{ transform: 'translateZ(0)', willChange: 'backdrop-filter' }}
-            className="w-full relative flex flex-col items-center justify-center p-8 md:p-10 rounded-3xl border-2 border-purple-500/30 bg-purple-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-purple-900/60 active:border-amber-400/60 active:shadow-[0_0_30px_rgba(251,191,36,0.5)] transition-all duration-300 group overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
-            <h2 className="text-2xl md:text-3xl font-bold text-amber-400 mb-4 tracking-widest drop-shadow-md">캘틱 크로스 (10장)</h2>
-            <p className="text-purple-200/80 text-sm md:text-base font-light break-keep text-center leading-relaxed">문제의 원인부터 최종 결과까지 심층적으로 분석합니다.</p>
-          </motion.button>
-        </Link>
+        {category === 'worry' ? (
+          <>
+            <Link href={`/select/?category=love&spread=worry`} className="w-full">
+              <motion.button
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} whileTap={{ scale: 0.95 }}
+                className="w-full relative flex flex-col items-center justify-center p-8 rounded-3xl border-2 border-pink-500/30 bg-pink-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-pink-900/60 transition-all duration-300 group overflow-hidden"
+              >
+                <h2 className="text-2xl font-bold text-amber-400 mb-2 tracking-widest drop-shadow-md">애정운 (Love)</h2>
+                <p className="text-pink-200/80 text-sm font-light break-keep text-center">연애와 인간 관계에 대한 명쾌한 조언</p>
+              </motion.button>
+            </Link>
+            <Link href={`/select/?category=money&spread=worry`} className="w-full">
+              <motion.button
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} whileTap={{ scale: 0.95 }}
+                className="w-full relative flex flex-col items-center justify-center p-8 rounded-3xl border-2 border-emerald-500/30 bg-emerald-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-emerald-900/60 transition-all duration-300 group overflow-hidden"
+              >
+                <h2 className="text-2xl font-bold text-amber-400 mb-2 tracking-widest drop-shadow-md">재물운 (Money)</h2>
+                <p className="text-emerald-200/80 text-sm font-light break-keep text-center">금전적 선택과 흐름에 대한 날카로운 조언</p>
+              </motion.button>
+            </Link>
+            <Link href={`/select/?category=work&spread=worry`} className="w-full">
+              <motion.button
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} whileTap={{ scale: 0.95 }}
+                className="w-full relative flex flex-col items-center justify-center p-8 rounded-3xl border-2 border-blue-500/30 bg-blue-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-blue-900/60 transition-all duration-300 group overflow-hidden"
+              >
+                <h2 className="text-2xl font-bold text-amber-400 mb-2 tracking-widest drop-shadow-md">직업운 (Work)</h2>
+                <p className="text-blue-200/80 text-sm font-light break-keep text-center">커리어 및 학업과 관련된 현실적인 조언</p>
+              </motion.button>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link href={`/select/?category=${category}&spread=worry`} className="w-full">
+              <motion.button
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} whileTap={{ scale: 0.95 }}
+                className="w-full relative flex flex-col items-center justify-center p-6 md:p-8 rounded-3xl border-2 border-blue-500/30 bg-blue-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-blue-900/60 active:border-amber-400/60 transition-all duration-300 group overflow-hidden"
+              >
+                <h2 className="text-xl md:text-2xl font-bold text-amber-400 mb-2 tracking-widest drop-shadow-md">원카드 (1장)</h2>
+                <p className="text-blue-200/80 text-sm font-light break-keep text-center">가장 직관적이고 명쾌한 하나의 조언을 확인합니다.</p>
+              </motion.button>
+            </Link>
+            <Link href={`/select/?category=${category}&spread=basic`} className="w-full">
+              <motion.button
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} whileTap={{ scale: 0.95 }}
+                className="w-full relative flex flex-col items-center justify-center p-6 md:p-8 rounded-3xl border-2 border-indigo-500/30 bg-indigo-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-indigo-900/60 active:border-amber-400/60 transition-all duration-300 group overflow-hidden"
+              >
+                <h2 className="text-xl md:text-2xl font-bold text-amber-400 mb-2 tracking-widest drop-shadow-md">베이직 배열 (3장)</h2>
+                <p className="text-indigo-200/80 text-sm font-light break-keep text-center">과거, 현재, 미래를 가볍게 짚어봅니다.</p>
+              </motion.button>
+            </Link>
+            <Link href={`/select/?category=${category}&spread=celtic`} className="w-full">
+              <motion.button
+                initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} whileTap={{ scale: 0.95 }}
+                className="w-full relative flex flex-col items-center justify-center p-6 md:p-8 rounded-3xl border-2 border-purple-500/30 bg-purple-950/40 backdrop-blur-md shadow-[0_8px_30px_rgb(0,0,0,0.5)] active:bg-purple-900/60 active:border-amber-400/60 transition-all duration-300 group overflow-hidden"
+              >
+                <h2 className="text-xl md:text-2xl font-bold text-amber-400 mb-2 tracking-widest drop-shadow-md">캘틱 크로스 (10장)</h2>
+                <p className="text-purple-200/80 text-sm font-light break-keep text-center">문제의 원인부터 최종 결과까지 심층적으로 분석합니다.</p>
+              </motion.button>
+            </Link>
+          </>
+        )}
       </div>
     </motion.main>
   );

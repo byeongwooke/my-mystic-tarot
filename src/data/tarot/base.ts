@@ -15,9 +15,20 @@ export interface TodayData {
     reversed: { interpretation: string; advice: string };
 }
 
-export interface WorryData {
+export interface WorryCategory {
     normal: { interpretation: string; advice: string };
     reversed: { interpretation: string; advice: string };
+}
+
+export interface WorryContent {
+    love: WorryCategory;
+    money: WorryCategory;
+    work: WorryCategory;
+}
+
+export interface WorryData {
+    spicy: WorryContent;
+    gentle: WorryContent;
 }
 
 export interface TimelineAdvice {

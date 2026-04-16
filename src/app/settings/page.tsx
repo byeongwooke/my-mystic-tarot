@@ -31,13 +31,13 @@ export default function SettingsPage() {
 
   const handleSave = async () => {
     if (!isValid || !identifiedProfile) return;
-    
+
     setIsSaving(true);
     try {
       // 1. Firebase 유저 설정 완료 상태 업데이트 (profiles 컬렉션 사용)
       const profileId = `${identifiedProfile.displayName}_${identifiedProfile.pin}`;
       const profileRef = doc(db, 'profiles', profileId);
-      
+
       await updateDoc(profileRef, {
         hasConfiguredSettings: true,
         mode: localMode,
@@ -62,30 +62,30 @@ export default function SettingsPage() {
     }
   };
 
-  const ToggleSection = ({ 
-    title, 
-    description, 
-    options, 
-    currentValue, 
-    onChange 
-  }: { 
-    title: string; 
-    description: string; 
-    options: { label: string; value: any }[]; 
-    currentValue: any; 
-    onChange: (val: any) => void 
+  const ToggleSection = ({
+    title,
+    description,
+    options,
+    currentValue,
+    onChange
+  }: {
+    title: string;
+    description: string;
+    options: { label: string; value: any }[];
+    currentValue: any;
+    onChange: (val: any) => void
   }) => (
     <div className="mb-10 w-full">
       <div className="flex items-center gap-2 mb-2">
         <h3 className="text-emerald-400 font-black tracking-widest text-lg uppercase">{title}</h3>
         {currentValue === null && (
-            <motion.span 
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-[10px] bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded-full border border-rose-500/30 font-bold"
-            >
-                필수 선택
-            </motion.span>
+          <motion.span
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="text-[10px] bg-rose-500/20 text-rose-400 px-2 py-0.5 rounded-full border border-rose-500/30 font-bold"
+          >
+            필수 선택
+          </motion.span>
         )}
       </div>
       <p className="text-gray-400 text-sm mb-6 font-light">{description}</p>
@@ -94,11 +94,10 @@ export default function SettingsPage() {
           <button
             key={String(opt.value)}
             onClick={() => onChange(opt.value)}
-            className={`py-4 px-2 rounded-2xl border-2 transition-all duration-300 font-bold tracking-widest ${
-              currentValue === opt.value
+            className={`py-4 px-2 rounded-2xl border-2 transition-all duration-300 font-bold tracking-widest ${currentValue === opt.value
                 ? 'bg-emerald-500/20 border-emerald-400 text-emerald-400 shadow-[0_0_20px_rgba(52,211,153,0.3)]'
                 : 'bg-slate-900/50 border-slate-800 text-gray-400 hover:border-slate-700'
-            }`}
+              }`}
           >
             {opt.label}
           </button>
@@ -128,7 +127,7 @@ export default function SettingsPage() {
           >
             <span className="text-amber-500/60 text-xs tracking-[0.5em] uppercase font-bold">Registration</span>
           </motion.div>
-          <motion.h1 
+          <motion.h1
             initial={{ y: -20 }}
             animate={{ y: 0 }}
             className="text-3xl md:text-4xl font-black text-amber-500 tracking-[0.3em] mb-2 drop-shadow-[0_0_15px_rgba(245,158,11,0.5)] uppercase"
@@ -137,13 +136,13 @@ export default function SettingsPage() {
           </motion.h1>
           <div className="h-1 w-20 bg-amber-500/50 mx-auto rounded-full" />
           {!hasConfiguredSettings && (
-              <p className="mt-4 text-gray-400 text-xs tracking-widest break-keep">
-                당신의 운명을 읽기 전, 세 가지 취향을 먼저 알려주세요.
-              </p>
+            <p className="mt-4 text-gray-400 text-xs tracking-widest break-keep">
+              당신의 운명을 읽기 전, 세 가지 취향을 먼저 알려주세요.
+            </p>
           )}
         </header>
 
-        <div 
+        <div
           style={{ transform: 'translateZ(0)', willChange: 'backdrop-filter' }}
           className="w-full bg-slate-900/40 backdrop-blur-xl border border-white/5 p-8 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
         >
@@ -171,11 +170,11 @@ export default function SettingsPage() {
 
           <ToggleSection
             title="역방향"
-            description="운명의 이면을 읽어내는 신비로운 흐름을 무작위로 적용합니다."
+            description="뒤집어진 카드의 해석을 추가해 보다 현실감 있는 해석을 활성화합니다."
             currentValue={localUseReversals}
             onChange={(val) => setLocalUseReversals(val)}
             options={[
-              { label: '운명의 이면 활성화', value: true },
+              { label: '사용함', value: true },
               { label: '사용 안 함', value: false }
             ]}
           />
@@ -185,18 +184,17 @@ export default function SettingsPage() {
             whileTap={isValid && !isSaving ? { scale: 0.98 } : {}}
             disabled={!isValid || isSaving}
             onClick={handleSave}
-            className={`w-full py-5 font-black text-xl rounded-2xl transition-all tracking-[0.2em] mt-4 flex items-center justify-center ${
-              isValid && !isSaving
+            className={`w-full py-5 font-black text-xl rounded-2xl transition-all tracking-[0.2em] mt-4 flex items-center justify-center ${isValid && !isSaving
                 ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-white shadow-[0_10px_30px_rgba(245,158,11,0.3)]'
                 : 'bg-slate-800 text-gray-500 border border-white/5 cursor-not-allowed opacity-50'
-            }`}
+              }`}
           >
             {isSaving ? '신비로운 설정 저장 중...' : '저장하고 시작하기'}
           </motion.button>
-          
+
           {!isValid && (
             <p className="text-center text-[10px] text-rose-400/60 mt-4 tracking-tighter uppercase font-bold">
-                * 모든 항목을 선택해야 운명의 문이 열립니다.
+              * 모든 항목을 선택해야 운명의 문이 열립니다.
             </p>
           )}
         </div>

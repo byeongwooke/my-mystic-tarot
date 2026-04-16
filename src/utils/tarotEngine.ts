@@ -59,14 +59,16 @@ export const resolveTarotContent = (
   try {
     let targetData: any = null;
 
-    if (spreadType === 'today' || spreadType === 'worry') {
+    if (spreadType === 'today') {
       targetData = (cardData as any)[spreadType];
     } else {
       const spreadData = (cardData as any)[spreadType];
       if (!spreadData) return null;
       
       const flavorData = spreadData[flavor] || spreadData['gentle'];
-      targetData = flavorData?.[category] || flavorData?.['love'];
+      // worry이면서 love/money/work가 아닌 'worry' 파라미터가 그대로 넘어왔을 경우 기본값 love 사용
+      const validCategory = (category === 'love' || category === 'money' || category === 'work') ? category : 'love';
+      targetData = flavorData?.[validCategory] || flavorData?.['love'];
     }
 
     if (!targetData) return null;
