@@ -15,6 +15,11 @@ export interface TodayData {
     reversed: { interpretation: string; advice: string };
 }
 
+export interface TodayDataV2 {
+    spicy: TodayData;
+    gentle: TodayData;
+}
+
 export interface WorryCategory {
     normal: { interpretation: string; advice: string };
     reversed: { interpretation: string; advice: string };
@@ -24,6 +29,8 @@ export interface WorryContent {
     love: WorryCategory;
     money: WorryCategory;
     work: WorryCategory;
+    friendship: WorryCategory;
+    health: WorryCategory;
 }
 
 export interface WorryData {
@@ -51,6 +58,8 @@ export interface Spread3Content {
     love: Spread3Category;
     money: Spread3Category;
     work: Spread3Category;
+    friendship: Spread3Category;
+    health: Spread3Category;
 }
 
 export interface Spread3Data {
@@ -85,10 +94,12 @@ export interface CelticCategorySet {
     love: CelticPositionData;
     money: CelticPositionData;
     work: CelticPositionData;
+    friendship: CelticPositionData;
+    health: CelticPositionData;
 }
 
 export interface CardContent {
-    today: TodayData;
+    today: TodayData | TodayDataV2;
     worry: WorryData;
     spread3: Spread3Data;
     celtic: {

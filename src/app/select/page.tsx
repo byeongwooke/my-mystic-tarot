@@ -125,7 +125,7 @@ function SelectContent() {
     } else if (spreadParam === 'celtic') {
       return {
         limit: 10,
-        roles: ["지금, 당신의 중심 (현재)", "나를 가로막는 벽 (장애물)", "인지하지 못한 근본 (무의식/기반)", "지나온 시간의 잔상 (과거)", "의식의 지향점 (목표/의식)", "곧 마주할 상황 (가까운 미래)", "스스로 정의하는 나 (태도/자아)", "나를 둘러싼 환경 (주변 상황)", "내면의 기대와 불안 (심리)", "마주하게 될 결과 (결과)"]
+        roles: ["현재 상황 (Core)", "장애와 과제 (Obstacle)", "의식과 목표 (Goal)", "무의식의 뿌리 (Foundation)", "지나온 과거 (Past)", "가까운 미래 (Near Future)", "본인의 태도 (Self)", "외부의 영향 (Environment)", "희망과 공포 (Hopes & Fears)", "최종 결과 (Outcome)"]
       };
     } else {
       return { limit: 3, roles: ["과거", "현재", "미래"] };
@@ -140,6 +140,8 @@ function SelectContent() {
       'love': '애정운❤️',
       'money': '재물운💰',
       'work': '직업운💼',
+      'friendship': '대인관계🤝',
+      'health': '건강/컨디션🌿',
       'worry': '고민뽑기⚖️'
     };
     return cleanCategory ? (categoryNameMap[cleanCategory] || '특별한 운세') : '';
@@ -203,7 +205,7 @@ function SelectContent() {
     if (selectedCards.length !== maxCards) return;
 
     if (identifiedProfile && cleanCategory) {
-      const complexCategories = ['love', 'money', 'work'];
+      const complexCategories = ['love', 'money', 'work', 'friendship', 'health'];
       const fieldName = complexCategories.includes(cleanCategory) ? `${cleanCategory}_${spreadParam}` : cleanCategory;
 
       try {
@@ -238,7 +240,9 @@ function SelectContent() {
       { id: 'worry', title: '고민뽑기', icon: '⚖️', desc: '어떤 고민이든 명쾌한 결론' },
       { id: 'love', title: '애정운', icon: '❤️', desc: '현재의 사랑, 그리고 앞으로의 인연' },
       { id: 'money', title: '재물운', icon: '💰', desc: '금전의 흐름과 숨겨진 부의 기운' },
-      { id: 'work', title: '직업운', icon: '💼', desc: '커리어의 방향과 성공을 위한 힌트' }
+      { id: 'work', title: '직업운', icon: '💼', desc: '커리어의 방향과 성공을 위한 힌트' },
+      { id: 'friendship', title: '대인관계', icon: '🤝', desc: '주변 사람들과의 소중한 인연과 소통' },
+      { id: 'health', title: '건강운', icon: '🌿', desc: '몸과 마음의 에너지, 그리고 컨디션' }
     ];
 
     return (

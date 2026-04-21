@@ -15,6 +15,8 @@ const CATEGORY_MAP: Record<string, string> = {
   '애정운': 'love', 'love': 'love',
   '재물운': 'money', 'money': 'money',
   '직업운': 'work', 'work': 'work',
+  '대인관계': 'friendship', 'friendship': 'friendship',
+  '건강운': 'health', 'health': 'health',
   '오늘': 'today', 'today': 'today',
   '고민': 'worry', 'worry': 'worry'
 };
@@ -133,7 +135,7 @@ function ResultContent() {
 
   const categoryName = useMemo(() => {
     const map: Record<string, string> = {
-      'love': '연애운', 'money': '재물운', 'work': '직업운', 'today': '오늘의 운세', 'worry': '고민뽑기'
+      'love': '연애운', 'money': '재물운', 'work': '직업운', 'friendship': '대인관계', 'health': '건강운', 'today': '오늘의 운세', 'worry': '고민뽑기'
     };
     return category ? (map[category] || '') : '';
   }, [category]);

@@ -44,7 +44,7 @@ export const drawCard = (settings: UserSettings, forcedId?: number): { id: numbe
 export const resolveTarotContent = (
   cardId: number,
   settings: UserSettings,
-  category: 'today' | 'worry' | 'love' | 'money' | 'work' = 'love',
+  category: 'today' | 'worry' | 'love' | 'money' | 'work' | 'friendship' | 'health' = 'love',
   spreadType: 'today' | 'worry' | 'spread3' | 'celtic' = 'spread3',
   isReversed: boolean = false,
   positionIndex?: number
@@ -66,8 +66,7 @@ export const resolveTarotContent = (
       if (!spreadData) return null;
       
       const flavorData = spreadData[flavor] || spreadData['gentle'];
-      // worry이면서 love/money/work가 아닌 'worry' 파라미터가 그대로 넘어왔을 경우 기본값 love 사용
-      const validCategory = (category === 'love' || category === 'money' || category === 'work') ? category : 'love';
+      const validCategory = (category === 'love' || category === 'money' || category === 'work' || category === 'friendship' || category === 'health') ? category : 'love';
       targetData = flavorData?.[validCategory] || flavorData?.['love'];
     }
 
@@ -96,7 +95,7 @@ export const resolveTarotContent = (
     } else if (spreadType === 'celtic' && typeof positionIndex === 'number') {
       const adviceObj = content.advice as unknown as CelticAdvice;
       const celticKeys: (keyof CelticAdvice)[] = [
-        'core', 'obstacle', 'foundation', 'past', 'goal',
+        'core', 'obstacle', 'goal', 'foundation', 'past',
         'nearFuture', 'self', 'influence', 'hopes', 'destiny'
       ];
       const key = celticKeys[positionIndex];
